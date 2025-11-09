@@ -1,5 +1,5 @@
 package com.recruitify.integration;
-import com.recruitify.dto.HealthResponse;
+import com.recruitify.dtos.HealthResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
