@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import jakarta.persistence.Id;
@@ -14,24 +15,23 @@ import java.time.Instant;
 
 @Entity
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "users")
+@Table(name = "users",
+        uniqueConstraints = {
+        @UniqueConstraint(columnNames = "email")
+})
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @NotBlank(message = "Email must not be blank")
-    @Email(message = "Invalid email format")
     @Column(nullable = false, unique = true)
     private String email;
 
-    @NotBlank(message = "password not be blank")
-    @Size(min = 6, message = "Password must have at least 6 characters")
     @Column(nullable = false)
     private String passwordHash;
-
 
     @ManyToOne
     @JoinColumn(name = "role_id")
@@ -45,6 +45,13 @@ public class User {
     @Column(name = "updated_at", columnDefinition = "TIMESTAMP")
     private Instant updatedAt;
 
+    @Column(name = "is_active", nullable = false)
+    private Boolean isActive = true;
+
+    // Optional account lockout timestamp
+    @Column(name = "locked_until")
+    private Instant lockedUntil;
+
     @Column(length = 100)
     private String createdBy;
 
@@ -54,8 +61,7 @@ public class User {
 
     @PrePersist
     protected void onCreate() {
-        if (createdBy == null)
-        {
+        if (createdBy == null) {
             createdBy = "HungThanh";
         }
         if (createdAt == null) {
