@@ -1,5 +1,6 @@
 package com.recruitify.config;
 
+import com.recruitify.security.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -14,6 +15,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 
 @Configuration
@@ -21,9 +23,10 @@ import org.springframework.web.cors.CorsConfiguration;
 @EnableMethodSecurity
 public class SecurityConfig {
     private final CorsConfig corsConfig;
-
-    public SecurityConfig(CorsConfig corsConfig) {
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    public SecurityConfig(CorsConfig corsConfig, JwtAuthenticationFilter jwtAuthenticationFilter) {
         this.corsConfig = corsConfig;
+        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
     }
 
     @Bean
@@ -60,8 +63,7 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                //JWT FILTER
-//                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 

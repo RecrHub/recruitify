@@ -2,7 +2,7 @@ package com.recruitify.services.impl;
 
 import com.recruitify.config.JwtConfig;
 import com.recruitify.security.UserDetailsImpl;
-import com.recruitify.services.ITokenServices;
+import com.recruitify.services.ITokenService;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
-public class TokenServices implements ITokenServices {
+public class TokenServices implements ITokenService {
     private final JwtConfig jwtConfig;
 
     public TokenServices(JwtConfig jwtConfig) {

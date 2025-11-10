@@ -14,7 +14,7 @@ import com.recruitify.repository.IUserRepository;
 import com.recruitify.security.UserDetailsImpl;
 import com.recruitify.services.IAuthService;
 import com.recruitify.services.IRefreshTokenService;
-import com.recruitify.services.ITokenServices;
+import com.recruitify.services.ITokenService;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.ObjectProvider;
@@ -37,14 +37,14 @@ import java.util.List;
 public class AuthService implements UserDetailsService, IAuthService {
     private final IUserRepository userRepository;
     private final IRoleRepository roleRepository;
-    private final ITokenServices tokenService;
+    private final ITokenService tokenService;
     private final PasswordEncoder passwordEncoder;
     private final ObjectProvider<AuthenticationManager> authenticationManagerProvider;
     private final IRefreshTokenService refreshTokenService;
 
     public AuthService(IUserRepository userRepository,
                        IRoleRepository roleRepository,
-                       ITokenServices tokenService,
+                       ITokenService tokenService,
                        PasswordEncoder passwordEncoder,
                        ObjectProvider<AuthenticationManager> authenticationManagerProvider,
                        IRefreshTokenService refreshTokenService) {
