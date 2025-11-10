@@ -119,6 +119,8 @@ public class TokenServices implements ITokenServices {
         }
     }
 
+
+
     private SecretKey getSigningKey() {
         byte[] keyBytes = Decoders.BASE64.decode(jwtConfig.getSecret());
         return Keys.hmacShaKeyFor(keyBytes);

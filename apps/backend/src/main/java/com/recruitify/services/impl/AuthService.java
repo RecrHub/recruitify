@@ -179,7 +179,12 @@ public class AuthService implements UserDetailsService, IAuthService {
     @Override
     @Transactional
     public MessageResponse registerUser(RegisterRequest registerRequest) {
-
+        if (existsByUsername(registerRequest.getUsername())) {
+            return MessageResponse.builder()
+                    .message("Username is already taken")
+                    .success(false)
+                    .build();
+        }
         if (existsByEmail(registerRequest.getEmail())) {
             return MessageResponse.builder()
                     .message("Email is already in use")
@@ -189,6 +194,7 @@ public class AuthService implements UserDetailsService, IAuthService {
 
         // Create new user account
         User user = User.builder()
+                .username(registerRequest.getUsername())
                 .email(registerRequest.getEmail())
                 .passwordHash(passwordEncoder.encode(registerRequest.getPassword()))
                 .build();
@@ -227,8 +233,14 @@ public class AuthService implements UserDetailsService, IAuthService {
                 .build();
     }
 
+
     @Override
     public boolean existsByEmail(String email) {
         return userRepository.existsByEmail(email);
+    }
+
+    @Override
+    public boolean existsByUsername(String username) {
+        return userRepository.existsByUsername(username);
     }
 }

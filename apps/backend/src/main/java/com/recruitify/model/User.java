@@ -27,6 +27,9 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Column(nullable = false,unique = true)
+    private String username;
+
     @Column(nullable = false, unique = true)
     private String email;
 
@@ -61,20 +64,19 @@ public class User {
 
     @PrePersist
     protected void onCreate() {
-        if (createdBy == null) {
-            createdBy = "HungThanh";
-        }
         if (createdAt == null) {
             createdAt = Instant.now();
         }
         if (updatedAt == null) {
             updatedAt = Instant.now();
         }
+        if (isActive == null) {
+            isActive = true;
+        }
     }
 
     @PreUpdate
     protected void onUpdate() {
-        updatedBy = "HungThanh";
         updatedAt = Instant.now();
     }
 }

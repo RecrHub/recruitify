@@ -11,4 +11,5 @@ public interface IAuthService {
     JwtResponse refreshToken(RefreshTokenRequest refreshTokenRequest);
     MessageResponse registerUser(RegisterRequest registerRequest);
     boolean existsByEmail(String email);
+    boolean existsByUsername(String username);
 }
