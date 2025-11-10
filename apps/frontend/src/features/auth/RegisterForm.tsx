@@ -1,16 +1,84 @@
 'use client';
-import React from 'react';
-import { Form, Input, Button, Checkbox, Row, Col, Typography, Divider, Space } from 'antd';
+import React, { useRef } from 'react';
+import { Form, Input, Button, Checkbox, Row, Col, Typography, Divider, Space, message } from 'antd';
 import { ArrowRightOutlined, FacebookFilled, LeftOutlined } from '@ant-design/icons';
+import * as yup from 'yup';
 
 const { Title, Text } = Typography;
 
 function Register() {
     const [form] = Form.useForm();
 
-    const onFinish = (values: Record<string, unknown>) => {
+    // Yup validation schema (authoritative source of validation)
+    const validationSchema = yup.object().shape({
+        username: yup.string()
+            .trim()
+            .min(3, 'At least 3 characters')
+            .max(30, 'Max 30 characters')
+            .matches(/^[a-zA-Z0-9._]+$/, 'Only letters, numbers, dot and underscore allowed')
+            .notOneOf(['admin', 'root'], 'This username is reserved')
+            .required('Please input your username!'),
+        email: yup.string().email('Please enter a valid email!').required('Please input your email!'),
+        // Match backend: min 8, at least one upper, one lower, one digit and one special char
+        password: yup.string()
+            .min(8, 'Password must be at least 8 characters!')
+            .matches(/(?=.*[a-z])/, 'Password must contain a lowercase letter')
+            .matches(/(?=.*[A-Z])/, 'Password must contain an uppercase letter')
+            .matches(/(?=.*\d)/, 'Password must contain a digit')
+            .matches(/(?=.*[!@#$%^&*()_+\-=[\]{}|;:,.<>?])/, 'Password must contain a special character')
+            .required('Please input your password!'),
+        confirmPassword: yup.string().oneOf([yup.ref('password')], 'Passwords do not match!').required('Please confirm your password!'),
+        agree: yup.boolean().oneOf([true], 'Please accept the Terms of Services')
+    });
+
+    // Map Yup validation errors to antd Form fields and set them
+    const validateWithYup = async (values: Record<string, unknown>) => {
+        try {
+            await validationSchema.validate(values, { abortEarly: false });
+            return true;
+        } catch (err: unknown) {
+            // Narrow to Yup's ValidationError for proper typing
+            if (err instanceof yup.ValidationError) {
+                const fields = err.inner.reduce((acc: { name: string[]; errors: string[] }[], curr) => {
+                    if (curr.path) acc.push({ name: [curr.path], errors: [curr.message] });
+                    return acc;
+                }, []);
+                if (fields.length) form.setFields(fields);
+            } else {
+                // Unexpected error: surface to console and show a toast so devs/users know
+                // (do not expose internal error details to users)
+                console.error('Unexpected validation error', err);
+                message.error('Unexpected validation error. Please try again.');
+            }
+            return false;
+        }
+    };
+
+    // Validate a single field as user types (uses Yup.validateAt)
+    const validateFieldWithYup = async (field: string, values: Record<string, unknown>) => {
+        try {
+            // validateAt throws if the field is invalid
+            await validationSchema.validateAt(field, values);
+            // clear field error if present
+            form.setFields([{ name: [field], errors: [] }]);
+            return true;
+        } catch (err: unknown) {
+            if (err instanceof yup.ValidationError) {
+                form.setFields([{ name: [field], errors: [err.message] }]);
+            } else {
+                console.error('Unexpected validation error', err);
+            }
+            return false;
+        }
+    };
+
+    const onFinish = async (values: Record<string, unknown>) => {
+        // Run Yup validation before actual submit
+        const ok = await validateWithYup(values);
+        if (!ok) return;
+        message.success('Validation passed — ready to submit');
         console.log('Form values:', values);
-        // Xử lý đăng ký ở đây
+        // Xử lý đăng ký ở đây (gọi API...)
     };
 
     // THÊM statsData VÀO ĐÂY
@@ -19,6 +87,34 @@ function Register() {
         { number: '97,354', label: 'Companies' },
         { number: '7,532', label: 'New Jobs' }
     ];
+
+    // Debounced email uniqueness check (only check email, not username)
+    const emailCheckTimer = useRef<number | null>(null);
+    const runEmailCheck = (email: string) => {
+        // clear previous timer
+        if (emailCheckTimer.current) {
+            clearTimeout(emailCheckTimer.current);
+        }
+        // debounce 500ms
+        emailCheckTimer.current = window.setTimeout(async () => {
+            try {
+                const res = await fetch(`/api/check-email?email=${encodeURIComponent(email)}`);
+                if (!res.ok) return;
+                const json = await res.json();
+                // if email exists, set field error; otherwise clear it (only if value unchanged)
+                const current = form.getFieldValue('email');
+                if (current === email) {
+                    if (json.exists) {
+                        form.setFields([{ name: ['email'], errors: ['This email is already registered'] }]);
+                    } else {
+                        form.setFields([{ name: ['email'], errors: [] }]);
+                    }
+                }
+            } catch (err) {
+                console.error('Email check failed', err);
+            }
+        }, 500) as unknown as number;
+    };
 
     return (
         <div style={{
@@ -117,11 +213,27 @@ function Register() {
                                 style={{ marginTop: 16 }}
                                 onFinish={onFinish}
                                 requiredMark={false}
+                                onValuesChange={async (changedValues, allValues) => {
+                                    // Run per-field validation as user types (immediate feedback)
+                                    const keys = Object.keys(changedValues);
+                                    const all = allValues as Record<string, unknown>;
+                                    for (const k of keys) {
+                                        // validate the changed field
+                                        const valid = await validateFieldWithYup(k, all);
+                                        // if user changed password, also revalidate confirmPassword so mismatch shows immediately
+                                        if (k === 'password' && all['confirmPassword']) {
+                                            await validateFieldWithYup('confirmPassword', all);
+                                        }
+                                        // If the changed field is email and passes format validation, run uniqueness check (debounced)
+                                        if (k === 'email' && valid) {
+                                            const emailVal = String(all['email'] ?? '');
+                                            if (emailVal) runEmailCheck(emailVal);
+                                        }
+                                    }
+                                }}
                             >
-                                <Form.Item
-                                    name="username"
-                                    rules={[{ required: true, message: 'Please input your username!' }]}
-                                >
+                                {/* Validation handled by Yup schema (see validationSchema) */}
+                                <Form.Item name="username">
                                     <Input
                                         placeholder="Username"
                                         size="large"
@@ -129,13 +241,7 @@ function Register() {
                                     />
                                 </Form.Item>
 
-                                <Form.Item
-                                    name="email"
-                                    rules={[
-                                        { required: true, message: 'Please input your email!' },
-                                        { type: 'email', message: 'Please enter a valid email!' }
-                                    ]}
-                                >
+                                <Form.Item name="email">
                                     <Input
                                         placeholder="Email address"
                                         size="large"
@@ -143,13 +249,7 @@ function Register() {
                                     />
                                 </Form.Item>
 
-                                <Form.Item
-                                    name="password"
-                                    rules={[
-                                        { required: true, message: 'Please input your password!' },
-                                        { min: 6, message: 'Password must be at least 6 characters!' }
-                                    ]}
-                                >
+                                <Form.Item name="password">
                                     <Input.Password
                                         placeholder="Password"
                                         size="middle"
@@ -157,21 +257,7 @@ function Register() {
                                     />
                                 </Form.Item>
 
-                                <Form.Item
-                                    name="confirmPassword"
-                                    dependencies={['password']}
-                                    rules={[
-                                        { required: true, message: 'Please confirm your password!' },
-                                        ({ getFieldValue }) => ({
-                                            validator(_, value) {
-                                                if (!value || getFieldValue('password') === value) {
-                                                    return Promise.resolve();
-                                                }
-                                                return Promise.reject(new Error('Passwords do not match!'));
-                                            },
-                                        }),
-                                    ]}
-                                >
+                                <Form.Item name="confirmPassword">
                                     <Input.Password
                                         placeholder="Confirm Password"
                                         size="middle"
@@ -179,16 +265,7 @@ function Register() {
                                     />
                                 </Form.Item>
 
-                                <Form.Item
-                                    name="agree"
-                                    valuePropName="checked"
-                                    rules={[
-                                        {
-                                            validator: (_, value) =>
-                                                value ? Promise.resolve() : Promise.reject(new Error('Please accept the Terms of Services')),
-                                        },
-                                    ]}
-                                >
+                                <Form.Item name="agree" valuePropName="checked">
                                     <Checkbox style={{ fontSize: '14px' }}>
                                         I have read and agree with your{' '}
                                         <a href="#" style={{ fontWeight: 500 }}>Terms of Services</a>
