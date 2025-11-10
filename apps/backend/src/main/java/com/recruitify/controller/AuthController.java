@@ -1,8 +1,11 @@
 package com.recruitify.controller;
 
+import com.recruitify.dtos.Request.LoginRequest;
 import com.recruitify.dtos.Request.RegisterRequest;
+import com.recruitify.dtos.Response.JwtResponse;
 import com.recruitify.dtos.Response.MessageResponse;
 import com.recruitify.event.AuthenticationEvent;
+import com.recruitify.exceptions.AccountDeactivatedException;
 import com.recruitify.services.IAuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -15,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,6 +32,58 @@ public class AuthController {
     private final IAuthService authService;
     private final ApplicationEventPublisher eventPublisher;
 
+    @PostMapping("/login")
+    @Operation(
+            summary = "Authenticate user",
+            description = "Authenticate user with username and password, returns JWT token",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Successfully authenticated",
+                            content = @Content(schema = @Schema(implementation = JwtResponse.class))
+                    ),
+                    @ApiResponse(
+                            responseCode = "401",
+                            description = "Invalid username or password"
+                    )
+            }
+    )
+    public ResponseEntity<JwtResponse> login(
+            @Valid @RequestBody LoginRequest loginRequest,
+            HttpServletRequest request) {
+        try {
+            JwtResponse jwtResponse = authService.authenticateUser(loginRequest);
+            // Publish successful login event
+            eventPublisher.publishEvent(new AuthenticationEvent(
+                    this,
+                    loginRequest.getEmail(),
+                    AuthenticationEvent.AuthEventType.LOGIN_SUCCESS,
+                    "Login successful",
+                    getClientIp(request)
+            ));
+            return ResponseEntity.ok(jwtResponse);
+        } catch (AccountDeactivatedException e) {
+            // Publish failed login event with specific reason
+            eventPublisher.publishEvent(new AuthenticationEvent(
+                    this,
+                    loginRequest.getEmail(),
+                    AuthenticationEvent.AuthEventType.LOGIN_FAILED,
+                    "Account deactivated",
+                    getClientIp(request)
+            ));
+            throw e;
+        } catch (BadCredentialsException e) {
+            // Publish failed login event
+            eventPublisher.publishEvent(new AuthenticationEvent(
+                    this,
+                    loginRequest.getEmail(),
+                    AuthenticationEvent.AuthEventType.LOGIN_FAILED,
+                    "Invalid credentials",
+                    getClientIp(request)
+            ));
+            throw e;
+        }
+    }
 
     @PostMapping("/register")
     @Operation(

@@ -33,7 +33,6 @@ public class User {
     @Column(nullable = false)
     private String passwordHash;
 
-
     @ManyToOne
     @JoinColumn(name = "role_id")
     private Role role;
@@ -45,6 +44,13 @@ public class User {
 
     @Column(name = "updated_at", columnDefinition = "TIMESTAMP")
     private Instant updatedAt;
+
+    @Column(name = "is_active", nullable = false)
+    private Boolean isActive = true;
+
+    // Optional account lockout timestamp
+    @Column(name = "locked_until")
+    private Instant lockedUntil;
 
     @Column(length = 100)
     private String createdBy;
