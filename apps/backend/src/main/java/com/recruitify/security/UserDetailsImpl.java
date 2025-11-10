@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class UserDetailsImpl implements UserDetails {
     private long id;
+    private String username;
     private String email;
     private String password;
     private Collection<? extends GrantedAuthority> authorities;
@@ -27,6 +28,7 @@ public class UserDetailsImpl implements UserDetails {
         );
         return UserDetailsImpl.builder()
                 .id(user.getId())
+                .username(user.getEmail())
                 .email(user.getEmail())
                 .password(user.getPasswordHash())
                 .authorities(authorities)
@@ -36,16 +38,6 @@ public class UserDetailsImpl implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities;
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public String getUsername() {
-        return email;
     }
 
     @Override
