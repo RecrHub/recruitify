@@ -1,5 +1,6 @@
 'use client';
 import React, { useRef } from 'react';
+import Image from 'next/image';
 import { Form, Input, Button, Checkbox, Row, Col, Typography, Divider, Space, message } from 'antd';
 import { ArrowRightOutlined, FacebookFilled, LeftOutlined } from '@ant-design/icons';
 import * as yup from 'yup';
@@ -125,17 +126,18 @@ function Register() {
             position: 'relative',
         }}>
             <Row style={{ height: '100vh', position: 'relative', overflow: 'hidden' }}>
-                {/* Đường chéo divider */}
+                {/* Diagonal divider: bigger and centered so it reaches bottom corner (match Login) */}
                 <div
                     style={{
                         position: 'absolute',
-                        top: -100,
-                        bottom: -100,
                         left: '48%',
-                        width: '140px',
-                        transform: 'translateX(-50%) rotate(5deg)',
-                        background: 'linear-gradient(to right, transparent 0%, #fff 50%, #fff 100%)',
-                        zIndex: 2
+                        top: '2%',
+                        height: '300vh',
+                        width: '280px',
+                        transform: 'translate(-50%, -50%) rotate(6.5deg)',
+                        background: 'linear-gradient(to right, transparent 0%, #fff 52%, #fff 100%)',
+                        zIndex: 9999,
+                        pointerEvents: 'none'
                     }}
                 />
 
@@ -415,15 +417,32 @@ function Register() {
                                                             </clipPath>
                                                         </defs>
                                                     </svg>
+                                                ) : index === 1 ? (
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 32 32" fill="none" aria-hidden>
+                                                        <g clipPath="url(#clip0_136_1361)">
+                                                            <path opacity="0.2" d="M17.9993 26.9978V4.9978C17.9993 4.73259 17.8939 4.47823 17.7064 4.2907C17.5188 4.10316 17.2645 3.9978 16.9993 3.9978H4.99927C4.73405 3.9978 4.4797 4.10316 4.29216 4.2907C4.10462 4.47823 3.99927 4.73259 3.99927 4.9978V26.9978" fill="white" />
+                                                            <path d="M2 26.9978H30" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                                                            <path d="M17.9993 26.9978V4.9978C17.9993 4.73259 17.8939 4.47823 17.7064 4.2907C17.5188 4.10316 17.2645 3.9978 16.9993 3.9978H4.99927C4.73405 3.9978 4.4797 4.10316 4.29216 4.2907C4.10462 4.47823 3.99927 4.73259 3.99927 4.9978V26.9978" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                                                            <path d="M27.9993 26.9978V12.9978C27.9993 12.7326 27.8939 12.4782 27.7064 12.2907C27.5188 12.1032 27.2645 11.9978 26.9993 11.9978H17.9993" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                                                            <path d="M7.99927 8.9978H11.9993" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                                                            <path d="M9.99927 16.9978H13.9993" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                                                            <path d="M7.99927 21.9978H11.9993" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                                                            <path d="M21.9993 21.9978H23.9993" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                                                            <path d="M21.9993 16.9978H23.9993" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                                                        </g>
+                                                        <defs>
+                                                            <clipPath id="clip0_136_1361">
+                                                                <rect width="32" height="32" fill="white" />
+                                                            </clipPath>
+                                                        </defs>
+                                                    </svg>
                                                 ) : (
-                                                    <img
+                                                    <Image
                                                         src="/file.svg"
-                                                        style={{
-                                                            width: 22,
-                                                            height: 22,
-                                                            filter: 'brightness(0) invert(1)'
-                                                        }}
-                                                        alt=""
+                                                        width={22}
+                                                        height={22}
+                                                        alt="stat icon"
+                                                        style={{ filter: 'brightness(0) invert(1)' }}
                                                     />
                                                 )}
                                             </div>
