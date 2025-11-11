@@ -133,7 +133,7 @@ function Register() {
                         left: '48%',
                         top: '2%',
                         height: '300vh',
-                        width: '280px',
+                        width: '15%',
                         transform: 'translate(-50%, -50%) rotate(6.5deg)',
                         background: 'linear-gradient(to right, transparent 0%, #fff 52%, #fff 100%)',
                         zIndex: 9999,
@@ -147,7 +147,7 @@ function Register() {
                     style={{
                         display: 'flex',
                         flexDirection: 'column',
-                        padding: '24px',
+                        padding: '2%',
                         background: '#FFF',
                         position: 'relative',
                         height: '100vh'
@@ -159,7 +159,7 @@ function Register() {
                         icon={<LeftOutlined />}
                         style={{
                             padding: 0,
-                            marginBottom: '20px',
+                            marginBottom: '2%',
                             color: '#666',
                             alignSelf: 'flex-start',
                             height: 'auto'
