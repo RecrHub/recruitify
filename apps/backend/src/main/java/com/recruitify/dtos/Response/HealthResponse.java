@@ -1,4 +1,4 @@
-package com.recruitify.dtos;
+package com.recruitify.dtos.Response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
