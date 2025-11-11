@@ -38,9 +38,6 @@ public class Company {
     @Column(name = "founder_year")
     private Integer founderYear;
     //Relationship
-    @OneToMany(mappedBy = "company", fetch = FetchType.LAZY)
-    @JsonIgnore
-    List<User> users;
     @Column(name = "created_at", nullable = false, updatable = false,
             columnDefinition = "TIMESTAMP")
     private Instant createdAt;
