@@ -1,14 +1,58 @@
 'use client';
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { Form, Input, Button, Checkbox, Row, Col, Typography, Divider, Space, message } from 'antd';
 import { ArrowRightOutlined, FacebookFilled, LeftOutlined } from '@ant-design/icons';
 import * as yup from 'yup';
+import { useAuth } from '@/context/AuthContext';
+import { RegisterRequest } from '@/types/auth';
 
 const { Title, Text } = Typography;
 
 function Register() {
+
     const [form] = Form.useForm();
+    const router = useRouter();
+    const { register } = useAuth();
+    const [apiError, setApiError] = useState<string | null>(null);
+    const [registrationSuccess, setRegistrationSuccess] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
+    const handleSubmit = async (
+        values: Omit<RegisterRequest, 'roles'> & { confirmPassword: string; agree: boolean }
+    ) => {
+        try {
+            setApiError(null);
+            setRegistrationSuccess(false);
+
+            // Loại bỏ confirmPassword và agree khỏi data gửi lên API
+            const { confirmPassword, agree, ...registerData } = values;
+
+            const response = await register(registerData);
+
+            if (response.success) {
+                setRegistrationSuccess(true);
+                message.success('Đăng ký thành công!');
+                setTimeout(() => {
+                    router.push('/login');
+                }, 2000);
+            } else {
+                setApiError(response.message ?? 'Đăng ký thất bại');
+            }
+        } catch (error) {
+            console.error('Lỗi đăng ký:', error);
+            if (error instanceof Error) {
+                setApiError(error.message ?? 'Đăng ký thất bại');
+            } else {
+                setApiError('Đã xảy ra lỗi không mong muốn');
+            }
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
+
+
 
     // Yup validation schema (authoritative source of validation)
     const validationSchema = yup.object().shape({
@@ -58,13 +102,11 @@ function Register() {
     // Validate a single field as user types (uses Yup.validateAt)
     const validateFieldWithYup = async (field: string, values: Record<string, unknown>) => {
         try {
-            // validateAt throws if the field is invalid
             await validationSchema.validateAt(field, values);
-            // clear field error if present
-            form.setFields([{ name: [field], errors: [] }]);
             return true;
         } catch (err: unknown) {
             if (err instanceof yup.ValidationError) {
+                // Chỉ set error khi có lỗi
                 form.setFields([{ name: [field], errors: [err.message] }]);
             } else {
                 console.error('Unexpected validation error', err);
@@ -80,6 +122,7 @@ function Register() {
         message.success('Validation passed — ready to submit');
         console.log('Form values:', values);
         // Xử lý đăng ký ở đây (gọi API...)
+        await handleSubmit(values as any);
     };
 
     // THÊM statsData VÀO ĐÂY
