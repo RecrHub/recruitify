@@ -14,22 +14,18 @@ import {
   Col,
   Typography,
   Divider,
-  message,
+  App,
 } from "antd";
-import {
-  ArrowRight, 
-  ChevronLeft,
-  Eye, 
-  EyeOff, 
-} from "lucide-react";
+import { ArrowRight, ChevronLeft } from "lucide-react";
+import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 import * as yup from "yup";
 import { useAuth } from "@/context/AuthContext";
-import { RegisterRequest } from "@/types/auth"; 
+import { RegisterRequest } from "@/types/auth";
 import { STATS_DATA, statsIcons } from "@/const/register.const";
 const { Title, Text, Link } = Typography;
 
 // ===== STYLES WITH RESPONSIVE =====
-const useStyles = createStyles(({css}) => ({
+const useStyles = createStyles(({ css }) => ({
   container: css`
     width: 100%;
     height: 100vh;
@@ -302,6 +298,14 @@ const useStyles = createStyles(({css}) => ({
       color: #767f8c;
     }
 
+    .ant-input-suffix {
+      color: #767f8c;
+
+      .anticon {
+        font-size: 20px;
+      }
+    }
+
     @media (max-width: 768px) {
       height: 44px;
 
@@ -352,22 +356,17 @@ const useStyles = createStyles(({css}) => ({
         rgba(0, 0, 0, 0.2) 0%,
         rgba(0, 0, 0, 0.2) 100%
       ),
-      linear-gradient(0deg, #09090b 0%, #09090b 100%);
-    border: none;
     border-radius: 4px;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 12px;
-    margin-bottom: 16px;
     color: #fff;
     font-family: Manrope;
     font-size: 16px;
     font-style: normal;
     font-weight: 600;
     line-height: 24px; /* 150% */
-    text-transform: capitalize;
-    transition: all 0.3s ease;
 
     &:hover {
       background: linear-gradient(
@@ -375,25 +374,22 @@ const useStyles = createStyles(({css}) => ({
           rgba(0, 0, 0, 0.3) 0%,
           rgba(0, 0, 0, 0.3) 100%
         ),
-        linear-gradient(0deg, #09090b 0%, #09090b 100%) !important;
     }
 
     &:active {
       transform: translateY(0);
     }
 
-    .anticon {
-      font-size: 20px;
+    svg {
+      transform: translateY(2.6px);
+      width: 20px;
+      height: 20px;
     }
 
     @media (max-width: 768px) {
       height: 44px;
       font-size: 15px;
       padding: 0 24px;
-
-      .anticon {
-        font-size: 18px;
-      }
     }
   `,
 
@@ -634,39 +630,39 @@ const useStyles = createStyles(({css}) => ({
 
 // ===== VALIDATION SCHEMA =====
 const validationSchema = yup.object().shape({
-     username: yup
-       .string()
-       .trim()
-       .min(3, "At least 3 characters")
-       .max(30, "Max 30 characters")
-       .matches(
-         /^[a-zA-Z0-9._]+$/,
-         "Only letters, numbers, dot and underscore allowed"
-       )
-       .notOneOf(["admin", "root"], "This username is reserved")
-       .required("Please input your username!"),
-     email: yup
-       .string()
-       .email("Please enter a valid email!")
-       .required("Please input your email!"),
-     // Match backend: min 8, at least one upper, one lower, one digit and one special char
-     password: yup
-       .string()
-       .min(8, "Password must be at least 8 characters!")
-       .matches(/(?=.*[a-z])/, "Password must contain a lowercase letter")
-       .matches(/(?=.*[A-Z])/, "Password must contain an uppercase letter")
-       .matches(/(?=.*\d)/, "Password must contain a digit")
-       .matches(
-         /(?=.*[!@#$%^&*()_+\-=[\]{}|;:,.<>?])/,
-         "Password must contain a special character"
-       )
-       .required("Please input your password!"),
-     confirmPassword: yup
-       .string()
-       .oneOf([yup.ref("password")], "Passwords do not match!")
-       .required("Please confirm your password!"),
-     agree: yup.boolean().oneOf([true], "Please accept the Terms of Services"),
-   });
+  username: yup
+    .string()
+    .trim()
+    .min(3, "At least 3 characters")
+    .max(30, "Max 30 characters")
+    .matches(
+      /^[a-zA-Z0-9._]+$/,
+      "Only letters, numbers, dot and underscore allowed"
+    )
+    .notOneOf(["admin", "root"], "This username is reserved")
+    .required("Please input your username!"),
+  email: yup
+    .string()
+    .email("Please enter a valid email!")
+    .required("Please input your email!"),
+  // Match backend: min 8, at least one upper, one lower, one digit and one special char
+  password: yup
+    .string()
+    .min(8, "Password must be at least 8 characters!")
+    .matches(/(?=.*[a-z])/, "Password must contain a lowercase letter")
+    .matches(/(?=.*[A-Z])/, "Password must contain an uppercase letter")
+    .matches(/(?=.*\d)/, "Password must contain a digit")
+    .matches(
+      /(?=.*[!@#$%^&*()_+\-=[\]{}|;:,.<>?])/,
+      "Password must contain a special character"
+    )
+    .required("Please input your password!"),
+  confirmPassword: yup
+    .string()
+    .oneOf([yup.ref("password")], "Passwords do not match!")
+    .required("Please confirm your password!"),
+  agree: yup.boolean().oneOf([true], "Please accept the Terms of Services"),
+});
 
 // ===== MAIN COMPONENT =====
 function Register() {
@@ -677,41 +673,42 @@ function Register() {
   const [apiError, setApiError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [registrationSuccess, setRegistrationSuccess] = useState(false);
-   const handleSubmit = async (
-     values: Omit<RegisterRequest, "roles"> & {
-       confirmPassword: string;
-       agree: boolean;
-     }
-   ) => {
-     try {
-       setApiError(null);
-       setRegistrationSuccess(false);
+  const { message } = App.useApp();
+  const handleSubmit = async (
+    values: Omit<RegisterRequest, "roles"> & {
+      confirmPassword: string;
+      agree: boolean;
+    }
+  ) => {
+    try {
+      setApiError(null);
+      setRegistrationSuccess(false);
 
-       // Loại bỏ confirmPassword và agree khỏi data gửi lên API
-       const { confirmPassword, agree, ...registerData } = values;
+      // Loại bỏ confirmPassword và agree khỏi data gửi lên API
+      const { confirmPassword, agree, ...registerData } = values;
 
-       const response = await register(registerData);
+      const response = await register(registerData);
 
-       if (response.success) {
-         setRegistrationSuccess(true);
-         message.success("Đăng ký thành công!");
-         setTimeout(() => {
-           router.push("/login");
-         }, 2000);
-       } else {
-         setApiError(response.message ?? "Đăng ký thất bại");
-       }
-     } catch (error) {
-       console.error("Lỗi đăng ký:", error);
-       if (error instanceof Error) {
-         setApiError(error.message ?? "Đăng ký thất bại");
-       } else {
-         setApiError("Đã xảy ra lỗi không mong muốn");
-       }
-     } finally {
-       setIsSubmitting(false);
-     }
-   };
+      if (response.success) {
+        setRegistrationSuccess(true);
+        message.success("Đăng ký thành công!");
+        setTimeout(() => {
+          router.push("/login");
+        }, 2000);
+      } else {
+        setApiError(response.message ?? "Đăng ký thất bại");
+      }
+    } catch (error) {
+      console.error("Lỗi đăng ký:", error);
+      if (error instanceof Error) {
+        setApiError(error.message ?? "Đăng ký thất bại");
+      } else {
+        setApiError("Đã xảy ra lỗi không mong muốn");
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   const validateWithYup = async (values: Record<string, unknown>) => {
     try {
@@ -733,23 +730,23 @@ function Register() {
     }
   };
 
- const validateFieldWithYup = async (
-   field: string,
-   values: Record<string, unknown>
- ) => {
-   try {
-     await validationSchema.validateAt(field, values);
-     return true;
-   } catch (err: unknown) {
-     if (err instanceof yup.ValidationError) {
-       // Chỉ set error khi có lỗi
-       form.setFields([{ name: [field], errors: [err.message] }]);
-     } else {
-       console.error("Unexpected validation error", err);
-     }
-     return false;
-   }
- };
+  const validateFieldWithYup = async (
+    field: string,
+    values: Record<string, unknown>
+  ) => {
+    try {
+      await validationSchema.validateAt(field, values);
+      return true;
+    } catch (err: unknown) {
+      if (err instanceof yup.ValidationError) {
+        // Chỉ set error khi có lỗi
+        form.setFields([{ name: [field], errors: [err.message] }]);
+      } else {
+        console.error("Unexpected validation error", err);
+      }
+      return false;
+    }
+  };
 
   const onFinish = async (values: Record<string, unknown>) => {
     const ok = await validateWithYup(values);
@@ -847,7 +844,9 @@ function Register() {
                   <Input.Password
                     placeholder="Password"
                     className={styles.passwordInput}
-                    iconRender={(visible) => (visible ? <Eye  /> : <EyeOff />)}
+                    iconRender={(visible) =>
+                      visible ? <EyeOutlined /> : <EyeInvisibleOutlined />
+                    }
                   />
                 </Form.Item>
 
@@ -855,7 +854,9 @@ function Register() {
                   <Input.Password
                     placeholder="Confirm Password"
                     className={styles.passwordInput}
-                    iconRender={(visible) => (visible ? <Eye /> : <EyeOff />)}
+                    iconRender={(visible) =>
+                      visible ? <EyeOutlined /> : <EyeInvisibleOutlined />
+                    }
                   />
                 </Form.Item>
 
