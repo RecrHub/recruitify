@@ -1,6 +1,6 @@
 'use client';
 import { createContext, useContext, useState, useEffect, ReactNode, useMemo, useCallback } from 'react';
-import { JwtResponse, RegisterRequest, MessageResponse } from '../types/auth';
+import { JwtResponse, RegisterRequest, MessageResponse } from '@/types/auth';
 import authService from '../services/authService';
 
 interface AuthContextType {
