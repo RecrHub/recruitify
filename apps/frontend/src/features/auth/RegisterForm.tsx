@@ -362,7 +362,6 @@ const useStyles = createStyles(({ css }) => ({
     justify-content: center;
     gap: 12px;
     color: #fff;
-    font-family: Manrope;
     font-size: 16px;
     font-style: normal;
     font-weight: 600;
@@ -430,7 +429,6 @@ const useStyles = createStyles(({ css }) => ({
     gap: 12px;
 
     color: var(--Gray-700, #474c54);
-    font-family: Manrope;
     font-size: 14px;
     font-style: normal;
     font-weight: 400;

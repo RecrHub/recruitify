@@ -106,6 +106,6 @@ const ThemeProvider = memo<ThemeProviderProps>(
   }
 );
 
-ThemeProvider.displayName = "LobeThemeProvider";
+ThemeProvider.displayName = "RecrThemeProvider";
 
 export default ThemeProvider;
