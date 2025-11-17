@@ -36,9 +36,6 @@ const LoginSchema = yup.object().shape({
 
 const useStyles = createStyles(({ css }) => ({
   container: css`
-    width: 100%;
-    height: 100vh;
-    background: #ffffff;
     position: relative;
     overflow: hidden;
   `,
@@ -375,7 +372,6 @@ const useStyles = createStyles(({ css }) => ({
     gap: 12px;
     margin-top: 5px;
     color: #fff;
-    font-family: Manrope;
     font-size: 16px;
     font-style: normal;
     font-weight: 600;
@@ -443,7 +439,6 @@ const useStyles = createStyles(({ css }) => ({
     gap: 12px;
 
     color: var(--Gray-700, #474c54);
-    font-family: Manrope;
     font-size: 14px;
     font-style: normal;
     font-weight: 400;
@@ -784,13 +779,12 @@ export default function LoginForm() {
                     }
                   />
                 </Form.Item>
-                <Form.Item
-                  name="agree"
-                  valuePropName="checked"
-                  className={styles.formItem}
+                  <Link
+                  href="/"
+                  style={{ fontWeight: 500, color: "#726e6eff" }}
                 >
-                  <Checkbox className={styles.checkbox}>Remember Me</Checkbox>
-                </Form.Item>
+                  Forget Password
+                </Link>
                 <Form.Item>
                   <Button
                     type="primary"
