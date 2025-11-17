@@ -21,7 +21,7 @@ public class PasswordServiceImpl implements IPasswordService {
     @Override
     public boolean validatePassword(String rawPassword, String encodedPassword) {
         if (rawPassword == null || encodedPassword == null) {
-            return false;`
+            return false;
         }
 
         return passwordEncoder.matches(rawPassword, encodedPassword);

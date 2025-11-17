@@ -1,6 +1,6 @@
 package com.recruitify.controller;
 
-import com.recruitify.dto.HealthResponse;
+import com.recruitify.dtos.Response.HealthResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
