@@ -814,7 +814,7 @@ function Register() {
                   href="/login"
                   style={{ fontWeight: 500, color: "#18191c" }}
                 >
-                  Log In
+                  Sign In
                 </Link>
               </Text>
 
