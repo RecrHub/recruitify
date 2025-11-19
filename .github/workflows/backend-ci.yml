@@ -1,12 +1,10 @@
-name: Deploy API to Production
+name: Deploy Backend to AWS ECS
 
 on:
   push:
-    branches: 
-      - "main"
-      - "dev"
+    branches: [ "main", "develop" ]
     paths:
-      - 'apps/backend/**'  
+      - 'apps/backend/**'
       - '.github/workflows/deploy.yml'
 
 env:
@@ -16,7 +14,7 @@ env:
   ECS_CLUSTER: recruitify-cluster
   ECS_TASK_DEFINITION: recruitify-api-task
   CONTAINER_NAME: recruitify-api
-  BACKEND_PATH: apps/backend  
+  BACKEND_PATH: apps/backend
 
 jobs:
   deploy:
@@ -35,7 +33,7 @@ jobs:
         cache: maven
 
     - name: Build with Maven
-      working-directory: ${{ env.BACKEND_PATH }}  # ← Thêm này
+      working-directory: ${{ env.BACKEND_PATH }}
       run: mvn clean package -DskipTests
 
     - name: Configure AWS credentials
@@ -66,8 +64,16 @@ jobs:
 
     - name: Download task definition
       run: |
-        aws ecs describe-task-definition --task-definition ${{ env.ECS_TASK_DEFINITION }} \
-        --query taskDefinition > task-definition.json
+        aws ecs describe-task-definition \
+          --task-definition ${{ env.ECS_TASK_DEFINITION }} \
+          --query taskDefinition > task-definition.json
+
+    - name: Clean up task definition (Remove unsupported fields)
+      run: |
+        jq 'del(.taskDefinitionArn, .revision, .status, .requiresAttributes, .compatibilities, .registeredAt, .registeredBy, .enableFaultInjection)' \
+          task-definition.json > task-definition-clean.json
+        mv task-definition-clean.json task-definition.json
+        cat task-definition.json
 
     - name: Fill in the new image ID in the Amazon ECS task definition
       id: task-def
