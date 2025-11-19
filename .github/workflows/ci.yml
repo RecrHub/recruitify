@@ -5,9 +5,8 @@ on:
     branches: [ "main", "develop" ]
     paths:
       - 'apps/backend/**'
-      - '.github/workflows/deploy.yml'
+      - '.github/workflows/ci.yml'
     workflow_dispatch:
-
 env:
   AWS_REGION: ap-southeast-1
   ECR_REPOSITORY: recruitify-backend
