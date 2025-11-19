@@ -1,10 +1,11 @@
-name: Deploy API to Production
+name: Deploy Backend to AWS Production
 
 on:
   push:
-    branches: 
-      - "main"
-      - "dev"
+    branches: [ "main", "dev" ]
+    paths:
+      - 'apps/backend/**'  
+      - '.github/workflows/deploy.yml'
 
 env:
   AWS_REGION: ap-southeast-1
@@ -13,12 +14,12 @@ env:
   ECS_CLUSTER: recruitify-cluster
   ECS_TASK_DEFINITION: recruitify-api-task
   CONTAINER_NAME: recruitify-api
+  BACKEND_PATH: apps/backend 
 
 jobs:
   deploy:
-    name: Deploy
+    name: Deploy Backend
     runs-on: ubuntu-latest
-    environment: production
 
     steps:
     - name: Checkout code
@@ -32,6 +33,7 @@ jobs:
         cache: maven
 
     - name: Build with Maven
+      working-directory: ${{ env.BACKEND_PATH }}  # ← Thêm này
       run: mvn clean package -DskipTests
 
     - name: Configure AWS credentials
@@ -51,7 +53,10 @@ jobs:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         IMAGE_TAG: ${{ github.sha }}
       run: |
-        docker build --platform linux/amd64 -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        docker build --platform linux/amd64 \
+          -f ${{ env.BACKEND_PATH }}/Dockerfile \
+          -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG \
+          ${{ env.BACKEND_PATH }}
         docker tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:latest
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
