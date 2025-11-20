@@ -4,46 +4,51 @@ import Layout from '@/components/Layout';
 import { Flexbox } from 'react-layout-kit';
 import { createStyles } from 'antd-style';
 import Header from '@/components/Header';
-import { LobeHub } from '@/components/brand';
-import Tabs from '@/components/Tabs/Tabs';
-import type { TabsProps } from '@/components/Tabs';
+import Actions from '@/components/NavAction';
+import Tabs from '@/components/Tabs';
+import Logo from '@/components/brand/LogoRecruitify/Logo';
+import { Section } from 'lucide-react';
 
 const useStyles = createStyles(({ css, token }) => ({
-  header: css`
-    height: 64px;
-    border-bottom: 1px solid ${token.colorBorder};
-  `,
   footer: css`
     height: 36px;
-    background: ${token.blue};
-    border-top: 1px solid ${token.colorBorder};
   `,
   main: css`
-    padding: 16px;
-    background: ${token.blue5};
+    height: 889px;
   `,
 }));
 
 export default function Home() {
   const { styles } = useStyles();
-  const tabsItems: TabsProps['items'] = [
-    { key: 'favourite_job', label: 'Favourite Jobs' },
-    { key: 'applied_job', label: 'Applied Jobs' },
-    { key: 'job_history', label: 'Job History' },
-  ];
   return (
     <Layout
       header={
         <Flexbox
           align="center"
           justify="space-between"
-          className={styles.header}
-          style={{ padding: '0 16px' }}
+          style={{ padding: "0 16px" }}
         >
           <Header
-            actions={'ACTIONS'}
-            logo={<LobeHub type={'combine'} />}
-            nav={<Tabs items={tabsItems} />}
+            actions={
+              <Actions
+                onLogin={() => {
+                  /* login */
+                }}
+                onPost={() => {
+                  /* post */
+                }}
+              />
+            }
+            logo={<Logo />}
+            nav={
+              <Tabs
+                items={[
+                  { key: "home", label: "Favourite Jobs" },
+                  { key: "jobs", label: "Applied Jobs" },
+                  { key: "companies", label: "Job History" },
+                ]}
+              />
+            }
           />
         </Flexbox>
       }
@@ -56,7 +61,8 @@ export default function Home() {
       <Flexbox className={styles.main} style={{ gap: 16 }}>
         <h1>Welcome to My Homepage</h1>
         <p>
-          Đây là phần main content của homepage. Nội dung có thể dài, scroll được mà footer vẫn ở dưới.
+          Đây là phần main content của homepage. Nội dung có thể dài, scroll
+          được mà footer vẫn ở dưới.
         </p>
         <section>
           <h2>Đây Là Feature Job</h2>
