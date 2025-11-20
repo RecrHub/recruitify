@@ -8,6 +8,7 @@ import Actions from '@/components/NavAction';
 import Tabs from '@/components/Tabs';
 import Logo from '@/components/brand/LogoRecruitify/Logo';
 import { Section } from 'lucide-react';
+import HeroSection from '@/components/HeroSection';
 
 const useStyles = createStyles(({ css, token }) => ({
   footer: css`
@@ -58,21 +59,7 @@ export default function Home() {
         </Flexbox>
       }
     >
-      <Flexbox className={styles.main} style={{ gap: 16 }}>
-        <h1>Welcome to My Homepage</h1>
-        <p>
-          Đây là phần main content của homepage. Nội dung có thể dài, scroll
-          được mà footer vẫn ở dưới.
-        </p>
-        <section>
-          <h2>Đây Là Feature Job</h2>
-          <p>Thông tin chi tiết...</p>
-        </section>
-        <section>
-          <h2>Đây Là Freature Company</h2>
-          <p>Thông tin chi tiết tiếp theo...</p>
-        </section>
-      </Flexbox>
+      <HeroSection />
     </Layout>
   );
 }
