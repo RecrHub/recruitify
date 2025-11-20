@@ -1,66 +1,72 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+'use client';
+
+import Layout from '@/components/Layout';
+import { Flexbox } from 'react-layout-kit';
+import { createStyles } from 'antd-style';
+import Header from '@/components/Header';
+import { LobeHub } from '@/components/brand';
+import Tabs from '@/components/Tabs/Tabs';
+import type { TabsProps } from '@/components/Tabs';
+
+const useStyles = createStyles(({ css, token }) => ({
+  header: css`
+    height: 64px;
+    border-bottom: 1px solid ${token.colorBorder};
+  `,
+  footer: css`
+    height: 36px;
+    background: ${token.blue};
+    border-top: 1px solid ${token.colorBorder};
+  `,
+  main: css`
+    padding: 16px;
+    background: ${token.blue5};
+  `,
+}));
 
 export default function Home() {
+  const { styles } = useStyles();
+  const tabsItems: TabsProps['items'] = [
+    { key: 'favourite_job', label: 'Favourite Jobs' },
+    { key: 'applied_job', label: 'Applied Jobs' },
+    { key: 'job_history', label: 'Job History' },
+  ];
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>To get started, edit the page.tsx file.</h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+    <Layout
+      header={
+        <Flexbox
+          align="center"
+          justify="space-between"
+          className={styles.header}
+          style={{ padding: '0 16px' }}
+        >
+          <Header
+            actions={'ACTIONS'}
+            logo={<LobeHub type={'combine'} />}
+            nav={<Tabs items={tabsItems} />}
+          />
+        </Flexbox>
+      }
+      footer={
+        <Flexbox align="center" justify="center" className={styles.footer}>
+          Đây Là Phần Footer
+        </Flexbox>
+      }
+    >
+      <Flexbox className={styles.main} style={{ gap: 16 }}>
+        <h1>Welcome to My Homepage</h1>
+        <p>
+          Đây là phần main content của homepage. Nội dung có thể dài, scroll được mà footer vẫn ở dưới.
+        </p>
+        <section>
+          <h2>Đây Là Feature Job</h2>
+          <p>Thông tin chi tiết...</p>
+        </section>
+        <section>
+          <h2>Đây Là Freature Company</h2>
+          <p>Thông tin chi tiết tiếp theo...</p>
+        </section>
+      </Flexbox>
+    </Layout>
   );
 }
