@@ -1,4 +1,4 @@
-import { createStyles } from 'antd-style';
+import { createStyles } from "antd-style";
 
 export const useStyles = createStyles(({ css, token, prefixCls }) => {
   return {
@@ -38,7 +38,6 @@ export const useStyles = createStyles(({ css, token, prefixCls }) => {
         }
       }
     `,
-
     margin: css`
       &.${prefixCls}-tabs {
         .${prefixCls}-tabs-tab {
@@ -60,7 +59,6 @@ export const useStyles = createStyles(({ css, token, prefixCls }) => {
             border-start-end-radius: 4px;
           }
         }
-
         &.${prefixCls}-tabs-bottom {
           .${prefixCls}-tabs-ink-bar {
             width: 8px !important;
@@ -69,7 +67,6 @@ export const useStyles = createStyles(({ css, token, prefixCls }) => {
             border-end-end-radius: 4px;
           }
         }
-
         &.${prefixCls}-tabs-left {
           .${prefixCls}-tabs-ink-bar {
             width: 4px;
@@ -78,7 +75,6 @@ export const useStyles = createStyles(({ css, token, prefixCls }) => {
             border-end-start-radius: 4px;
           }
         }
-
         &.${prefixCls}-tabs-right {
           .${prefixCls}-tabs-ink-bar {
             width: 4px;
@@ -103,6 +99,16 @@ export const useStyles = createStyles(({ css, token, prefixCls }) => {
             border-radius: ${token.borderRadius}px;
           }
         }
+
+        /* remove underline / ink bar completely */
+        .${prefixCls}-tabs-ink-bar {
+          display: none !important;
+        }
+
+        /* optional: if you also want to remove the default nav before-line */
+        .${prefixCls}-tabs-nav::before {
+          display: none !important;
+        }
       }
     `,
     rounded: css`
@@ -114,7 +120,6 @@ export const useStyles = createStyles(({ css, token, prefixCls }) => {
             border-start-end-radius: 3px;
           }
         }
-
         &.${prefixCls}-tabs-bottom {
           .${prefixCls}-tabs-ink-bar {
             height: 3px;
@@ -122,7 +127,6 @@ export const useStyles = createStyles(({ css, token, prefixCls }) => {
             border-end-end-radius: 3px;
           }
         }
-
         &.${prefixCls}-tabs-left {
           .${prefixCls}-tabs-ink-bar {
             width: 3px;
@@ -130,7 +134,6 @@ export const useStyles = createStyles(({ css, token, prefixCls }) => {
             border-end-start-radius: 3px;
           }
         }
-
         &.${prefixCls}-tabs-right {
           .${prefixCls}-tabs-ink-bar {
             width: 3px;

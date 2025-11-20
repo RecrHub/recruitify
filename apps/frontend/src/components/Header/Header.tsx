@@ -28,29 +28,35 @@ const Header = memo<HeaderProps>(
 
     return (
       <Flexbox
-        align={'center'}
-        as={'section'}
+        align={"center"}
+        as={"section"}
         className={cx(styles.root, className)}
-        distribution={'space-between'}
+        distribution={"space-between"}
         horizontal
         ref={ref}
-        width={'auto'}
+        width={"auto"}
         {...rest}
       >
         {mobile ? (
           <>
-            <Flexbox className={actionsClassName} style={{ flex: 0, ...navStyle }}>
+            <Flexbox
+              className={actionsClassName}
+              style={{ flex: 0, ...navStyle }}
+            >
               {nav}
               {children}
             </Flexbox>
             <Flexbox
               className={cx(styles.left, logoClassName)}
               horizontal
-              style={{ flex: 1, overflow: 'hidden', ...logoStyle }}
+              style={{ flex: 1, overflow: "hidden", ...logoStyle }}
             >
               {logo}
             </Flexbox>
-            <Flexbox className={actionsClassName} style={{ flex: 0, ...actionsStyle }}>
+            <Flexbox
+              className={actionsClassName}
+              style={{ flex: 0, ...actionsStyle }}
+            >
               {actions}
             </Flexbox>
           </>
@@ -65,20 +71,28 @@ const Header = memo<HeaderProps>(
             </Flexbox>
             <Flexbox
               className={navClassName}
-              style={{ flex: 1, marginLeft: 48, overflow: 'hidden', ...navStyle }}
+              style={{
+                position: "absolute",
+                left: "50%",
+                transform: "translateX(-50%)",
+                display: "flex",
+                justifyContent: "center",
+                pointerEvents: "auto",
+                zIndex: 9990,
+                ...navStyle,
+              }}
             >
               {nav}
-              {children}
             </Flexbox>
             <Flexbox
               className={cx(styles.right, actionsClassName)}
               flex={1}
               horizontal
-              justify={'space-between'}
+              justify={"space-between"}
               style={actionsStyle}
             >
               <div />
-              <Flexbox align={'center'} gap={8} horizontal>
+              <Flexbox align={"center"} gap={8} horizontal>
                 {actions}
               </Flexbox>
             </Flexbox>

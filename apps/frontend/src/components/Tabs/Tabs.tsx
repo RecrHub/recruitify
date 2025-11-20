@@ -2,13 +2,14 @@
 
 import { Tabs as AntdTabs } from 'antd';
 import { cva } from 'class-variance-authority';
+import { MoreHorizontalIcon } from 'lucide-react';
 import { memo, useMemo } from 'react';
 
 
 import { useStyles } from './style';
 import type { TabsProps } from './type';
 
-const Tabs = memo<TabsProps>(({ className, compact, items, ...rest }) => {
+const Tabs = memo<TabsProps>(({ className, compact, variant = 'rounded', items, ...rest }) => {
   const { styles, cx } = useStyles();
   const hasContent = items?.some((item) => !!item.children);
 
@@ -17,10 +18,9 @@ const Tabs = memo<TabsProps>(({ className, compact, items, ...rest }) => {
       cva(styles.root, {
         defaultVariants: {
           compact: false,
-          underlined: true,
-          variant: 'point',
+          underlined: false,
+          variant: 'rounded',
         },
-        /* eslint-disable sort-keys-fix/sort-keys-fix */
         variants: {
           variant: {
             square: null,
@@ -36,17 +36,15 @@ const Tabs = memo<TabsProps>(({ className, compact, items, ...rest }) => {
             true: null,
           },
         },
-        /* eslint-enable sort-keys-fix/sort-keys-fix */
       }),
     [styles],
   );
 
   return (
     <AntdTabs
-      className={cx(variants({ compact, underlined: hasContent }), className)}
+      className={cx(variants({ compact, underlined: hasContent, variant }), className)}
       items={items}
       popupClassName={cx(styles.dropdown)}
-      tabBarStyle={{ borderBottom: 'none' }}
       {...rest}
     />
   );

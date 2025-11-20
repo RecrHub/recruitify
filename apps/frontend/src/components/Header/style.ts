@@ -24,20 +24,15 @@ export const useStyles = createStyles(({ css, responsive, token }) => ({
     }
   `,
   root: css`
-    grid-area: head;
-    align-self: stretch;
+  width: 100vw !important;
+  margin-left: calc(50% - 50vw) !important;
+  margin-right: calc(50% - 50vw) !important;
 
-    width: 100%;
-    height: 64px;
-    padding-block: 0;
-    padding-inline: 24px;
-
-    background-color: ${rgba(token.colorBgLayout, 0.4)};
-    border-block-end: 1px solid ${token.colorBorderSecondary};
-
-    ${responsive.mobile} {
-      padding-block: 0;
-      padding-inline: 12px;
-    }
+  height: 80px;
+  padding: 0 24px;
+  background-color: ${rgba(token.colorBgLayout, 0.4)};
+  border-bottom: var(--stroke-weight-1, 1px) solid #D9D9D9;
+  ${responsive.mobile} {
+    padding: 0 12px;
   `,
 }));

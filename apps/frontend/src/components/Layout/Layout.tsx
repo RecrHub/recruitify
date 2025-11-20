@@ -8,11 +8,11 @@ import LayoutFooter from './components/LayoutFooter';
 import LayoutHeader from './components/LayoutHeader';
 import LayoutMain from './components/LayoutMain';
 import LayoutSidebar from './components/LayoutSidebar';
-import LayoutSidebarInner from './components/LayoutSidebarInner';
 import LayoutToc from './components/LayoutToc';
 import { useStyles } from './style';
 import type { LayoutProps } from './type';
 
+// eslint-disable-next-line react/display-name
 const Layout = memo<LayoutProps>(
   ({ helmet, headerHeight = 64, header, footer, sidebar, asideWidth, toc, children, tocWidth }) => {
     const { styles } = useStyles(headerHeight);
