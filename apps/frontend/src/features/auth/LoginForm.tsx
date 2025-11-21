@@ -780,7 +780,7 @@ export default function LoginForm() {
                   />
                 </Form.Item>
                   <Link
-                  href="/"
+                  href="/forgetpassword"
                   style={{ fontWeight: 500, color: "#726e6eff" }}
                 >
                   Forget Password
