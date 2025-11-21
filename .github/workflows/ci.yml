@@ -2,7 +2,7 @@ name: Deploy Backend to AWS ECS
 
 on:
   push:
-    branches: [ "main", "develop" ]
+    branches: [ "main"]
     paths:
       - 'apps/backend/**'
       - '.github/workflows/ci.yml'
