@@ -9,6 +9,8 @@ import Tabs from '@/components/Tabs';
 import Logo from '@/components/brand/LogoRecruitify/Logo';
 import { Section } from 'lucide-react';
 import HeroSection from '@/components/HeroSection';
+import { useRouter } from 'next/router';
+import { useUserStore } from '@/stores/useUserStore';
 
 const useStyles = createStyles(({ css, token }) => ({
   footer: css`
@@ -32,12 +34,6 @@ export default function Home() {
           <Header
             actions={
               <Actions
-                onLogin={() => {
-                  /* login */
-                }}
-                onPost={() => {
-                  /* post */
-                }}
               />
             }
             logo={<Logo />}
