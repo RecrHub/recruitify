@@ -1,45 +1,55 @@
+// stores/userStore.ts
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-
-export interface User {
-  id: string
-  name: string
-  email: string
-  role?: string
-}
+import type { User } from '@shared/auth'  
 
 interface UserState {
   user: User | null
-  token: string | null
+  accessToken: string | null
+  refreshToken: string | null
+  tokenType: string | null
   isAuthenticated: boolean
-  setUser: (user: User, token: string) => void
-  //logout: () => void
+  setAuth: (user: User, accessToken: string, refreshToken: string, tokenType?: string) => void
+  updateTokens: (accessToken: string, refreshToken: string) => void
+  logout: () => void
 }
 
 export const useUserStore = create<UserState>()(
   persist(
     (set) => ({
       user: null,
-      token: null,
+      accessToken: null,
+      refreshToken: null,
+      tokenType: null,
       isAuthenticated: false,
 
-      setUser: (user, token) =>
+      setAuth: (user, accessToken, refreshToken, tokenType = 'Bearer') =>
         set(() => ({
           user,
-          token,
+          accessToken,
+          refreshToken,
+          tokenType,
           isAuthenticated: true,
+        })),
+
+      updateTokens: (accessToken, refreshToken) =>
+        set((state) => ({
+          ...state,
+          accessToken,
+          refreshToken,
         })),
 
       logout: () =>
         set(() => ({
           user: null,
-          token: null,
+          accessToken: null,
+          refreshToken: null,
+          tokenType: null,
           isAuthenticated: false,
         })),
     }),
     {
-      name: 'user-storage', // Lưu token + user vào localStorage
-      partialize: (state) => ({ token: state.token, user: state.user }),
+      name: 'user-storage',
     }
   )
 )

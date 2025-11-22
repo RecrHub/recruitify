@@ -61,7 +61,7 @@ export type ColorPalettesAlpha = {
   [key in `${keyof PresetColorType}${ColorPaletteKeyIndex}A`]: string;
 };
 
-export interface RecrCustomToken
+export interface LobeCustomToken
   extends ColorPalettes,
     ColorPalettesAlpha,
     ColorToken,

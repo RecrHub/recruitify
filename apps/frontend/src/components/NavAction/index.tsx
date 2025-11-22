@@ -1,23 +1,28 @@
-import React from "react";
-import { Button } from "antd";
-import { useStyles } from "./actions.styles";
+'use client';
 
-export type ActionsProps = {
-  className?: string;
-  onLogin?: () => void;
-  onPost?: () => void;
-};
+import { Button } from 'antd';
+import { useRouter } from 'next/navigation'; // App Router
+import { useStyles } from './actions.styles';
 
-export default function Actions({ className, onLogin, onPost }: ActionsProps) {
+export default function Actions({ className }: { className?: string }) {
   const { styles, cx } = useStyles();
+  const router = useRouter();
 
   return (
     <div className={cx(styles.root, className)}>
-      <Button className={styles.login} type="text" onClick={onLogin}>
+      <Button
+        className={styles.login}
+        type="text"
+        onClick={() => router.push('/login')}
+      >
         Login
       </Button>
 
-      <Button className={styles.post} type="primary" onClick={onPost}>
+      <Button
+        className={styles.post}
+        type="primary"
+        onClick={() => router.push('/post-job')}
+      >
         Post Job
       </Button>
     </div>
