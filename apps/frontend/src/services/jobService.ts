@@ -1,5 +1,6 @@
 import api from "./api";
 import { Job } from "../types/job";
+import { JobSearchFilters } from "../stores/useJobsStore";
 
 export interface PaginatedJobsResponse {
   jobs: Job[];
@@ -9,8 +10,23 @@ export interface PaginatedJobsResponse {
 }
 
 export const jobService = {
-  async getJobs(page: number = 1): Promise<PaginatedJobsResponse> {
-    const res = await api.get(`/api/v1/jobs?page=${page}`);
+  async getJobs(
+    page: number = 1,
+    filters: JobSearchFilters = {}
+  ): Promise<PaginatedJobsResponse> {
+    const params = new URLSearchParams();
+
+    // page
+    params.append("page", String(page));
+
+    // filters
+    Object.entries(filters).forEach(([key, value]) => {
+      if (value !== null && value !== "" && value !== undefined) {
+        params.append(key, String(value));
+      }
+    });
+
+    const res = await api.get(`/api/v1/jobs?${params.toString()}`);
     return res.data;
   },
 

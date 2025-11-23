@@ -1,6 +1,14 @@
 import { create } from "zustand";
 import { jobService } from "../services/jobService";
-import { Job } from "../types/job"; 
+import { Job } from "../types/job";
+
+export interface JobSearchFilters {
+  keyword?: string;
+  location?: string;
+  category?: string;
+  salaryMin?: number | null;
+  salaryMax?: number | null;
+}
 
 interface JobsState {
   jobs: Job[];
@@ -9,21 +17,38 @@ interface JobsState {
   isLoading: boolean;
   error: string | null;
 
-  fetchJobs: (page: number) => Promise<void>;
+  filters: JobSearchFilters;
+
+  fetchJobs: (page?: number) => Promise<void>;
+  setFilters: (filters: JobSearchFilters) => void;
+  clearFilters: () => void;
 }
 
-export const useJobsStore = create<JobsState>((set) => ({
+const defaultFilters: JobSearchFilters = {
+  keyword: "",
+  location: "",
+  category: "",
+  salaryMin: null,
+  salaryMax: null,
+};
+
+export const useJobsStore = create<JobsState>((set, get) => ({
   jobs: [],
   currentPage: 1,
   totalPages: 1,
   isLoading: false,
   error: null,
 
-  fetchJobs: async (page: number) => {
+  filters: defaultFilters,
+
+  // Fetch with page + filters
+  fetchJobs: async (page = 1) => {
     set({ isLoading: true, error: null });
 
     try {
-      const response = await jobService.getJobs(page);
+      const filters = get().filters;
+
+      const response = await jobService.getJobs(page, filters);
 
       set({
         jobs: response.jobs,
@@ -37,5 +62,20 @@ export const useJobsStore = create<JobsState>((set) => ({
         isLoading: false,
       });
     }
+  },
+
+  // Update filters
+  setFilters: (filters) => {
+    set({
+      filters: {
+        ...get().filters,
+        ...filters,
+      },
+    });
+  },
+
+  // Reset all filters to default
+  clearFilters: () => {
+    set({ filters: defaultFilters });
   },
 }));
