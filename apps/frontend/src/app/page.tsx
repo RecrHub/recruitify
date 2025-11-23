@@ -11,6 +11,7 @@ import { Section } from 'lucide-react';
 import HeroSection from '@/components/HeroSection';
 import { useRouter } from 'next/router';
 import { useUserStore } from '@/stores/useUserStore';
+import FeatureJob from '@/components/FeatureJob';
 
 const useStyles = createStyles(({ css, token }) => ({
   footer: css`
@@ -56,6 +57,7 @@ export default function Home() {
       }
     >
       <HeroSection />
+      <FeatureJob/>
     </Layout>
   );
 }
