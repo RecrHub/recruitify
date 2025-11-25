@@ -29,7 +29,7 @@ export const useStyles = createStyles(({ css, responsive, token }) => ({
   margin-right: calc(50% - 50vw) !important;
 
   height: 80px;
-  padding: 0 24px;
+  padding: 0 30px;
   background-color: ${rgba(token.colorBgLayout, 0.4)};
   border-bottom: var(--stroke-weight-1, 1px) solid #D9D9D9;
   ${responsive.mobile} {

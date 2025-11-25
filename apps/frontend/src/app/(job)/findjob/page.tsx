@@ -1,4 +1,4 @@
-import FindJobForm from '@/job/FindJobForm';
+import FindJobForm from '@/features/job/FindJobForm';
 
 export default function FindJobPage() {
   return <FindJobForm />;
