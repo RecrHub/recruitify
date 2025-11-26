@@ -2,7 +2,7 @@ import { createStyles } from "antd-style";
 
 export const useStyles = createStyles(({ css }) => ({
     jobCard: css`
-        width: 100%;  /* Thay vì 417px */
+        width: 100%;  
         padding: 23px;
         border-radius: 8px;
         border: 1px solid #CCC;
