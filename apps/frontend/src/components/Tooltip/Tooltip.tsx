@@ -10,7 +10,7 @@ import { useStyles } from './style';
 import type { TooltipProps } from './type';
 
 const Tooltip = memo<TooltipProps>(
-  ({ ref, hotkey, className, arrow = false, title, hotkeyProps, ...rest }) => {
+  ({ ref, hotkey, className, arrow = false, title, ...rest }) => {
     const { styles, cx } = useStyles();
 
     return (
