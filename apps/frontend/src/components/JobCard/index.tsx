@@ -6,7 +6,6 @@ import { useStyles } from './style';
 import { JobCardProps } from "./type";
 const JobCard = ({ title, company, salary, location, workTime, postedDate, icon = "📱" }: JobCardProps) => {
     const { styles } = useStyles();
-
     return (
         <div className={styles.jobCard}>
             <div className={styles.bookmarkIcon}>
