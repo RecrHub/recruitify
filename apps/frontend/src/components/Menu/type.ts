@@ -4,7 +4,7 @@ import type {
   MenuItemGroupType as RcMenuItemGroupType,
   MenuItemType as RcMenuItemType,
   SubMenuType as RcSubMenuType,
-} from 'rc-menu/es/interface';
+} from 'rc-menu/lib/interface';
 import type { Key, Ref } from 'react';
 
 import type { IconContentConfig, IconProps } from '@/components/Icon';
