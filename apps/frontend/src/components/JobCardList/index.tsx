@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import { createStyles } from 'antd-style';
 import { EnvironmentOutlined, ClockCircleOutlined, CalendarOutlined } from '@ant-design/icons';
 import BookMark from '@/access/icons/BookMarkOutline.svg';
 import Block from '../Block';
