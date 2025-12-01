@@ -24,6 +24,7 @@ const useStyles = createStyles(({ css, token }) => ({
     display: flex;
     flex-direction: column;
     width: 100%;
+    background: #FFF;
     min-height: 100dvh;
     @media (min-width: 576px) {
       overflow: hidden;

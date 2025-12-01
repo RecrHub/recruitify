@@ -12,18 +12,44 @@ import FeatureJob from '@/components/FeatureJob';
 import { useEffect, useState } from 'react';
 import BrandLoading from '@/components/brand/BrandLoading';
 import LogoRecr from '@/components/brand/RecruitifyText/index';
+import Footer, { FooterProps } from '@/components/Footer';
+import FeatureCompany from '@/components/FeatureCompany';
+import PricingSection from '@/components/PricingSection';
+import ExploreFAQ from '@/components/ExploreFAQ'
 
 const useStyles = createStyles(({ css, token }) => ({
   footer: css`
-    height: 36px;
+    width: 100%;
   `,
   main: css`
     height: 889px;
   `,
 }));
 
+const footerColumns: FooterProps['columns'] = [
+  {
+    title: 'Company',
+    items: [
+      { title: 'Features', url: '/features' },
+      { title: 'Pricing', url: '/pricing' },
+    ],
+  },
+  {
+    title: 'Resources',
+    items: [
+      { title: 'Insights', url: '/insights' },
+      { title: 'Review', url: '/review' },
+    ],
+  },
+  {
+    title: 'Legal',
+    items: [
+      { title: 'Testimonials', url: '/testimonials' },
+    ],
+  },
+];
+
 export default function Home() {
-  const { styles } = useStyles();
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 2000);
@@ -76,13 +102,17 @@ export default function Home() {
         </Flexbox>
       }
       footer={
-        <Flexbox align="center" justify="center" className={styles.footer}>
-          Đây Là Phần Footer
-        </Flexbox>
+          <Footer 
+          columns={footerColumns} 
+          bottom="© 2025 Recruitify, Inc. All rights reserved"
+        />
       }
     >
       <HeroSection />
       <FeatureJob/>
+      <FeatureCompany/>
+      <PricingSection/>
+      <ExploreFAQ/>
     </Layout>
   );
 }

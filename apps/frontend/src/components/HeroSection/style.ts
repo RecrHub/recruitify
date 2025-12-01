@@ -5,9 +5,8 @@ export const useStyles = createStyles(({ css, token, responsive }) => ({
     width: 100%;
     max-width: 1280px;
     margin: 0 auto;
-    padding-block: 160px;
+    padding-block: 96px;
     padding-inline: 24px;
-
     display: flex;
     justify-content: flex-start;
     align-items: center;
