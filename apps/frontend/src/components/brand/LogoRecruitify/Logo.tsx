@@ -11,7 +11,7 @@ export type LogoProps = {
   svgFirst?: boolean;
 };
 
-const Logo = forwardRef<HTMLDivElement, LogoProps>(
+const Logo = forwardRef<HTMLSpanElement, LogoProps>(
   ({ className, style, text = "Recruitify", svgFirst = true }, ref) => {
     const { styles, cx } = useStyles();
 
@@ -34,7 +34,7 @@ const Logo = forwardRef<HTMLDivElement, LogoProps>(
     );
 
     return (
-      <div ref={ref} className={cx(styles.logo, className)} style={style}>
+      <span ref={ref} className={cx(styles.logo, className)} style={style}>
         {svgFirst ? (
           <>
             {svg}
@@ -46,11 +46,10 @@ const Logo = forwardRef<HTMLDivElement, LogoProps>(
             {svg}
           </>
         )}
-      </div>
+      </span>
     );
   }
 );
-
 Logo.displayName = "Logo";
 
 export default Logo;
