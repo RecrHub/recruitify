@@ -17,4 +17,4 @@ const AntdV5MonkeyPatch = () => {
   return null;
 };
 
-export default AntdV5MonkeyPatch;
+export default AntdV5MonkeyPatch;``

@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +26,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,12 +34,14 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/v1/jobs")
 @Tag(name = "Job", description = "Job management endpoints")
+@Slf4j
 public class JobController {
     private final JobService jobService;
 
     public JobController(JobService jobService) {
         this.jobService = jobService;
     }
+
     @Operation(
             summary = "Get all jobs",
             description = "Retrieve a paginated list of all jobs with their details including company, location, skills, etc."
@@ -64,13 +68,30 @@ public class JobController {
     })
     @GetMapping
     public ResponseEntity<ResultPaginationResponse> getAllJobs(
-            @Parameter(description = "Page number", example = "0")
+            @RequestParam(required = false) String keyword,
+            @RequestParam(required = false) Long categoryId,
+            @RequestParam(required = false) BigDecimal minSalary,
+            @RequestParam(required = false) BigDecimal maxSalary,
             @RequestParam(defaultValue = "0") int page,
-
-            @Parameter(description = "Number of items per page", example = "10")
-            @RequestParam(defaultValue = "10") int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        ResultPaginationResponse response = jobService.fetchAllJob(pageable);
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "createdAt") String sortBy,
+            @RequestParam(defaultValue = "desc") String sortDirection) {
+        log.info("GET /api/v1/jobs - keyword: {}, categoryId: {},minSalary: {}, maxSalary: {}, page: {}, size: {}",
+                keyword, categoryId, minSalary, maxSalary, page, size);
+        Sort sort;
+        if (sortDirection.equalsIgnoreCase("asc")) {
+            sort = Sort.by(sortBy).ascending();
+        } else {
+            sort = Sort.by(sortBy).descending();
+        }
+        Pageable pageable = PageRequest.of(page, size, sort);
+        ResultPaginationResponse response = jobService.fetchAllJob(
+                keyword,
+                categoryId,
+                minSalary,
+                maxSalary,
+                pageable
+        );
 
         return ResponseEntity.ok(response);
     }

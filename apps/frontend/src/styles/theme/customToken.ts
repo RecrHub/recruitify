@@ -5,7 +5,7 @@ import { mix } from 'polished';
 
 import { colorScales } from '@/components/color/colors';
 import type { ColorScaleItem } from "@/components/color/types";
-import type { RecrCustomToken } from "@/types/customToken";
+import type { LobeCustomToken } from "@/types/customToken";
 
 const generateColorPalette = ({
   name,
@@ -64,7 +64,7 @@ const generateCustomColorPalette = ({
   };
 };
 
-export const generateCustomToken: GetCustomToken<RecrCustomToken> = ({ isDarkMode, token }) => {
+export const generateCustomToken: GetCustomToken<LobeCustomToken> = ({ isDarkMode, token }) => {
   let colorCustomToken: any = {};
 
   for (const [type, scale] of Object.entries(colorScales)) {
