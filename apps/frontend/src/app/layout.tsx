@@ -12,6 +12,7 @@ import GlobalLayout from "@/layout/GlobalProvider";
 import { createStyles } from "antd-style";
 import BrandLoading from "@/components/brand/BrandLoading";
 import LogoRecr from "@/components/brand/RecruitifyText/index";
+import Link from "next/link";
 
 const useStyles = createStyles(({ css, token }) => ({
   footer: css`
@@ -34,26 +35,24 @@ const useStyles = createStyles(({ css, token }) => ({
   `,
 }));
 
-const footerColumns: FooterProps['columns'] = [
+const footerColumns: FooterProps["columns"] = [
   {
-    title: 'Company',
+    title: "Company",
     items: [
-      { title: 'Features', url: '/features' },
-      { title: 'Pricing', url: '/pricing' },
+      { title: "Features", url: "/features" },
+      { title: "Pricing", url: "/pricing" },
     ],
   },
   {
-    title: 'Resources',
+    title: "Resources",
     items: [
-      { title: 'Insights', url: '/insights' },
-      { title: 'Review', url: '/review' },
+      { title: "Insights", url: "/insights" },
+      { title: "Review", url: "/review" },
     ],
   },
   {
-    title: 'Legal',
-    items: [
-      { title: 'Testimonials', url: '/testimonials' },
-    ],
+    title: "Legal",
+    items: [{ title: "Testimonials", url: "/testimonials" }],
   },
 ];
 
@@ -67,7 +66,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
   const pathname = usePathname();
 
   // Danh sách các routes không cần Header/Footer
-  const authRoutes = ['/login', '/register', '/forgetpassword'];
+  const authRoutes = ["/login", "/register", "/forgetpassword"];
   const isAuthRoute = authRoutes.includes(pathname);
 
   useEffect(() => {
@@ -78,14 +77,15 @@ export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html dir="ltr" suppressHydrationWarning>
       <body>
-        <Suspense fallback={
-          <div className={styles.loadingWrapper}>
-            <BrandLoading text={LogoRecr} size={100} />
-          </div>
-        }>
+        <Suspense
+          fallback={
+            <div className={styles.loadingWrapper}>
+              <BrandLoading text={LogoRecr} size={100} />
+            </div>
+          }
+        >
           <AuthProvider>
             <GlobalLayout appearance="light">
-              
               {/* LOADING SCREEN */}
               {loading && (
                 <div className={styles.loadingWrapper}>
@@ -97,7 +97,11 @@ export default function RootLayout({ children }: RootLayoutProps) {
               {!isAuthRoute && (
                 <Header
                   actions={<Actions />}
-                  logo={<Logo />}
+                  logo={
+                    <Link href="/">
+                      <Logo />
+                    </Link>
+                  }
                   nav={
                     <Tabs
                       items={[
@@ -111,9 +115,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
               )}
 
               {/* MAIN CONTENT */}
-              <main className={styles.main}>
-                {children}
-              </main>
+              <main className={styles.main}>{children}</main>
 
               {/* FOOTER - Ẩn trên auth routes */}
               {!isAuthRoute && (
@@ -123,7 +125,6 @@ export default function RootLayout({ children }: RootLayoutProps) {
                   bottom="© 2025 Recruitify, Inc. All rights reserved"
                 />
               )}
-
             </GlobalLayout>
           </AuthProvider>
         </Suspense>
