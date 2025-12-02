@@ -1,37 +1,40 @@
+'use client';
+
 import { ReactNode } from "react";
 import StyleRegistry from "@/layout/GlobalProvider/StyleRegistry";
 import AppTheme from "./AppTheme";
 import { appEnv } from "@/envs/app";
 import AntdV5MonkeyPatch from "./AntdV5MonkeyPatch";
+
 interface GlobalLayoutProps {
-  children: ReactNode; // nội dung chính của layout
+  children: ReactNode;
   appearance: string;
-  // locale: string; // ngôn ngữ có thể update về sau anh / việt
-  neutralColor?: string;  //theme màu
-  primaryColor?: string; // màu chính
-  variants?: string; // phân nhánh a/b testing hoặc segment
+  neutralColor?: string;
+  primaryColor?: string;
+  variants?: string;
 }
-const GlobalLayout = async ({
+
+const GlobalLayout = ({
   children,
   neutralColor,
   primaryColor,
   appearance,
   variants,
 }: GlobalLayoutProps) => {
-  return(
-  <StyleRegistry>
-    <AppTheme
-      customFontFamily={appEnv.CUSTOM_FONT_FAMILY}
-      customFontURL={appEnv.CUSTOM_FONT_URL}
-      defaultAppearance={appearance}
-      defaultNeutralColor={neutralColor as any}
-      defaultPrimaryColor={primaryColor as any}
-      globalCDN={appEnv.CDN_USE_GLOBAL}
-    >
-      {children}
-    </AppTheme>
-    <AntdV5MonkeyPatch />
-  </StyleRegistry>
+  return (
+    <StyleRegistry>
+      <AppTheme
+        customFontFamily={appEnv.NEXT_PUBLIC_CUSTOM_FONT_FAMILY}
+        customFontURL={appEnv.NEXT_PUBLIC_CUSTOM_FONT_URL}
+        defaultAppearance={appearance}
+        defaultNeutralColor={neutralColor as any}
+        defaultPrimaryColor={primaryColor as any}
+        globalCDN={appEnv.NEXT_PUBLIC_CDN_USE_GLOBAL}
+      >
+        {children}
+      </AppTheme>
+      <AntdV5MonkeyPatch />
+    </StyleRegistry>
   );
 }
 

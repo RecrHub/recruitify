@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import { Pagination, Breadcrumb } from 'antd';
 import JobFilterForm from '@/components/FilterForm/index';
 import type { JobFilters } from '@/components/FilterForm/index';
@@ -13,7 +13,6 @@ import { useStyles } from './styles';
 
 const FindJobForm = () => {
     const { styles } = useStyles();
-
     // State management
     const [allJobs] = useState(generateMockJobs(50)); // Generate 50 jobs
     const [filteredJobs, setFilteredJobs] = useState(allJobs);
@@ -181,6 +180,9 @@ const FindJobForm = () => {
                         <Grid width="100%" gap={17} rows={1} maxItemWidth={200}>
                             {displayedJobs.map((job) => (
                                 <JobCardList
+                                    key={job.id}  // Thêm dòng này
+                                    // job={job}
+                                // ... các props khác nếu có
                                 />
                             ))}
                         </Grid>
