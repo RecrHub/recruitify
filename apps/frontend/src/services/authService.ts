@@ -14,7 +14,7 @@ const getApiBaseUrl = () => {
   const envBaseUrl = process.env.NEXT_PUBLIC_API_URL;
   return envBaseUrl || "http://13.212.149.244:8080";
 };
-
+//thay doi api
 // Create a separate instance to avoid circular dependency with api.ts
 const authAxios = axios.create({
   baseURL: getApiBaseUrl(),
