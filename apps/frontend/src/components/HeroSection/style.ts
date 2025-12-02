@@ -2,14 +2,18 @@ import { createStyles } from "antd-style";
 
 export const useStyles = createStyles(({ css, token, responsive }) => ({
   heroWrapper: css`
+    position: relative; 
+    z-index: 1;
     width: 100%;
     max-width: 1280px;
     margin: 0 auto;
-    padding-block: 96px;
+    padding-block: 137px;
     padding-inline: 24px;
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    z-index: 1;
+     justify-content: space-between;
 
     ${responsive.tablet} {
       padding-block: 120px;
@@ -21,9 +25,40 @@ export const useStyles = createStyles(({ css, token, responsive }) => ({
       padding-inline: 16px;
     }
   `,
+  imgHero: css`
+  fill: #B3B3B3;
+  opacity: 0.75;
+  margin-left: auto;
+  width: 987px;
+  position: absolute;
+  right: 0;   
+  top: 200px;    
+  z-index: 0;   
+  `,
+  gruopImage: css`
+  opacity: var(--opacity-100, 1);
+  `,
+  gruopImageFirt: css`
+  margin-left: auto;
+  width: 280px;
+  position: absolute;
+  right: 0;   
+  top: 20px;    
+  z-index: 0;   
+  `,
+  gruopImageSecond: css`
+  margin-left: auto;
+  width: 170px;
+  transform: rotate(-20deg);
+  position: absolute;
+  right: 0;   
+  top: 25px;    
+  z-index: 0;   
+  `,
 
   container: css`
     display: flex;
+    z-index: 10;
     flex-direction: column;
     align-items: flex-start;
     gap: 24px;
@@ -89,6 +124,30 @@ export const useStyles = createStyles(({ css, token, responsive }) => ({
       flex-direction: column;
     }
   `,
+
+  selectCustom: css`
+  width: 100%;
+  height: 25px;
+  .ant-select-selector {
+    padding: 0 !important;
+    height: auto !important;
+  }
+  
+  .ant-select-selection-search {
+       padding: 0 !important;
+    height: auto !important;
+  }
+  
+  .ant-select-selection-placeholder,
+  .ant-select-selection-item {
+    padding: 0 !important;
+    line-height: 24px;
+  }
+  .ant-select-arrow {
+    font-size: 15px;
+  transform: translateX(50px); /* Dịch sang trái 50px */
+  }
+`,
 
   input: css`
     padding: 0;

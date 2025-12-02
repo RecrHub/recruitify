@@ -1,19 +1,31 @@
 "use client";
 
 import { Flexbox } from "react-layout-kit";
-import { Input, Button, Card } from "antd";
+import { Input, Button, Card, Select } from "antd";
 import { SearchOutlined, EnvironmentOutlined } from "@ant-design/icons";
 import UserIcon from "@/access/icons/users-duotone 1.svg";
 import JobIcon from "@/access/icons/briefcase-duotone1.svg";
 import BuildingTown from "@/access/icons/buildings-duotone1.svg";
 import { useStyles } from "./style";
-
-
+import HeroImg from "@/access/icons/HeroSection.svg"
+import GruopImageFirt from "@/access/icons/GruopImageFirts.svg"
+import GruopImageSecond from "@/access/icons/GroupSecond.svg"
 export default function HeroContainer() {
   const { styles } = useStyles();
 
   return (
     <div className={styles.heroWrapper}>
+      <div className={styles.imgHero}>
+        <HeroImg />
+      </div>
+      <div className={styles.gruopImage}>
+        <div className={styles.gruopImageFirt}>
+          <GruopImageFirt />
+        </div>
+        <div className={styles.gruopImageSecond}>
+          <GruopImageSecond />
+        </div>
+      </div>
       <Flexbox className={styles.container}>
         <h1>
           Discover the Best Jobs <br /> to Build Your Career
@@ -40,10 +52,13 @@ export default function HeroContainer() {
 
             <div className={styles.inputWrapper}>
               <EnvironmentOutlined style={{ fontSize: 24, color: "#9ca3af" }} />
-              <Input
+              <Select
                 placeholder="Your Location"
-                className={styles.input}
+                className={styles.selectCustom}
                 variant="borderless"
+                showSearch
+                allowClear
+                style={{ width: "100%" }}
               />
             </div>
           </div>

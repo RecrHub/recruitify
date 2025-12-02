@@ -6,8 +6,8 @@ const useStyles = createStyles(({ css, responsive }) => ({
     width: 100%;
     max-width: 1280px;
     margin: 0 auto;
-    padding-block: 160px;
-    padding-inline: 96px;
+    padding-block: 96x;
+    padding-inline: 24px;
 
     ${responsive.tablet} {
       padding-block: 120px;
@@ -76,7 +76,7 @@ const useStyles = createStyles(({ css, responsive }) => ({
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 12px;
-    width: 100%;
+    width: 1200px;
 
     ${responsive.tablet} {
       grid-template-columns: repeat(2, 1fr);
