@@ -7,12 +7,13 @@ import UserIcon from "@/access/icons/users-duotone 1.svg";
 import JobIcon from "@/access/icons/briefcase-duotone1.svg";
 import BuildingTown from "@/access/icons/buildings-duotone1.svg";
 import { useStyles } from "./style";
-import HeroImg from "@/access/icons/HeroSection.svg"
-import GruopImageFirt from "@/access/icons/GruopImageFirts.svg"
-import GruopImageSecond from "@/access/icons/GroupSecond.svg"
+import HeroImg from "@/access/icons/HeroSection.svg";
+import GruopImageFirt from "@/access/icons/GruopImageFirts.svg";
+import GruopImageSecond from "@/access/icons/GroupSecond.svg";
+import { useRouter } from "next/navigation";
 export default function HeroContainer() {
   const { styles } = useStyles();
-
+  const router = useRouter();
   return (
     <div className={styles.heroWrapper}>
       <div className={styles.imgHero}>
@@ -63,7 +64,11 @@ export default function HeroContainer() {
             </div>
           </div>
 
-          <Button type="primary" className={styles.button}>
+          <Button
+            type="primary"
+            className={styles.button}
+            onClick={() => router.push("/findjob")}
+          >
             Find Job
           </Button>
         </div>
