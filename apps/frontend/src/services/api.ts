@@ -6,7 +6,7 @@ import { useUserStore } from '@/stores/useUserStore';
 // More robust way to get API base URL
 const getApiBaseUrl = () => {
   const envBaseUrl = process.env.NEXT_PUBLIC_API_URL;
-  return envBaseUrl || 'http://localhost:8080';
+  return envBaseUrl || "http://13.212.149.244:8080";
 };
 
 const BASE_URL = getApiBaseUrl();
