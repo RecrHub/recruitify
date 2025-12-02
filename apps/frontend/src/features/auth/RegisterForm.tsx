@@ -20,7 +20,7 @@ import { ArrowRight, ChevronLeft } from "lucide-react";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 import * as yup from "yup";
 import { useAuth } from "@/context/AuthContext";
-import { RegisterRequest } from "@/types/auth";
+import { RegisterRequest } from "@shared/auth";
 import { STATS_DATA, statsIcons } from "@/const/register.const";
 const { Title, Text, Link } = Typography;
 
@@ -814,7 +814,7 @@ function Register() {
                   href="/login"
                   style={{ fontWeight: 500, color: "#18191c" }}
                 >
-                  Log In
+                  Sign In
                 </Link>
               </Text>
 

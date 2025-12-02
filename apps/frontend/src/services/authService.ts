@@ -1,11 +1,13 @@
 import axios from "axios";
-import {
+import type {
   JwtResponse,
   RegisterRequest,
   MessageResponse,
   RefreshTokenRequest,
+  User,
   LoginRequest,
-} from "@/types/auth";
+} from "@shared/auth";
+import { useUserStore } from "@/stores/useUserStore";
 
 // Get the base URL from environment or use default
 const getApiBaseUrl = () => {
@@ -32,12 +34,20 @@ const authService = {
         "/api/v1/auth/login",
         loginRequest
       );
+      const { id, email: userEmail, role, accessToken, refreshToken, tokenType } = response.data;
+
+      const user = {
+        id,
+        email: userEmail,
+        role,
+      };
+
+      useUserStore.getState().setAuth(user, accessToken, refreshToken, tokenType);
       return response.data;
     } catch (error: any) {
       // Extract error message from response for display
       if (error.response?.data) {
         const errorData = error.response.data;
-
         // Check if there are detailed error information
         if (errorData.details) {
           throw new Error(errorData.details);
@@ -86,6 +96,15 @@ const authService = {
         "/api/auth/refresh",
         request
       );
+      const { id, email, role, accessToken, refreshToken: newRefreshToken, tokenType } = response.data;
+
+      const user = {
+        id,
+        email,
+        role,
+      };
+
+      useUserStore.getState().setAuth(user, accessToken, newRefreshToken, tokenType);
       return response.data;
     } catch (error) {
       console.error("Token refresh failed:", error);

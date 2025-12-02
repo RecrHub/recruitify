@@ -1,6 +1,7 @@
 import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
 import authService from './authService';
-import { ApiError } from '@/types/auth';
+import { ApiError } from '@shared/auth';
+import { useUserStore } from '@/stores/useUserStore';
 
 // More robust way to get API base URL
 const getApiBaseUrl = () => {
@@ -46,17 +47,17 @@ const processQueue = (error: Error | null, token: string | null = null) => {
       promise.resolve(token);
     }
   });
-  
+
   failedQueue = [];
 };
 
 // Request interceptor to add auth token
 api.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
-    const userStr = localStorage.getItem('user');
-    if (userStr) {
+    const accessToken = useUserStore.getState().accessToken;
+    if (accessToken) {
       try {
-        const userData = JSON.parse(userStr);
+        const userData = JSON.parse(accessToken);
         if (userData?.accessToken) {
           config.headers.Authorization = `Bearer ${userData.accessToken}`;
         }
@@ -77,17 +78,14 @@ api.interceptors.response.use(
   async (error: AxiosError) => {
     const originalRequest = error.config;
     
-    // Handle both 401 and 403 errors for token expiration
     if (!originalRequest || 
         (error.response?.status !== 401 && error.response?.status !== 403) || 
         (originalRequest as any)._retry) {
       return Promise.reject(new Error(formatApiError(error).message));
     }
 
-    // Mark this request as retried to avoid infinite loops
     (originalRequest as any)._retry = true;
 
-    // If already refreshing, add to queue
     if (isRefreshing) {
       return new Promise((resolve, reject) => {
         failedQueue.push({ resolve, reject });
@@ -101,44 +99,38 @@ api.interceptors.response.use(
         });
     }
 
-    // Start refreshing
     isRefreshing = true;
 
     try {
-      // Get refresh token from storage
-      const userStr = localStorage.getItem('user');
-      if (!userStr) {
-        throw new Error('No user data available');
-      }
-
-      const userData = JSON.parse(userStr);
-      if (!userData.refreshToken) {
+      // Lấy refreshToken từ Zustand store
+      const refreshToken = useUserStore.getState().refreshToken;
+      
+      if (!refreshToken) {
         throw new Error('No refresh token available');
       }
 
-      // Attempt to refresh token
-      const response = await authService.refreshToken(userData.refreshToken);
+      // Gọi API refresh token
+      const response = await authService.refreshToken(refreshToken);
       
-      // Store the new tokens
-      userData.accessToken = response.accessToken;
-      userData.refreshToken = response.refreshToken;
-      localStorage.setItem('user', JSON.stringify(userData));
+      //Cập nhật tokens vào Zustand store
+      useUserStore.getState().updateTokens(
+        response.accessToken,
+        response.refreshToken
+      );
       
-      // Update request authorization header
+      // Update request với token mới
       originalRequest.headers.Authorization = `Bearer ${response.accessToken}`;
       
-      // Process any other requests that failed while refreshing
       processQueue(null, response.accessToken);
       
-      // Retry the original request
       return axios(originalRequest);
       
     } catch (refreshError) {
-      // Refresh token failed - could be expired too, log user out
+      // Logout thông qua Zustand store
       processQueue(refreshError as Error, null);
-      localStorage.removeItem('user');
+      useUserStore.getState().logout();
       
-      // Redirect to login only if in browser environment
+      // Redirect to login
       if (typeof window !== 'undefined') {
         window.location.href = '/login?session=expired';
       }
@@ -156,10 +148,10 @@ function formatApiError(error: unknown): ApiError {
     message: 'An unknown error occurred',
     status: 500
   };
-  
+
   if (axios.isAxiosError(error)) {
     apiError.status = error.response?.status ?? 500;
-    
+
     if (error.response?.data) {
       const errorData = error.response?.data as { message?: string; error?: string; timestamp?: string; path?: string; details?: string };
       apiError.message = errorData.message ?? errorData.error ?? error.message;
@@ -169,7 +161,7 @@ function formatApiError(error: unknown): ApiError {
     } else {
       apiError.message = error.message;
     }
-    
+
     // Add request metadata
     if (error.config?.url) {
       apiError.path = error.config.url;
@@ -179,7 +171,7 @@ function formatApiError(error: unknown): ApiError {
   } else if (typeof error === 'string') {
     apiError.message = error;
   }
-  
+
   return apiError;
 }
 

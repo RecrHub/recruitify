@@ -21,6 +21,7 @@ import { STATS_DATA, statsIcons } from "@/const/register.const";
 import { ArrowRight, ChevronLeft,} from "lucide-react";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons"; 
 import Link from "next/link";
+import authService from "@/services/authService";
 const { Title, Text } = Typography;
 
 const LoginSchema = yup.object().shape({
@@ -649,8 +650,7 @@ export default function LoginForm() {
       setApiError(null);
       setLoginSuccess(false);
       setIsSubmitting(true);
-
-      await login(values.email, values.password);
+      await authService.login(values.email, values.password);
 
       setLoginSuccess(true);
       message.success("Đăng nhập thành công! Chào mừng bạn trở lại.");
@@ -780,7 +780,7 @@ export default function LoginForm() {
                   />
                 </Form.Item>
                   <Link
-                  href="/"
+                  href="/forgetpassword"
                   style={{ fontWeight: 500, color: "#726e6eff" }}
                 >
                   Forget Password

@@ -14,7 +14,7 @@ import { useCdnFn } from "@/components/ConfigProvider";
 import FontLoader from "@/components/FontLoader";
 import { lobeCustomStylish, lobeCustomToken } from "@/styles";
 import { createLobeAntdTheme } from "@/styles/theme/antdTheme";
-import { RecrCustomToken } from "@/types/customToken";
+import { LobeCustomToken } from "@/types/customToken";
 
 import GlobalStyle from "./GlobalStyle";
 import type { ThemeProviderProps } from "./type";
@@ -87,7 +87,7 @@ const ThemeProvider = memo<ThemeProviderProps>(
           webfontUrls.map((webfont) => (
             <FontLoader key={webfont} url={webfont} />
           ))}
-        <AntdThemeProvider<RecrCustomToken>
+        <AntdThemeProvider<LobeCustomToken>
           customStylish={stylish}
           customToken={token}
           theme={theme}

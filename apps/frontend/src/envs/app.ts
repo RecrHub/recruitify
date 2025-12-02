@@ -36,6 +36,10 @@ export const getAppConfig = () => {
   return createEnv({
     client: {
       NEXT_PUBLIC_ENABLE_SENTRY: z.boolean(),
+      // ✅ Chuyển 3 biến này sang client schema
+      NEXT_PUBLIC_CDN_USE_GLOBAL: z.boolean().optional(),
+      NEXT_PUBLIC_CUSTOM_FONT_FAMILY: z.string().optional(),
+      NEXT_PUBLIC_CUSTOM_FONT_URL: z.string().optional(),
     },
     server: {
       ACCESS_CODES: z.array(z.string()).optional(),
@@ -53,10 +57,6 @@ export const getAppConfig = () => {
       MIDDLEWARE_REWRITE_THROUGH_LOCAL: z.boolean().optional(),
       ENABLE_AUTH_PROTECTION: z.boolean().optional(),
 
-      CDN_USE_GLOBAL: z.boolean().optional(),
-      CUSTOM_FONT_FAMILY: z.string().optional(),
-      CUSTOM_FONT_URL: z.string().optional(),
-
       SSRF_ALLOW_PRIVATE_IP_ADDRESS: z.boolean().optional(),
       SSRF_ALLOW_IP_ADDRESS_LIST: z.string().optional(),
       MARKET_BASE_URL: z.string().optional(),
@@ -64,6 +64,11 @@ export const getAppConfig = () => {
     runtimeEnv: {
       // Sentry
       NEXT_PUBLIC_ENABLE_SENTRY: !!process.env.NEXT_PUBLIC_SENTRY_DSN,
+
+      // ✅ Client-side theme variables
+      NEXT_PUBLIC_CUSTOM_FONT_FAMILY: process.env.NEXT_PUBLIC_CUSTOM_FONT_FAMILY,
+      NEXT_PUBLIC_CUSTOM_FONT_URL: process.env.NEXT_PUBLIC_CUSTOM_FONT_URL,
+      NEXT_PUBLIC_CDN_USE_GLOBAL: process.env.NEXT_PUBLIC_CDN_USE_GLOBAL === '1',
 
       ACCESS_CODES: ACCESS_CODES as any,
 
@@ -86,10 +91,6 @@ export const getAppConfig = () => {
       INTERNAL_APP_URL,
       MIDDLEWARE_REWRITE_THROUGH_LOCAL: process.env.MIDDLEWARE_REWRITE_THROUGH_LOCAL === '1',
       ENABLE_AUTH_PROTECTION: process.env.ENABLE_AUTH_PROTECTION === '1',
-
-      CUSTOM_FONT_FAMILY: process.env.CUSTOM_FONT_FAMILY,
-      CUSTOM_FONT_URL: process.env.CUSTOM_FONT_URL,
-      CDN_USE_GLOBAL: process.env.CDN_USE_GLOBAL === '1',
 
       SSRF_ALLOW_PRIVATE_IP_ADDRESS: process.env.SSRF_ALLOW_PRIVATE_IP_ADDRESS === '1',
       SSRF_ALLOW_IP_ADDRESS_LIST: process.env.SSRF_ALLOW_IP_ADDRESS_LIST,
