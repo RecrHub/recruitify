@@ -66,7 +66,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
   const pathname = usePathname();
 
   // Danh sách các routes không cần Header/Footer
-  const authRoutes = ["/login", "/register", "/forgetpassword"];
+  const authRoutes = ["/login", "/signup", "/forget-password", "/reset-password"];
   const isAuthRoute = authRoutes.includes(pathname);
 
   useEffect(() => {
