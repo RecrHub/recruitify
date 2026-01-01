@@ -36,7 +36,6 @@ export const getAppConfig = () => {
   return createEnv({
     client: {
       NEXT_PUBLIC_ENABLE_SENTRY: z.boolean(),
-      // ✅ Chuyển 3 biến này sang client schema
       NEXT_PUBLIC_CDN_USE_GLOBAL: z.boolean().optional(),
       NEXT_PUBLIC_CUSTOM_FONT_FAMILY: z.string().optional(),
       NEXT_PUBLIC_CUSTOM_FONT_URL: z.string().optional(),

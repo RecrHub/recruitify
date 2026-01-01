@@ -9,10 +9,10 @@ import JobCardList from '@/components/JobCardList';
 import { generateMockJobs } from '@/components/JobCardList/mockdata';
 import type { Job } from '@/components/JobCardList/type';
 import Grid from '@/components/Grid';
-import { useStyles } from '../../app/(job)/find-job/styles';
+import { useStyles } from './styles';
 
 const FindJobForm = () => {
-    const { styles } = useStyles();
+    const { styles, cx } = useStyles();
     // State management
     const [allJobs] = useState(generateMockJobs(50)); // Generate 50 jobs
     const [filteredJobs, setFilteredJobs] = useState(allJobs);
@@ -132,7 +132,7 @@ const FindJobForm = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
     return (
-        <div className={styles.findJobContainer}>
+        <div className={cx(styles.findJobContainer)}>
             {/* Header Bottom */}
             <div className={styles.headerBottom}>
                 <div className={styles.headerBottomInner}>
