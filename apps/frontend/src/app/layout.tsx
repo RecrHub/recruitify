@@ -1,154 +1,57 @@
-"use client";
-
-import { useState, useEffect, Suspense } from "react";
-import { usePathname } from "next/navigation";
-import Header from "@/components/Header";
-import Footer, { FooterProps } from "@/components/Footer";
-import Tabs from "@/components/Tabs";
-import Actions from "@/components/NavAction";
-import Logo from "@/components/brand/LogoRecruitify/Logo";
+import type { Metadata } from "next";
+import { SpeedInsights } from '@vercel/speed-insights/next';
+import { generateMetadata } from "./metadata";
+import GlobalProvider from "@/layout/GlobalProvider";
 import { AuthProvider } from "@/context/AuthContext";
-import GlobalLayout from "@/layout/GlobalProvider";
-import { createStyles } from "antd-style";
-import BrandLoading from "@/components/brand/BrandLoading";
-import LogoRecr from "@/components/brand/RecruitifyText/index";
-import Link from "next/link";
-import { Metadata } from "next";
-
-
-export const metadata: Metadata = {
-  title: "Recruitify",
-  description: "Recruitify is a platform that helps employers find the best candidates for their jobs",
-  icons: {
-    icon: [
-      {
-        media: '(prefers-color-scheme: light)',
-        url: '/logo-white.png',
-        href: '/logo-white.png',
-      },
-      {
-        media: '(prefers-color-scheme: dark)',
-        url: '/logo-dark.png',
-        href: '/logo-dark.png',
-      },
-    ]
-  }
-};
-
-
-const useStyles = createStyles(({ css, token }) => ({
-  footer: css`
-    width: 100%;
-  `,
-  main: css`
-    min-height: 80vh;
-  `,
-  loadingWrapper: css`
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #fff;
-    z-index: 9999;
-  `,
-}));
-
-const footerColumns: FooterProps["columns"] = [
-  {
-    title: "Company",
-    items: [
-      { title: "Features", url: "/features" },
-      { title: "Pricing", url: "/pricing" },
-    ],
-  },
-  {
-    title: "Resources",
-    items: [
-      { title: "Insights", url: "/insights" },
-      { title: "Review", url: "/review" },
-    ],
-  },
-  {
-    title: "Legal",
-    items: [{ title: "Testimonials", url: "/testimonials" }],
-  },
-];
-
-interface RootLayoutProps {
-  children: React.ReactNode;
+import { ReactNode, Suspense } from "react";
+export const metadata: Metadata = await generateMetadata();
+const inVercel = process.env.VERCEL === '1';
+import { type DynamicLayoutProps } from '@/types/next';
+import Script from "next/script";
+export interface RootLayoutProps extends DynamicLayoutProps {
+  children: ReactNode;
 }
-
-export default function RootLayout({ children }: RootLayoutProps) {
-  const { styles } = useStyles();
-  const [loading, setLoading] = useState(true);
-  const pathname = usePathname();
-
-  // Danh sách các routes không cần Header/Footer
-  const authRoutes = ["/login", "/signup", "/forget-password", "/reset-password"];
-  const isAuthRoute = authRoutes.includes(pathname);
-
-  useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 2000);
-    return () => clearTimeout(timer);
-  }, []);
-
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const { locale, theme, primaryColor, neutralColor } =
+    RouteVariants.deserializeVariants(variants);
+  const direction = 'ltr';
+  const renderContent = () => {
+    return (
+      <GlobalProvider
+        appearance={theme}
+        neutralColor={neutralColor}
+        primaryColor={primaryColor}
+        variants={variants}
+      >
+        <AuthProvider>{children}</AuthProvider>
+        <Suspense fallback={null} />
+      </GlobalProvider>
+    );
+  };
   return (
-    <html dir="ltr" suppressHydrationWarning>
+    <html dir={direction} lang={locale}>
+      <head>
+        {process.env.DEBUG_REACT_SCAN === '1' && (
+          <Script
+            crossOrigin="anonymous"
+            src="https://unpkg.com/react-scan/dist/auto.global.js"
+            strategy="lazyOnload"
+          />
+        )}
+      </head>
+
       <body>
-        <Suspense
-          fallback={
-            <div className={styles.loadingWrapper}>
-              <BrandLoading text={LogoRecr} size={50} />
-            </div>
-          }
-        >
-          <AuthProvider>
-            <GlobalLayout appearance="light">
-              {/* LOADING SCREEN */}
-              {loading && (
-                <div className={styles.loadingWrapper}>
-                  <BrandLoading text={LogoRecr} size={50} />
-                </div>
-              )}
-
-              {/* HEADER - Ẩn trên auth routes */}
-              {!isAuthRoute && (
-                <Header
-                  actions={<Actions />}
-                  logo={
-                    <Link href="/">
-                      <Logo />
-                    </Link>
-                  }
-                  nav={
-                    <Tabs
-                      items={[
-                        { key: "home", label: "Favourite Jobs" },
-                        { key: "jobs", label: "Applied Jobs" },
-                        { key: "companies", label: "Job History" },
-                      ]}
-                    />
-                  }
-                />
-              )}
-
-              {/* MAIN CONTENT */}
-              <main className={styles.main}>{children}</main>
-
-              {/* FOOTER - Ẩn trên auth routes */}
-              {!isAuthRoute && (
-                <Footer
-                  className={styles.footer}
-                  columns={footerColumns}
-                  bottom="© 2025 Recruitify, Inc. All rights reserved"
-                />
-              )}
-            </GlobalLayout>
-          </AuthProvider>
+        {/* {ENABLE_BUSINESS_FEATURES ? (
+          <BusinessGlobalProvider>{renderContent()}</BusinessGlobalProvider>
+        ) : (
+          renderContent()
+        )} */}
+        <Suspense fallback={null}>
+          {inVercel && <SpeedInsights />}
         </Suspense>
       </body>
     </html>
