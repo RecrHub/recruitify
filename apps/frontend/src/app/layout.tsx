@@ -15,27 +15,6 @@ import LogoRecr from "@/components/brand/RecruitifyText/index";
 import Link from "next/link";
 import { Metadata } from "next";
 
-
-export const metadata: Metadata = {
-  title: "Recruitify",
-  description: "Recruitify is a platform that helps employers find the best candidates for their jobs",
-  icons: {
-    icon: [
-      {
-        media: '(prefers-color-scheme: light)',
-        url: '/logo-white.png',
-        href: '/logo-white.png',
-      },
-      {
-        media: '(prefers-color-scheme: dark)',
-        url: '/logo-dark.png',
-        href: '/logo-dark.png',
-      },
-    ]
-  }
-};
-
-
 const useStyles = createStyles(({ css, token }) => ({
   footer: css`
     width: 100%;

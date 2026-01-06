@@ -1,11 +1,10 @@
-package com.recruitify.userservices.model;
+package com.recruitify.authservice.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import jakarta.persistence.Id;
 
 import java.time.Instant;
 

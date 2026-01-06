@@ -1,4 +1,4 @@
-package com.recruitify.userservices.dtos.Request;
+package com.recruitify.authservice.dtos.Request;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;

@@ -1,4 +1,4 @@
-package com.recruitify.model;
+package com.recruitify.jobservice.model;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;

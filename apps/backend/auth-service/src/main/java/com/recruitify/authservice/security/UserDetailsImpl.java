@@ -1,6 +1,6 @@
-package com.recruitify.userservices.security;
+package com.recruitify.authservice.security;
 
-import com.recruitify.userservices.model.User;
+import com.recruitify.authservice.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

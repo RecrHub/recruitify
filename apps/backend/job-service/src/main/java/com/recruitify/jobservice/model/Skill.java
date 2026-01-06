@@ -1,6 +1,4 @@
-package com.recruitify.model;
-
-import lombok.NoArgsConstructor;
+package com.recruitify.jobservice.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -9,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.Instant;
-import java.util.List;
 import java.util.Set;
 
 @Entity

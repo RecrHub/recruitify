@@ -1,4 +1,4 @@
-package com.recruitify.userservices.dtos.Response;
+package com.recruitify.authservice.dtos.Response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;

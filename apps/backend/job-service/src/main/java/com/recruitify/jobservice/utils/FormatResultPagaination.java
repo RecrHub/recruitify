@@ -1,10 +1,8 @@
-package com.recruitify.utils;
+package com.recruitify.jobservice.utils;
 
-import com.recruitify.dtos.Response.MetaResponse;
-import com.recruitify.dtos.Response.ResultPaginationResponse;
-
+import com.recruitify.jobservice.dtos.Response.MetaResponse;
+import com.recruitify.jobservice.dtos.Response.ResultPaginationResponse;
 import org.springframework.data.domain.Page;
-
 
 
 public class FormatResultPagaination {

@@ -1,4 +1,4 @@
-package com.recruitify.userservices.config;
+package com.recruitify.authservice.config;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

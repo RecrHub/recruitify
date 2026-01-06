@@ -1,7 +1,7 @@
-package com.recruitify.userservices.services;
+package com.recruitify.authservice.services;
 
-import com.recruitify.userservices.model.RefreshToken;
-import com.recruitify.userservices.model.User;
+import com.recruitify.authservice.model.RefreshToken;
+import com.recruitify.authservice.model.User;
 
 import java.util.List;
 import java.util.Optional;

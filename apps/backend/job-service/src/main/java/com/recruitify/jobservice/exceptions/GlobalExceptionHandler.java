@@ -1,4 +1,4 @@
-package com.recruitify.exceptions;
+package com.recruitify.jobservice.exceptions;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
@@ -8,8 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -33,27 +31,7 @@ public class GlobalExceptionHandler {
         private String path;
     }
 
-    @ExceptionHandler(TokenRefreshException.class)
-    @ResponseStatus(HttpStatus.FORBIDDEN)
-    public ErrorResponse handleTokenRefreshException(TokenRefreshException ex, HttpServletRequest request) {
-        log.error("Token refresh exception: {}", ex.getMessage());
-        return new ErrorResponse(
-                HttpStatus.FORBIDDEN.value(),
-                new Date(),
-                ex.getMessage(),
-                request.getRequestURI());
-    }
 
-    @ExceptionHandler(BadCredentialsException.class)
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public ErrorResponse handleBadCredentialsException(BadCredentialsException ex, HttpServletRequest request) {
-        log.error("Bad credentials: {}", ex.getMessage());
-        return new ErrorResponse(
-                HttpStatus.UNAUTHORIZED.value(),
-                new Date(),
-                "Invalid email or password",
-                request.getRequestURI());
-    }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -77,16 +55,7 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(UsernameNotFoundException.class)
-    @ResponseStatus(HttpStatus.UNAUTHORIZED) // Đổi từ NOT_FOUND sang UNAUTHORIZED vì lý do security
-    public ErrorResponse handleUsernameNotFoundException(UsernameNotFoundException ex, HttpServletRequest request) {
-        log.error("Email not found: {}", ex.getMessage());
-        return new ErrorResponse(
-                HttpStatus.UNAUTHORIZED.value(),
-                new Date(),
-                "Invalid email or password",
-                request.getRequestURI());
-    }
+
 
     @ExceptionHandler(RuntimeException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)

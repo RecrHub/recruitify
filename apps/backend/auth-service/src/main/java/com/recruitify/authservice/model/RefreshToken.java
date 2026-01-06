@@ -1,6 +1,7 @@
-package com.recruitify.userservices.model;
+package com.recruitify.authservice.model;
 
 
+import com.recruitify.authservice.model.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

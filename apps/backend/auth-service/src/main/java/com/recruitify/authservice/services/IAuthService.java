@@ -1,10 +1,10 @@
-package com.recruitify.userservices.services;
+package com.recruitify.authservice.services;
 
-import com.recruitify.dtos.Request.LoginRequest;
-import com.recruitify.dtos.Request.RefreshTokenRequest;
-import com.recruitify.dtos.Request.RegisterRequest;
-import com.recruitify.dtos.Response.JwtResponse;
-import com.recruitify.dtos.Response.MessageResponse;
+import com.recruitify.authservice.dtos.Request.LoginRequest;
+import com.recruitify.authservice.dtos.Request.RefreshTokenRequest;
+import com.recruitify.authservice.dtos.Request.RegisterRequest;
+import com.recruitify.authservice.dtos.Response.JwtResponse;
+import com.recruitify.authservice.dtos.Response.MessageResponse;
 
 public interface IAuthService {
     JwtResponse authenticateUser(LoginRequest loginRequest);

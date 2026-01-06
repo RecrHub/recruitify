@@ -1,10 +1,10 @@
-package com.recruitify.userservices.services.impl;
+package com.recruitify.authservice.services.impl;
 
-import com.recruitify.config.JwtConfig;
-import com.recruitify.userservices.model.RefreshToken;
-import com.recruitify.userservices.model.User;
-import com.recruitify.userservices.repository.IRefreshTokenRepository;
-import com.recruitify.userservices.services.IRefreshTokenService;
+import com.recruitify.authservice.config.JwtConfig;
+import com.recruitify.authservice.model.RefreshToken;
+import com.recruitify.authservice.model.User;
+import com.recruitify.authservice.repository.IRefreshTokenRepository;
+import com.recruitify.authservice.services.IRefreshTokenService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;

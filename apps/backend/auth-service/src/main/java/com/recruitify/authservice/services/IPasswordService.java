@@ -1,4 +1,7 @@
-package com.recruitify.authservice.services.impl;
+package com.recruitify.authservice.services;
 
 public interface IPasswordService {
+    String encodePassword(String rawPassword);
+    boolean validatePassword(String rawPassword, String encodedPassword);
+    boolean isPasswordStrong(String password);
 }

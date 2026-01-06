@@ -1,8 +1,9 @@
-package com.recruitify.model;
+package com.recruitify.jobservice.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.Instant;
+
 @Entity
 @Data
 @Table(name = "work_approach")
