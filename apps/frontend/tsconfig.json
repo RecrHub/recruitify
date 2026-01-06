@@ -28,6 +28,9 @@
       ],
       "@shared/*": [
         "../packages/shared-types/*"
+      ],
+      "@recruitify/desktop-bridge": [
+        "../packages/desktop-bridge/src/index.ts"
       ]
     },
     "types": [
@@ -40,6 +43,7 @@
     "**/*.ts",
     "**/*.tsx",
     "../packages/shared-types/**/*.ts",
+    "../packages/desktop-bridge/src/**/*.ts",
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "**/*.mts"

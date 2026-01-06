@@ -2,7 +2,7 @@
 
 import { Suspense, useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import Header from "@/components/Header";
+import Header from "@/components/NavHeader";
 import Footer, { FooterProps } from "@/components/Footer";
 import Tabs from "@/components/Tabs";
 import Actions from "@/components/NavAction";

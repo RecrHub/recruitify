@@ -4,18 +4,15 @@ import { generateMetadata } from "./metadata";
 import GlobalProvider from "@/layout/GlobalProvider";
 import { AuthProvider } from "@/context/AuthContext";
 import { ReactNode, Suspense } from "react";
-export const metadata: Metadata = await generateMetadata();
 const inVercel = process.env.VERCEL === '1';
 import { type DynamicLayoutProps } from '@/types/next';
 import Script from "next/script";
+import { RouteVariants } from "@/utils/server/routeVariants";
 export interface RootLayoutProps extends DynamicLayoutProps {
   children: ReactNode;
 }
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+const RootLayout = async ({ children,params}:  RootLayoutProps) => {
+  const { variants } = await params;
   const { locale, theme, primaryColor, neutralColor } =
     RouteVariants.deserializeVariants(variants);
   const direction = 'ltr';
@@ -45,11 +42,6 @@ export default function RootLayout({
       </head>
 
       <body>
-        {/* {ENABLE_BUSINESS_FEATURES ? (
-          <BusinessGlobalProvider>{renderContent()}</BusinessGlobalProvider>
-        ) : (
-          renderContent()
-        )} */}
         <Suspense fallback={null}>
           {inVercel && <SpeedInsights />}
         </Suspense>
@@ -57,3 +49,6 @@ export default function RootLayout({
     </html>
   );
 }
+export default RootLayout;
+
+export { generateMetadata } from './metadata';
