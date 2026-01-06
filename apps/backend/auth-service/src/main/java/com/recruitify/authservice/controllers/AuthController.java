@@ -1,12 +1,12 @@
-package com.recruitify.userservices.controllers;
+package com.recruitify.authservice.controllers;
 
-import com.recruitify.dtos.Request.LoginRequest;
-import com.recruitify.dtos.Request.RegisterRequest;
-import com.recruitify.dtos.Response.JwtResponse;
-import com.recruitify.dtos.Response.MessageResponse;
-import com.recruitify.event.AuthenticationEvent;
-import com.recruitify.exceptions.AccountDeactivatedException;
-import com.recruitify.userservices.services.IAuthService;
+import com.recruitify.authservice.dtos.Request.LoginRequest;
+import com.recruitify.authservice.dtos.Request.RegisterRequest;
+import com.recruitify.authservice.dtos.Response.JwtResponse;
+import com.recruitify.authservice.dtos.Response.MessageResponse;
+import com.recruitify.authservice.event.AuthenticationEvent;
+import com.recruitify.authservice.exceptions.AccountDeactivatedException;
+import com.recruitify.authservice.services.IAuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;

@@ -1,8 +1,8 @@
-package com.recruitify.userservices.services.impl;
+package com.recruitify.authservice.services.impl;
 
-import com.recruitify.config.JwtConfig;
-import com.recruitify.security.UserDetailsImpl;
-import com.recruitify.userservices.services.ITokenServices;
+import com.recruitify.authservice.config.JwtConfig;
+import com.recruitify.authservice.security.UserDetailsImpl;
+import com.recruitify.authservice.services.ITokenServices;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;

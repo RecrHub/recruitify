@@ -1,12 +1,15 @@
-package com.recruitify.mapper;
+package com.recruitify.jobservice.mapper;
 
-import com.recruitify.dtos.Response.JobResponse;
-import com.recruitify.model.*;
-import org.mapstruct.*;
+import com.recruitify.jobservice.dtos.Response.JobResponse;
+import com.recruitify.jobservice.model.*;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
 
 @Mapper(componentModel = "spring")
 public interface JobMapper {

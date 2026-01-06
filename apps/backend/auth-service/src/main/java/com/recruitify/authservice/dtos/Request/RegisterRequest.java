@@ -1,4 +1,4 @@
-package com.recruitify.userservices.dtos.Request;
+package com.recruitify.authservice.dtos.Request;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

@@ -1,4 +1,4 @@
-package com.recruitify.userservices.config;
+package com.recruitify.authservice.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -7,7 +7,6 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,11 +17,6 @@ import org.springframework.web.cors.CorsConfiguration;
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
-    private final CorsConfig corsConfig;
-
-    public SecurityConfig(CorsConfig corsConfig) {
-        this.corsConfig = corsConfig;
-    }
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
@@ -31,38 +25,40 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http
+        http
+                // CORS
                 .cors(cors -> cors.configurationSource(request -> {
                     CorsConfiguration config = new CorsConfiguration();
                     config.setAllowCredentials(true);
-                    config.addAllowedOriginPattern("*"); // Security requires pattern for credentials
+                    config.addAllowedOriginPattern("*");
                     config.addAllowedHeader("*");
                     config.addAllowedMethod("*");
                     config.addExposedHeader("Authorization");
                     config.addExposedHeader("Content-Type");
                     return config;
                 }))
-                .csrf(AbstractHttpConfigurer::disable)
+                // Disable CSRF cho REST API
+                .csrf(csrf -> csrf.disable())
+                // Stateless session (REST API)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                // Authorize requests
                 .authorizeHttpRequests(auth -> auth
                         // Public endpoints
-                        .requestMatchers("/api/v1/health").permitAll()
                         .requestMatchers("/api/v1/auth/**").permitAll()
-                        .requestMatchers("/api/v1/jobs/**").permitAll()
-                        // Swagger UI and API docs endpoints
+                        // Swagger/OpenAPI endpoints
                         .requestMatchers(
+                                "/v3/api-docs/**",
                                 "/swagger-ui/**",
                                 "/swagger-ui.html",
-                                "/v3/api-docs/**",
-                                "/api-docs/**"
+                                "/swagger-ui/index.html",
+                                "/swagger-ui/index.html/**"
                         ).permitAll()
                         // All other endpoints require authentication
                         .anyRequest().authenticated()
-                )
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                //JWT FILTER
-//                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .build();
+                );
+        // .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+
+        return http.build();
     }
 
     @Bean

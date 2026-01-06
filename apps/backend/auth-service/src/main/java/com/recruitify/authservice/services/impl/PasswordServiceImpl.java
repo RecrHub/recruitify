@@ -1,6 +1,5 @@
-package com.recruitify.userservices.services.impl;
-
-import com.recruitify.services.IPasswordService;
+package com.recruitify.authservice.services.impl;
+import com.recruitify.authservice.services.IPasswordService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 public class PasswordServiceImpl implements IPasswordService {

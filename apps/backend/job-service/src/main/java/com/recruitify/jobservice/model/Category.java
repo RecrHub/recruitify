@@ -1,4 +1,4 @@
-package com.recruitify.model;
+package com.recruitify.jobservice.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

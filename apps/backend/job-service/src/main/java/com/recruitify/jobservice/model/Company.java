@@ -1,10 +1,8 @@
-package com.recruitify.model;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+package com.recruitify.jobservice.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.Instant;
-import java.util.List;
 
 @Entity
 @Data

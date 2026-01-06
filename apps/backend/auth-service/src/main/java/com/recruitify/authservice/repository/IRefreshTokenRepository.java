@@ -1,7 +1,7 @@
-package com.recruitify.userservices.repository;
+package com.recruitify.authservice.repository;
 
-import com.recruitify.userservices.model.RefreshToken;
-import com.recruitify.userservices.model.User;
+import com.recruitify.authservice.model.RefreshToken;
+import com.recruitify.authservice.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

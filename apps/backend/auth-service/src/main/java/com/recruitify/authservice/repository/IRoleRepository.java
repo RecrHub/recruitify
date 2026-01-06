@@ -1,6 +1,6 @@
-package com.recruitify.userservices.repository;
+package com.recruitify.authservice.repository;
 
-import com.recruitify.userservices.model.Role;
+import com.recruitify.authservice.model.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

@@ -1,4 +1,4 @@
-package com.recruitify.exceptions;
+package com.recruitify.authservice.exceptions;
 
 
 import org.springframework.http.HttpStatus;

@@ -1,6 +1,6 @@
-package com.recruitify.userservices.services;
+package com.recruitify.authservice.services;
 
-import com.recruitify.security.UserDetailsImpl;
+import com.recruitify.authservice.security.UserDetailsImpl;
 import org.springframework.security.core.Authentication;
 
 public interface ITokenServices {

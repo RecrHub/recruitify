@@ -1,4 +1,4 @@
-package com.recruitify.userservices.config;
+package com.recruitify.authservice.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

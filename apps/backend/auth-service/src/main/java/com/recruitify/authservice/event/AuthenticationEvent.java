@@ -1,8 +1,6 @@
-package com.recruitify.event;
+package com.recruitify.authservice.event;
 
 import org.springframework.context.ApplicationEvent;
-
-import java.time.Clock;
 
 public class AuthenticationEvent extends ApplicationEvent {
     private final String email;
