@@ -9,3 +9,7 @@ declare module 'antd-style' {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
   export interface CustomStylish extends RecrCustomStylish {}
 }
+
+declare module 'rtl-detect' {
+  export function isRtlLang(lang: string): boolean;
+}

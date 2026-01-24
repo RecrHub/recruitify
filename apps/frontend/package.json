@@ -34,6 +34,7 @@
     "react": "19.2.0",
     "react-dom": "19.2.0",
     "react-layout-kit": "^2.0.1",
+    "rtl-detect": "^1.1.2",
     "url-join": "^5.0.0",
     "yup": "^1.7.1",
     "zod": "^4.1.12",
