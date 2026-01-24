@@ -12,7 +12,7 @@ export interface RootLayoutProps extends DynamicLayoutProps {
   children: ReactNode;
 }
 const RootLayout = async ({ children,params}:  RootLayoutProps) => {
-  const { variants } = await params;
+  const { variants = '' } = await params ?? {};
   const { locale, theme, primaryColor, neutralColor } =
     RouteVariants.deserializeVariants(variants);
   const direction = 'ltr';
@@ -42,6 +42,7 @@ const RootLayout = async ({ children,params}:  RootLayoutProps) => {
       </head>
 
       <body>
+        {renderContent()}
         <Suspense fallback={null}>
           {inVercel && <SpeedInsights />}
         </Suspense>
