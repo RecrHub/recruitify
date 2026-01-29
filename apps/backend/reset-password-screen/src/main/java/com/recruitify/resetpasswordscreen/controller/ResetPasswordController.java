@@ -1,7 +1,7 @@
 package com.recruitify.resetpasswordscreen.controller;
 
 import com.recruitify.resetpasswordscreen.dto.request.ResetPasswordRequest;
-import com.recruitify.resetpasswordscreen.dto.response.ResetPasswordResponse;
+import com.recruitify.resetpasswordscreen.vo.ResetPasswordVO;
 import com.recruitify.resetpasswordscreen.service.IResetPasswordService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -27,9 +27,9 @@ public class ResetPasswordController {
             @ApiResponse(responseCode = "200", description = "Password reset successful"),
             @ApiResponse(responseCode = "400", description = "Invalid request or token")
     })
-    public ResponseEntity<ResetPasswordResponse> resetPassword(
+    public ResponseEntity<ResetPasswordVO> resetPassword(
             @Valid @RequestBody ResetPasswordRequest request) {
-        ResetPasswordResponse response = resetPasswordService.resetPassword(request);
+        ResetPasswordVO response = resetPasswordService.resetPassword(request);
         if (response.isSuccess()) {
             return ResponseEntity.ok(response);
         }
@@ -42,9 +42,9 @@ public class ResetPasswordController {
             @ApiResponse(responseCode = "200", description = "Token validation result"),
             @ApiResponse(responseCode = "400", description = "Invalid token")
     })
-    public ResponseEntity<ResetPasswordResponse> validateToken(
+    public ResponseEntity<ResetPasswordVO> validateToken(
             @Parameter(description = "Reset token from email") @RequestParam String token) {
-        ResetPasswordResponse response = resetPasswordService.validateToken(token);
+        ResetPasswordVO response = resetPasswordService.validateToken(token);
         if (response.isSuccess()) {
             return ResponseEntity.ok(response);
         }

@@ -44,7 +44,7 @@ const JobSearchBarForm = ({ onSearch, className }: JobSearchBarFormProps) => {
       {/* Search Section */}
         <div className={styles.searchWrapper}>
           <Input
-            placeholder="Search your job"
+            placeholder="Search your j2b"
             size="large"
             className={styles.searchInput}
             value={searchKeyword}

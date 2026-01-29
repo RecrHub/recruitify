@@ -1,6 +1,6 @@
 package com.recruitify.profilescreen.repository;
 
-import com.recruitify.profilescreen.model.WorkExperience;
+import com.recruitify.common.model.profile.WorkExperience;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

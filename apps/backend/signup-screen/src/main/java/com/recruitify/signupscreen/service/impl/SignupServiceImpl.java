@@ -1,36 +1,61 @@
 package com.recruitify.signupscreen.service.impl;
 
+import com.recruitify.common.vo.MessageResponse;
 import com.recruitify.signupscreen.dto.request.SignupRequest;
-import com.recruitify.signupscreen.dto.response.SignupResponse;
+import com.recruitify.common.model.identity.Role;
+import com.recruitify.common.model.identity.User;
+import com.recruitify.signupscreen.repository.IRoleRepository;
+import com.recruitify.signupscreen.repository.IUserRepository;
 import com.recruitify.signupscreen.service.ISignupService;
-import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
+@Slf4j
 @Service
-@RequiredArgsConstructor
 public class SignupServiceImpl implements ISignupService {
 
     private final PasswordEncoder passwordEncoder;
+    private final IUserRepository IUserRepository;
+    private final IRoleRepository IRoleRepository;
+
+    public SignupServiceImpl(PasswordEncoder passwordEncoder, IUserRepository IUserRepository, IRoleRepository IRoleRepository) {
+        this.passwordEncoder = passwordEncoder;
+        this.IUserRepository = IUserRepository;
+        this.IRoleRepository = IRoleRepository;
+    }
 
     @Override
-    public SignupResponse signup(SignupRequest request) {
-        String role = request.getRole();
-        if (role == null || role.isBlank()) {
-            role = "ROLE_USER";
+    @Transactional
+    public MessageResponse registerUser(SignupRequest signupRequest) {
+        if (existsByEmail(signupRequest.getEmail())) {
+            return MessageResponse.builder()
+                    .message("Email is already in use")
+                    .success(false)
+                    .build();
         }
-        if (!role.equals("ROLE_USER") && !role.equals("ROLE_EMPLOYER")) {
-            role = "ROLE_USER";
-        }
-
-        String encodedPassword = passwordEncoder.encode(request.getPassword());
-
-        return SignupResponse.builder()
-                .message("User registered successfully")
-                .email(request.getEmail())
-                .fullName(request.getFullName())
-                .phone(request.getPhone())
+        //Get Role User
+        Role role = IRoleRepository.findByName("ROLE_JOBSEEKER")
+                .orElseThrow(() -> new RuntimeException("Error: Role 'ROLE_JOBSEEKER' is not found."));
+        // Create new user account
+        User user = User.builder()
+                .username(signupRequest.getFullName())
+                .email(signupRequest.getEmail())
+                .passwordHash(passwordEncoder.encode(signupRequest.getPassword()))
                 .role(role)
                 .build();
+        IUserRepository.save(user);
+
+        log.info("User registered successfully: {}", user.getEmail());
+
+        return MessageResponse.builder()
+                .message("User registered successfully!")
+                .success(true)
+                .build();
+    }
+
+    @Override
+    public boolean existsByEmail(String email) {
+        return IUserRepository.existsByEmail(email);
     }
 }

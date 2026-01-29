@@ -25,8 +25,5 @@ public class SignupRequest {
     @NotBlank(message = "Full name is required")
     private String fullName;
 
-    private String phone;
-
-    @Builder.Default
-    private String role = "ROLE_USER";
+    private String role;
 }

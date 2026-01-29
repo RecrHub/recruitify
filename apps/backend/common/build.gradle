@@ -52,6 +52,12 @@ dependencies {
     api 'org.mapstruct:mapstruct:1.5.5.Final'
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
     annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
+
+    // Web
+    api 'org.springframework.boot:spring-boot-starter-web'
+
+    // Swagger / OpenAPI
+    api 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0'
 }
 
 tasks.named('test') {

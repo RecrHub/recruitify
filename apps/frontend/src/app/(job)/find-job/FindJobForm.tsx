@@ -2,8 +2,8 @@
 
 import  { useState } from 'react';
 import { Pagination, Breadcrumb } from 'antd';
-import JobFilterForm from '@/components/FilterForm/index';
-import type { JobFilters } from '@/components/FilterForm/index';
+import JobFilterForm from '@/features/FilterForm/index';
+import type { JobFilters } from '@/features/FilterForm/index';
 import JobSearchBarForm from './JobSearchBarForm';
 import JobCardList from '@/components/JobCardList';
 import { generateMockJobs } from '@/components/JobCardList/mockdata';
@@ -11,7 +11,7 @@ import type { Job } from '@/components/JobCardList/type';
 import Grid from '@/components/Grid';
 import { useStyles } from './styles';
 
-const FindJobForm = () => {
+const   FindJobForm = () => {
     const { styles, cx } = useStyles();
     // State management
     const [allJobs] = useState(generateMockJobs(50)); // Generate 50 jobs

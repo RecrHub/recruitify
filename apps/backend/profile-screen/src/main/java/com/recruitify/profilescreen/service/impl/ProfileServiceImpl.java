@@ -1,12 +1,19 @@
 package com.recruitify.profilescreen.service.impl;
 
+import com.recruitify.common.exception.ResourceNotFoundException;
 import com.recruitify.profilescreen.dto.request.*;
-import com.recruitify.profilescreen.dto.response.*;
-import com.recruitify.profilescreen.model.*;
-import com.recruitify.profilescreen.exception.ResourceNotFoundException;
+import com.recruitify.common.model.profile.Profile;
+import com.recruitify.common.model.profile.WorkExperience;
+import com.recruitify.common.model.profile.Education;
+import com.recruitify.common.model.location.Province;
 import com.recruitify.profilescreen.repository.*;
 import com.recruitify.profilescreen.service.IProfileService;
+import com.recruitify.profilescreen.vo.EducationResponse;
+import com.recruitify.profilescreen.vo.ProfileResponse;
+import com.recruitify.profilescreen.vo.ProvinceResponse;
+import com.recruitify.profilescreen.vo.WorkExperienceResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +23,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Transactional
+@Slf4j
 public class ProfileServiceImpl implements IProfileService {
 
     private final ProfileRepository profileRepository;
@@ -24,8 +32,8 @@ public class ProfileServiceImpl implements IProfileService {
     private final ProvinceRepository provinceRepository;
 
     @Override
-    @Transactional(readOnly = true)
     public ProfileResponse getProfile(Long accountId) {
+        log.info("Getting profile for account: {}", accountId);
         Profile profile = profileRepository.findById(accountId)
                 .orElseThrow(() -> new ResourceNotFoundException("Profile not found with account ID: " + accountId));
         return mapToProfileResponse(profile);
@@ -84,7 +92,7 @@ public class ProfileServiceImpl implements IProfileService {
     @Override
     public WorkExperienceResponse addWorkExperience(Long accountId, WorkExperienceRequest request) {
         validateProfileExists(accountId);
-        
+
         WorkExperience workExperience = WorkExperience.builder()
                 .userProfileId(accountId)
                 .jobTitle(request.getJobTitle())
@@ -135,7 +143,7 @@ public class ProfileServiceImpl implements IProfileService {
     @Override
     public EducationResponse addEducation(Long accountId, EducationRequest request) {
         validateProfileExists(accountId);
-        
+
         Education education = Education.builder()
                 .userProfileId(accountId)
                 .schoolName(request.getSchoolName())

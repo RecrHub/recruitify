@@ -1,6 +1,6 @@
 package com.recruitify.homepagescreen.repository;
 
-import com.recruitify.homepagescreen.model.Job;
+import com.recruitify.common.model.job.Job;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

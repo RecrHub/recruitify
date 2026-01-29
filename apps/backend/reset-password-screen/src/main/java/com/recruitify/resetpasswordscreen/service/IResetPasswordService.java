@@ -1,11 +1,11 @@
 package com.recruitify.resetpasswordscreen.service;
 
 import com.recruitify.resetpasswordscreen.dto.request.ResetPasswordRequest;
-import com.recruitify.resetpasswordscreen.dto.response.ResetPasswordResponse;
+import com.recruitify.resetpasswordscreen.vo.ResetPasswordVO;
 
 public interface IResetPasswordService {
 
-    ResetPasswordResponse resetPassword(ResetPasswordRequest request);
+    ResetPasswordVO resetPassword(ResetPasswordRequest request);
 
-    ResetPasswordResponse validateToken(String token);
+    ResetPasswordVO validateToken(String token);
 }

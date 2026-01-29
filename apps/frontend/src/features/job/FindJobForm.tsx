@@ -2,8 +2,8 @@
 
 import  { useState } from 'react';
 import { Pagination, Breadcrumb } from 'antd';
-import JobFilterForm from '@/components/FilterForm/index';
-import type { JobFilters } from '@/components/FilterForm/index';
+import JobFilterForm from '@/features/FilterForm/index';
+import type { JobFilters } from '@/features/FilterForm/index';
 import JobSearchBarForm from './JobSearchBarForm';
 import JobCardList from '@/components/JobCardList';
 import { generateMockJobs } from '@/components/JobCardList/mockdata';
