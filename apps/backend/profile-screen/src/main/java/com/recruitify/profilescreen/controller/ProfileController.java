@@ -1,8 +1,11 @@
 package com.recruitify.profilescreen.controller;
 
 import com.recruitify.profilescreen.dto.request.*;
-import com.recruitify.profilescreen.dto.response.*;
 import com.recruitify.profilescreen.service.IProfileService;
+import com.recruitify.profilescreen.vo.EducationResponse;
+import com.recruitify.profilescreen.vo.ProfileResponse;
+import com.recruitify.profilescreen.vo.ProvinceResponse;
+import com.recruitify.profilescreen.vo.WorkExperienceResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;

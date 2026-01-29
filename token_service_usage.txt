@@ -1,0 +1,36 @@
+Binary file apps/backend/homepage-screen/build/libs/homepage-screen-0.0.1-SNAPSHOT.jar matches
+Binary file apps/backend/find-job-screen/build/libs/find-job-screen-0.0.1-SNAPSHOT.jar matches
+Binary file apps/backend/signup-screen/build/libs/signup-screen-0.0.1-SNAPSHOT.jar matches
+Binary file apps/backend/profile-screen/build/libs/profile-screen-0.0.1-SNAPSHOT.jar matches
+apps/backend/common/src/main/java/com/recruitify/common/token/controller/TokenController.java:import com.recruitify.common.token.service.IRefreshTokenService;
+apps/backend/common/src/main/java/com/recruitify/common/token/controller/TokenController.java:import com.recruitify.common.token.service.ITokenService;
+apps/backend/common/src/main/java/com/recruitify/common/token/controller/TokenController.java:    private final IRefreshTokenService refreshTokenService;
+apps/backend/common/src/main/java/com/recruitify/common/token/controller/TokenController.java:    private final ITokenService tokenService;
+apps/backend/common/src/main/java/com/recruitify/common/token/controller/TokenController.java:            TokenResponseVO response = refreshTokenService.findByToken(requestRefreshToken)
+apps/backend/common/src/main/java/com/recruitify/common/token/controller/TokenController.java:                    .map(refreshTokenService::verifyExpiration)
+apps/backend/common/src/main/java/com/recruitify/common/token/controller/TokenController.java:                            newRefreshToken = refreshTokenService.createRefreshToken(user);
+apps/backend/common/src/main/java/com/recruitify/common/token/controller/TokenController.java:                            List<RefreshToken> activeTokens = refreshTokenService.findActiveTokensByUser(user);
+apps/backend/common/src/main/java/com/recruitify/common/token/controller/TokenController.java:                        refreshTokenService.useToken(refreshToken, newRefreshToken.getToken());
+apps/backend/common/src/main/java/com/recruitify/common/token/service/RefreshTokenService.java:public class RefreshTokenService implements IRefreshTokenService {
+apps/backend/common/src/main/java/com/recruitify/common/token/service/IRefreshTokenService.java:public interface IRefreshTokenService {
+apps/backend/common/src/main/java/com/recruitify/common/token/service/ITokenService.java:public interface ITokenService {
+apps/backend/common/src/main/java/com/recruitify/common/token/service/TokenService.java:public class TokenService implements ITokenService {
+Binary file apps/backend/forget-password-screen/build/libs/forget-password-screen-0.0.1-SNAPSHOT.jar matches
+Binary file apps/backend/login-screen/.gradle/8.10/executionHistory/executionHistory.bin matches
+Binary file apps/backend/login-screen/build/classes/java/main/com/recruitify/loginscreen/service/impl/LoginService.class matches
+Binary file apps/backend/login-screen/build/classes/java/main/com/recruitify/loginscreen/service/impl/TokenService.class matches
+Binary file apps/backend/login-screen/build/classes/java/main/com/recruitify/loginscreen/service/impl/RefreshTokenService.class matches
+Binary file apps/backend/login-screen/build/classes/java/main/com/recruitify/loginscreen/service/IRefreshTokenService.class matches
+Binary file apps/backend/login-screen/build/classes/java/main/com/recruitify/loginscreen/service/ITokenService.class matches
+Binary file apps/backend/login-screen/build/libs/login-screen-0.0.1-SNAPSHOT-plain.jar matches
+Binary file apps/backend/login-screen/build/libs/login-screen-0.0.1-SNAPSHOT.jar matches
+apps/backend/login-screen/src/main/java/com/recruitify/loginscreen/LoginScreenApplication.java:import com.recruitify.common.token.service.RefreshTokenService;
+apps/backend/login-screen/src/main/java/com/recruitify/loginscreen/LoginScreenApplication.java:import com.recruitify.common.token.service.TokenService;
+apps/backend/login-screen/src/main/java/com/recruitify/loginscreen/LoginScreenApplication.java:@Import({GlobalExceptionHandler.class, TokenController.class, TokenService.class, RefreshTokenService.class})
+apps/backend/login-screen/src/main/java/com/recruitify/loginscreen/service/impl/LoginService.java:import com.recruitify.common.token.service.IRefreshTokenService;
+apps/backend/login-screen/src/main/java/com/recruitify/loginscreen/service/impl/LoginService.java:import com.recruitify.common.token.service.ITokenService;
+apps/backend/login-screen/src/main/java/com/recruitify/loginscreen/service/impl/LoginService.java:    private final IRefreshTokenService refreshTokenService;
+apps/backend/login-screen/src/main/java/com/recruitify/loginscreen/service/impl/LoginService.java:    private final ITokenService tokenService;
+apps/backend/login-screen/src/main/java/com/recruitify/loginscreen/service/impl/LoginService.java:                                refreshToken = refreshTokenService.createRefreshToken(user);
+apps/backend/login-screen/src/main/java/com/recruitify/loginscreen/service/impl/LoginService.java:                                List<RefreshToken> activeTokens = refreshTokenService.findActiveTokensByUser(user);
+Binary file apps/backend/reset-password-screen/build/libs/reset-password-screen-0.0.1-SNAPSHOT.jar matches

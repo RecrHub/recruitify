@@ -187,28 +187,28 @@ export const useStyles = createStyles(({ css, token, responsive }) => ({
     }
   `,
 
-  button: css`
-    height: 56px;
-    padding: 16px 40px;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: 24px;
-    text-transform: capitalize;
-    border-radius: 6px;
-    background: #212121;
-    border-color: #000000ff;
-    flex-shrink: 0;
+  // button: css`
+  //   height: 56px;
+  //   padding: 16px 40px;
+  //   font-size: 16px;
+  //   font-style: normal;
+  //   font-weight: 600;
+  //   line-height: 24px;
+  //   text-transform: capitalize;
+  //   border-radius: 6px;
+  //   background: #212121;
+  //   border-color: #000000ff;
+  //   flex-shrink: 0;
 
-    &:hover {
-      background: #1f2132 !important;
-      border-color: #1f2132 !important;
-    }
+  //   &:hover {
+  //     background: #1f2132 !important;
+  //     border-color: #1f2132 !important;
+  //   }
 
-    ${responsive.mobile} {
-      width: 100%;
-    }
-  `,
+  //   ${responsive.mobile} {
+  //     width: 100%;
+  //   }
+  // `,
 
   inputWrapper: css`
     display: flex;

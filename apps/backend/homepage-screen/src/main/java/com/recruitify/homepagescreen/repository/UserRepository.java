@@ -1,6 +1,6 @@
 package com.recruitify.homepagescreen.repository;
 
-import com.recruitify.homepagescreen.model.User;
+import com.recruitify.common.model.identity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

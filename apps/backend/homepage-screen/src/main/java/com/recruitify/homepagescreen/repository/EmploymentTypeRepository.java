@@ -1,6 +1,6 @@
 package com.recruitify.homepagescreen.repository;
 
-import com.recruitify.homepagescreen.model.EmploymentType;
+import com.recruitify.common.model.catalog.EmploymentType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

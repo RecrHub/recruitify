@@ -34,10 +34,7 @@ public class LoginResponseVO {
     /**
      * Access token expiration time in seconds
      */
-    private Long expiresIn;
-
-    /**
-     * User information
-     */
-    private UserInfoVO userInfo;
+    private long id;
+    private String email;
+    private String role;
 }

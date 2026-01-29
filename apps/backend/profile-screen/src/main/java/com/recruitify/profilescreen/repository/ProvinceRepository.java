@@ -1,6 +1,6 @@
 package com.recruitify.profilescreen.repository;
 
-import com.recruitify.profilescreen.model.Province;
+import com.recruitify.common.model.location.Province;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,7 +1,7 @@
 package com.recruitify.resetpasswordscreen.service.impl;
 
 import com.recruitify.resetpasswordscreen.dto.request.ResetPasswordRequest;
-import com.recruitify.resetpasswordscreen.dto.response.ResetPasswordResponse;
+import com.recruitify.resetpasswordscreen.vo.ResetPasswordVO;
 import com.recruitify.resetpasswordscreen.service.IResetPasswordService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,13 +13,13 @@ import org.springframework.stereotype.Service;
 public class ResetPasswordServiceImpl implements IResetPasswordService {
 
     @Override
-    public ResetPasswordResponse resetPassword(ResetPasswordRequest request) {
+    public ResetPasswordVO resetPassword(ResetPasswordRequest request) {
         log.info("Processing password reset for token: {}", request.getToken());
 
         try {
             boolean isValidToken = validateResetToken(request.getToken());
             if (!isValidToken) {
-                return ResetPasswordResponse.error("Invalid or expired reset token");
+                return ResetPasswordVO.error("Invalid or expired reset token");
             }
 
             // TODO: Implement actual password reset logic
@@ -30,28 +30,28 @@ public class ResetPasswordServiceImpl implements IResetPasswordService {
             // 5. Invalidate reset token
 
             log.info("Password reset successful for token: {}", request.getToken());
-            return ResetPasswordResponse.success("Password has been reset successfully");
+            return ResetPasswordVO.success("Password has been reset successfully");
 
         } catch (Exception e) {
             log.error("Error resetting password: {}", e.getMessage());
-            return ResetPasswordResponse.error("Failed to reset password. Please try again.");
+            return ResetPasswordVO.error("Failed to reset password. Please try again.");
         }
     }
 
     @Override
-    public ResetPasswordResponse validateToken(String token) {
+    public ResetPasswordVO validateToken(String token) {
         log.info("Validating reset token: {}", token);
 
         try {
             boolean isValid = validateResetToken(token);
             if (isValid) {
-                return ResetPasswordResponse.success("Token is valid");
+                return ResetPasswordVO.success("Token is valid");
             } else {
-                return ResetPasswordResponse.error("Invalid or expired reset token");
+                return ResetPasswordVO.error("Invalid or expired reset token");
             }
         } catch (Exception e) {
             log.error("Error validating token: {}", e.getMessage());
-            return ResetPasswordResponse.error("Failed to validate token");
+            return ResetPasswordVO.error("Failed to validate token");
         }
     }
 

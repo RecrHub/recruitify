@@ -1,4 +1,4 @@
-package com.recruitify.profilescreen.dto.response;
+package com.recruitify.profilescreen.vo;
 
 import lombok.*;
 import java.time.LocalDate;

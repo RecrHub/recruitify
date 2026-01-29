@@ -1,4 +1,4 @@
-package com.recruitify.resetpasswordscreen.dto.response;
+package com.recruitify.resetpasswordscreen.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
