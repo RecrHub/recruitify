@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/backend.iml" filepath="$PROJECT_DIR$/.idea/backend.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/common.main.iml" filepath="$PROJECT_DIR$/.idea/modules/common.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1914595849/find-job-screen.common.main.iml" filepath="$PROJECT_DIR$/.idea/modules/1914595849/find-job-screen.common.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/find-job-screen.main.iml" filepath="$PROJECT_DIR$/.idea/modules/find-job-screen.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1914595849/forget-password-screen.common.main.iml" filepath="$PROJECT_DIR$/.idea/modules/1914595849/forget-password-screen.common.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1914595849/homepage-screen.common.main.iml" filepath="$PROJECT_DIR$/.idea/modules/1914595849/homepage-screen.common.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/homepage-screen.main.iml" filepath="$PROJECT_DIR$/.idea/modules/homepage-screen.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1914595849/login-screen.common.main.iml" filepath="$PROJECT_DIR$/.idea/modules/1914595849/login-screen.common.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/login-screen.main.iml" filepath="$PROJECT_DIR$/.idea/modules/login-screen.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1914595849/profile-screen.common.main.iml" filepath="$PROJECT_DIR$/.idea/modules/1914595849/profile-screen.common.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/profile-screen.main.iml" filepath="$PROJECT_DIR$/.idea/modules/profile-screen.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1914595849/reset-password-screen.common.main.iml" filepath="$PROJECT_DIR$/.idea/modules/1914595849/reset-password-screen.common.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/reset-password-screen.main.iml" filepath="$PROJECT_DIR$/.idea/modules/reset-password-screen.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1914595849/signup-screen.common.main.iml" filepath="$PROJECT_DIR$/.idea/modules/1914595849/signup-screen.common.main.iml" />
+    </modules>
+  </component>
+</project>
