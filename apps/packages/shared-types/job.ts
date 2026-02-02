@@ -16,3 +16,9 @@ export interface PaginatedResponse<T> {
   page: number;
   pageSize: number;
 }
+
+export interface JobDetail extends JobListing {
+  description: string;
+  companyWebsite?: string;
+  companyDescription?: string;
+}
