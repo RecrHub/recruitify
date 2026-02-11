@@ -1,3 +1,0 @@
-rootProject.name = 'forget-password-screen'
-
-includeFlat 'common'
