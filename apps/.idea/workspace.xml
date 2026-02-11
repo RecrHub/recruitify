@@ -1,0 +1,695 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="de1bc723-43f4-4bf0-a4f0-b037091b3677" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/find-job/controller/FindJobController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/find-job/dto/request/JobSearchRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/find-job/dto/response/FilterOptionsResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/find-job/dto/response/FindJobPageResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/find-job/dto/response/JobItemResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/find-job/dto/response/JobListResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/find-job/dto/response/PaginationResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/find-job/repository/CategoryRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/find-job/repository/CompanyRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/find-job/repository/EmploymentTypeRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/find-job/repository/ExperienceLevelRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/find-job/repository/JobRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/find-job/repository/ProvinceRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/find-job/repository/SkillRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/find-job/repository/WorkApproachRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/find-job/service/IFindJobService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/find-job/service/impl/FindJobServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/forget-password/config/OpenAPIConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/forget-password/controller/ForgetPasswordController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/forget-password/dto/request/ForgetPasswordRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/forget-password/dto/response/ForgetPasswordResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/forget-password/repository/PasswordResetTokenRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/forget-password/repository/UserRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/forget-password/service/EmailService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/forget-password/service/IForgetPasswordService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/forget-password/service/impl/ForgetPasswordServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/homepage/config/OpenAPIConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/homepage/controller/HomepageController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/homepage/dto/response/CategoryResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/homepage/dto/response/FeaturedJobResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/homepage/dto/response/HomepageResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/homepage/dto/response/StatsResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/homepage/repository/CategoryRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/homepage/repository/CompanyRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/homepage/repository/EmploymentTypeRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/homepage/repository/JobRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/homepage/repository/ProvinceRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/homepage/repository/UserRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/homepage/repository/WardRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/homepage/service/IHomepageService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/homepage/service/impl/HomepageServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/login/config/OpenAPIConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/login/controller/LoginController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/login/dto/request/LoginRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/login/repository/IUserRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/login/service/ILoginService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/login/service/impl/LoginService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/login/vo/LoginResponseVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/profile/config/OpenAPIConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/profile/controller/ProfileController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/profile/dto/request/EducationRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/profile/dto/request/ProfileUpdateRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/profile/dto/request/WorkExperienceRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/profile/repository/EducationRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/profile/repository/ProfileRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/profile/repository/ProvinceRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/profile/repository/WorkExperienceRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/profile/service/IProfileService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/profile/service/impl/ProfileServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/profile/vo/EducationResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/profile/vo/ProfileResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/profile/vo/ProvinceResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/profile/vo/WorkExperienceResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/reset-password/config/OpenAPIConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/reset-password/controller/ResetPasswordController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/reset-password/dto/request/ResetPasswordRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/reset-password/service/IResetPasswordService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/reset-password/service/impl/ResetPasswordServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/reset-password/vo/ResetPasswordVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/sign-up/config/OpenAPIConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/sign-up/controller/SignupController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/sign-up/dto/request/SignupRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/sign-up/repository/IRoleRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/sign-up/repository/IUserRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/sign-up/service/ISignupService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/api/pages/sign-up/service/impl/SignupServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/common/config/JwtConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/common/config/SecurityConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/common/constant/ErrorCode.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/common/event/AuthenticationEvent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/common/exception/AccountDeactivatedException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/common/exception/GlobalExceptionHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/common/exception/ResourceNotFoundException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/common/exception/TokenRefreshException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/common/model/catalog/Category.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/common/model/catalog/EmploymentType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/common/model/catalog/ExperienceLevel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/common/model/catalog/Skill.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/common/model/catalog/WorkApproach.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/common/model/identity/PasswordResetToken.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/common/model/identity/RefreshToken.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/common/model/identity/Role.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/common/model/identity/User.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/common/model/job/Company.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/common/model/job/Job.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/common/model/location/AdministrativeUnit.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/common/model/location/Province.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/common/model/location/Ward.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/common/model/profile/Education.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/common/model/profile/Profile.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/common/model/profile/WorkExperience.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/common/security/UserDetailsImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/common/token/controller/TokenController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/common/token/dto/RefreshTokenRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/common/token/dto/TokenResponseVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/common/token/repository/RefreshTokenRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/common/token/service/IRefreshTokenService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/common/token/service/ITokenService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/common/token/service/RefreshTokenService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/common/token/service/TokenService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/common/utils/FormatResultPagination.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/common/vo/MessageResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/common/vo/PageResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi/common/vo/Result.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/.idea/backend.iml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/.idea/backend.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/.idea/go.imports.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/.idea/modules/1914595849/find-job-screen.common.main.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/.idea/modules/1914595849/forget-password-screen.common.main.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/.idea/modules/1914595849/homepage-screen.common.main.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/.idea/modules/1914595849/login-screen.common.main.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/.idea/modules/1914595849/profile-screen.common.main.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/.idea/modules/1914595849/reset-password-screen.common.main.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/.idea/modules/1914595849/signup-screen.common.main.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/.idea/modules/common.main.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/.idea/modules/find-job-screen.main.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/.idea/modules/forget-password-screen.main.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/.idea/modules/homepage-screen.main.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/.idea/modules/login-screen.main.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/.idea/modules/profile-screen.main.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/.idea/modules/reset-password-screen.main.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/.idea/modules/signup-screen.main.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/api-gateway/.gitattributes" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/api-gateway/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/api-gateway/build.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/api-gateway/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/api-gateway/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/api-gateway/gradlew" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/api-gateway/gradlew.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/api-gateway/settings.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/api-gateway/src/main/java/com/recruitify/apigateway/ApiGatewayApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/api-gateway/src/main/resources/application.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/api-gateway/src/test/java/com/recruitify/apigateway/ApiGatewayApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/.gradle/9.2.1/checksums/checksums.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/.gradle/9.2.1/checksums/md5-checksums.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/.gradle/9.2.1/checksums/sha1-checksums.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/.gradle/9.2.1/executionHistory/executionHistory.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/.gradle/9.2.1/executionHistory/executionHistory.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/.gradle/9.2.1/fileChanges/last-build.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/.gradle/9.2.1/fileHashes/fileHashes.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/.gradle/9.2.1/fileHashes/fileHashes.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/.gradle/9.2.1/fileHashes/resourceHashesCache.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/.gradle/9.2.1/gc.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/.gradle/buildOutputCleanup/cache.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/.gradle/file-system.probe" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/.gradle/vcs-1/gc.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/bin/main/application-shared.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/bin/main/com/recruitify/common/config/CorsConfig.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/bin/main/com/recruitify/common/config/JwtConfig.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/bin/main/com/recruitify/common/config/SecurityConfig.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/bin/main/com/recruitify/common/constant/ErrorCode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/bin/main/com/recruitify/common/event/AuthenticationEvent$AuthEventType.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/bin/main/com/recruitify/common/event/AuthenticationEvent.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/bin/main/com/recruitify/common/exception/AccountDeactivatedException.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/bin/main/com/recruitify/common/exception/GlobalExceptionHandler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/bin/main/com/recruitify/common/exception/TokenRefreshException.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/bin/main/com/recruitify/common/model/catalog/Category$CategoryBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/bin/main/com/recruitify/common/model/catalog/Category.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/bin/main/com/recruitify/common/model/catalog/EmploymentType$EmploymentTypeBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/bin/main/com/recruitify/common/model/catalog/EmploymentType.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/bin/main/com/recruitify/common/model/catalog/ExperienceLevel$ExperienceLevelBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/bin/main/com/recruitify/common/model/catalog/ExperienceLevel.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/bin/main/com/recruitify/common/model/catalog/Skill$SkillBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/bin/main/com/recruitify/common/model/catalog/Skill.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/bin/main/com/recruitify/common/model/catalog/WorkApproach$WorkApproachBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/bin/main/com/recruitify/common/model/catalog/WorkApproach.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/bin/main/com/recruitify/common/model/identity/PasswordResetToken$PasswordResetTokenBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/bin/main/com/recruitify/common/model/identity/PasswordResetToken.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/bin/main/com/recruitify/common/model/identity/RefreshToken$RefreshTokenBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/bin/main/com/recruitify/common/model/identity/RefreshToken.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/bin/main/com/recruitify/common/model/identity/Role.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/bin/main/com/recruitify/common/model/identity/User$UserBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/bin/main/com/recruitify/common/model/identity/User.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/bin/main/com/recruitify/common/model/job/Company$CompanyBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/bin/main/com/recruitify/common/model/job/Company.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/bin/main/com/recruitify/common/model/job/Job$JobBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/bin/main/com/recruitify/common/model/job/Job.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/bin/main/com/recruitify/common/model/location/AdministrativeUnit$AdministrativeUnitBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/bin/main/com/recruitify/common/model/location/AdministrativeUnit.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/bin/main/com/recruitify/common/model/location/Province$ProvinceBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/bin/main/com/recruitify/common/model/location/Province.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/bin/main/com/recruitify/common/model/location/Ward$WardBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/bin/main/com/recruitify/common/model/location/Ward.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/bin/main/com/recruitify/common/model/profile/Education$EducationBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/bin/main/com/recruitify/common/model/profile/Education.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/bin/main/com/recruitify/common/model/profile/Profile$ProfileBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/bin/main/com/recruitify/common/model/profile/Profile.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/bin/main/com/recruitify/common/model/profile/WorkExperience$WorkExperienceBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/bin/main/com/recruitify/common/model/profile/WorkExperience.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/bin/main/com/recruitify/common/security/UserDetailsImpl$UserDetailsImplBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/bin/main/com/recruitify/common/security/UserDetailsImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/bin/main/com/recruitify/common/token/controller/TokenController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/bin/main/com/recruitify/common/token/dto/RefreshTokenRequest$RefreshTokenRequestBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/bin/main/com/recruitify/common/token/dto/RefreshTokenRequest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/bin/main/com/recruitify/common/token/dto/TokenResponseVO$TokenResponseVOBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/bin/main/com/recruitify/common/token/dto/TokenResponseVO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/bin/main/com/recruitify/common/token/repository/RefreshTokenRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/bin/main/com/recruitify/common/token/service/IRefreshTokenService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/bin/main/com/recruitify/common/token/service/ITokenService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/bin/main/com/recruitify/common/token/service/RefreshTokenService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/bin/main/com/recruitify/common/token/service/TokenService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/bin/main/com/recruitify/common/utils/FormatResultPagination$FormatResultPaginationBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/bin/main/com/recruitify/common/utils/FormatResultPagination.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/bin/main/com/recruitify/common/vo/MessageResponse.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/bin/main/com/recruitify/common/vo/PageResponse$PageResponseBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/bin/main/com/recruitify/common/vo/PageResponse.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/bin/main/com/recruitify/common/vo/Result$ResultBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/bin/main/com/recruitify/common/vo/Result.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/build.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/build/classes/java/main/com/recruitify/common/config/CorsConfig.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/build/classes/java/main/com/recruitify/common/config/JwtConfig.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/build/classes/java/main/com/recruitify/common/config/SecurityConfig.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/build/classes/java/main/com/recruitify/common/constant/ErrorCode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/build/classes/java/main/com/recruitify/common/event/AuthenticationEvent$AuthEventType.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/build/classes/java/main/com/recruitify/common/event/AuthenticationEvent.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/build/classes/java/main/com/recruitify/common/exception/AccountDeactivatedException.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/build/classes/java/main/com/recruitify/common/exception/GlobalExceptionHandler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/build/classes/java/main/com/recruitify/common/exception/ResourceNotFoundException.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/build/classes/java/main/com/recruitify/common/exception/TokenRefreshException.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/build/classes/java/main/com/recruitify/common/model/catalog/Category$CategoryBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/build/classes/java/main/com/recruitify/common/model/catalog/Category.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/build/classes/java/main/com/recruitify/common/model/catalog/EmploymentType$EmploymentTypeBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/build/classes/java/main/com/recruitify/common/model/catalog/EmploymentType.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/build/classes/java/main/com/recruitify/common/model/catalog/ExperienceLevel$ExperienceLevelBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/build/classes/java/main/com/recruitify/common/model/catalog/ExperienceLevel.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/build/classes/java/main/com/recruitify/common/model/catalog/Skill$SkillBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/build/classes/java/main/com/recruitify/common/model/catalog/Skill.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/build/classes/java/main/com/recruitify/common/model/catalog/WorkApproach$WorkApproachBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/build/classes/java/main/com/recruitify/common/model/catalog/WorkApproach.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/build/classes/java/main/com/recruitify/common/model/identity/PasswordResetToken$PasswordResetTokenBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/build/classes/java/main/com/recruitify/common/model/identity/PasswordResetToken.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/build/classes/java/main/com/recruitify/common/model/identity/RefreshToken$RefreshTokenBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/build/classes/java/main/com/recruitify/common/model/identity/RefreshToken.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/build/classes/java/main/com/recruitify/common/model/identity/Role.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/build/classes/java/main/com/recruitify/common/model/identity/User$UserBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/build/classes/java/main/com/recruitify/common/model/identity/User.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/build/classes/java/main/com/recruitify/common/model/job/Company$CompanyBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/build/classes/java/main/com/recruitify/common/model/job/Company.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/build/classes/java/main/com/recruitify/common/model/job/Job$JobBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/build/classes/java/main/com/recruitify/common/model/job/Job.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/build/classes/java/main/com/recruitify/common/model/location/AdministrativeUnit$AdministrativeUnitBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/build/classes/java/main/com/recruitify/common/model/location/AdministrativeUnit.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/build/classes/java/main/com/recruitify/common/model/location/Province$ProvinceBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/build/classes/java/main/com/recruitify/common/model/location/Province.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/build/classes/java/main/com/recruitify/common/model/location/Ward$WardBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/build/classes/java/main/com/recruitify/common/model/location/Ward.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/build/classes/java/main/com/recruitify/common/model/profile/Education$EducationBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/build/classes/java/main/com/recruitify/common/model/profile/Education.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/build/classes/java/main/com/recruitify/common/model/profile/Profile$ProfileBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/build/classes/java/main/com/recruitify/common/model/profile/Profile.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/build/classes/java/main/com/recruitify/common/model/profile/WorkExperience$WorkExperienceBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/build/classes/java/main/com/recruitify/common/model/profile/WorkExperience.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/build/classes/java/main/com/recruitify/common/security/UserDetailsImpl$UserDetailsImplBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/build/classes/java/main/com/recruitify/common/security/UserDetailsImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/build/classes/java/main/com/recruitify/common/token/controller/TokenController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/build/classes/java/main/com/recruitify/common/token/dto/RefreshTokenRequest$RefreshTokenRequestBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/build/classes/java/main/com/recruitify/common/token/dto/RefreshTokenRequest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/build/classes/java/main/com/recruitify/common/token/dto/TokenResponseVO$TokenResponseVOBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/build/classes/java/main/com/recruitify/common/token/dto/TokenResponseVO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/build/classes/java/main/com/recruitify/common/token/repository/RefreshTokenRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/build/classes/java/main/com/recruitify/common/token/service/IRefreshTokenService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/build/classes/java/main/com/recruitify/common/token/service/ITokenService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/build/classes/java/main/com/recruitify/common/token/service/RefreshTokenService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/build/classes/java/main/com/recruitify/common/token/service/TokenService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/build/classes/java/main/com/recruitify/common/utils/FormatResultPagination$FormatResultPaginationBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/build/classes/java/main/com/recruitify/common/utils/FormatResultPagination.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/build/classes/java/main/com/recruitify/common/vo/MessageResponse$MessageResponseBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/build/classes/java/main/com/recruitify/common/vo/MessageResponse.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/build/classes/java/main/com/recruitify/common/vo/PageResponse$PageResponseBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/build/classes/java/main/com/recruitify/common/vo/PageResponse.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/build/classes/java/main/com/recruitify/common/vo/Result$ResultBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/build/classes/java/main/com/recruitify/common/vo/Result.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/build/libs/common-0.0.1-SNAPSHOT.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/build/reports/problems/problems-report.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/build/resources/main/application-shared.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/build/tmp/jar/MANIFEST.MF" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/gradlew" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/gradlew.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/settings.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/src/main/java/com/recruitify/common/config/CorsConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/src/main/java/com/recruitify/common/config/JwtConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/src/main/java/com/recruitify/common/config/SecurityConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/src/main/java/com/recruitify/common/constant/ErrorCode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/src/main/java/com/recruitify/common/event/AuthenticationEvent.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/src/main/java/com/recruitify/common/exception/AccountDeactivatedException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/src/main/java/com/recruitify/common/exception/GlobalExceptionHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/src/main/java/com/recruitify/common/exception/ResourceNotFoundException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/src/main/java/com/recruitify/common/exception/TokenRefreshException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/src/main/java/com/recruitify/common/model/catalog/Category.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/src/main/java/com/recruitify/common/model/catalog/EmploymentType.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/src/main/java/com/recruitify/common/model/catalog/ExperienceLevel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/src/main/java/com/recruitify/common/model/catalog/Skill.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/src/main/java/com/recruitify/common/model/catalog/WorkApproach.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/src/main/java/com/recruitify/common/model/identity/PasswordResetToken.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/src/main/java/com/recruitify/common/model/identity/RefreshToken.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/src/main/java/com/recruitify/common/model/identity/Role.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/src/main/java/com/recruitify/common/model/identity/User.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/src/main/java/com/recruitify/common/model/job/Company.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/src/main/java/com/recruitify/common/model/job/Job.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/src/main/java/com/recruitify/common/model/location/AdministrativeUnit.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/src/main/java/com/recruitify/common/model/location/Province.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/src/main/java/com/recruitify/common/model/location/Ward.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/src/main/java/com/recruitify/common/model/profile/Education.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/src/main/java/com/recruitify/common/model/profile/Profile.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/src/main/java/com/recruitify/common/model/profile/WorkExperience.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/src/main/java/com/recruitify/common/security/UserDetailsImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/src/main/java/com/recruitify/common/token/controller/TokenController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/src/main/java/com/recruitify/common/token/dto/RefreshTokenRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/src/main/java/com/recruitify/common/token/dto/TokenResponseVO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/src/main/java/com/recruitify/common/token/repository/RefreshTokenRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/src/main/java/com/recruitify/common/token/service/IRefreshTokenService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/src/main/java/com/recruitify/common/token/service/ITokenService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/src/main/java/com/recruitify/common/token/service/RefreshTokenService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/src/main/java/com/recruitify/common/token/service/TokenService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/src/main/java/com/recruitify/common/utils/FormatResultPagination.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/src/main/java/com/recruitify/common/vo/MessageResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/src/main/java/com/recruitify/common/vo/PageResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/src/main/java/com/recruitify/common/vo/Result.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/common/src/main/resources/application-shared.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/find-job-screen/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/find-job-screen/build.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/find-job-screen/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/find-job-screen/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/find-job-screen/gradlew" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/find-job-screen/gradlew.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/find-job-screen/settings.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/find-job-screen/src/main/java/com/recruitify/findjobscreen/FindJobScreenApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/find-job-screen/src/main/java/com/recruitify/findjobscreen/config/OpenAPIConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/find-job-screen/src/main/java/com/recruitify/findjobscreen/config/SecurityConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/find-job-screen/src/main/java/com/recruitify/findjobscreen/controller/FindJobController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/find-job-screen/src/main/java/com/recruitify/findjobscreen/dto/request/JobSearchRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/find-job-screen/src/main/java/com/recruitify/findjobscreen/dto/response/FilterOptionsResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/find-job-screen/src/main/java/com/recruitify/findjobscreen/dto/response/FindJobPageResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/find-job-screen/src/main/java/com/recruitify/findjobscreen/dto/response/JobItemResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/find-job-screen/src/main/java/com/recruitify/findjobscreen/dto/response/JobListResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/find-job-screen/src/main/java/com/recruitify/findjobscreen/dto/response/PaginationResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/find-job-screen/src/main/java/com/recruitify/findjobscreen/repository/CategoryRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/find-job-screen/src/main/java/com/recruitify/findjobscreen/repository/CompanyRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/find-job-screen/src/main/java/com/recruitify/findjobscreen/repository/EmploymentTypeRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/find-job-screen/src/main/java/com/recruitify/findjobscreen/repository/ExperienceLevelRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/find-job-screen/src/main/java/com/recruitify/findjobscreen/repository/JobRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/find-job-screen/src/main/java/com/recruitify/findjobscreen/repository/ProvinceRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/find-job-screen/src/main/java/com/recruitify/findjobscreen/repository/SkillRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/find-job-screen/src/main/java/com/recruitify/findjobscreen/repository/WorkApproachRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/find-job-screen/src/main/java/com/recruitify/findjobscreen/service/IFindJobService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/find-job-screen/src/main/java/com/recruitify/findjobscreen/service/impl/FindJobServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/find-job-screen/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/find-job-screen/src/test/java/com/recruitify/findjobscreen/FindJobScreenApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/find-job-screen/src/test/resources/application-test.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/forget-password-screen/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/forget-password-screen/build.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/forget-password-screen/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/forget-password-screen/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/forget-password-screen/gradlew" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/forget-password-screen/gradlew.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/forget-password-screen/settings.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/forget-password-screen/src/main/java/com/recruitify/forgetpasswordscreen/ForgetPasswordScreenApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/forget-password-screen/src/main/java/com/recruitify/forgetpasswordscreen/config/OpenAPIConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/forget-password-screen/src/main/java/com/recruitify/forgetpasswordscreen/config/SecurityConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/forget-password-screen/src/main/java/com/recruitify/forgetpasswordscreen/controller/ForgetPasswordController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/forget-password-screen/src/main/java/com/recruitify/forgetpasswordscreen/dto/request/ForgetPasswordRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/forget-password-screen/src/main/java/com/recruitify/forgetpasswordscreen/dto/response/ForgetPasswordResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/forget-password-screen/src/main/java/com/recruitify/forgetpasswordscreen/repository/PasswordResetTokenRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/forget-password-screen/src/main/java/com/recruitify/forgetpasswordscreen/repository/UserRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/forget-password-screen/src/main/java/com/recruitify/forgetpasswordscreen/service/EmailService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/forget-password-screen/src/main/java/com/recruitify/forgetpasswordscreen/service/IForgetPasswordService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/forget-password-screen/src/main/java/com/recruitify/forgetpasswordscreen/service/impl/ForgetPasswordServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/forget-password-screen/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/forget-password-screen/src/test/java/com/recruitify/forgetpasswordscreen/ForgetPasswordScreenApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/homepage-screen/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/homepage-screen/build.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/homepage-screen/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/homepage-screen/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/homepage-screen/gradlew" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/homepage-screen/gradlew.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/homepage-screen/settings.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/homepage-screen/src/main/java/com/recruitify/homepagescreen/HomepageScreenApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/homepage-screen/src/main/java/com/recruitify/homepagescreen/config/OpenAPIConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/homepage-screen/src/main/java/com/recruitify/homepagescreen/config/SecurityConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/homepage-screen/src/main/java/com/recruitify/homepagescreen/controller/HomepageController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/homepage-screen/src/main/java/com/recruitify/homepagescreen/dto/response/CategoryResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/homepage-screen/src/main/java/com/recruitify/homepagescreen/dto/response/FeaturedJobResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/homepage-screen/src/main/java/com/recruitify/homepagescreen/dto/response/HomepageResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/homepage-screen/src/main/java/com/recruitify/homepagescreen/dto/response/StatsResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/homepage-screen/src/main/java/com/recruitify/homepagescreen/repository/CategoryRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/homepage-screen/src/main/java/com/recruitify/homepagescreen/repository/CompanyRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/homepage-screen/src/main/java/com/recruitify/homepagescreen/repository/EmploymentTypeRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/homepage-screen/src/main/java/com/recruitify/homepagescreen/repository/JobRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/homepage-screen/src/main/java/com/recruitify/homepagescreen/repository/ProvinceRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/homepage-screen/src/main/java/com/recruitify/homepagescreen/repository/UserRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/homepage-screen/src/main/java/com/recruitify/homepagescreen/repository/WardRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/homepage-screen/src/main/java/com/recruitify/homepagescreen/service/IHomepageService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/homepage-screen/src/main/java/com/recruitify/homepagescreen/service/impl/HomepageServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/homepage-screen/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/homepage-screen/src/test/java/com/recruitify/homepagescreen/HomepageScreenApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/login-screen/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/login-screen/build.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/login-screen/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/login-screen/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/login-screen/gradlew" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/login-screen/gradlew.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/login-screen/settings.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/login-screen/src/main/java/com/recruitify/loginscreen/LoginScreenApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/login-screen/src/main/java/com/recruitify/loginscreen/config/OpenAPIConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/login-screen/src/main/java/com/recruitify/loginscreen/config/SecurityConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/login-screen/src/main/java/com/recruitify/loginscreen/controller/LoginController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/login-screen/src/main/java/com/recruitify/loginscreen/dto/request/LoginRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/login-screen/src/main/java/com/recruitify/loginscreen/repository/IUserRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/login-screen/src/main/java/com/recruitify/loginscreen/service/ILoginService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/login-screen/src/main/java/com/recruitify/loginscreen/service/impl/LoginService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/login-screen/src/main/java/com/recruitify/loginscreen/vo/LoginResponseVO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/login-screen/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/login-screen/src/test/java/com/recruitify/loginscreen/LoginScreenApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/login-screen/src/test/resources/application-test.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/profile-screen/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/profile-screen/build.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/profile-screen/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/profile-screen/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/profile-screen/gradlew" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/profile-screen/gradlew.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/profile-screen/settings.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/profile-screen/src/main/java/com/recruitify/profilescreen/ProfileScreenApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/profile-screen/src/main/java/com/recruitify/profilescreen/config/OpenAPIConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/profile-screen/src/main/java/com/recruitify/profilescreen/config/SecurityConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/profile-screen/src/main/java/com/recruitify/profilescreen/controller/ProfileController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/profile-screen/src/main/java/com/recruitify/profilescreen/dto/request/EducationRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/profile-screen/src/main/java/com/recruitify/profilescreen/dto/request/ProfileUpdateRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/profile-screen/src/main/java/com/recruitify/profilescreen/dto/request/WorkExperienceRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/profile-screen/src/main/java/com/recruitify/profilescreen/repository/EducationRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/profile-screen/src/main/java/com/recruitify/profilescreen/repository/ProfileRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/profile-screen/src/main/java/com/recruitify/profilescreen/repository/ProvinceRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/profile-screen/src/main/java/com/recruitify/profilescreen/repository/WorkExperienceRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/profile-screen/src/main/java/com/recruitify/profilescreen/service/IProfileService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/profile-screen/src/main/java/com/recruitify/profilescreen/service/impl/ProfileServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/profile-screen/src/main/java/com/recruitify/profilescreen/vo/EducationResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/profile-screen/src/main/java/com/recruitify/profilescreen/vo/ProfileResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/profile-screen/src/main/java/com/recruitify/profilescreen/vo/ProvinceResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/profile-screen/src/main/java/com/recruitify/profilescreen/vo/WorkExperienceResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/profile-screen/src/main/resources/application.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/profile-screen/src/test/java/com/recruitify/profilescreen/ProfileScreenApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/profile-screen/src/test/resources/application-test.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/reset-password-screen/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/reset-password-screen/build.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/reset-password-screen/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/reset-password-screen/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/reset-password-screen/gradlew" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/reset-password-screen/gradlew.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/reset-password-screen/settings.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/reset-password-screen/src/main/java/com/recruitify/resetpasswordscreen/ResetPasswordScreenApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/reset-password-screen/src/main/java/com/recruitify/resetpasswordscreen/config/OpenAPIConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/reset-password-screen/src/main/java/com/recruitify/resetpasswordscreen/config/SecurityConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/reset-password-screen/src/main/java/com/recruitify/resetpasswordscreen/controller/ResetPasswordController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/reset-password-screen/src/main/java/com/recruitify/resetpasswordscreen/dto/request/ResetPasswordRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/reset-password-screen/src/main/java/com/recruitify/resetpasswordscreen/service/IResetPasswordService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/reset-password-screen/src/main/java/com/recruitify/resetpasswordscreen/service/impl/ResetPasswordServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/reset-password-screen/src/main/java/com/recruitify/resetpasswordscreen/vo/ResetPasswordVO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/reset-password-screen/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/reset-password-screen/src/test/java/com/recruitify/resetpasswordscreen/ResetPasswordScreenApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/reset-password-screen/src/test/resources/application-test.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/signup-screen/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/signup-screen/build.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/signup-screen/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/signup-screen/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/signup-screen/gradlew" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/signup-screen/gradlew.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/signup-screen/settings.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/signup-screen/src/main/java/com/recruitify/signupscreen/SignupScreenApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/signup-screen/src/main/java/com/recruitify/signupscreen/config/OpenAPIConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/signup-screen/src/main/java/com/recruitify/signupscreen/config/SecurityConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/signup-screen/src/main/java/com/recruitify/signupscreen/controller/SignupController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/signup-screen/src/main/java/com/recruitify/signupscreen/dto/request/SignupRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/signup-screen/src/main/java/com/recruitify/signupscreen/repository/IRoleRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/signup-screen/src/main/java/com/recruitify/signupscreen/repository/IUserRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/signup-screen/src/main/java/com/recruitify/signupscreen/service/ISignupService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/signup-screen/src/main/java/com/recruitify/signupscreen/service/impl/SignupServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/signup-screen/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/signup-screen/src/test/java/com/recruitify/signupscreen/SignupScreenApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/signup-screen/src/test/resources/application-test.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/WebApiApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../token_service_usage.txt" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <projects_view>
+          <tree_state>
+            <expand />
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;thanhhung-dev&quot;
+  }
+}</component>
+  <component name="GitToolBoxStore">
+    <option name="branchesCleanupHistory">
+      <BranchesCleanupHistory>
+        <option name="history">
+          <list>
+            <BranchCleanupEntry>
+              <option name="deletions">
+                <list>
+                  <BranchDeletion>
+                    <option name="hash" value="7b54578157a69beb5fcf30d6ba0b60ff0a988abc" />
+                    <option name="name" value="feature/user-profile-services" />
+                  </BranchDeletion>
+                </list>
+              </option>
+              <option name="timestamp" value="1769993768136" />
+            </BranchCleanupEntry>
+          </list>
+        </option>
+      </BranchesCleanupHistory>
+    </option>
+  </component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/RecrHub/recruitify.git&quot;,
+    &quot;accountId&quot;: &quot;45253a28-4786-4358-8fc4-7e7554bc7f7a&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 0
+}</component>
+  <component name="ProjectId" id="3907toi2OSwXv2fdonVboAly10T" />
+  <component name="ProjectViewState">
+    <option name="compactDirectories" value="true" />
+    <option name="showExcludedFiles" value="false" />
+    <option name="showLibraryContents" value="true" />
+    <option name="showScratchesAndConsoles" value="false" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.formatter.settings.were.checked&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;develop&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/duongthanhhung/Documents/Cap/recruitify/apps/backend/web-api/src/main/java/com/recruitify/webapi&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify/webapi" />
+      <recent name="$PROJECT_DIR$/backend/web-api/src/main/java/com/recruitify" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="JetRunConfigurationType">
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <option name="filePath" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="" />
+      <option name="RUN_TOOL" value="" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="Tox" factoryName="Tox">
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="RUN_TOOL" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Doctests">
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="" />
+      <option name="RUN_TOOL" value="" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-30f59d01ecdd-2fc7cc6b9a17-intellij.indexing.shared.core-IU-253.30387.90" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="de1bc723-43f4-4bf0-a4f0-b037091b3677" name="Changes" comment="" />
+      <created>1769821353412</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1769821353412</updated>
+      <workItem from="1769821354891" duration="1077000" />
+      <workItem from="1769826494746" duration="515000" />
+      <workItem from="1769991886070" duration="3738000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
