@@ -1,4 +1,0 @@
-rootProject.name = 'login-screen'
-
-includeFlat 'common'
-
