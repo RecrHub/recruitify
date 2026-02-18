@@ -1,21 +1,26 @@
 "use client";
 
-import { Flexbox } from "react-layout-kit";
+import { useState } from "react";
 import { Input, Button, Card, Select } from "antd";
 import { SearchOutlined, EnvironmentOutlined } from "@ant-design/icons";
 import UserIcon from "@/access/icons/users-duotone 1.svg";
 import JobIcon from "@/access/icons/briefcase-duotone1.svg";
 import BuildingTown from "@/access/icons/buildings-duotone1.svg";
-import { useStyles } from "./style";
+import styles from "./HeroSection.module.css";
 import HeroImg from "@/access/icons/HeroSection.svg";
 import GruopImageFirt from "@/access/icons/GruopImageFirts.svg";
 import GruopImageSecond from "@/access/icons/GroupSecond.svg";
 import { useRouter } from "next/navigation";
+
 export default function HeroContainer() {
-  const { styles } = useStyles();
   const router = useRouter();
+  const [searchFocused, setSearchFocused] = useState(false);
   return (
     <div className={styles.heroWrapper}>
+      <div
+        className={`${styles.overlay} ${searchFocused ? styles.overlayVisible : ""}`}
+        onClick={() => setSearchFocused(false)}
+      />
       <div className={styles.imgHero}>
         <HeroImg />
       </div>
@@ -27,7 +32,7 @@ export default function HeroContainer() {
           <GruopImageSecond />
         </div>
       </div>
-      <Flexbox className={styles.container}>
+      <div className={styles.container}>
         <h1>
           Discover the Best Jobs <br /> to Build Your Career
         </h1>
@@ -38,7 +43,9 @@ export default function HeroContainer() {
         </p>
 
         {/* Search Box */}
-        <div className={styles.searchWrapper}>
+        <div
+          className={`${styles.searchWrapper} ${searchFocused ? styles.searchWrapperFocused : ""}`}
+        >
           <div className={styles.searchBox}>
             <div className={styles.inputWrapper}>
               <SearchOutlined style={{ fontSize: 24, color: "#9ca3af" }} />
@@ -46,6 +53,7 @@ export default function HeroContainer() {
                 placeholder="Job tittle, Keyword..."
                 className={styles.input}
                 variant="borderless"
+                onFocus={() => setSearchFocused(true)}
               />
             </div>
 
@@ -60,6 +68,7 @@ export default function HeroContainer() {
                 showSearch
                 allowClear
                 style={{ width: "100%" }}
+                onFocus={() => setSearchFocused(true)}
               />
             </div>
           </div>
@@ -75,61 +84,61 @@ export default function HeroContainer() {
 
         {/* Suggestions */}
         <div className={styles.suggestions}>
-          <span className="label">| Suggestion:</span>
-          <span className="keyword">Designer</span>
-          <span className="normal">,</span>
-          <span className="keyword">Developer</span>
-          <span className="normal">,</span>
-          <span className="keyword">Manager</span>
-          <span className="normal">,</span>
-          <span className="keyword">Finance</span>
-          <span className="normal">,</span>
-          <span className="keyword">Marketing</span>
+          <span className={styles.suggestionLabel}>| Suggestion:</span>
+          <span className={styles.suggestionKeyword}>Designer</span>
+          <span className={styles.suggestionNormal}>,</span>
+          <span className={styles.suggestionKeyword}>Developer</span>
+          <span className={styles.suggestionNormal}>,</span>
+          <span className={styles.suggestionKeyword}>Manager</span>
+          <span className={styles.suggestionNormal}>,</span>
+          <span className={styles.suggestionKeyword}>Finance</span>
+          <span className={styles.suggestionNormal}>,</span>
+          <span className={styles.suggestionKeyword}>Marketing</span>
         </div>
 
         {/* Stats Cards */}
         <div className={styles.statsGrid}>
           <Card className={styles.statCard}>
-            <div className={`${styles.iconBox} default`}>
+            <div className={styles.iconBox}>
               <JobIcon />
             </div>
             <div className={styles.statContent}>
-              <p className="number">1,75,324</p>
-              <p className="label">Live Job</p>
+              <p className={styles.statNumber}>1,75,324</p>
+              <p className={styles.statLabel}>Live Job</p>
             </div>
           </Card>
 
           <Card className={styles.statCard}>
-            <div className={`${styles.iconBox} green`}>
+            <div className={styles.iconBoxGreen}>
               <BuildingTown />
             </div>
             <div className={styles.statContent}>
-              <p className="number">97,354</p>
-              <p className="label">Companies</p>
+              <p className={styles.statNumber}>97,354</p>
+              <p className={styles.statLabel}>Companies</p>
             </div>
           </Card>
 
           <Card className={styles.statCard}>
-            <div className={`${styles.iconBox} default`}>
+            <div className={styles.iconBox}>
               <UserIcon />
             </div>
             <div className={styles.statContent}>
-              <p className="number">38,47,154</p>
-              <p className="label">Candidates</p>
+              <p className={styles.statNumber}>38,47,154</p>
+              <p className={styles.statLabel}>Candidates</p>
             </div>
           </Card>
 
           <Card className={styles.statCard}>
-            <div className={`${styles.iconBox} default`}>
+            <div className={styles.iconBox}>
               <JobIcon />
             </div>
             <div className={styles.statContent}>
-              <p className="number">7,532</p>
-              <p className="label">New Jobs</p>
+              <p className={styles.statNumber}>7,532</p>
+              <p className={styles.statLabel}>New Jobs</p>
             </div>
           </Card>
         </div>
-      </Flexbox>
+      </div>
     </div>
-  );
+    );
 }

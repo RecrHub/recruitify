@@ -27,7 +27,6 @@ export const useStyles = createStyles(({ css, responsive, token }) => ({
   width: 100vw !important;
   margin-left: calc(50% - 50vw) !important;
   margin-right: calc(50% - 50vw) !important;
-
   height: 80px;
   padding: 0 30px;
   background-color: ${rgba(token.colorBgLayout, 0.4)};

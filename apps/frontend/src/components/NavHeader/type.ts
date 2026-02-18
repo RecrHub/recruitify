@@ -1,7 +1,6 @@
-import type { CSSProperties, ReactNode, Ref } from 'react';
-import type { FlexboxProps } from 'react-layout-kit';
+import type { CSSProperties, HTMLAttributes, ReactNode, Ref } from 'react';
 
-export interface HeaderProps extends FlexboxProps {
+export interface HeaderProps extends HTMLAttributes<HTMLElement> {
   actions?: ReactNode;
   actionsClassName?: string;
   actionsStyle?: CSSProperties;
@@ -11,5 +10,9 @@ export interface HeaderProps extends FlexboxProps {
   nav?: ReactNode;
   navClassName?: string;
   navStyle?: CSSProperties;
-  ref?: Ref<HTMLDivElement>;
+  /** Mobile-specific actions (e.g. simplified sign-in link) */
+  mobileActions?: ReactNode;
+  /** Extra content rendered at the bottom of the mobile sidebar */
+  mobileSidebarContent?: ReactNode;
+  ref?: Ref<HTMLElement>;
 }

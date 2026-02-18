@@ -1,0 +1,65 @@
+/* ===== NAV MENU (ul/li) ===== */
+.navbarNav {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  white-space: nowrap;
+}
+
+.navItem {
+  position: relative;
+}
+
+.navLink {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 16px;
+  color: #5e6670;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: color 0.2s, background-color 0.2s;
+  cursor: pointer;
+}
+
+.navLink:hover {
+  color: #18191c;
+}
+
+.active {
+  color: #18191c;
+  font-weight: 500;
+}
+
+/* ===== MOBILE MENU ITEMS ===== */
+@media (max-width: 966px) {
+  .navbarNav {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+  }
+
+  .navLink {
+    padding: 14px 0;
+    font-size: 16px;
+    border-radius: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+  }
+
+  .navLink:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+  }
+
+  .active {
+    color: #fff;
+    font-weight: 600;
+  }
+}

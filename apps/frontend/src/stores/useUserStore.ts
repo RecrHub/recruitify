@@ -1,15 +1,17 @@
 // stores/userStore.ts
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import type { User } from '@shared/auth'  
+import type { User, Profile } from '@shared/auth'  
 
 interface UserState {
   user: User | null
+  profile: Profile | null
   accessToken: string | null
   refreshToken: string | null
   tokenType: string | null
   isAuthenticated: boolean
   setAuth: (user: User, accessToken: string, refreshToken: string, tokenType?: string) => void
+  setProfile: (profile: Profile) => void
   updateTokens: (accessToken: string, refreshToken: string) => void
   logout: () => void
 }
@@ -18,6 +20,7 @@ export const useUserStore = create<UserState>()(
   persist(
     (set) => ({
       user: null,
+      profile: null,
       accessToken: null,
       refreshToken: null,
       tokenType: null,
@@ -32,6 +35,9 @@ export const useUserStore = create<UserState>()(
           isAuthenticated: true,
         })),
 
+      setProfile: (profile) =>
+        set(() => ({ profile })),
+
       updateTokens: (accessToken, refreshToken) =>
         set((state) => ({
           ...state,
@@ -42,6 +48,7 @@ export const useUserStore = create<UserState>()(
       logout: () =>
         set(() => ({
           user: null,
+          profile: null,
           accessToken: null,
           refreshToken: null,
           tokenType: null,
