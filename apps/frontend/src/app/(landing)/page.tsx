@@ -39,14 +39,6 @@ export default function Home() {
       <div className={styles.section}>
         <FeatureCompany />
       </div>
-
-      <div className={styles.section}>
-        <PricingSection />
-      </div>
-
-      <div className={styles.section}>
-        <ExploreFAQ />
-      </div>
     </Flexbox>
   );
 }

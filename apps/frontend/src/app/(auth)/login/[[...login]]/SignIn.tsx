@@ -97,7 +97,7 @@ export default function LoginForm() {
         <div className={styles.diagonalDivider} />
 
         {/* LEFT COLUMN */}
-        <Col span={12} className={styles.leftColumn}>
+        <Col className={styles.leftColumn}>
           <div className={styles.formWrapper}>
             <Button
               type="text"
@@ -193,7 +193,7 @@ export default function LoginForm() {
         </Col>
 
         {/* RIGHT COLUMN */}
-        <Col span={12} className={styles.rightColumn}>
+        <Col className={styles.rightColumn}>
           <div className={styles.bgImage} />
           <div className={styles.contentWrapper}>
             <div className={styles.titleWrapper}>

@@ -1,23 +1,16 @@
 import { 
-  DashboardOutlined,
   UserOutlined,
-  MailOutlined,
-  SettingOutlined,
-  LogoutOutlined
 } from '@ant-design/icons';
 import { Avatar } from 'antd';
-import type { MenuProps, ItemType } from '@/components/Menu';
-import { DropdownProps } from '../Dropdown';
-import { useUserDropdownStyles } from './styles';
-import { Briefcase, LayoutDashboard, LogOut, MailCheck, MailIcon, Settings, User2 } from 'lucide-react';
+import type { ItemType } from '@/components/Menu';
+import styles from './NavAction.module.css';
+import { Briefcase, LayoutDashboard, LogOut, MailIcon, Settings, User2 } from 'lucide-react';
 
 export const useUserDropdownMenu = (
   router: any,
   logout: () => void,
   user?: any
 ) => {
-  const { styles, cx } = useUserDropdownStyles();
-
   return {
     items: [
       {
@@ -28,7 +21,7 @@ export const useUserDropdownMenu = (
               size={40}
               src={user?.avatar}
               icon={!user?.avatar && <UserOutlined />}
-              className={styles.avatar}
+              className={styles.dropdownAvatar}
             />
             <div className={styles.userDetails}>
               <div className={styles.userName}>{user?.name || 'Hung Thanh'}</div>

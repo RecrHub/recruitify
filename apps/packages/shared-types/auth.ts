@@ -1,6 +1,7 @@
 // Auth response types
 export interface User {
   id: number;
+  username: string;
   email: string;
   role: string;
   createdAt?: string;
@@ -15,7 +16,7 @@ export interface JwtResponse {
   email: string;
   role: string;
 }
-export interface RegisterRequest { 
+export interface RegisterRequest {
   name?: string;
   email: string;
   password: string;
@@ -48,4 +49,18 @@ export interface ApiError {
 
 export interface RefreshTokenRequest {
   refreshToken: string;
+}
+
+export interface Profile {
+  accountId: number;
+  fullName?: string;
+  avatarUrl?: string;
+  title?: string;
+  about?: string;
+  phoneNumber?: number;
+  gender?: boolean;
+  address?: string;
+  dob?: string;
+  personalLink?: string;
+  provinceCode?: string;
 }

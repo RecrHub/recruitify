@@ -64,7 +64,7 @@ export const getAppConfig = () => {
       // Sentry
       NEXT_PUBLIC_ENABLE_SENTRY: !!process.env.NEXT_PUBLIC_SENTRY_DSN,
 
-      // ✅ Client-side theme variables
+      // Client-side theme variables
       NEXT_PUBLIC_CUSTOM_FONT_FAMILY: process.env.NEXT_PUBLIC_CUSTOM_FONT_FAMILY,
       NEXT_PUBLIC_CUSTOM_FONT_URL: process.env.NEXT_PUBLIC_CUSTOM_FONT_URL,
       NEXT_PUBLIC_CDN_USE_GLOBAL: process.env.NEXT_PUBLIC_CDN_USE_GLOBAL === '1',

@@ -1,10 +1,9 @@
 'use client';
 
-import { useResponsive } from 'antd-style';
-import { memo } from 'react';
-import { Flexbox } from 'react-layout-kit';
+import { memo, useState, useCallback } from 'react';
+import { Menu, X } from 'lucide-react';
 
-import { useStyles } from './style';
+import styles from './Header.module.css';
 import type { HeaderProps } from './type';
 
 const Header = memo<HeaderProps>(
@@ -15,6 +14,8 @@ const Header = memo<HeaderProps>(
     nav,
     logo,
     actions,
+    mobileActions,
+    mobileSidebarContent,
     actionsStyle,
     logoStyle,
     navStyle,
@@ -23,82 +24,102 @@ const Header = memo<HeaderProps>(
     ref,
     ...rest
   }) => {
-    const { mobile } = useResponsive();
-    const { cx, styles } = useStyles();
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+    const toggleMenu = useCallback(() => {
+      setMobileMenuOpen((prev) => !prev);
+    }, []);
+
+    const closeMenu = useCallback(() => {
+      setMobileMenuOpen(false);
+    }, []);
 
     return (
-      <Flexbox
-        align={"center"}
-        as={"section"}
-        className={cx(styles.root, className)}
-        distribution={"space-between"}
-        horizontal
+      <>
+      <div className={styles.spacer} />
+      <header
+        className={`${styles.root} ${className || ''}`.trim()}
         ref={ref}
-        width={"auto"}
         {...rest}
       >
-        {mobile ? (
-          <>
-            <Flexbox
-              className={actionsClassName}
-              style={{ flex: 0, ...navStyle }}
+        <div className={styles.desktopOnly}>
+          <nav className={styles.navbar}>
+            <div className={styles.container}>
+              <div
+                className={`${styles.navBrand} ${logoClassName || ''}`.trim()}
+                style={logoStyle}
+              >
+                {logo}
+              </div>
+              <div
+                className={`${styles.navbarCollapse} ${navClassName || ''}`.trim()}
+                style={navStyle}
+              >
+                {nav}
+                {children}
+              </div>
+              <div
+                className={`${styles.navActions} ${actionsClassName || ''}`.trim()}
+                style={actionsStyle}
+              >
+                {actions}
+              </div>
+            </div>
+          </nav>
+        </div>
+
+        {/* ===== MOBILE NAV ===== */}
+        <div className={styles.mobileOnly}>
+          <nav className={styles.mobileNavbar}>
+            <button
+              className={styles.hamburger}
+              onClick={toggleMenu}
+              aria-label="Toggle menu"
+              type="button"
             >
+              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+
+            <div className={styles.mobileLogo}>
+              {logo}
+            </div>
+
+            <div className={styles.mobileActions}>
+              {mobileActions}
+            </div>
+          </nav>
+
+          {/* Slide-out menu */}
+          <div className={`${styles.mobileMenu} ${mobileMenuOpen ? styles.mobileMenuOpen : ''}`.trim()}>
+            <div className={styles.mobileMenuHeader}>
+              <button
+                className={styles.closeButton}
+                onClick={closeMenu}
+                aria-label="Close menu"
+                type="button"
+              >
+                <span>Close</span>
+                <X size={20} />
+              </button>
+            </div>
+            <div className={styles.mobileMenuContent}>
               {nav}
               {children}
-            </Flexbox>
-            <Flexbox
-              className={cx(styles.left, logoClassName)}
-              horizontal
-              style={{ flex: 1, overflow: "hidden", ...logoStyle }}
-            >
-              {logo}
-            </Flexbox>
-            <Flexbox
-              className={actionsClassName}
-              style={{ flex: 0, ...actionsStyle }}
-            >
-              {actions}
-            </Flexbox>
-          </>
-        ) : (
-          <>
-            <Flexbox
-              className={cx(styles.left, logoClassName)}
-              horizontal
-              style={{ flex: 0, ...logoStyle }}
-            >
-              {logo}
-            </Flexbox>
-            <Flexbox
-              className={navClassName}
-              style={{
-                position: "absolute",
-                left: "50%",
-                transform: "translateX(-50%)",
-                display: "flex",
-                justifyContent: "center",
-                pointerEvents: "auto",
-                zIndex: 9990,
-                ...navStyle,
-              }}
-            >
-              {nav}
-            </Flexbox>
-            <Flexbox
-              className={cx(styles.right, actionsClassName)}
-              flex={1}
-              horizontal
-              justify={"space-between"}
-              style={actionsStyle}
-            >
-              <div />
-              <Flexbox align={"center"} gap={8} horizontal>
-                {actions}
-              </Flexbox>
-            </Flexbox>
-          </>
-        )}
-      </Flexbox>
+              {mobileSidebarContent}
+            </div>
+          </div>
+
+          {/* Overlay */}
+          {mobileMenuOpen && (
+            <div
+              className={styles.overlay}
+              onClick={closeMenu}
+              aria-hidden="true"
+            />
+          )}
+        </div>
+      </header>
+      </>
     );
   },
 );
