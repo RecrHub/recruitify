@@ -10,6 +10,7 @@ export default (token: Theme) => css`
 
   html {
     overscroll-behavior: none;
+    overflow-x: hidden;
     color-scheme: ${token.isDarkMode ? 'dark' : 'light'};
   }
 

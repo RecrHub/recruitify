@@ -93,11 +93,11 @@ export default function LoginForm() {
 
   return (
     <div className={styles.container}>
-      <Row className={styles.row}>
+      <div className={styles.row}>
         <div className={styles.diagonalDivider} />
 
         {/* LEFT COLUMN */}
-        <Col className={styles.leftColumn}>
+        <div className={styles.leftColumn}>
           <div className={styles.formWrapper}>
             <Button
               type="text"
@@ -174,7 +174,7 @@ export default function LoginForm() {
                 <Divider className={styles.divider}>or</Divider>
 
                 <div className={styles.socialButtonsWrapper}>
-                  <Button
+                  <Button 
                     icon={<FacebookIcon width={20} height={20} />}
                     className={styles.socialButton}
                   >
@@ -190,10 +190,10 @@ export default function LoginForm() {
               </Form>
             </div>
           </div>
-        </Col>
+        </div>
 
         {/* RIGHT COLUMN */}
-        <Col className={styles.rightColumn}>
+        <div className={styles.rightColumn}>
           <div className={styles.bgImage} />
           <div className={styles.contentWrapper}>
             <div className={styles.titleWrapper}>
@@ -215,8 +215,8 @@ export default function LoginForm() {
               </div>
             </div>
           </div>
-        </Col>
-      </Row>
+        </div>
+      </div>
     </div>
   );
 }

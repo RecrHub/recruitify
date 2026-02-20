@@ -23,6 +23,11 @@ export const useStyles = createStyles(({ css, token, responsive }) => ({
         justify-content: space-between;
         align-items: flex-start;
         margin-bottom: 20px;
+
+        ${responsive.mobile} {
+            flex-direction: column;
+            gap: 16px;
+        }
     `,
     heading: css`
         display: flex;
@@ -36,6 +41,11 @@ export const useStyles = createStyles(({ css, token, responsive }) => ({
         font-weight: 600;
         line-height: 48px;
         margin: 0;
+
+        ${responsive.mobile} {
+            font-size: 28px;
+            line-height: 36px;
+        }
     `,
     description: css`
         color: #52525B;
@@ -43,6 +53,11 @@ export const useStyles = createStyles(({ css, token, responsive }) => ({
         font-weight: 400;
         line-height: 28px;
         margin: 0;
+
+        ${responsive.mobile} {
+            font-size: 16px;
+            line-height: 24px;
+        }
     `,
     viewAllButton: css`
         display: flex;
