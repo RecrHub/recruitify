@@ -170,7 +170,7 @@ function SignUpPage() {
         <div className={styles.diagonalDivider} />
 
         {/* LEFT COLUMN */}
-        <Col span={12} className={styles.leftColumn}>
+        <div className={styles.leftColumn}>
           <div className={styles.formWrapper}>
             <Button
               type="text"
@@ -284,10 +284,10 @@ function SignUpPage() {
               </Form>
             </div>
           </div>
-        </Col>
+        </div>
 
         {/* RIGHT COLUMN */}
-        <Col span={12} className={styles.rightColumn}>
+        <div className={styles.rightColumn}>
           <div className={styles.bgImage} />
 
           <div className={styles.contentWrapper}>
@@ -310,7 +310,7 @@ function SignUpPage() {
               </div>
             </div>
           </div>
-        </Col>
+        </div>
       </Row>
     </div>
   );

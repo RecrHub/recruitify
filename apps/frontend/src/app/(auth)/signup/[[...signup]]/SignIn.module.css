@@ -18,18 +18,14 @@
 
 .diagonalDivider.diagonalDivider {
     position: absolute;
-    left: 50%;
-    top: 50%;
-    height: 200vh;
-    width: 8%;
-    transform: translate(-85%, -50%) rotate(2deg);
-    background: linear-gradient(to right,
-            transparent 0%,
-            #fff 0%,
-            #fff 100%,
-            #fff 100%);
-    z-index: 1;
-    pointer-events: none;
+  left: 40%;
+  top: 50%;
+  height: 200vh;
+  width: 8%;
+  transform: translate(-50%, -50%) rotate(2deg);
+  background: #fff;
+  z-index: 1;
+  pointer-events: none;
 }
 
 @media (max-width: 768px) {
@@ -45,7 +41,6 @@
     position: relative;
     height: 100vh;
     width: 40%;
-    padding: 50px;
     z-index: 2;
     justify-content: center;
     align-items: center;
@@ -59,7 +54,6 @@
 }
 
 .backButton.backButton {
-    position: relative;
     align-self: flex-start;
     margin-bottom: 20px;
     padding: 0;
@@ -68,7 +62,6 @@
     border: none;
     background: transparent;
     font-size: 14px;
-    z-index: 10;
     cursor: pointer;
 }
 
@@ -77,22 +70,10 @@
     background: transparent;
 }
 
-@media (max-width: 1440px) {
-    .backButton.backButton {
-        left: 10%;
-    }
-}
-
-@media (max-width: 768px) {
-    .backButton.backButton {
-        top: 24px;
-        left: 24px;
-    }
-}
-
 .formWrapper.formWrapper {
-    width: 537px;
-    max-height: calc(100vh - 200px - 100px);
+    width: 100%;
+    max-width: 520px;
+    max-height: calc(100vh - 40px - 100px);
     overflow-y: auto;
     padding-right: 10px;
 }
@@ -467,18 +448,21 @@
 }
 
 .rightColumn.rightColumn {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color: #fff;
-    padding: 24px;
-    text-align: center;
-    position: relative;
-    height: 100vh;
-    width: 60%;
-    overflow: hidden;
-    box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  padding: 24px;
+  text-align: center;
+  position: relative;
+  height: 100vh;
+  width: 60% !important;
+  max-width: none !important;
+  flex: 0 0 60% !important;
+  overflow: hidden;
+  box-sizing: border-box;
+  min-width: 0;
 }
 
 @media (max-width: 768px) {
@@ -488,18 +472,18 @@
 }
 
 .bgImage.bgImage {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(180deg,
-            rgba(13, 60, 4, 0.45) 0%,
-            rgba(4, 60, 17, 0.9) 100%),
-        url("/bg.jpg") lightgray 50% / cover no-repeat;
-    background-size: cover;
-    background-position: center;
-    z-index: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+      180deg,
+      rgba(13, 60, 4, 0.7),
+      rgba(4, 60, 17, 0.7)
+    ),
+    url("/bg.jpg") center/cover no-repeat;
+  z-index: 0;
 }
 
 .contentWrapper.contentWrapper {

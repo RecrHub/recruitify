@@ -24,7 +24,7 @@ const FeatureCompany = () => {
                 width="100%"
                 gap={27}
                 rows={3}
-                maxItemWidth={100}
+                maxItemWidth={280}
             >
                 {companiesData.map((company) => (
                 <CompanyCard key={company.id} {...company} />

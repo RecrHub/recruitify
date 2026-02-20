@@ -1,17 +1,19 @@
 /* ===== LAYOUT ===== */
 .container {
   position: relative;
-  overflow: hidden;
   width: 100%;
+  overflow: hidden;
 }
 
 .row.row {
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap !important;
   overflow: hidden;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
 }
 
 /* Diagonal divider between columns */
@@ -31,16 +33,16 @@
 .leftColumn.leftColumn {
   display: flex;
   flex-direction: column;
+  background: #fff;
+  position: relative;
+  min-height: 100vh;
+  flex: 0 0 40%;
+  max-width: 40%;
+  z-index: 2;
   justify-content: center;
   align-items: center;
-  background: #fff;
-  width: 40% !important;
-  max-width: none !important;
-  flex: 0 0 40% !important;
-  height: 100vh;
-  padding: 48px;
-  z-index: 2;
   box-sizing: border-box;
+  overflow: hidden;
 }
 
 /* ===== BACK BUTTON ===== */
@@ -56,6 +58,7 @@
   cursor: pointer;
 }
 
+
 .backButton.backButton:hover {
   color: #000;
   background: transparent;
@@ -64,7 +67,7 @@
 /* ===== FORM WRAPPER ===== */
 .formWrapper {
   width: 100%;
-  max-width: 480px;
+  max-width: 450px;
   max-height: calc(100vh - 120px);
   overflow-y: auto;
   padding-right: 8px;
@@ -302,7 +305,6 @@
 .socialButton.socialButton {
   flex: 1;
   height: 44px;
-  padding: 12px 24px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -337,14 +339,15 @@
   text-align: center;
   position: relative;
   height: 100vh;
-  width: 60% !important;
-  max-width: none !important;
-  flex: 0 0 60% !important;
+  width: 60%;
+  max-width: none;
+  flex: 0 0 60%;
   overflow: hidden;
   box-sizing: border-box;
+  min-width: 0;
 }
 
-.bgImage {
+.bgImage.bgImage {
   position: absolute;
   top: 0;
   left: 0;
@@ -369,6 +372,7 @@
   flex-direction: column;
   justify-content: center;
   margin: 0 auto;
+  padding-top: 450px;
 }
 
 .titleWrapper {
@@ -430,7 +434,7 @@
   gap: 8px;
 }
 
-.statNumber {
+.statNumber.statNumber {
   color: #fff;
   font-size: 18px;
   display: block;
@@ -440,7 +444,7 @@
   text-align: left;
 }
 
-.statLabel {
+.statLabel.statLabel {
   color: #fff;
   font-size: 14px;
   font-weight: 400;
@@ -495,31 +499,28 @@
     margin-bottom: 12px;
   }
 
-  .statNumber {
+  .statNumber.statNumber {
     font-size: 16px;
   }
 
-  .statLabel {
+  .statLabel.statLabel {
     font-size: 12px;
   }
 }
 
 @media (max-width: 768px) {
-  .diagonalDivider {
-    display: none;
-  }
-
   .leftColumn.leftColumn {
-    width: 100% !important;
-    flex: 0 0 100% !important;
+    width: 100%;
+    max-width: 100%;
+    flex: 0 0 100%;
     padding: 20px;
+    align-items: flex-start;
   }
 
   .formWrapper {
     width: 100%;
-    max-width: none;
-    max-height: none;
-    padding: 0 24px;
+    max-width: 100%;
+    padding: 0 16px;
   }
 
   .backButton.backButton {
@@ -587,7 +588,12 @@
     font-size: 18px;
   }
 
+  .diagonalDivider {
+    display: none;
+  }
+
   .rightColumn.rightColumn {
     display: none;
   }
 }
+

@@ -7,7 +7,7 @@ export const useStyles = createStyles(({ css }) => {
     jobWrapper: css`
       width: 100%;
       padding: 23px;
-      height: 271px;
+      min-height: 271px;
       border-radius: 8px;
       border: 1px solid #CCC;
       background: #FFFFFF;

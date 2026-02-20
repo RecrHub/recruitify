@@ -24,7 +24,7 @@ const FeatureJob = () => {
                 width="100%"
                 gap={27}
                 rows={3}
-                maxItemWidth={200}
+                maxItemWidth={280}
             >
                 {jobsData.map((job) => (
                     <JobCard key={job.id} {...job} />
