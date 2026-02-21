@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Form,
   Input,
@@ -21,6 +21,8 @@ import { ArrowRight, ChevronLeft,} from "lucide-react";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons"; 
 import Link from "next/link";
 import authService from "@/services/authService";
+import Alert from "@/components/Alert";
+import { margin } from "polished";
 const { Title, Text } = Typography;
 
 
@@ -33,6 +35,13 @@ export default function LoginForm() {
   const [loginSuccess, setLoginSuccess] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { message } = App.useApp();
+
+  useEffect(() => {
+    if (apiError) {
+      const timer = setTimeout(() => setApiError(null), 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [apiError]);
 
   const handleSubmit = async (values: { email: string; password: string }) => {
     try {
@@ -76,7 +85,6 @@ export default function LoginForm() {
         ) {
           setApiError("Tên đăng nhập hoặc mật khẩu không đúng.");
         } else {
-          // Hiển thị thông báo lỗi từ server
           setApiError(error.message);
         }
       } else {
@@ -93,6 +101,28 @@ export default function LoginForm() {
 
   return (
     <div className={styles.container}>
+      {apiError && (
+        <div
+          className={styles.alertPopup}
+          style={{
+            position: "fixed",
+            top: 24,
+            right: 24,
+            zIndex: 9999,
+            minWidth: 320,
+            maxWidth: 420,
+          }}
+        >
+          <Alert
+            type="error"
+            message="Đăng nhập thất bại"
+            description={apiError}
+            showIcon
+            closable
+            afterClose={() => setApiError(null)}
+          />
+        </div>
+      )}
       <div className={styles.row}>
         <div className={styles.diagonalDivider} />
 
@@ -126,7 +156,6 @@ export default function LoginForm() {
                   Create Account
                 </Link>
               </Text>
-
               <Form
                 form={form}
                 layout="vertical"
