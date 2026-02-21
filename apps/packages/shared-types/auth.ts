@@ -1,7 +1,7 @@
 // Auth response types
 export interface User {
   id: number;
-  username: string;
+  username?: string;
   email: string;
   role: string;
   createdAt?: string;

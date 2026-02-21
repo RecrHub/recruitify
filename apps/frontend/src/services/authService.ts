@@ -44,13 +44,13 @@ const authService = {
 
       useUserStore.getState().setAuth(user, accessToken, refreshToken, tokenType);
       return response.data;
-    } catch (error: any) {
+    } catch (error: unknown) {
       // Extract error message from response for display
-      if (error.response?.data) {
+      if (axios.isAxiosError(error) && error.response?.data) {
         const errorData = error.response.data;
         // Check if there are detailed error information
         if (errorData.details) {
-          throw new Error(errorData.details);
+          throw new Error(errorData.message)
         } else if (errorData.message) {
           throw new Error(errorData.message);
         } else {
@@ -93,7 +93,7 @@ const authService = {
     try {
       const request: RefreshTokenRequest = { refreshToken };
       const response = await authAxios.post<JwtResponse>(
-        "/api/auth/refresh",
+        "/api/v1/token/refresh",
         request
       );
       const { id, email, role, accessToken, refreshToken: newRefreshToken, tokenType } = response.data;
