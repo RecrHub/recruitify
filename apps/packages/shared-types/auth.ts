@@ -1,7 +1,7 @@
 // Auth response types
 export interface User {
   id: number;
-  username?: string;
+  fullName?: string;
   email: string;
   role: string;
   createdAt?: string;
@@ -17,7 +17,7 @@ export interface JwtResponse {
   role: string;
 }
 export interface RegisterRequest {
-  name?: string;
+  fullName?: string;
   email: string;
   password: string;
   role?: string;

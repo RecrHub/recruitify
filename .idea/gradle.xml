@@ -4,12 +4,10 @@
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
-        <option name="externalProjectPath" value="$PROJECT_DIR$/apps/backend/api-gateway" />
-        <option name="modules">
-          <set>
-            <option value="$PROJECT_DIR$/apps/backend/api-gateway" />
-          </set>
-        </option>
+        <option name="externalProjectPath" value="$USER_HOME$/Pictures/hOC/apps/backend" />
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="externalProjectPath" value="$USER_HOME$/Pictures/hOC/apps/backend/src" />
       </GradleProjectSettings>
       <GradleProjectSettings>
         <option name="externalProjectPath" value="$PROJECT_DIR$/apps/backend/login-screen" />
@@ -17,6 +15,14 @@
           <set>
             <option value="$PROJECT_DIR$/apps/backend/common" />
             <option value="$PROJECT_DIR$/apps/backend/login-screen" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="externalProjectPath" value="$PROJECT_DIR$/apps/backend/web-api" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/apps/backend/web-api" />
           </set>
         </option>
       </GradleProjectSettings>
