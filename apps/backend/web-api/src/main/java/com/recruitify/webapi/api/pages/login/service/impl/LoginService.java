@@ -11,15 +11,15 @@ import com.recruitify.webapi.api.pages.login.service.ILoginService;
 import com.recruitify.webapi.api.pages.login.vo.LoginResponseVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,8 +32,8 @@ import java.util.List;
 public class LoginService implements UserDetailsService, ILoginService {
     private final UserRepository userRepository;
     private final IRefreshTokenService refreshTokenService;
-    private final ObjectProvider<AuthenticationManager> authenticationManagerProvider;
     private final ITokenService tokenService;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     @Transactional(readOnly = true)
@@ -57,55 +57,60 @@ public class LoginService implements UserDetailsService, ILoginService {
     }
 
     @Override
-        @Transactional
-        public LoginResponseVO login(LoginRequest loginRequest) {
-                try {
-                        // Get authentication manager lazily to avoid circular dependency
-                        AuthenticationManager authenticationManager = authenticationManagerProvider.getObject();
+    @Transactional
+    public LoginResponseVO login(LoginRequest loginRequest) {
+        try {
+            User user = userRepository.findByEmail(loginRequest.getEmail())
+                    .orElseThrow(() -> new UsernameNotFoundException(
+                            "User not found with email: " + loginRequest.getEmail()));
 
-                        // Authenticate
-                        Authentication authentication = authenticationManager.authenticate(
-                                        new UsernamePasswordAuthenticationToken(
-                                                        loginRequest,
-                                                        loginRequest.getPassword()));
+            if (!user.getIsActive()) {
+                throw new RuntimeException("Account is deactivated");
+            }
 
-                        SecurityContextHolder.getContext().setAuthentication(authentication);
-                        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+            if (user.getLockedUntil() != null && user.getLockedUntil().isAfter(Instant.now())) {
+                throw new RuntimeException("Account is temporarily locked until " + user.getLockedUntil());
+            }
 
-                        // Generate JWT access token
-                        String accessToken = tokenService.generateAccessToken(userDetails);
+            if (!passwordEncoder.matches(loginRequest.getPassword(), user.getPasswordHash())) {
+                log.error("Password mismatch for email: {}, hash length: {}, hash prefix: {}",
+                        loginRequest.getEmail(),
+                        user.getPasswordHash() != null ? user.getPasswordHash().length() : 0,
+                        user.getPasswordHash() != null ? user.getPasswordHash().substring(0, Math.min(10, user.getPasswordHash().length())) : "NULL");
+                throw new BadCredentialsException("Bad credentials");
+            }
 
-                        // Get user for refresh token
-                        User user = userRepository.findByEmail(userDetails.getEmail())
-                                        .orElseThrow(() -> new UsernameNotFoundException(
-                                                        "User not found with email: " + userDetails.getEmail()));
+            UserDetailsImpl userDetails = UserDetailsImpl.build(user);
+            Authentication authentication = new UsernamePasswordAuthenticationToken(
+                    userDetails, null, userDetails.getAuthorities());
+            SecurityContextHolder.getContext().setAuthentication(authentication);
 
-                        // Create refresh token with retry mechanism
-                        RefreshToken refreshToken;
-                        try {
-                                refreshToken = refreshTokenService.createRefreshToken(user);
-                        } catch (DataIntegrityViolationException ex) {
-                                // If we hit a constraint violation, try to find existing token
-                                log.warn("Constraint violation creating refresh token, checking for existing tokens");
-                                List<RefreshToken> activeTokens = refreshTokenService.findActiveTokensByUser(user);
-                                if (activeTokens.isEmpty()) {
-                                        throw new RuntimeException("Could not create or find valid refresh token");
-                                }
-                                refreshToken = activeTokens.get(0);
-                        }
+            String accessToken = tokenService.generateAccessToken(userDetails);
 
-                        String role = user.getRole().getName();
-
-                        return LoginResponseVO.builder()
-                                        .accessToken(accessToken)
-                                        .refreshToken(refreshToken.getToken())
-                                        .id(userDetails.getId())
-                                        .email(userDetails.getEmail())
-                                        .role(role)
-                                        .build();
-                } catch (Exception e) {
-                        log.error("Authentication error: ", e);
-                        throw e;
+            RefreshToken refreshToken;
+            try {
+                refreshToken = refreshTokenService.createRefreshToken(user);
+            } catch (DataIntegrityViolationException ex) {
+                log.warn("Constraint violation creating refresh token, checking for existing tokens");
+                List<RefreshToken> activeTokens = refreshTokenService.findActiveTokensByUser(user);
+                if (activeTokens.isEmpty()) {
+                    throw new RuntimeException("Could not create or find valid refresh token");
                 }
+                refreshToken = activeTokens.get(0);
+            }
+
+            String role = user.getRole().getName();
+
+            return LoginResponseVO.builder()
+                    .accessToken(accessToken)
+                    .refreshToken(refreshToken.getToken())
+                    .id(userDetails.getId())
+                    .email(userDetails.getEmail())
+                    .role(role)
+                    .build();
+        } catch (Exception e) {
+            log.error("Authentication error: ", e);
+            throw e;
         }
+    }
 }

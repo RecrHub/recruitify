@@ -29,7 +29,7 @@ const { Title, Text, Link } = Typography;
 
 // ===== VALIDATION SCHEMA =====
 const validationSchema = yup.object().shape({
-  username: yup
+  fullName: yup
     .string()
     .trim()
     .min(3, "At least 3 characters")
@@ -208,7 +208,7 @@ function SignUpPage() {
                 onValuesChange={onValuesChange}
                 requiredMark={false}
               >
-                <Form.Item name="username" className={styles.formItem}>
+                <Form.Item name="fullName" className={styles.formItem}>
                   <Input placeholder="Username" className={styles.input} />
                 </Form.Item>
 
