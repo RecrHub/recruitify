@@ -115,7 +115,6 @@ export default function LoginForm() {
         >
           <Alert
             type="error"
-            message="Đăng nhập thất bại"
             description={apiError}
             showIcon
             closable
