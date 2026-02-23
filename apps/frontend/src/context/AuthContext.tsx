@@ -83,7 +83,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
                 // The API interceptor will handle token refreshing when needed
                 const userData = getUserFromStorage();
                 
-                // If userData exists, set the user state
+            // If userData exists, set the user state
                 if (userData) {
                     setUser(userData);
                 }

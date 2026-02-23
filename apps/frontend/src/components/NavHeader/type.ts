@@ -10,9 +10,11 @@ export interface HeaderProps extends HTMLAttributes<HTMLElement> {
   nav?: ReactNode;
   navClassName?: string;
   navStyle?: CSSProperties;
-  /** Mobile-specific actions (e.g. simplified sign-in link) */
-  mobileActions?: ReactNode;
-  /** Extra content rendered at the bottom of the mobile sidebar */
+  /** Mobile-specific actions. Can be a render function receiving toggleRightNav. */
+  mobileActions?: ReactNode | ((toggleRightNav: () => void) => ReactNode);
+  /** Extra content rendered at the bottom of the left mobile sidebar */
   mobileSidebarContent?: ReactNode;
+  /** Content rendered inside the right slide-out nav (user menu) */
+  mobileRightNavContent?: ReactNode;
   ref?: Ref<HTMLElement>;
 }

@@ -12,12 +12,13 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class FeaturedJobResponse {
+
     private Long id;
     private String title;
     private String companyName;
     private String companyLogo;
     private String location;
-    private String employmentType;
     private String salaryRange;
     private LocalDateTime createdAt;
+    private String employmentType;
 }

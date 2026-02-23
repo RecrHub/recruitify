@@ -16,6 +16,7 @@ const Header = memo<HeaderProps>(
     actions,
     mobileActions,
     mobileSidebarContent,
+    mobileRightNavContent,
     actionsStyle,
     logoStyle,
     navStyle,
@@ -25,13 +26,24 @@ const Header = memo<HeaderProps>(
     ...rest
   }) => {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const [rightNavOpen, setRightNavOpen] = useState(false);
 
     const toggleMenu = useCallback(() => {
       setMobileMenuOpen((prev) => !prev);
+      setRightNavOpen(false);
     }, []);
 
     const closeMenu = useCallback(() => {
       setMobileMenuOpen(false);
+    }, []);
+
+    const toggleRightNav = useCallback(() => {
+      setRightNavOpen((prev) => !prev);
+      setMobileMenuOpen(false);
+    }, []);
+
+    const closeRightNav = useCallback(() => {
+      setRightNavOpen(false);
     }, []);
 
     return (
@@ -85,11 +97,11 @@ const Header = memo<HeaderProps>(
             </div>
 
             <div className={styles.mobileActions}>
-              {mobileActions}
+              {typeof mobileActions === 'function' ? mobileActions(toggleRightNav) : mobileActions}
             </div>
           </nav>
 
-          {/* Slide-out menu */}
+          {/* Left slide-out menu (nav) */}
           <div className={`${styles.mobileMenu} ${mobileMenuOpen ? styles.mobileMenuOpen : ''}`.trim()}>
             <div className={styles.mobileMenuHeader}>
               <button
@@ -109,11 +121,26 @@ const Header = memo<HeaderProps>(
             </div>
           </div>
 
+          {/* Right slide-out nav (user menu) */}
+          <div className={`${styles.rightNav} ${rightNavOpen ? styles.rightNavOpen : ''}`.trim()}>
+            <div className={styles.rightNavCloseWrapper}>
+              <button
+                className={styles.rightNavCloseBtn}
+                onClick={closeRightNav}
+                aria-label="Close menu"
+                type="button"
+              >
+                <X size={20} />
+              </button>
+            </div>
+            {mobileRightNavContent}
+          </div>
+
           {/* Overlay */}
-          {mobileMenuOpen && (
+          {(mobileMenuOpen || rightNavOpen) && (
             <div
               className={styles.overlay}
-              onClick={closeMenu}
+              onClick={() => { closeMenu(); closeRightNav(); }}
               aria-hidden="true"
             />
           )}
