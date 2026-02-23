@@ -152,6 +152,51 @@
   padding: 0 16px 24px;
 }
 
+/* ===== RIGHT SLIDE-OUT NAV (user menu) ===== */
+.rightNav {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 300px;
+  height: 100vh;
+  background: #fff;
+  z-index: 1050;
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+  overflow-y: auto;
+  box-shadow: -2px 0 12px rgba(0, 0, 0, 0.08);
+}
+
+.rightNavOpen {
+  transform: translateX(0);
+}
+
+.rightNavCloseWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 32px;
+  height: 32px;
+}
+
+.rightNavCloseBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  color: var(--ant-color-text);
+  cursor: pointer;
+  padding: 0;
+}
+
+.rightNavCloseBtn:hover {
+  color: var(--ant-color-text-secondary);
+}
+
 /* ===== OVERLAY ===== */
 .overlay {
   position: fixed;

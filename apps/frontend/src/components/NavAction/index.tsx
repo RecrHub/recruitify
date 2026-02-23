@@ -98,19 +98,8 @@ function useClickOutside(ref: React.RefObject<HTMLElement | null>, onClose: () =
   }, [ref, onClose]);
 }
 
-export function MobileActions() {
-  const { isAuthenticated } = useUserStore();
-  const params = useParams();
-  const locale = (params?.locale as Locale) ?? "en";
-  const router = useRouter();
-  const pathname = usePathname();
-
-  const switchLang = (lang: Locale) => {
-    if (lang === locale) return;
-    const segments = pathname.split("/");
-    segments[1] = lang;
-    router.push(segments.join("/"));
-  };
+export function MobileActions({ onToggleMenu }: { onToggleMenu?: () => void }) {
+  const { isAuthenticated, profile } = useUserStore();
 
   if (!isAuthenticated) {
     return (
@@ -120,11 +109,29 @@ export function MobileActions() {
     );
   }
 
-  return null;
+  return (
+    <div className={styles.mobileAuthActions}>
+      <Link href="/notifications" className={styles.iconBtn} aria-label="Notifications">
+        <Bell size={22} />
+      </Link>
+      <button
+        type="button"
+        className={styles.avatarBtn}
+        onClick={onToggleMenu}
+        aria-label="Open menu"
+      >
+        <Avatar
+          size={32}
+          src={profile?.avatarUrl}
+          icon={!profile?.avatarUrl && <UserOutlined />}
+          className={styles.avatar}
+        />
+      </button>
+    </div>
+  );
 }
 
 export function MobileSidebarExtras() {
-  const { isAuthenticated } = useUserStore();
   const params = useParams();
   const locale = (params?.locale as Locale) ?? "en";
   const router = useRouter();
@@ -138,16 +145,65 @@ export function MobileSidebarExtras() {
   };
 
   return (
-    <ul className={styles.sidebarExtras}>
-      <li className={styles.navItem}>
-        <Link href="/post-job" className={styles.link}>
-          For Employers
-        </Link>
-      </li>
-      <li className={styles.navItem}>
-        <LanguageSwitcher locale={locale} onSwitch={switchLang} />
-      </li>
-    </ul>
+    <div className={styles.sidebarExtras}>
+      <ul className={styles.mobileExtraLinks}>
+        <li className={styles.navItem}>
+          <Link href="/post-job" className={styles.link}>
+            For Employers
+          </Link>
+        </li>
+        <li className={styles.navItem}>
+          <LanguageSwitcher locale={locale} onSwitch={switchLang} />
+        </li>
+      </ul>
+    </div>
+  );
+}
+
+export function MobileRightNav() {
+  const { user, profile, isAuthenticated, logout } = useUserStore();
+  const router = useRouter();
+
+  if (!isAuthenticated) return null;
+
+  return (
+    <div className={styles.rightNavContent}>
+      <div className={styles.rightNavUserHeader}>
+        <Avatar
+          size={40}
+          src={profile?.avatarUrl}
+          icon={!profile?.avatarUrl && <UserOutlined />}
+        />
+        <div className={styles.rightNavUserDetails}>
+          <p className={styles.rightNavUserName}>
+            {profile?.fullName || user?.username || "User"}
+          </p>
+          <p className={styles.rightNavUserEmail}>{user?.email}</p>
+        </div>
+      </div>
+      <ul className={styles.rightNavMenuList}>
+        {userMenuItems.map((item) => (
+          <li key={item.key}>
+            <Link href={item.href} className={styles.rightNavMenuItem}>
+              {item.icon}
+              <span>{item.label}</span>
+            </Link>
+          </li>
+        ))}
+        <li>
+          <button
+            className={styles.rightNavSignOut}
+            onClick={() => {
+              logout();
+              router.push("/");
+            }}
+          >
+            <LogOut size={16} />
+            <span>Sign Out</span>
+          </button>
+        </li>
+      </ul>
+    </div>
   );
 }
 

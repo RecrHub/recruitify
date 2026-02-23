@@ -3,7 +3,7 @@
 import Header from '@/components/NavHeader';
 import Footer, { FooterProps } from '@/components/Footer';
 import NavMenu from '@/components/NavMenu';
-import Actions, { MobileActions, MobileSidebarExtras } from '@/components/NavAction';
+import Actions, { MobileActions, MobileSidebarExtras, MobileRightNav } from '@/components/NavAction';
 import Logo from '@/components/brand/LogoRecruitify/Logo';
 import Link from 'next/link';
 import styles from './LandingLayout.module.css';
@@ -34,8 +34,9 @@ export default function LandingLayout({ children }: { children: React.ReactNode 
     <>
       <Header
         actions={<Actions />}
-        mobileActions={<MobileActions />}
+        mobileActions={(toggleRightNav) => <MobileActions onToggleMenu={toggleRightNav} />}
         mobileSidebarContent={<MobileSidebarExtras />}
+        mobileRightNavContent={<MobileRightNav />}
         logo={
           <Link href="/">
             <Logo />

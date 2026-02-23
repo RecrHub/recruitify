@@ -1,19 +1,26 @@
 package com.recruitify.webapi.api.pages.homepage.service.impl;
 
-import com.recruitify.webapi.api.pages.homepage.dto.response.CategoryResponse;
-import com.recruitify.webapi.api.pages.homepage.dto.response.FeaturedJobResponse;
-import com.recruitify.webapi.api.pages.homepage.dto.response.HomepageResponse;
-import com.recruitify.webapi.api.pages.homepage.dto.response.StatsResponse;
+import com.recruitify.webapi.api.pages.homepage.dto.response.*;
 import com.recruitify.webapi.api.pages.homepage.service.IHomepageService;
+import com.recruitify.webapi.common.repository.CategoryRepository;
+import com.recruitify.webapi.common.repository.CompanyRepository;
+import com.recruitify.webapi.common.repository.JobRepository;
+import com.recruitify.webapi.common.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class HomepageServiceImpl implements IHomepageService {
+
+    private final JobRepository jobRepository;
+    private final CategoryRepository categoryRepository;
+    private final CompanyRepository companyRepository;
+    private final UserRepository userRepository;
 
     @Override
     public HomepageResponse getHomepageData() {
@@ -29,61 +36,34 @@ public class HomepageServiceImpl implements IHomepageService {
     }
 
     private List<FeaturedJobResponse> getFeaturedJobs() {
-        // TODO: Replace with actual database query - get top 6 latest jobs
-        return List.of(
-                FeaturedJobResponse.builder()
-                        .id(1L)
-                        .title("Senior Java Developer")
-                        .companyName("Tech Corp")
-                        .companyLogo("https://example.com/logo1.png")
-                        .location("Ho Chi Minh City")
-                        .employmentType("Full-time")
-                        .salaryRange("$3000 - $5000")
-                        .createdAt(LocalDateTime.now())
-                        .build(),
-                FeaturedJobResponse.builder()
-                        .id(2L)
-                        .title("Frontend Developer")
-                        .companyName("Startup Inc")
-                        .companyLogo("https://example.com/logo2.png")
-                        .location("Hanoi")
-                        .employmentType("Full-time")
-                        .salaryRange("$2000 - $3500")
-                        .createdAt(LocalDateTime.now().minusDays(1))
-                        .build()
-        );
+        return jobRepository.findTopFeaturedJobs().stream().map(p -> FeaturedJobResponse.builder()
+                .id(p.getId())
+                .title(p.getTitle())
+                .companyName(p.getCompanyName())
+                .companyLogo(p.getCompanyLogo())
+                .location(p.getLocation())
+                .employmentType(p.getEmploymentType())
+                .salaryRange(p.getSalaryRange() != null ? p.getSalaryRange().toString() : null)
+                .createdAt(p.getCreatedAt())
+                .build()
+        )
+        .collect(Collectors.toList());
     }
 
     private List<CategoryResponse> getCategories() {
-        // TODO: Replace with actual database query - get categories with job counts
-        return List.of(
-                CategoryResponse.builder()
-                        .id(1L)
-                        .name("Technology")
-                        .icon("💻")
-                        .jobCount(150L)
-                        .build(),
-                CategoryResponse.builder()
-                        .id(2L)
-                        .name("Marketing")
-                        .icon("📈")
-                        .jobCount(80L)
-                        .build(),
-                CategoryResponse.builder()
-                        .id(3L)
-                        .name("Design")
-                        .icon("🎨")
-                        .jobCount(45L)
-                        .build()
-        );
+        return categoryRepository.findCategoriesWithJobCount().stream().map(p -> CategoryResponse.builder()
+                .id(p.getId())
+                .name(p.getName())
+                .jobCount(p.getJobCount())
+                .build()
+        ).toList();
     }
 
     private StatsResponse getStats() {
-        // TODO: Replace with actual database query - get real statistics
         return StatsResponse.builder()
-                .totalJobs(500L)
-                .totalCompanies(120L)
-                .totalUsers(5000L)
+                .totalJobs(jobRepository.countActiveJobs())
+                .totalCompanies(companyRepository.countActiveCompanies())
+                .totalUsers(userRepository.countActiveUsers())
                 .build();
     }
 }

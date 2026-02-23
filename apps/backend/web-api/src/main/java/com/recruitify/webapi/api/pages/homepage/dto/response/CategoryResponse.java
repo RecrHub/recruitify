@@ -12,6 +12,5 @@ import lombok.NoArgsConstructor;
 public class CategoryResponse {
     private Long id;
     private String name;
-    private String icon;
     private Long jobCount;
 }
