@@ -1,6 +1,6 @@
 import type { CSSProperties, ElementType, Ref } from 'react';
 
-import type { TooltipProps } from '@/Tooltip';
+import type { TooltipProps } from '@/components/Tooltip';
 import type { DivProps } from '@/types';
 
 export interface TextProps extends DivProps {
