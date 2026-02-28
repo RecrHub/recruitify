@@ -1,8 +1,9 @@
 'use client';
 
-import type { IconType } from '@lobehub/icons';
+import type { IconType } from '@/components/Icon';
 import { memo } from 'react';
 
+// eslint-disable-next-line react/display-name
 const ArrowIcon: IconType = memo(({ size = '1em', style, ...rest }) => {
   return (
     <svg
