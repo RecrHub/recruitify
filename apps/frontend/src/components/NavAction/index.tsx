@@ -176,7 +176,7 @@ export function MobileRightNav() {
         />
         <div className={styles.rightNavUserDetails}>
           <p className={styles.rightNavUserName}>
-            {profile?.fullName || user?.username || "User"}
+            {profile?.fullName || user?.fullName || "User"}
           </p>
           <p className={styles.rightNavUserEmail}>{user?.email}</p>
         </div>
@@ -318,7 +318,7 @@ export default function Actions({ className }: { className?: string }) {
                 icon={!profile?.avatarUrl && <UserOutlined />}
               />
               <div className={styles.userDetails}>
-                <div className={styles.userName}>{profile?.fullName || user?.username || "User"}</div>
+                <div className={styles.userName}>{profile?.fullName || user?.fullName || "User"}</div>
                 <div className={styles.userEmail}>{user?.email}</div>
               </div>
             </div>

@@ -1,6 +1,6 @@
 import type { CSSProperties, HTMLAttributes, Key, ReactNode } from 'react';
 
-import type { BlockProps } from '@/Block';
+import type { BlockProps } from '@/components/Block';
 
 export interface AccordionItemProps extends Pick<
   BlockProps,

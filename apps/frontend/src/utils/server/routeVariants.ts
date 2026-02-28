@@ -16,16 +16,16 @@ export {
 class NextRouteVariants extends RouteVariants {
   static getVariantsFromProps = async (props: DynamicLayoutProps) => {
     const { variants } = await props.params;
-    return super.deserializeVariants(variants);
+    return super.deserializeVariants(variants as string);
   };
   static getIsMobile = async (props: DynamicLayoutProps) => {
     const { variants } = await props.params;
-    const { isMobile } = super.deserializeVariants(variants);
+    const { isMobile } = super.deserializeVariants(variants as string);
     return isMobile;
   };
   static getLocale = async (props: DynamicLayoutProps) => {
     const { variants } = await props.params;
-    const { locale } = super.deserializeVariants(variants);
+    const { locale } = super.deserializeVariants(variants as string);
     return locale;
   };
 }
