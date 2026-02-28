@@ -2,7 +2,7 @@ import type { AlertProps as AntAlertProps } from 'antd';
 import type { AlertRef } from 'antd/lib/alert/Alert';
 import type { CSSProperties, ReactNode, Ref } from 'react';
 
-import type { IconProps } from '@/Icon';
+import type { IconProps } from '@/components/Icon';
 
 export interface AlertProps extends Omit<AntAlertProps, 'classNames' | 'icon' | 'styles' | 'type'> {
   classNames?: {
