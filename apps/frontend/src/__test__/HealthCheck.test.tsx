@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom";
 import { render, screen, waitFor } from "@testing-library/react";
-import { HealthCheck } from "@/app/components/HealthCheck";
+import { HealthCheck } from "@/features/HealthCheck";
 
 describe("HealthCheck", () => {
   it("shows success message when backend is healthy", async () => {
