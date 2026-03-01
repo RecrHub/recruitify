@@ -1,5 +1,4 @@
 package com.recruitify.webapi.api.pages.homepage.dto.response;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
