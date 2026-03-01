@@ -13,6 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 public class HomepageResponse {
     private List<FeaturedJobResponse> featuredJobs;
+    private List<FeatureCompanyResponse> featuredCompanies;
     private List<CategoryResponse> categories;
     private StatsResponse stats;
 }
