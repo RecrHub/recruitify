@@ -25,11 +25,13 @@ public class HomepageServiceImpl implements IHomepageService {
     @Override
     public HomepageResponse getHomepageData() {
         List<FeaturedJobResponse> featuredJobs = getFeaturedJobs();
+        List<FeatureCompanyResponse> featuredCompanies = getFeatureCompany();
         List<CategoryResponse> categories = getCategories();
         StatsResponse stats = getStats();
 
         return HomepageResponse.builder()
                 .featuredJobs(featuredJobs)
+                .featuredCompanies(featuredCompanies)
                 .categories(categories)
                 .stats(stats)
                 .build();
@@ -45,9 +47,18 @@ public class HomepageServiceImpl implements IHomepageService {
                 .employmentType(p.getEmploymentType())
                 .salaryRange(p.getSalaryRange() != null ? p.getSalaryRange().toString() : null)
                 .createdAt(p.getCreatedAt())
-                .build()
-        )
-        .collect(Collectors.toList());
+                .build())
+                .collect(Collectors.toList());
+    }
+
+    private List<FeatureCompanyResponse> getFeatureCompany() {
+        return companyRepository.findFeatureCompany().stream().map(p -> FeatureCompanyResponse.builder()
+                .id(p.getId())
+                .companyTitle(p.getName())
+                .companyImg(p.getImage())
+                .companyOver(p.getOverview())
+                .build())
+                .collect(Collectors.toList());
     }
 
 
@@ -61,8 +72,7 @@ public class HomepageServiceImpl implements IHomepageService {
                 .id(p.getId())
                 .name(p.getName())
                 .jobCount(p.getJobCount())
-                .build()
-        ).toList();
+                .build()).toList();
     }
 
     private StatsResponse getStats() {
