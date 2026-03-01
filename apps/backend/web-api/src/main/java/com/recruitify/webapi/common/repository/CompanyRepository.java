@@ -15,6 +15,6 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
     @Query("SELECT COUNT(c) FROM Company c WHERE c.deleteAt IS NULL")
     Long countActiveCompanies();
 
-    @Query(value = "SELECT id ,name ,image ,overview , is_feature FROM company WHERE is_feature = true")
+    @Query(value = "SELECT id ,name ,image ,overview , is_feature FROM company WHERE is_feature = true" , nativeQuery = true)
     List<FeatureCompanyProjection> findFeatureCompany();
 }
