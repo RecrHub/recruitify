@@ -1,6 +1,5 @@
-import { Button, Space } from "antd";
+import { Button} from "antd";
 import Grid from "../Grid";
-import { jobsData } from "../JobCard/mockdata";
 import JobCard from "../JobCard";
 import { useStyles } from './style';
 import type { FeatureJob } from "@/services/homepageService";
