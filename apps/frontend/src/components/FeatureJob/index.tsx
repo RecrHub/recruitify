@@ -3,8 +3,11 @@ import Grid from "../Grid";
 import { jobsData } from "../JobCard/mockdata";
 import JobCard from "../JobCard";
 import { useStyles } from './style';
-
-const FeatureJob = () => {
+import type { FeatureJob } from "@/services/homepageService";
+interface FeatureJobsProps {
+    jobs: FeatureJob[];
+}
+const FeatureJob = ({ jobs }: FeatureJobsProps) => {
     const { styles } = useStyles();
     return (
         <div className={styles.jobWrapper}>
@@ -26,7 +29,7 @@ const FeatureJob = () => {
                 rows={3}
                 maxItemWidth={280}
             >
-                {jobsData.map((job) => (
+                {jobs.map((job) => (
                     <JobCard key={job.id} {...job} />
                 ))}
             </Grid>

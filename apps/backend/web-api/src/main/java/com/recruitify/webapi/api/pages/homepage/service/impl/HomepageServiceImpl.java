@@ -61,12 +61,6 @@ public class HomepageServiceImpl implements IHomepageService {
                 .collect(Collectors.toList());
     }
 
-
-    private List<FeatureCompanyResponse> getFeatureCompany() {
-        return companyRepository.findFeatureCompany().stream().map(p -> FeatureCompanyResponse.builder() 
-            .id(p.getId()))
-    }
-
     private List<CategoryResponse> getCategories() {
         return categoryRepository.findCategoriesWithJobCount().stream().map(p -> CategoryResponse.builder()
                 .id(p.getId())

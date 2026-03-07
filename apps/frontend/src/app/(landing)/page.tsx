@@ -1,12 +1,12 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { Flexbox } from 'react-layout-kit';
 import { createStyles } from 'antd-style';
 import HeroSection from '@/components/HeroSection';
 import FeatureJob from '@/components/FeatureJob';
 import FeatureCompany from '@/components/FeatureCompany';
-import PricingSection from '@/components/PricingSection';
-import ExploreFAQ from '@/components/ExploreFAQ';
+import { homepageService, HomepageData } from '@/services/homepageService';
 
 const useStyles = createStyles(({ css, token }) => ({
   container: css`
@@ -25,19 +25,39 @@ const useStyles = createStyles(({ css, token }) => ({
 
 export default function Home() {
   const { styles } = useStyles();
+  const [homepageData, setHomepageData] = useState<HomepageData | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await homepageService.getHomepageData();
+        setHomepageData(data);
+      } catch (error) {
+        console.error('Failed to fetch homepage data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (loading) return <div>Loading...</div>;
+  if (!homepageData) return <div>Failed to load data</div>;
 
   return (
     <Flexbox className={styles.container}>
       <div className={styles.section}>
-        <HeroSection />
+        <HeroSection  />
       </div>
 
       <div className={styles.section}>
-        <FeatureJob />
+        <FeatureJob jobs={homepageData.featuredJobs} />
       </div>
 
       <div className={styles.section}>
-        <FeatureCompany />
+        <FeatureCompany companies={homepageData.featuredCompanies} />
       </div>
     </Flexbox>
   );
