@@ -1,7 +1,7 @@
 import { useStyles } from "./style";
 import { CompanyCardProps } from "./tyles";
 import { ArrowUpRight } from "lucide-react";
-const CompanyCard = ({ title, overview, imageUrl, }: CompanyCardProps) => {
+const CompanyCard = ({ companyTitle, companyOver, companyImg, }: CompanyCardProps) => {
     const { styles } = useStyles();
     return (
         <div className={styles.jobWrapper}>
@@ -10,10 +10,13 @@ const CompanyCard = ({ title, overview, imageUrl, }: CompanyCardProps) => {
             </div>
             <div className={styles.header}>
                 <div className={styles.companyIcon}>
+                    <img src={companyImg} alt={companyImg} onError={(e) => {
+                        e.currentTarget.src = ''
+                    }}></img>
                 </div>
-                <h2 className={styles.header}>{title}</h2>
+                <h2 className={styles.header}>{companyTitle}</h2>
                 <div className={styles.overview}>
-                    {overview}
+                    {companyOver}
                 </div>
             </div>
         </div>

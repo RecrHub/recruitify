@@ -41,7 +41,6 @@ export const useStyles = createStyles(({ css }) => ({
         width: 56px;
         height: 56px;
         padding: 16px;
-        background: linear-gradient(135deg, #EC4899 0%, #EF4444 100%);
         border-radius: 8px;
         display: flex;
         align-items: center; 
