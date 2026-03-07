@@ -1,10 +1,10 @@
 export interface JobCardProps {
     id: number;
     title: string;
-    company: string;
-    salary: string;
+    companyName: string;
+    salaryRange: string;
     location: string;
-    workTime: string;
-    postedDate: string;
-    icon?: string;
+    employmentType: string;
+    createdAt: string;
+    companyLogo?: string;
 }

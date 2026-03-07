@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8a16ad50-bdba-44cb-b445-48ff714b35e0" name="Changes" comment="feat : update modular monolithic in backend" />
+    <list default="true" id="8a16ad50-bdba-44cb-b445-48ff714b35e0" name="Changes" comment="feat : update modular monolithic in backend">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web-api/src/main/java/com/recruitify/webapi/api/pages/homepage/service/impl/HomepageServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/web-api/src/main/java/com/recruitify/webapi/api/pages/homepage/service/impl/HomepageServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web-api/src/main/java/com/recruitify/webapi/common/repository/CompanyRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/web-api/src/main/java/com/recruitify/webapi/common/repository/CompanyRepository.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
