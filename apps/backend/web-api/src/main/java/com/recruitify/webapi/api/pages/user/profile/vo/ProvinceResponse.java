@@ -1,4 +1,4 @@
-package com.recruitify.webapi.api.pages.profile.vo;
+package com.recruitify.webapi.api.pages.user.profile.vo;
 
 import lombok.*;
 

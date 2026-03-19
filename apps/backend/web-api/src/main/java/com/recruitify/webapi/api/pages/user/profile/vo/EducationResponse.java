@@ -1,4 +1,4 @@
-package com.recruitify.webapi.api.pages.profile.vo;
+package com.recruitify.webapi.api.pages.user.profile.vo;
 
 import lombok.*;
 import java.time.LocalDate;
@@ -7,13 +7,12 @@ import java.time.LocalDate;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class WorkExperienceResponse {
+public class EducationResponse {
     private Long id;
     private Long userProfileId;
-    private String jobTitle;
-    private String companyName;
-    private String location;
+    private String schoolName;
+    private String degree;
+    private String fieldOfStudy;
     private LocalDate startDate;
     private LocalDate endDate;
-    private String description;
 }

@@ -1,7 +1,12 @@
-package com.recruitify.webapi.api.pages.profile.service.impl;
+package com.recruitify.webapi.api.pages.user.profile.service.impl;
 
+import com.recruitify.webapi.api.pages.user.profile.dto.request.*;
+import com.recruitify.webapi.api.pages.user.profile.service.IProfileService;
+import com.recruitify.webapi.api.pages.user.profile.vo.EducationResponse;
+import com.recruitify.webapi.api.pages.user.profile.vo.ProfileResponse;
+import com.recruitify.webapi.api.pages.user.profile.vo.ProvinceResponse;
+import com.recruitify.webapi.api.pages.user.profile.vo.WorkExperienceResponse;
 import com.recruitify.webapi.common.exception.ResourceNotFoundException;
-import com.recruitify.webapi.api.pages.profile.dto.request.*;
 import com.recruitify.webapi.common.model.profile.Profile;
 import com.recruitify.webapi.common.model.profile.WorkExperience;
 import com.recruitify.webapi.common.model.profile.Education;
@@ -10,11 +15,7 @@ import com.recruitify.webapi.common.repository.ProfileRepository;
 import com.recruitify.webapi.common.repository.WorkExperienceRepository;
 import com.recruitify.webapi.common.repository.EducationRepository;
 import com.recruitify.webapi.common.repository.ProvinceRepository;
-import com.recruitify.webapi.api.pages.profile.service.IProfileService;
-import com.recruitify.webapi.api.pages.profile.vo.EducationResponse;
-import com.recruitify.webapi.api.pages.profile.vo.ProfileResponse;
-import com.recruitify.webapi.api.pages.profile.vo.ProvinceResponse;
-import com.recruitify.webapi.api.pages.profile.vo.WorkExperienceResponse;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
