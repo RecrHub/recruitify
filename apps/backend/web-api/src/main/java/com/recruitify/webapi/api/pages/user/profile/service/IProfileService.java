@@ -1,12 +1,12 @@
-package com.recruitify.webapi.api.pages.profile.service;
-
-import com.recruitify.webapi.api.pages.profile.dto.request.*;
-import com.recruitify.webapi.api.pages.profile.vo.EducationResponse;
-import com.recruitify.webapi.api.pages.profile.vo.ProfileResponse;
-import com.recruitify.webapi.api.pages.profile.vo.ProvinceResponse;
-import com.recruitify.webapi.api.pages.profile.vo.WorkExperienceResponse;
+package com.recruitify.webapi.api.pages.user.profile.service;
 
 import java.util.List;
+
+import com.recruitify.webapi.api.pages.user.profile.dto.request.*;
+import com.recruitify.webapi.api.pages.user.profile.vo.EducationResponse;
+import com.recruitify.webapi.api.pages.user.profile.vo.ProfileResponse;
+import com.recruitify.webapi.api.pages.user.profile.vo.ProvinceResponse;
+import com.recruitify.webapi.api.pages.user.profile.vo.WorkExperienceResponse;
 
 public interface IProfileService {
     ProfileResponse getProfile(Long accountId);

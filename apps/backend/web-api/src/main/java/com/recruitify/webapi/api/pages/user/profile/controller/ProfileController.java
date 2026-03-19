@@ -1,17 +1,19 @@
-package com.recruitify.webapi.api.pages.profile.controller;
+package com.recruitify.webapi.api.pages.user.profile.controller;
 
-import com.recruitify.webapi.api.pages.profile.dto.request.*;
-import com.recruitify.webapi.api.pages.profile.service.IProfileService;
-import com.recruitify.webapi.api.pages.profile.vo.EducationResponse;
-import com.recruitify.webapi.api.pages.profile.vo.ProfileResponse;
-import com.recruitify.webapi.api.pages.profile.vo.ProvinceResponse;
-import com.recruitify.webapi.api.pages.profile.vo.WorkExperienceResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import com.recruitify.webapi.api.pages.user.profile.dto.request.*;
+import com.recruitify.webapi.api.pages.user.profile.service.IProfileService;
+import com.recruitify.webapi.api.pages.user.profile.vo.EducationResponse;
+import com.recruitify.webapi.api.pages.user.profile.vo.ProfileResponse;
+import com.recruitify.webapi.api.pages.user.profile.vo.ProvinceResponse;
+import com.recruitify.webapi.api.pages.user.profile.vo.WorkExperienceResponse;
+
 import java.util.List;
 
 @RestController
