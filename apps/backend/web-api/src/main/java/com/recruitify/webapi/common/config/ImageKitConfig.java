@@ -1,32 +1,27 @@
 package com.recruitify.webapi.common.config;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 import io.imagekit.sdk.ImageKit;
-import io.imagekit.sdk.config.Configuration;
 
-@SpringBootConfiguration
+@Configuration
 public class ImageKitConfig {
-    private final ImageKit imageKit;
 
     @Value("${imagekit.public-key}")
-    private String public_key;
+    private String publicKey;
 
-    @Value("{${imagekit.private-key}}")
-    private String private_key;
+    @Value("${imagekit.private-key}")
+    private String privateKey;
 
-    @Value("{${imagekit.url-endpoint}}")
-    private String url_endpoint;
-    ImageKitConfig(ImageKit imageKit) {
-        this.imageKit = imageKit;
-    }
+    @Value("${imagekit.url-endpoint}")
+    private String urlEndpoint;
+
     @Bean
-    ImageKit imageKit ()
-    {
-        Configuration config = new Configuration(public_key, private_key, url_endpoint);
-        imageKit.setConfig(config);
+    public ImageKit imageKit() {
+        ImageKit imageKit = ImageKit.getInstance();
+        imageKit.setConfig(new io.imagekit.sdk.config.Configuration(publicKey, privateKey, urlEndpoint));
         return imageKit;
     }
 }

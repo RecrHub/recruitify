@@ -1,6 +1,6 @@
 package com.recruitify.webapi.common.repository;
 
-import com.recruitify.webapi.api.pages.homepage.dto.response.CategoryProjection;
+import com.recruitify.webapi.api.pages.publicpage.homepage.dto.response.CategoryProjection;
 import com.recruitify.webapi.common.model.catalog.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -25,4 +25,7 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
             ORDER BY jobCount DESC
             """, nativeQuery = true)
     List<CategoryProjection> findCategoriesWithJobCount();
+
+
+    boolean existsByNameIgnoreCase(String name);
 }
