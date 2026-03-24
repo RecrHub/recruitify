@@ -1,6 +1,6 @@
 package com.recruitify.webapi.common.repository;
 
-import com.recruitify.webapi.api.pages.homepage.dto.response.FeaturedJobProjection;
+import com.recruitify.webapi.api.pages.publicpage.homepage.dto.response.FeaturedJobProjection;
 import com.recruitify.webapi.common.model.job.Job;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

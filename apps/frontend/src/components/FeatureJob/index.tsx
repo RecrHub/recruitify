@@ -1,6 +1,5 @@
-import { Button, Space } from "antd";
+import { Button} from "antd";
 import Grid from "../Grid";
-import { jobsData } from "../JobCard/mockdata";
 import JobCard from "../JobCard";
 import { useStyles } from './style';
 import type { FeatureJob } from "@/services/homepageService";
@@ -30,7 +29,7 @@ const FeatureJob = ({ jobs }: FeatureJobsProps) => {
                 maxItemWidth={280}
             >
                 {jobs.map((job) => (
-                    <JobCard key={job.id} {...job} />
+                    <JobCard createdAt={""} key={job.id} {...job} />
                 ))}
             </Grid>
         </div>

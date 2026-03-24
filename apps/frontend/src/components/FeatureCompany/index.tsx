@@ -1,10 +1,12 @@
 import { Button } from "antd";
 import { useStyles } from "./style";
 import Grid from "../Grid";
-import {companiesData} from "@/components/CompanyCard/mockdata"
 import CompanyCard from "../CompanyCard";
-
-const FeatureCompany = () => {
+import type { FeatureCompany } from "@/services/homepageService";
+interface FeatureCompanyProps {
+    companies: FeatureCompany[];
+}
+const FeatureCompany = ({companies}: FeatureCompanyProps ) => {
     const { styles } = useStyles();
     return (
         <div className={styles.jobWrapper}>
@@ -26,9 +28,9 @@ const FeatureCompany = () => {
                 rows={3}
                 maxItemWidth={280}
             >
-                {companiesData.map((company) => (
-                <CompanyCard key={company.id} {...company} />
-            ))}
+                {companies.map((company) => (
+                    <CompanyCard key={company.id} {...company} />
+                ))}
             </Grid>
         </div>
     );
