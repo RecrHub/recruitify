@@ -44,7 +44,7 @@ public class CompanyControllers {
     })
     public ResponseEntity<ApiResponse<CompanyResponse>> createCategory(
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "companies creation request", required = true, content = @Content(schema = @Schema(implementation = CompanyRequest.class)))  @RequestPart("request") @Valid CompanyRequest request,
-            @RequestPart(value = "image", required = false) MultipartFile image) {
+            @RequestParam(value = "image", required = false) MultipartFile image) {
         CompanyResponse category = companyServicesImpl.createCompany(request, image);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(ApiResponse.created(category, "companies created successfully"));
