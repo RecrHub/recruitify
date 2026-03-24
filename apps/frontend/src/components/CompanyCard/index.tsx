@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { useStyles } from "./style";
 import { CompanyCardProps } from "./tyles";
 import { ArrowUpRight } from "lucide-react";

@@ -32,13 +32,14 @@ public class CompanyServicesImpl implements ICompanyServices {
             throw new ResourceAlreadyExistsException("Company", "name", companyRequest.getName());
         }
         String imageURL = null;
-        if(image != null && image.isEmpty()) {
+        if(image != null && !image.isEmpty()) {
             imageURL = imageUploadService.uploadImage(image,"companies", companyRequest.getName());
         }
         //Create Company
         Company company = new Company();
         company.setName(companyRequest.getName());
         company.setOverview(companyRequest.getOverView());
+        company.setPhone(companyRequest.getPhone());
         company.setCompanySize(companyRequest.getCompanySize());
         company.setCompanyType(companyRequest.getCompanyType());
         company.setFounderYear(companyRequest.getFounderYear());

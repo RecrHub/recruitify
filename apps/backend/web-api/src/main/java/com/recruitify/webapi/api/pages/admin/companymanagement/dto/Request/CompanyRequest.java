@@ -1,5 +1,7 @@
 package com.recruitify.webapi.api.pages.admin.companymanagement.dto.Request;
 
+import java.time.LocalDateTime;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -13,5 +15,4 @@ public class CompanyRequest {
     private String companyType;
     private Integer founderYear;
     private String industry;
-    private String createAt;
 }
