@@ -6,7 +6,7 @@ import { createStyles } from 'antd-style';
 import HeroSection from '@/components/HeroSection';
 import FeatureJob from '@/components/FeatureJob';
 import FeatureCompany from '@/components/FeatureCompany';
-import { homepageService, HomepageData } from '@/services/homepageService';
+import { homepageService, homePageData } from '@/services/homepageService';
 
 const useStyles = createStyles(({ css, token }) => ({
   container: css`
@@ -25,8 +25,8 @@ const useStyles = createStyles(({ css, token }) => ({
 
 export default function Home() {
   const { styles } = useStyles();
-  const [homepageData, setHomepageData] = useState<HomepageData | null>(null);
   const [loading, setLoading] = useState(true);
+  const [homepageData, setHomepageData] = useState<homePageData | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -53,11 +53,11 @@ export default function Home() {
       </div>
 
       <div className={styles.section}>
-        <FeatureJob jobs={homepageData.featuredJobs} />
+        <FeatureJob jobs={homepageData.featureJobs} />
       </div>
 
       <div className={styles.section}>
-        <FeatureCompany companies={homepageData.featuredCompanies} />
+        <FeatureCompany companies={homepageData.featureCompanies} />
       </div>
     </Flexbox>
   );
