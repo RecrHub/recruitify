@@ -28,8 +28,8 @@ const FeatureJob = ({ jobs }: FeatureJobsProps) => {
                 rows={3}
                 maxItemWidth={280}
             >
-                {jobs.map(({ createAt, ...rest }) => (
-                    <JobCard key={rest.id} {...rest} createdAt={createAt} />
+                {jobs.map((job) => (
+                    <JobCard createdAt={""} key={job.id} {...job} />
                 ))}
             </Grid>
         </div>
