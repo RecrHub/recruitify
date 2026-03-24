@@ -18,6 +18,7 @@ ext {
 
 repositories {
     mavenCentral()
+    maven { url 'https://jitpack.io' }
 }
 
 java {
@@ -78,6 +79,8 @@ dependencies {
     testImplementation "org.testcontainers:testcontainers:${testcontainersVersion}"
     testImplementation 'org.springframework.security:spring-security-test'
     testRuntimeOnly 'com.h2database:h2'
+    //ImageKit
+    implementation 'com.github.imagekit-developer:imagekit-java:2.0.0'
 }
 
 tasks.named('test') {

@@ -1,6 +1,6 @@
 package com.recruitify.webapi.common.repository;
 
-import com.recruitify.webapi.api.pages.homepage.dto.response.FeatureCompanyProjection;
+import com.recruitify.webapi.api.pages.publicpage.homepage.dto.response.FeatureCompanyProjection;
 import com.recruitify.webapi.common.model.job.Company;
 
 import java.util.List;
@@ -15,4 +15,6 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
     Long countActiveCompanies();
     @Query(value = "SELECT id ,name ,image ,overview , is_featured FROM company WHERE is_featured = true" , nativeQuery = true)
     List<FeatureCompanyProjection> findFeatureCompany();
+
+    boolean existsByNameIgnoreCase(String name);
 }

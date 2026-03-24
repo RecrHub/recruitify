@@ -1,6 +1,6 @@
 export interface CompanyCardProps {
     id: number;
-    title: string;
-    overview: string;
-    imageUrl?: string;
+    companyTitle: string;
+    companyOver: string;
+    companyImg?: string;
 }

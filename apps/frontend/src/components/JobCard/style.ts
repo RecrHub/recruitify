@@ -40,15 +40,18 @@ export const useStyles = createStyles(({ css }) => ({
     companyIcon: css`
         width: 56px;
         height: 56px;
-        padding: 16px;
-        background: linear-gradient(135deg, #EC4899 0%, #EF4444 100%);
         border-radius: 8px;
         display: flex;
         align-items: center; 
         justify-content: center;
-        color: #FFF;
-        font-size: 28px;
         flex-shrink: 0;
+        overflow: hidden;
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
     `,
     headerContent: css`
         display: flex;

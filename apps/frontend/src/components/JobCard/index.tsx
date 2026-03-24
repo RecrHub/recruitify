@@ -14,7 +14,9 @@ const JobCard = ({ title, companyName, salaryRange, location, employmentType, cr
 
             <div className={styles.header}>
                 <div className={styles.companyIcon}>
-                    <img src={companyLogo} alt={companyName}></img>
+                    <img src={companyLogo} alt={companyName}  onError={(e) => {
+            e.currentTarget.src = ''; 
+        }}></img>
                     <span>{companyLogo}</span>
                 </div>
                 <div className={styles.headerContent}>
