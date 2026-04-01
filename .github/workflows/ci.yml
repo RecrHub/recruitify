@@ -4,7 +4,7 @@ on:
   push:
     branches: [ "main"]
     paths:
-      - 'apps/backend/**'
+      - 'backend/**'
       - '.github/workflows/ci.yml'
   workflow_dispatch:
 env:
@@ -14,7 +14,7 @@ env:
   ECS_CLUSTER: recruitify-cluster
   ECS_TASK_DEFINITION: recruitify-api-task
   CONTAINER_NAME: recruitify-api
-  BACKEND_PATH: apps/backend
+  BACKEND_PATH: backend
 
 jobs:
   deploy:
