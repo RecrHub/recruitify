@@ -1,0 +1,19 @@
+# Private keys
+*.pem
+
+# IDE
+.idea/
+.vscode/
+*.iws
+*.iml
+*.ipr
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Node
+node_modules/
+
+# Coverage
+coverage/
