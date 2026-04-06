@@ -20,7 +20,9 @@ pipeline {
             post {
                 always {
                     junit "${BACKEND_DIR}/build/test-results/test/*.xml"
-                    jacoco execPattern: "${BACKEND_DIR}/build/jacoco/test.exec"
+                    jacoco execPattern: "${BACKEND_DIR}/build/jacoco/test.exec",
+                           classPattern: "${BACKEND_DIR}/build/classes/java/main",
+                           sourcePattern: "${BACKEND_DIR}/src/main/java"
                 }
             }
         }
