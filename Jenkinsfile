@@ -14,7 +14,7 @@ pipeline {
         stage('Backend - Build & Test') {
             steps {
                 dir("${BACKEND_DIR}") {
-                    bat 'gradlew.bat clean build'
+                    sh './gradlew clean build'
                 }
             }
             post {
@@ -29,7 +29,7 @@ pipeline {
             steps {
                 withSonarQubeEnv('SonarQube') {
                     dir("${BACKEND_DIR}") {
-                        bat "gradlew.bat sonar -Dsonar.host.url=${SONAR_HOST_URL}"
+                        sh "./gradlew sonar -Dsonar.host.url=${SONAR_HOST_URL}"
                     }
                 }
             }
@@ -40,7 +40,7 @@ pipeline {
         stage('Frontend - Install') {
             steps {
                 dir("${FRONTEND_DIR}") {
-                    bat 'npm ci'
+                    sh 'npm ci'
                 }
             }
         }
@@ -48,7 +48,7 @@ pipeline {
         stage('Frontend - Lint') {
             steps {
                 dir("${FRONTEND_DIR}") {
-                    bat 'npm run lint'
+                    sh 'npm run lint'
                 }
             }
         }
@@ -56,7 +56,7 @@ pipeline {
         stage('Frontend - Test') {
             steps {
                 dir("${FRONTEND_DIR}") {
-                    bat 'npm run test -- --ci --coverage'
+                    sh 'npm run test -- --ci --coverage'
                 }
             }
             post {
@@ -73,7 +73,7 @@ pipeline {
         stage('Frontend - Build') {
             steps {
                 dir("${FRONTEND_DIR}") {
-                    bat 'npm run build'
+                    sh 'npm run build'
                 }
             }
         }
@@ -82,7 +82,7 @@ pipeline {
             steps {
                 withSonarQubeEnv('SonarQube') {
                     dir("${FRONTEND_DIR}") {
-                        bat "sonar-scanner -Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.projectKey=recruitify-frontend -Dsonar.sources=src -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info"
+                        sh "sonar-scanner -Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.projectKey=recruitify-frontend -Dsonar.sources=src -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info"
                     }
                 }
             }
