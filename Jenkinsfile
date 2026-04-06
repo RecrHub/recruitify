@@ -31,7 +31,7 @@ pipeline {
             steps {
                 withSonarQubeEnv('SonarQube') {
                     dir("${BACKEND_DIR}") {
-                        sh "./gradlew sonar -Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.token=${SONAR_AUTH_TOKEN}"
+                        sh "./gradlew sonar -Dsonar.host.url=${SONAR_HOST_URL}"
                     }
                 }
             }
@@ -84,7 +84,7 @@ pipeline {
             steps {
                 withSonarQubeEnv('SonarQube') {
                     dir("${FRONTEND_DIR}") {
-                        sh "sonar-scanner -Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.token=${SONAR_AUTH_TOKEN} -Dsonar.projectKey=recruitify-frontend -Dsonar.sources=src -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info"
+                        sh "sonar-scanner -Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.projectKey=recruitify-frontend -Dsonar.sources=src -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info"
                     }
                 }
             }
