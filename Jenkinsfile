@@ -1,11 +1,6 @@
 pipeline {
     agent any
 
-    tools {
-        jdk 'JDK17'
-        nodejs 'NodeJS20'
-    }
-
     environment {
         SONAR_HOST_URL = 'http://sonarqube:9000'
         BACKEND_DIR    = 'backend/web-api'
