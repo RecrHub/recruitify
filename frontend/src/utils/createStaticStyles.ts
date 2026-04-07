@@ -24,7 +24,9 @@ export const createStaticStyles = <T extends Record<string, unknown>>(
   for (const key of Object.keys(raw) as Array<keyof T>) {
     const value = raw[key];
     result[key as string] =
-      typeof value === 'string' ? value : cx(value as any);
+      typeof value === 'string'
+        ? value
+        : cx(value as Parameters<typeof cx>[0]);
   }
 
   return result as { [K in keyof T]: string };
