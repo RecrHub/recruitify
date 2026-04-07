@@ -21,8 +21,6 @@ const APP_URL = process.env.APP_URL
       ? 'http://localhost:3010'
       : 'http://localhost:3210';
 
-// INTERNAL_APP_URL is used for server-to-server calls to bypass CDN/proxy
-// Falls back to APP_URL if not set
 const INTERNAL_APP_URL = process.env.INTERNAL_APP_URL || APP_URL;
 
 const ASSISTANT_INDEX_URL = 'https://registry.npmmirror.com/@lobehub/agents-index/v1/files/public';
@@ -30,8 +28,6 @@ const ASSISTANT_INDEX_URL = 'https://registry.npmmirror.com/@lobehub/agents-inde
 const PLUGINS_INDEX_URL = 'https://registry.npmmirror.com/@lobehub/plugins-index/v1/files/public';
 
 export const getAppConfig = () => {
-  const ACCESS_CODES = process.env.ACCESS_CODE?.split(',').filter(Boolean) || [];
-
   return createEnv({
     client: {
       NEXT_PUBLIC_ENABLE_SENTRY: z.boolean(),
@@ -40,9 +36,12 @@ export const getAppConfig = () => {
       NEXT_PUBLIC_CUSTOM_FONT_URL: z.string().optional(),
     },
     server: {
-      ACCESS_CODES: z.array(z.string()).optional(),
-      AGENTS_INDEX_URL: z.string().url(),
+      ACCESS_CODES: z
+        .string()
+        .optional()
+        .transform((val) => val?.split(',').filter(Boolean) ?? []),
 
+      AGENTS_INDEX_URL: z.string().url(),
       DEFAULT_AGENT_CONFIG: z.string(),
       SYSTEM_AGENT: z.string().optional(),
 
@@ -60,31 +59,21 @@ export const getAppConfig = () => {
       MARKET_BASE_URL: z.string().optional(),
     },
     runtimeEnv: {
-      // Sentry
       NEXT_PUBLIC_ENABLE_SENTRY: !!process.env.NEXT_PUBLIC_SENTRY_DSN,
-
-      // Client-side theme variables
       NEXT_PUBLIC_CUSTOM_FONT_FAMILY: process.env.NEXT_PUBLIC_CUSTOM_FONT_FAMILY,
       NEXT_PUBLIC_CUSTOM_FONT_URL: process.env.NEXT_PUBLIC_CUSTOM_FONT_URL,
       NEXT_PUBLIC_CDN_USE_GLOBAL: process.env.NEXT_PUBLIC_CDN_USE_GLOBAL === '1',
 
-      ACCESS_CODES: ACCESS_CODES as string[],
+      ACCESS_CODES: process.env.ACCESS_CODE, // raw string, Zod sẽ transform thành string[]
 
-      AGENTS_INDEX_URL: !!process.env.AGENTS_INDEX_URL
-        ? process.env.AGENTS_INDEX_URL
-        : ASSISTANT_INDEX_URL,
-
+      AGENTS_INDEX_URL: process.env.AGENTS_INDEX_URL || ASSISTANT_INDEX_URL,
       DEFAULT_AGENT_CONFIG: process.env.DEFAULT_AGENT_CONFIG || '',
       SYSTEM_AGENT: process.env.SYSTEM_AGENT,
 
-      PLUGINS_INDEX_URL: !!process.env.PLUGINS_INDEX_URL
-        ? process.env.PLUGINS_INDEX_URL
-        : PLUGINS_INDEX_URL,
-
+      PLUGINS_INDEX_URL: process.env.PLUGINS_INDEX_URL || PLUGINS_INDEX_URL,
       PLUGIN_SETTINGS: process.env.PLUGIN_SETTINGS,
 
       VERCEL_EDGE_CONFIG: process.env.VERCEL_EDGE_CONFIG,
-
       APP_URL,
       INTERNAL_APP_URL,
       MIDDLEWARE_REWRITE_THROUGH_LOCAL: process.env.MIDDLEWARE_REWRITE_THROUGH_LOCAL === '1',

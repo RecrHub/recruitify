@@ -4,7 +4,7 @@ import { cva } from 'class-variance-authority';
 import { Loader2 } from 'lucide-react';
 import { type MouseEventHandler, memo, useCallback, useMemo } from 'react';
 import { Center } from 'react-layout-kit';
-
+import { LucideIcon } from 'lucide-react'
 import Icon from '@/components/Icon';
 import Tooltip from '@/components/Tooltip';
 
@@ -125,7 +125,7 @@ const ActionIcon = memo<ActionIconProps>(
             fillOpacity={fillOpacity}
             fillRule={fillRule}
             focusable={focusable}
-            icon={loading ? Loader2 : icon}
+            icon={loading ? Loader2 : icon as React.ReactElement | LucideIcon}
             size={size}
             spin={loading ? true : iconSpinning}
             style={{

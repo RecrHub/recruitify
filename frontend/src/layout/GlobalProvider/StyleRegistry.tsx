@@ -13,8 +13,6 @@ const StyleRegistry = ({ children }: PropsWithChildren) => {
     if (isInsert.current) return;
 
     isInsert.current = true;
-
-    // @ts-expect-error -- extractStaticStyle type mismatch
     return extractStaticStyle().map((item) => item.style);
   });
 

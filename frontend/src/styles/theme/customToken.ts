@@ -4,8 +4,8 @@ import { camelCase } from 'lodash-es';
 import { mix } from 'polished';
 
 import { colorScales } from '@/components/color/colors';
-import type { ColorScaleItem } from "@/components/color/types";
-import type { LobeCustomToken } from "@/types/customToken";
+import type { ColorScaleItem } from '@/components/color/types';
+import type { LobeCustomToken } from '@/types/customToken';
 
 const generateColorPalette = ({
   name,
@@ -49,12 +49,10 @@ const generateCustomColorPalette = ({
 
   for (const [index, color] of scale[appearance].entries()) {
     if (index === 0 || index === 12) continue;
-
     colorStepPalette[`${name}${index}`] = color;
   }
   for (const [index, color] of scale[`${appearance}A`].entries()) {
     if (index === 0 || index === 12) continue;
-
     colorStepPalette[`${name}${index}A`] = color;
   }
 
@@ -65,7 +63,7 @@ const generateCustomColorPalette = ({
 };
 
 export const generateCustomToken: GetCustomToken<LobeCustomToken> = ({ isDarkMode, token }) => {
-  let colorCustomToken: Record<string, string> = {};
+  let colorCustomToken: Record<string, unknown> = {};
 
   for (const [type, scale] of Object.entries(colorScales)) {
     colorCustomToken = {
@@ -81,5 +79,5 @@ export const generateCustomToken: GetCustomToken<LobeCustomToken> = ({ isDarkMod
   return {
     ...colorCustomToken,
     colorBgContainerSecondary: mix(0.5, token.colorBgLayout, token.colorBgContainer),
-  };
+  } as LobeCustomToken;
 };
