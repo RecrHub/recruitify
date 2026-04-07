@@ -1,7 +1,7 @@
 'use client';
 
 import { Alert as AntdAlert } from 'antd';
-import { cx, useTheme } from 'antd-style';
+import { type Theme, cx, useTheme } from 'antd-style';
 import { camelCase } from 'es-toolkit/compat';
 import { AlertTriangle, CheckCircle, Info, X, XCircle } from 'lucide-react';
 import { memo } from 'react';
@@ -22,9 +22,10 @@ const typeIcons = {
   warning: AlertTriangle,
 };
 
-const colors = (theme: Record<string, string>, type: string = 'info', ...keys: string[]) => {
-  if (type === 'secondary') return theme[camelCase(['color', ...keys].join('-'))] as string;
-  return theme[camelCase(['color', type, ...keys].join('-'))] as string;
+const colors = (theme: Theme, type: string = 'info', ...keys: string[]) => {
+  const t = theme as unknown as Record<string, string>;
+  if (type === 'secondary') return t[camelCase(['color', ...keys].join('-'))];
+  return t[camelCase(['color', type, ...keys].join('-'))];
 };
 
 const Alert = memo<AlertProps>(

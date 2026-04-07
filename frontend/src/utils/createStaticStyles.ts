@@ -21,9 +21,10 @@ export const createStaticStyles = <T extends Record<string, unknown>>(
   const raw = fn({ css, cssVar: cssVarProxy as CssVarMap });
   const result = {} as Record<string, string>;
 
-  for (const key of Object.keys(raw)) {
+  for (const key of Object.keys(raw) as Array<keyof T>) {
     const value = raw[key];
-    result[key] = typeof value === 'string' ? value : cx(value);
+    result[key as string] =
+      typeof value === 'string' ? value : cx(value as any);
   }
 
   return result as { [K in keyof T]: string };

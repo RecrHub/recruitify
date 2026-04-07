@@ -1,4 +1,5 @@
 import type { ItemType as AntdItemType } from 'antd/es/menu/interface';
+import { LucideIcon } from 'lucide-react';
 import React, { isValidElement } from 'react';
 
 import Icon from '@/components/Icon';
@@ -18,12 +19,26 @@ export const mapItems = (item: ItemType): AntdItemType => {
       };
     }
     default: {
-      const { children, icon, ...rest } = item as { children?: ItemType[]; icon?: React.ReactNode | React.ComponentType; [key: string]: unknown };
-      return {
-        children: children ? children?.map((i: ItemType) => mapItems(i)) : undefined,
-        icon: icon ? isValidElement(icon) ? icon : <Icon icon={icon} size={'small'} /> : undefined,
-        ...rest,
+      const { children, icon, ...rest } = item as unknown as {
+        children?: ItemType[];
+        icon?: React.ReactElement | LucideIcon;
+        [key: string]: unknown;
       };
+
+      const resolvedIcon = (() => {
+        if (!icon) return undefined;
+        if (isValidElement(icon)) return icon;
+        if (typeof icon === 'function') {
+          return <Icon icon={icon as LucideIcon} size={'small'} />;
+        }
+        return undefined;
+      })();
+
+      return {
+        children: children ? children.map((i: ItemType) => mapItems(i)) : undefined,
+        icon: resolvedIcon,
+        ...rest,
+      } as AntdItemType;
     }
   }
 };

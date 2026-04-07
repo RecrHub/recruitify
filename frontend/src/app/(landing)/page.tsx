@@ -53,11 +53,11 @@ export default function Home() {
       </div>
 
       <div className={styles.section}>
-        <FeatureJob jobs={homepageData.featuredJobs} />
+        <FeatureJob jobs={homepageData.featureJobs} />
       </div>
 
       <div className={styles.section}>
-        <FeatureCompany companies={homepageData.featuredCompanies} />
+        <FeatureCompany companies={homepageData.featureCompanies} />
       </div>
     </Flexbox>
   );

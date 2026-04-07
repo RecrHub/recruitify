@@ -1,3 +1,4 @@
+import type { SerializedStyles } from '@emotion/react';
 import type {
   ThemeProviderProps as AntdThemeProviderProps,
   CustomStylishParams,
@@ -7,15 +8,18 @@ import type { CSSProperties } from 'react';
 
 import type { NeutralColors, PrimaryColors } from '@/styles';
 
-export interface ThemeProviderProps extends AntdThemeProviderProps<Record<string, unknown>> {
+type CustomStylish = Record<string, SerializedStyles>;
+type CustomToken = Record<string, unknown>;
+
+export interface ThemeProviderProps extends AntdThemeProviderProps<CustomToken, CustomStylish> {
   className?: string;
   customFonts?: string[];
-  customStylish?: (theme: CustomStylishParams) => Record<string, unknown>;
+  customStylish?: (theme: CustomStylishParams) => CustomStylish;
   customTheme?: {
     neutralColor?: NeutralColors;
     primaryColor?: PrimaryColors;
   };
-  customToken?: (theme: CustomTokenParams) => Record<string, unknown>;
+  customToken?: (theme: CustomTokenParams) => CustomToken;
   enableCustomFonts?: boolean;
   enableGlobalStyle?: boolean;
   style?: CSSProperties;

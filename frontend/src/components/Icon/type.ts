@@ -14,8 +14,10 @@ export type LucideIconProps = Pick<
   'fill' | 'fillRule' | 'fillOpacity' | 'color' | 'focusable'
 >;
 
-export interface IconProps extends Omit<SpanProps, 'children'>, LucideIconProps {
-  icon: LucideIcon | FC<Record<string, unknown>> | ReactNode;
+export interface IconProps
+  extends Omit<SpanProps, 'children'>,
+    LucideIconProps {
+  icon: LucideIcon | React.ReactElement;
   ref?: Ref<SVGSVGElement>;
   size?: IconSize;
   spin?: boolean;
