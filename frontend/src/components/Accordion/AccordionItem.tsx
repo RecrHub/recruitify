@@ -9,7 +9,6 @@ import {
   memo,
   type ReactNode,
   useCallback,
-  useEffect,
   useMemo,
   useState,
 } from 'react';
@@ -232,12 +231,6 @@ const AccordionItem = memo<AccordionItemProps>(
     const contextMotionProps = context?.motionProps;
     const contextVariant = context?.variant ?? 'borderless';
 
-    const [isInitialRender, setIsInitialRender] = useState(true);
-
-    useEffect(() => {
-      setIsInitialRender(false);
-    }, []);
-
     // Determine expanded state
     const isOpen = isStandalone
       ? isExpandedStandalone
@@ -342,7 +335,7 @@ const AccordionItem = memo<AccordionItemProps>(
       customStyles,
     ]);
 
-    const skipInitialAnimation = isInitialRender && isOpen;
+    const [skipInitialAnimation] = useState(() => isOpen);
 
     const contentClassName = useMemo(
       () => cx('accordion-content', styles.content, classNames?.content),
