@@ -37,7 +37,7 @@ const Accordion = memo<AccordionProps>(
     const validChildren = Children.toArray(children).filter(isValidElement);
 
     // Collect all item keys
-    const allItemKeys = validChildren.map((child, index) => (child.props as any).itemKey || index);
+    const allItemKeys = validChildren.map((child, index) => (child.props as Record<string, unknown>).itemKey || index);
 
     // If defaultExpandedKeys or expandedKeys is undefined, expand all items by default
     const initialExpandedKeys = defaultExpandedKeys ?? allItemKeys;
@@ -87,7 +87,7 @@ const Accordion = memo<AccordionProps>(
       <>
         {validChildren.map((child, index) => {
           // Extract itemKey from child props to use as React key
-          const childKey = (child.props as any).itemKey || index;
+          const childKey = (child.props as Record<string, unknown>).itemKey || index;
           return (
             <Fragment key={childKey}>
               {child}

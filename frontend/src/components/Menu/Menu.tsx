@@ -32,7 +32,6 @@ const Menu = memo<MenuProps>(
             shadow: false,
             variant: 'borderless',
           },
-          /* eslint-disable sort-keys-fix/sort-keys-fix */
           variants: {
             variant: {
               filled: styles.filled,
@@ -48,7 +47,6 @@ const Menu = memo<MenuProps>(
               true: styles.compact,
             },
           },
-          /* eslint-enable sort-keys-fix/sort-keys-fix */
         }),
       [styles],
     );

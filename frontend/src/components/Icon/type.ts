@@ -15,7 +15,7 @@ export type LucideIconProps = Pick<
 >;
 
 export interface IconProps extends Omit<SpanProps, 'children'>, LucideIconProps {
-  icon: LucideIcon | FC<any> | ReactNode;
+  icon: LucideIcon | FC<Record<string, unknown>> | ReactNode;
   ref?: Ref<SVGSVGElement>;
   size?: IconSize;
   spin?: boolean;

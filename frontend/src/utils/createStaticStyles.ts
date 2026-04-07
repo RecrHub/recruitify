@@ -15,7 +15,7 @@ interface StyleUtils {
   cssVar: CssVarMap;
 }
 
-export const createStaticStyles = <T extends Record<string, any>>(
+export const createStaticStyles = <T extends Record<string, unknown>>(
   fn: (utils: StyleUtils) => T,
 ): { [K in keyof T]: string } => {
   const raw = fn({ css, cssVar: cssVarProxy as CssVarMap });

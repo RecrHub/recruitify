@@ -7,15 +7,15 @@ import type { CSSProperties } from 'react';
 
 import type { NeutralColors, PrimaryColors } from '@/styles';
 
-export interface ThemeProviderProps extends AntdThemeProviderProps<any> {
+export interface ThemeProviderProps extends AntdThemeProviderProps<Record<string, unknown>> {
   className?: string;
   customFonts?: string[];
-  customStylish?: (theme: CustomStylishParams) => { [key: string]: any };
+  customStylish?: (theme: CustomStylishParams) => Record<string, unknown>;
   customTheme?: {
     neutralColor?: NeutralColors;
     primaryColor?: PrimaryColors;
   };
-  customToken?: (theme: CustomTokenParams) => { [key: string]: any };
+  customToken?: (theme: CustomTokenParams) => Record<string, unknown>;
   enableCustomFonts?: boolean;
   enableGlobalStyle?: boolean;
   style?: CSSProperties;

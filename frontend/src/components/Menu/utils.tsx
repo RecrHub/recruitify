@@ -1,5 +1,5 @@
 import type { ItemType as AntdItemType } from 'antd/es/menu/interface';
-import { isValidElement } from 'react';
+import React, { isValidElement } from 'react';
 
 import Icon from '@/components/Icon';
 
@@ -18,9 +18,9 @@ export const mapItems = (item: ItemType): AntdItemType => {
       };
     }
     default: {
-      const { children, icon, ...rest } = item as any;
+      const { children, icon, ...rest } = item as { children?: ItemType[]; icon?: React.ReactNode | React.ComponentType; [key: string]: unknown };
       return {
-        children: children ? children?.map((i: any) => mapItems(i)) : undefined,
+        children: children ? children?.map((i: ItemType) => mapItems(i)) : undefined,
         icon: icon ? isValidElement(icon) ? icon : <Icon icon={icon} size={'small'} /> : undefined,
         ...rest,
       };

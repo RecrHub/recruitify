@@ -139,7 +139,7 @@ export interface AccordionProps
   /**
    * Motion props for motion animation
    */
-  motionProps?: any;
+  motionProps?: Record<string, unknown>;
   /**
    * Callback when expanded keys change
    */

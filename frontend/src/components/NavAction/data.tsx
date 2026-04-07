@@ -5,11 +5,12 @@ import { Avatar } from 'antd';
 import type { ItemType } from '@/components/Menu';
 import styles from './NavAction.module.css';
 import { Briefcase, LayoutDashboard, LogOut, MailIcon, Settings, User2 } from 'lucide-react';
+import type { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 
 export const useUserDropdownMenu = (
-  router: any,
+  router: AppRouterInstance,
   logout: () => void,
-  user?: any
+  user?: { avatar?: string; name?: string; email?: string }
 ) => {
   return {
     items: [

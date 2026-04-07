@@ -8,7 +8,7 @@ interface AccordionContextValue {
   indicatorPlacement?: 'end' | 'start';
   isExpanded: (key: Key) => boolean;
   keepContentMounted?: boolean;
-  motionProps?: any;
+  motionProps?: Record<string, unknown>;
   onToggle: (key: Key) => void;
   showDivider?: boolean;
   variant?: 'filled' | 'outlined' | 'borderless';

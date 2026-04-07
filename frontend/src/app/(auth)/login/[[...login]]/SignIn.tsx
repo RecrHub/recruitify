@@ -96,7 +96,7 @@ export default function LoginForm() {
   };
 
   const onFinish = (values: Record<string, unknown>) => {
-    handleSubmit(values as any);
+    handleSubmit(values as { email: string; password: string });
   };
 
   return (

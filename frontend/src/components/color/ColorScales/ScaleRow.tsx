@@ -69,4 +69,6 @@ const ScaleRow = memo<IScaleRow>(({ name, title, scale }) => {
   );
 });
 
+ScaleRow.displayName = 'ScaleRow';
+
 export default ScaleRow;

@@ -22,7 +22,7 @@ const typeIcons = {
   warning: AlertTriangle,
 };
 
-const colors = (theme: any, type: string = 'info', ...keys: string[]) => {
+const colors = (theme: Record<string, string>, type: string = 'info', ...keys: string[]) => {
   if (type === 'secondary') return theme[camelCase(['color', ...keys].join('-'))] as string;
   return theme[camelCase(['color', type, ...keys].join('-'))] as string;
 };

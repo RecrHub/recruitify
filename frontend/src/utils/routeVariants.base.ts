@@ -40,7 +40,7 @@ export class RouteVariants {
       return {
         isMobile: isMobile === '1',
         locale: RouteVariants.isValidLocale(locale) ? (locale as Locales) : DEFAULT_VARIANTS.locale,
-        theme: RouteVariants.isValidTheme(theme) ? (theme as any) : DEFAULT_VARIANTS.theme,
+        theme: RouteVariants.isValidTheme(theme) ? (theme as 'dark' | 'light') : DEFAULT_VARIANTS.theme,
       };
     } catch {
       return { ...DEFAULT_VARIANTS };
@@ -52,6 +52,6 @@ export class RouteVariants {
     ...options,
   });
 
-  private static isValidLocale = (locale: string): boolean => locales.includes(locale as any);
-  private static isValidTheme = (theme: string): boolean => SUPPORTED_THEMES.includes(theme as any);
+  private static isValidLocale = (locale: string): boolean => locales.includes(locale as Locales);
+  private static isValidTheme = (theme: string): boolean => SUPPORTED_THEMES.includes(theme as (typeof SUPPORTED_THEMES)[number]);
 }

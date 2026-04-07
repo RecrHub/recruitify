@@ -11,7 +11,7 @@ import {
   useCallback,
   useEffect,
   useMemo,
-  useRef,
+  useState,
 } from 'react';
 import useMergeState from 'use-merge-value';
 
@@ -128,7 +128,7 @@ const AccordionMotionContent = memo<AccordionMotionContentProps>(
     return (
       <AnimatePresence initial={false}>
         {isOpen ? (
-          <Motion.div {...(motionProps as any)} style={motionContainerStyle}>
+          <Motion.div {...(motionProps as MotionDivProps)} style={motionContainerStyle}>
             <div className={className} role="region" style={style}>
               <div className={contentInnerClassName}>{children}</div>
             </div>
@@ -232,10 +232,10 @@ const AccordionItem = memo<AccordionItemProps>(
     const contextMotionProps = context?.motionProps;
     const contextVariant = context?.variant ?? 'borderless';
 
-    const isInitialRenderRef = useRef(true);
+    const [isInitialRender, setIsInitialRender] = useState(true);
 
     useEffect(() => {
-      isInitialRenderRef.current = false;
+      setIsInitialRender(false);
     }, []);
 
     // Determine expanded state
@@ -290,7 +290,7 @@ const AccordionItem = memo<AccordionItemProps>(
       [allowExpand, disabled, handleToggle],
     );
 
-    const preventTitleTextSelection = useCallback((e: any) => {
+    const preventTitleTextSelection = useCallback((e: React.MouseEvent) => {
       // Prevent browser from creating a selection range on double/multi click,
       // which can accidentally select the content region.
       if (e?.detail > 1) e.preventDefault();
@@ -342,7 +342,7 @@ const AccordionItem = memo<AccordionItemProps>(
       customStyles,
     ]);
 
-    const skipInitialAnimation = isInitialRenderRef.current && isOpen;
+    const skipInitialAnimation = isInitialRender && isOpen;
 
     const contentClassName = useMemo(
       () => cx('accordion-content', styles.content, classNames?.content),

@@ -75,7 +75,7 @@ const Text: FC<TextProps> = ({
       className={cx(
         variants({
           as: ['h1', 'h2', 'h3', 'h4', 'h5', 'p'].includes(Container as string)
-            ? (Container as any)
+            ? (Container as string)
             : undefined,
           code,
           delete: deleteStyle,
