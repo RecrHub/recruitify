@@ -1,10 +1,15 @@
 pipeline {
     agent any
 
+    tools {
+        nodejs 'NodeJS'
+    }
+
     environment {
-        SONAR_HOST_URL = 'http://sonarqube:9000'
+        SONAR_HOST_URL = 'http://recruitify-sonar:9000'
         BACKEND_DIR    = 'backend/web-api'
         FRONTEND_DIR   = 'frontend'
+        SONAR_TOKEN    = credentials('sonarqube-token')
     }
 
     stages {
@@ -31,7 +36,7 @@ pipeline {
             steps {
                 withSonarQubeEnv('SonarQube') {
                     dir("${BACKEND_DIR}") {
-                        sh "./gradlew sonar -Dsonar.host.url=${SONAR_HOST_URL}"
+                        sh "./gradlew sonar -Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.token=${SONAR_TOKEN}"
                     }
                 }
             }
@@ -84,7 +89,7 @@ pipeline {
             steps {
                 withSonarQubeEnv('SonarQube') {
                     dir("${FRONTEND_DIR}") {
-                        sh "sonar-scanner -Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.projectKey=recruitify-frontend -Dsonar.sources=src -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info"
+                        sh "sonar-scanner -Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.token=${SONAR_TOKEN} -Dsonar.projectKey=recruitify-frontend -Dsonar.sources=src -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info"
                     }
                 }
             }
