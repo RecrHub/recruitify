@@ -31,9 +31,9 @@ export const useJobsStore = create<JobsState>((set) => ({
         totalPages: response.totalPages,
         isLoading: false,
       });
-    } catch (err: any) {
+    } catch (err: unknown) {
       set({
-        error: err.message || "Failed to fetch jobs",
+        error: err instanceof Error ? err.message : "Failed to fetch jobs",
         isLoading: false,
       });
     }

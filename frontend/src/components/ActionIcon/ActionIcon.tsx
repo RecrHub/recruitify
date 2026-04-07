@@ -67,7 +67,6 @@ const ActionIcon = memo<ActionIconProps>(
             shadow: false,
             variant: 'borderless',
           },
-          /* eslint-disable sort-keys-fix/sort-keys-fix */
           variants: {
             variant: {
               filled: styles.filled,
@@ -95,7 +94,6 @@ const ActionIcon = memo<ActionIconProps>(
               true: styles.disabled,
             },
           },
-          /* eslint-enable sort-keys-fix/sort-keys-fix */
         }),
       [styles],
     );

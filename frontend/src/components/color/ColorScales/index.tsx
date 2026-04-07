@@ -69,4 +69,6 @@ const ColorScales = memo<ColorScalesProps>(({ name, scale, midHighLight }) => {
   );
 });
 
+ColorScales.displayName = 'ColorScales';
+
 export default ColorScales;

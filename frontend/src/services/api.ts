@@ -3,6 +3,10 @@ import authService from './authService';
 import { ApiError } from '@/types/auth';
 import { useUserStore } from '@/stores/useUserStore';
 
+interface RetryableAxiosRequestConfig extends InternalAxiosRequestConfig {
+  _retry?: boolean;
+}
+
 // More robust way to get API base URL
 const getApiBaseUrl = () => {
 const envBaseUrl = process.env.NEXT_PUBLIC_API_URL;
@@ -36,7 +40,7 @@ const api = axios.create({
 // Flag to prevent multiple refresh token requests
 let isRefreshing = false;
 // Store pending requests that should be retried after token refresh
-let failedQueue: { resolve: (value: unknown) => void; reject: (reason?: any) => void }[] = [];
+let failedQueue: { resolve: (value: unknown) => void; reject: (reason?: unknown) => void }[] = [];
 
 // Process the failed queue - either resolve or reject all pending requests
 const processQueue = (error: Error | null, token: string | null = null) => {
@@ -80,11 +84,11 @@ api.interceptors.response.use(
     
     if (!originalRequest || 
         (error.response?.status !== 401 && error.response?.status !== 403) || 
-        (originalRequest as any)._retry) {
+        (originalRequest as RetryableAxiosRequestConfig)._retry) {
       return Promise.reject(new Error(formatApiError(error).message));
     }
 
-    (originalRequest as any)._retry = true;
+    (originalRequest as RetryableAxiosRequestConfig)._retry = true;
 
     if (isRefreshing) {
       return new Promise((resolve, reject) => {

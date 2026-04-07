@@ -115,4 +115,6 @@ const AppTheme = memo<AppThemeProps>(
     }
 );
 
+AppTheme.displayName = 'AppTheme';
+
 export default AppTheme;

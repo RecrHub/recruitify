@@ -12,7 +12,6 @@ export const useTextOverflow = (
   useEffect(() => {
     const element = ref.current;
     if (!element || !ellipsis) {
-      setIsOverflow(false);
       return;
     }
 
@@ -20,13 +19,13 @@ export const useTextOverflow = (
       setIsOverflow(element.scrollWidth > element.clientWidth || element.scrollHeight > element.clientHeight);
     };
 
-    check();
-
     const observer = new ResizeObserver(check);
     observer.observe(element);
 
     return () => observer.disconnect();
   }, [ref, ellipsis, children]);
 
-  return isOverflow;
+  const effectiveOverflow = ellipsis ? isOverflow : false;
+
+  return effectiveOverflow;
 };

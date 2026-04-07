@@ -1,4 +1,3 @@
-/* eslint-disable sort-keys-fix/sort-keys-fix */
 import { createEnv } from '@t3-oss/env-nextjs';
 import { z } from 'zod';
 
@@ -69,7 +68,7 @@ export const getAppConfig = () => {
       NEXT_PUBLIC_CUSTOM_FONT_URL: process.env.NEXT_PUBLIC_CUSTOM_FONT_URL,
       NEXT_PUBLIC_CDN_USE_GLOBAL: process.env.NEXT_PUBLIC_CDN_USE_GLOBAL === '1',
 
-      ACCESS_CODES: ACCESS_CODES as any,
+      ACCESS_CODES: ACCESS_CODES as string[],
 
       AGENTS_INDEX_URL: !!process.env.AGENTS_INDEX_URL
         ? process.env.AGENTS_INDEX_URL

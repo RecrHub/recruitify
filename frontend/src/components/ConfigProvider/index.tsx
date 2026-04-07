@@ -14,12 +14,13 @@ export interface Config {
 
 export const ConfigContext = createContext<Config | null>(null);
 
-// eslint-disable-next-line react/display-name
 const ConfigProvider = memo<{ children: ReactNode; config: Config }>(
   ({ children, config }) => {
     return <ConfigContext value={config}>{children}</ConfigContext>;
   }
 );
+
+ConfigProvider.displayName = 'ConfigProvider';
 
 // useCdnFn
 export type CdnFn = ({ pkg, version, path }: CdnApi) => string;
@@ -32,7 +33,7 @@ export const useCdnFn = (): CdnFn => {
   if (!config) return cdnFallback;
   if (config?.proxy !== "custom")
     return ({ pkg, version, path }) =>
-      genCdnUrl({ path, pkg, proxy: config.proxy as any, version });
+      genCdnUrl({ path, pkg, proxy: config.proxy as CDN, version });
   return config?.customCdnFn || cdnFallback;
 };
 

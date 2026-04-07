@@ -9,8 +9,8 @@ import { generateColorNeutralPalette, generateColorPalette } from '../generateCo
 import lightBaseToken from '../token/light';
 
 export const lightAlgorithm: MappingAlgorithm = (seedToken, mapToken) => {
-  const primaryColor = (seedToken as any).primaryColor as PrimaryColors;
-  const neutralColor = (seedToken as any).neutralColor as NeutralColors;
+  const primaryColor = (seedToken as Record<string, unknown>).primaryColor as PrimaryColors;
+  const neutralColor = (seedToken as Record<string, unknown>).neutralColor as NeutralColors;
 
   let primaryTokens = {};
   let neutralTokens = {};

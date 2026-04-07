@@ -148,7 +148,7 @@ function SignUpPage() {
   const onFinish = async (values: Record<string, unknown>) => {
     const ok = await validateWithYup(values);
     if (!ok) return;
-    await handleSubmit(values as any);
+    await handleSubmit(values as Omit<RegisterRequest, "roles"> & { confirmPassword: string; agree: boolean });
   };
 
   const onValuesChange = async (
@@ -246,7 +246,7 @@ function SignUpPage() {
                   className={styles.formItem}
                 >
                   <Checkbox className={styles.checkbox}>
-                    I've read and agree with your{" "}
+                    I&apos;ve read and agree with your{" "}
                     <Link href="/terms">Terms of Services</Link>
                   </Checkbox>
                 </Form.Item>

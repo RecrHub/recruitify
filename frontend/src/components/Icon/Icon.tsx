@@ -31,14 +31,12 @@ const Icon = memo<IconProps>(
           defaultVariants: {
             spin: false,
           },
-          /* eslint-disable sort-keys-fix/sort-keys-fix */
           variants: {
             spin: {
               false: null,
               true: styles.spin,
             },
           },
-          /* eslint-enable sort-keys-fix/sort-keys-fix */
         }),
       [styles],
     );

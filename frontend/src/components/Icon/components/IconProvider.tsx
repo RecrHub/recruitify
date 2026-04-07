@@ -14,6 +14,8 @@ export const IconProvider = memo<{ children: ReactNode; config?: IconContentConf
   },
 );
 
+IconProvider.displayName = 'IconProvider';
+
 export const useIconContext = () => {
   return use(IconContext);
 };
