@@ -26,6 +26,12 @@ services:
     environment:
       SONAR_ES_BOOTSTRAP_CHECKS_DISABLE: "true"
       SONAR_FORCEAUTHENTICATION: "false"
+      SONAR_CE_JAVAOPTS: "-Xmx512m -Xms128m"
+      SONAR_WEB_JAVAOPTS: "-Xmx512m -Xms128m"
+    deploy:
+      resources:
+        limits:
+          memory: 2g
     volumes:
       - sonarqube_data:/opt/sonarqube/data
       - sonarqube_logs:/opt/sonarqube/logs
