@@ -43,7 +43,7 @@ pipeline {
             steps {
                 withSonarQubeEnv('SonarQube') {
                     dir("${BACKEND_DIR}") {
-                        sh "./gradlew sonar -Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.token=${SONAR_TOKEN}"
+                        sh './gradlew sonar -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.token=$SONAR_TOKEN'
                     }
                 }
                 timeout(time: 10, unit: 'MINUTES') {
