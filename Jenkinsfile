@@ -4,14 +4,12 @@ pipeline {
     tools {
         nodejs 'NodeJS'
     }
-
     environment {
         SONAR_HOST_URL = 'http://recruitify-sonar:9000'
         BACKEND_DIR    = 'backend/web-api'
         FRONTEND_DIR   = 'frontend'
         SONAR_TOKEN    = credentials('sonarqube-token')
     }
-
     stages {
 
         stage('Cleanup Stale Reports') {
