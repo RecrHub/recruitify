@@ -14,6 +14,13 @@ pipeline {
 
     stages {
 
+        stage('Cleanup Stale Reports') {
+            steps {
+                sh 'find . -path "*/.scannerwork/report-task.txt" -delete || true'
+                sh 'find . -path "*/build/sonar/report-task.txt" -delete || true'
+            }
+        }
+
         // BACKEND
 
         stage('Backend - Build & Test') {
@@ -39,7 +46,7 @@ pipeline {
                         sh "./gradlew sonar -Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.token=${SONAR_TOKEN}"
                     }
                 }
-                timeout(time: 5, unit: 'MINUTES') {
+                timeout(time: 10, unit: 'MINUTES') {
                     waitForQualityGate abortPipeline: true
                 }
             }
@@ -103,7 +110,7 @@ pipeline {
                         }
                     }
                 }
-                timeout(time: 5, unit: 'MINUTES') {
+                timeout(time: 10, unit: 'MINUTES') {
                     waitForQualityGate abortPipeline: true
                 }
             }
