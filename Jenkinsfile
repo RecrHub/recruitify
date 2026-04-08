@@ -3,7 +3,6 @@ pipeline {
 
     tools {
         nodejs 'NodeJS'
-        sonarQubeScanner 'SonarScanner'
     }
 
     environment {
@@ -90,7 +89,7 @@ pipeline {
     steps {
         withSonarQubeEnv('SonarQube') {
             script {
-                def scannerHome = tool 'SonarScanner'
+                def scannerHome = tool name: 'SonarScanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
                 dir("${FRONTEND_DIR}") {
                     sh """
                         ${scannerHome}/bin/sonar-scanner \
