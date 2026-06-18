@@ -17,3 +17,13 @@ node_modules/
 
 # Coverage
 coverage/
+
+# Environment
+.env
+.env.local
+
+# Terraform
+*.tfvars
+*.tfstate
+*.tfstate.backup
+.terraform/
