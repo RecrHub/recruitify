@@ -30,3 +30,6 @@ coverage/
 *.tfstate
 *.tfstate.backup
 .terraform/
+
+
+ai-service\app\data\raw\job_postings.csv
