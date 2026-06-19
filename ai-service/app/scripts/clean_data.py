@@ -1,13 +1,17 @@
+from pathlib import Path
 import pandas as pd
 
-df = pd.read_csv("app/data/raw/job_postings.csv")
+BASE_DIR = Path(__file__).resolve().parent.parent  # app/
+RAW_DATA = BASE_DIR / "data" / "raw" / "job_postings.csv"
+OUT_DATA = BASE_DIR / "data" / "processed" / "job_postings.csv"
+
+df = pd.read_csv(RAW_DATA)
 
 # Can load truong chinh
 df = df[[
     'title',
     'description',
-    'requirements',
-    'skills_desc',        
+    'skills_desc',
     'company_name',
     'location',
     'min_salary',
@@ -17,3 +21,15 @@ df = df[[
     'formatted_experience_level',
     'applies'
 ]].copy()
+
+df = df.dropna(subset=['title', 'description', 'applies'])
+
+df = df.head(500)
+
+
+df['applies'] = pd.to_numeric(df['applies'], errors='coerce').fillna(0).astype(int)
+
+OUT_DATA.parent.mkdir(parents=True, exist_ok=True)
+df.to_csv(OUT_DATA, index=False)
+
+print(f"Đã làm sạch {len(df)} job")
