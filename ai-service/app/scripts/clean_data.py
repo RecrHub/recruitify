@@ -32,4 +32,4 @@ df['applies'] = pd.to_numeric(df['applies'], errors='coerce').fillna(0).astype(i
 OUT_DATA.parent.mkdir(parents=True, exist_ok=True)
 df.to_csv(OUT_DATA, index=False)
 
-print(f"Đã làm sạch {len(df)} job")
+print(f"Đa lam sach {len(df)} job")
