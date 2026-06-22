@@ -8,6 +8,9 @@
 *.iml
 *.ipr
 
+
+/ai-service/.idea/
+/ai-service/venv/
 # OS
 .DS_Store
 Thumbs.db
@@ -27,3 +30,6 @@ coverage/
 *.tfstate
 *.tfstate.backup
 .terraform/
+
+
+ai-service\app\data\raw\job_postings.csv
