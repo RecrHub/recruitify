@@ -8,5 +8,6 @@ export default function robots(): MetadataRoute.Robots {
       disallow: ['/api/', '/login', '/signup'],
     },
     sitemap: 'https://recruitify.com/sitemap.xml',
+    // Hung Heo
   };
 }
