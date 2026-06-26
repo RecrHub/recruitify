@@ -1,15 +1,16 @@
+from xmlrpc import client
+
 import pandas as pd
 from pathlib import Path
-from langchain_huggingface import HuggingFaceEmbeddings
+from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_chroma import Chroma
 from app.config import CHROMA_DIR, EMBED_MODEL
 
-BASE_DIR = Path(__file__).resolve().parent.parent  # app/
+BASE_DIR = Path(__file__).resolve().parent.parent 
 DATA_PATH = BASE_DIR / "data" / "processed" / "jobs_clean.csv"
 
 df = pd.read_csv(DATA_PATH)
 embeddings = HuggingFaceEmbeddings(model_name=EMBED_MODEL)
-
 texts = (df["title"] + ". " + df["description"]
          + ". Skills: " + df["skills"].fillna("")).tolist()
 

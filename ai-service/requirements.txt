@@ -2,7 +2,6 @@ fastapi
 uvicorn
 langchain
 langchain-chroma
-langchain-huggingface
 sentence-transformers
 chromadb
 pandas
@@ -10,3 +9,5 @@ pydantic
 pytest
 pytest-cov
 python-dotenv
+langchain_community
+langchain-google-genai
