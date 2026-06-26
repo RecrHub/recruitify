@@ -1,0 +1,573 @@
+.dashboardShell {
+  width: 100%;
+  min-height: calc(100vh - 112px);
+  border-radius: 22px;
+  background: #ffffff;
+  box-shadow: 0 18px 45px rgba(18, 18, 23, 0.08);
+  padding: 14px;
+  font-family:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+}
+
+.filterBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 18px;
+}
+
+.tabs {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border-radius: 12px;
+  background: #f1f1f4;
+  padding: 4px;
+  min-width: 0;
+}
+
+.tabButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 38px;
+  border: 0;
+  border-radius: 9px;
+  background: transparent;
+  color: #6f6d78;
+  padding: 0 13px;
+  font-size: 15px;
+  font-weight: 650;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    color 160ms ease,
+    background 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.tabButton:hover {
+  color: #1f1e27;
+  background: rgba(255, 255, 255, 0.75);
+}
+
+.tabButtonActive {
+  color: #24212c;
+  background: #ffffff;
+  box-shadow: 0 5px 14px rgba(32, 31, 38, 0.1);
+}
+
+.tabButtonActive .tabCount {
+  color: #ffffff;
+  background: #ff980f;
+}
+
+.tabCount {
+  display: inline-grid;
+  min-width: 22px;
+  height: 22px;
+  place-items: center;
+  border-radius: 7px;
+  background: #dedde4;
+  color: #676571;
+  padding: 0 6px;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.filterActions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+}
+
+.searchBox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: min(286px, 26vw);
+  height: 46px;
+  border: 1px solid #e7e6eb;
+  border-radius: 12px;
+  background: #ffffff;
+  color: #8b8994;
+  padding: 0 13px;
+  box-shadow: 0 3px 12px rgba(32, 31, 38, 0.04);
+}
+
+.searchBox input {
+  width: 100%;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #24212c;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.searchBox input::placeholder {
+  color: #9b99a3;
+}
+
+.secondaryButton,
+.createButton,
+.detailButton,
+.setupButton,
+.iconButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #e7e6eb;
+  background: #ffffff;
+  color: #26232d;
+  font: inherit;
+  font-weight: 750;
+  cursor: pointer;
+  transition:
+    transform 160ms ease,
+    box-shadow 160ms ease,
+    border-color 160ms ease,
+    background 160ms ease;
+}
+
+.secondaryButton:hover,
+.detailButton:hover,
+.setupButton:hover,
+.iconButton:hover {
+  border-color: #d8d5df;
+  box-shadow: 0 8px 18px rgba(32, 31, 38, 0.08);
+  transform: translateY(-1px);
+}
+
+.secondaryButton {
+  height: 46px;
+  gap: 8px;
+  border-radius: 12px;
+  padding: 0 17px;
+  font-size: 16px;
+}
+
+.createButton {
+  height: 46px;
+  gap: 8px;
+  border: 0;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #a020f0 0%, #7c18dd 100%);
+  color: #ffffff;
+  padding: 0 18px;
+  font-size: 16px;
+  box-shadow: 0 12px 24px rgba(134, 24, 222, 0.26);
+}
+
+.createButton:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 15px 28px rgba(134, 24, 222, 0.34);
+}
+
+.jobList {
+  display: grid;
+  gap: 16px;
+}
+
+.jobCard {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #e6e4ea;
+  border-radius: 13px;
+  background: #ffffff;
+  padding: 20px 20px 18px 24px;
+  box-shadow: 0 5px 18px rgba(35, 33, 43, 0.04);
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
+}
+
+.jobCard:hover {
+  border-color: #d7d2e2;
+  box-shadow: 0 16px 34px rgba(35, 33, 43, 0.08);
+  transform: translateY(-1px);
+}
+
+.cardAccent {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 4px;
+  background: #6d3be8;
+}
+
+.jobCard_completed .cardAccent {
+  background: #2fba73;
+}
+
+.jobCard_draft .cardAccent {
+  background: #8b8994;
+}
+
+.jobCardHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.jobTitleGroup {
+  min-width: 0;
+}
+
+.titleRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.titleRow h2 {
+  margin: 0;
+  color: #24212c;
+  font-size: 22px;
+  font-weight: 850;
+  line-height: 1.15;
+}
+
+.statusBadge,
+.assignedBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 24px;
+  border-radius: 8px;
+  padding: 0 8px;
+  font-size: 14px;
+  font-weight: 750;
+  line-height: 1;
+}
+
+.statusBadge_active {
+  color: #4f32c8;
+  background: #eee9ff;
+}
+
+.statusBadge_draft {
+  color: #4f4d58;
+  background: #eeeeF2;
+}
+
+.statusBadge_completed {
+  color: #176c43;
+  background: #e5f7ed;
+}
+
+.assignedBadge {
+  color: #2d3f86;
+  background: #e8edff;
+}
+
+.metaRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+  color: #696773;
+  font-size: 15px;
+  font-weight: 560;
+}
+
+.metaRow span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.metaRow span:not(:last-child)::after {
+  content: "•";
+  color: #b3b0ba;
+  margin-left: 2px;
+}
+
+.availabilityIcon {
+  color: #7148df;
+}
+
+.cardActions {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex-shrink: 0;
+}
+
+.addedAt {
+  color: #7a7782;
+  font-size: 15px;
+  font-weight: 550;
+  white-space: nowrap;
+}
+
+.addedAt strong {
+  color: #26232d;
+  font-weight: 800;
+}
+
+.actionDivider {
+  width: 1px;
+  height: 24px;
+  background: #e7e4ec;
+}
+
+.iconButton {
+  width: 46px;
+  height: 46px;
+  border-radius: 11px;
+}
+
+.detailButton,
+.setupButton {
+  height: 46px;
+  gap: 6px;
+  border-radius: 11px;
+  padding: 0 16px;
+  font-size: 16px;
+}
+
+.pipelineRow {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(138px, 1fr)) auto repeat(2, minmax(138px, 1fr));
+  align-items: center;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.pipelineItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  min-height: 38px;
+  border-radius: 8px;
+  background: #fbfbfd;
+  box-shadow: inset 0 0 0 1px rgba(232, 229, 236, 0.85);
+  padding: 5px 8px 5px 10px;
+}
+
+.pipelineLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+  color: #3c3945;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.pipelineLabel svg {
+  color: #75727e;
+  flex-shrink: 0;
+}
+
+.pipelineValue {
+  display: inline-grid;
+  min-width: 48px;
+  height: 28px;
+  place-items: center;
+  border-radius: 6px;
+  padding: 0 10px;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.pipelineValueDefault {
+  color: #4c2ab7;
+  background: #efe5ff;
+  box-shadow: inset 3px 0 0 #6d3be8;
+}
+
+.pipelineItem:first-child .pipelineValueDefault {
+  color: #6f4b00;
+  background: #fff8e8;
+  box-shadow: inset 3px 0 0 #f2a227;
+}
+
+.pipelineItem:nth-child(3) .pipelineValueDefault {
+  color: #214f86;
+  background: #eaf4ff;
+  box-shadow: inset 3px 0 0 #57a8ef;
+}
+
+.pipelineValueHired {
+  color: #1d6045;
+  background: #eaf8f0;
+  box-shadow: inset 3px 0 0 #49ba83;
+}
+
+.pipelineValueRejected {
+  color: #8d2d32;
+  background: #ffecec;
+  box-shadow: inset 3px 0 0 #f1737b;
+}
+
+.pipelineSeparator {
+  color: #24212c;
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: -1px;
+  text-align: center;
+}
+
+.draftCta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 26px;
+  min-height: 74px;
+  margin-top: 22px;
+  border-radius: 10px;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.96)),
+    repeating-linear-gradient(90deg, #f4f3f6 0 120px, #fbfbfd 120px 240px);
+}
+
+.draftContent {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: min(100%, 560px);
+}
+
+.draftIcon {
+  display: grid;
+  width: 48px;
+  height: 36px;
+  place-items: center;
+  border-radius: 8px;
+  background: #f1f0f4;
+  color: #74717d;
+  box-shadow: inset 0 -3px 0 rgba(35, 33, 43, 0.08);
+}
+
+.draftContent h3,
+.draftContent p {
+  margin: 0;
+}
+
+.draftContent h3 {
+  color: #24212c;
+  font-size: 18px;
+  font-weight: 850;
+}
+
+.draftContent p {
+  margin-top: 4px;
+  color: #817e88;
+  font-size: 15px;
+  font-weight: 520;
+}
+
+.setupButton {
+  background: #ffffff;
+}
+
+@media (max-width: 1280px) {
+  .filterBar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .filterActions {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .searchBox {
+    width: 100%;
+    flex: 1;
+  }
+
+  .pipelineRow {
+    grid-template-columns: repeat(2, minmax(180px, 1fr));
+  }
+
+  .pipelineSeparator {
+    display: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .dashboardShell {
+    border-radius: 16px;
+    padding: 12px;
+  }
+
+  .tabs,
+  .filterActions,
+  .jobCardHeader,
+  .cardActions,
+  .draftCta {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .tabs {
+    display: flex;
+  }
+
+  .tabButton,
+  .secondaryButton,
+  .createButton {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .cardActions {
+    gap: 8px;
+  }
+
+  .addedAt {
+    white-space: normal;
+  }
+
+  .actionDivider {
+    display: none;
+  }
+
+  .iconButton,
+  .detailButton,
+  .setupButton {
+    width: 100%;
+  }
+
+  .pipelineRow {
+    grid-template-columns: 1fr;
+  }
+
+  .draftContent {
+    min-width: 0;
+  }
+}
+
+@media (max-width: 560px) {
+  .jobCard {
+    padding: 18px 14px 16px 18px;
+  }
+
+  .titleRow h2 {
+    font-size: 19px;
+  }
+
+  .pipelineItem {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .pipelineValue {
+    width: 100%;
+  }
+}

@@ -1,0 +1,87 @@
+import {
+  BadgeCheck,
+  BriefcaseBusiness,
+  ClipboardList,
+  FileText,
+  MonitorUp,
+  ScrollText,
+  XCircle,
+} from 'lucide-react';
+import type { JobPosting, PipelineStat } from './types';
+
+const defaultPipeline: PipelineStat[] = [
+  { key: 'application', label: 'Application', value: 121, icon: FileText },
+  { key: 'shortlist', label: 'Shortlist', value: 41, icon: ClipboardList },
+  { key: 'interview', label: 'Interview', value: 10, icon: MonitorUp },
+  { key: 'offer', label: 'Offer', value: 3, icon: ScrollText },
+  { key: 'hired', label: 'Hired', value: 0, icon: BriefcaseBusiness, tone: 'hired' },
+  { key: 'rejected', label: 'Rejected', value: 0, icon: XCircle, tone: 'rejected' },
+];
+
+export const mockJobs: JobPosting[] = [
+  {
+    id: 7781,
+    title: 'Math Teacher',
+    status: 'active',
+    assignedToMe: true,
+    employmentType: 'Full Time',
+    location: 'Riyadh',
+    available: { current: 3, total: 10 },
+    addedAt: '14 April 2025',
+    pipeline: defaultPipeline,
+  },
+  {
+    id: 7780,
+    title: 'English Teacher',
+    status: 'active',
+    employmentType: 'Part Time',
+    location: 'Riyadh',
+    available: { current: 4, total: 10 },
+    addedAt: '14 April 2025',
+    pipeline: defaultPipeline,
+  },
+  {
+    id: 7779,
+    title: 'Biology Teacher',
+    status: 'active',
+    employmentType: 'Part Time',
+    location: 'Riyadh',
+    available: { current: 3, total: 10 },
+    addedAt: '13 April 2025',
+    pipeline: defaultPipeline,
+  },
+  {
+    id: 7778,
+    title: 'Visual Arts Teacher',
+    status: 'draft',
+    employmentType: 'Full Time',
+    location: 'Riyadh',
+    available: null,
+    addedAt: '13 April 2025',
+    pipeline: [],
+  },
+  {
+    id: 7777,
+    title: 'Physics Teacher',
+    status: 'completed',
+    employmentType: 'Part Time',
+    location: 'Riyadh',
+    available: { current: 10, total: 10 },
+    addedAt: '11 April 2025',
+    pipeline: defaultPipeline,
+  },
+  {
+    id: 7776,
+    title: 'Humanities Teacher',
+    status: 'completed',
+    employmentType: 'Full Time',
+    location: 'Riyadh',
+    available: { current: 20, total: 20 },
+    addedAt: '12 April 2025',
+    pipeline: [
+      ...defaultPipeline.slice(0, 4),
+      { key: 'hired', label: 'Hired', value: 12, icon: BadgeCheck, tone: 'hired' },
+      defaultPipeline[5],
+    ],
+  },
+];
