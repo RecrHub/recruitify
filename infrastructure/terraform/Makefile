@@ -1,23 +1,30 @@
-.PHONY: init plan apply destroy fmt validate output
+.PHONY: init plan apply destroy fmt validate output ssh
+
+# Môi trường dev (nơi chứa main.tf)
+ENV_DIR := enviroiments/dev
 
 init:
-	@echo "$(GREEN)Initializing"
-	terraform init upgrade
+	@echo "Initializing..."
+	terraform -chdir=$(ENV_DIR) init -upgrade
 
 plan:
-	terraform plan -var="db_password=$(DB_PASSWORD)"
+	terraform -chdir=$(ENV_DIR) plan
 
 apply:
-	terraform apply -var="db_password=$(DB_PASSWORD)"
+	terraform -chdir=$(ENV_DIR) apply
 
 destroy:
-	terraform destroy -var="db_password=$(DB_PASSWORD)"
+	terraform -chdir=$(ENV_DIR) destroy
 
 fmt:
 	terraform fmt -recursive
 
 validate:
-	terraform validate
+	terraform -chdir=$(ENV_DIR) validate
 
 output:
-	terraform output
+	terraform -chdir=$(ENV_DIR) output
+
+# SSH nhanh vào VM sau khi apply
+ssh:
+	@$$(terraform -chdir=$(ENV_DIR) output -raw ssh_command)
