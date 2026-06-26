@@ -31,5 +31,9 @@ coverage/
 *.tfstate.backup
 .terraform/
 
-
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
 ai-service\app\data\raw\job_postings.csv

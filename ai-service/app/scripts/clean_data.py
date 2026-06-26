@@ -3,12 +3,10 @@ import pandas as pd
 
 BASE_DIR = Path(__file__).resolve().parent.parent  # app/
 RAW_DATA = BASE_DIR / "data" / "raw" / "job_postings.csv"
-# write a cleaned file that matches build_index.py expectations
 OUT_DATA = BASE_DIR / "data" / "processed" / "jobs_clean.csv"
 
 df = pd.read_csv(RAW_DATA)
 
-# Can load truong chinh
 df = df[[
     'title',
     'description',
