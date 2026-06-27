@@ -226,7 +226,10 @@ function JobsList({ jobs }: { jobs: JobPosting[] }) {
 
       <div className={styles.tableRows}>
         {jobs.map((job) => (
-          <article key={job.id} className={styles.jobRow}>
+          <article
+            key={job.id}
+            className={`${styles.jobRow} ${openActionJobId === job.id ? styles.jobRowMenuOpen : ''}`}
+          >
             <div className={styles.jobIdentity}>
               <div className={`${styles.jobAvatar} ${styles[`jobAvatar_${job.status}`]}`}>
                 {job.title
