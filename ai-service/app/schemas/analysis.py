@@ -18,10 +18,18 @@ class QualityResult(BaseModel):
     checks: dict      
     suggestions: list[str]
 
+class ComparisonField(BaseModel):
+    field: str
+    your_value: str
+    competitor_value: str
+    verdict: str  # "better" | "worse" | "equal"
+
 class MarketResult(BaseModel):
     your_applied: int
     avg_applied: float
     top_similar_applied: int
+    competitor_title: str
+    comparison: list[ComparisonField]
     advice: str
 
 class AnalysisResponse(BaseModel):
