@@ -1,0 +1,51 @@
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.postJob {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  background-color: #428e72;
+  color: #fff;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 0.2s, transform 0.05s;
+}
+
+.postJob:hover {
+  background-color: #357d63;
+  color: #fff;
+}
+
+.postJob:active {
+  background-color: #2c6a53;
+  transform: scale(0.97);
+}
+
+.avatarBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px;
+  background: transparent;
+  border: 2px solid transparent;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: border-color 0.15s, transform 0.05s;
+}
+
+.avatarBtn:hover {
+  border-color: rgba(66, 142, 114, 0.5);
+}
+
+.avatarBtn:active {
+  transform: scale(0.95);
+}

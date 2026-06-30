@@ -1,27 +1,31 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { Layout, theme, Flex, Grid } from 'antd';
-import { Sidebar } from './components/Sidebar';
-import { AdminHeader } from './components/Header';
+import { useState } from "react";
+import { Layout, theme, Flex, Grid } from "antd";
+import { AdminHeader } from "./components/Header";
+import EmployerHeader from "./components/EmployerHeader";
 
 const { Content } = Layout;
 
-export default function AdminLayout({ children }: { children: React.ReactNode }) {
+export default function AdminLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const { token } = theme.useToken();
   const screens = Grid.useBreakpoint();
   const isMobile = !screens.lg;
   const [collapsed, setCollapsed] = useState(isMobile);
 
   return (
-    <Layout style={{ minHeight: '100vh' }}>
-      <Sidebar collapsed={collapsed} onCollapsedChange={setCollapsed} />
+    <Layout style={{ minHeight: "100vh" }}>
+      <EmployerHeader />
       <Flex
         vertical
         style={{
           flex: 1,
           minWidth: 0,
-          minHeight: '100vh',
+          minHeight: "100vh",
         }}
       >
         <AdminHeader onToggleSidebar={() => setCollapsed(!collapsed)} />
@@ -30,9 +34,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             flex: 1,
             padding: token.paddingLG,
             minHeight: 0,
-            display: 'flex',
-            flexDirection: 'column',
-            overflow: 'auto',
+            display: "flex",
+            flexDirection: "column",
+            overflow: "auto",
           }}
         >
           {children}

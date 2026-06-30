@@ -30,7 +30,7 @@
 .navbar {
   display: flex;
   align-items: center;
-  height: 80px;
+  height: 75px;
   background-color: #ffffff;
   border-bottom: 1px solid #d9d9d9;
 }
@@ -55,12 +55,10 @@
 }
 
 .navbarCollapse {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-left: 200px;
 }
 
 .navActions {
@@ -68,6 +66,7 @@
   align-items: center;
   gap: 8px;
   flex-shrink: 0;
+  margin-left: auto;
   z-index: 10;
 }
 
@@ -159,12 +158,13 @@
   right: 0;
   width: 300px;
   height: 100vh;
-  background: #fff;
+  background: #1a1a1a;
+  color: #fff;
   z-index: 1050;
   transform: translateX(100%);
   transition: transform 0.3s ease;
   overflow-y: auto;
-  box-shadow: -2px 0 12px rgba(0, 0, 0, 0.08);
+  box-shadow: -2px 0 12px rgba(0, 0, 0, 0.5);
 }
 
 .rightNavOpen {
@@ -188,13 +188,13 @@
   justify-content: center;
   background: transparent;
   border: none;
-  color: var(--ant-color-text);
+  color: #fff;
   cursor: pointer;
   padding: 0;
 }
 
 .rightNavCloseBtn:hover {
-  color: var(--ant-color-text-secondary);
+  color: rgba(255, 255, 255, 0.7);
 }
 
 /* ===== OVERLAY ===== */
