@@ -105,7 +105,6 @@ export default function EmployerMobileSidebar({
 
   return (
     <ul className={styles.menuList}>
-      {/* ===== User card ===== */}
       <li className={styles.userCard}>
         <Avatar
           size={40}
@@ -121,7 +120,6 @@ export default function EmployerMobileSidebar({
         </div>
       </li>
 
-      {/* ===== Menu links ===== */}
       {menuItems.map((item) => (
         <li key={item.key} className={styles.menuItem}>
           {isLink(item) ? (
@@ -146,7 +144,6 @@ export default function EmployerMobileSidebar({
         </li>
       ))}
 
-      {/* ===== Sign Out ===== */}
       <li className={styles.menuItem}>
         <button
           type="button"
