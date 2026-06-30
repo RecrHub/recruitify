@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { Avatar } from "antd";
+import { Avatar, Button } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 
 import { useUserStore } from "@/stores/useUserStore";
@@ -14,11 +14,6 @@ export interface EmployerMobileActionsProps {
   toggleRightNav?: () => void;
 }
 
-/**
- * Top-bar mobile actions for the Employer area.
- * Renders the primary "Post Job" CTA plus the user avatar.
- * Clicking the avatar opens the RIGHT drawer (profile menu, itviec-style).
- */
 export default function EmployerMobileActions(
   props: EmployerMobileActionsProps,
 ): React.ReactElement {
@@ -28,9 +23,13 @@ export default function EmployerMobileActions(
 
   return (
     <div className={styles.actions}>
-      <Link href="/employer/jobs/new" className={styles.postJob}>
-        <span>Post Job</span>
-      </Link>
+      <Button
+        className={styles.buttonItem}
+        type="primary"
+        href="/employer/jobs/new"
+      >
+        Post a Job
+      </Button>
 
       <button
         type="button"
@@ -40,7 +39,7 @@ export default function EmployerMobileActions(
         title={displayName}
       >
         <Avatar
-          size={32}
+          size={35}
           src={profile?.avatarUrl}
           icon={!profile?.avatarUrl && <UserOutlined />}
         />

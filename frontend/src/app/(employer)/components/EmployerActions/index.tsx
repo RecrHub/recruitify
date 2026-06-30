@@ -92,7 +92,6 @@ export default function EmployerActions() {
         </Link>
       </li>
 
-      {/* 6. Inbox - Applications */}
       <li className={styles.item}>
         <Link
           href="/employer/applications"

@@ -4,30 +4,23 @@
   gap: 10px;
 }
 
-.postJob {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 7px 14px;
-  background-color: #428e72;
-  color: #fff;
+.buttonItem:global(.ant-btn-primary) {
+  background-color: #428e72 !important;
+  border-color: #428e72 !important;
+}
+
+.buttonItem:global(.ant-btn-primary):hover {
+  background-color: #357d63 !important;
+  border-color: #357d63 !important;
+}
+
+.buttonItem:global(.ant-btn-primary):active {
+  background-color: #2c6a53 !important;
+  border-color: #2c6a53 !important;
+}
+
+.buttonItem:global(.ant-btn) {
   border-radius: 20px;
-  font-size: 13px;
-  font-weight: 600;
-  line-height: 1;
-  text-decoration: none;
-  white-space: nowrap;
-  transition: background-color 0.2s, transform 0.05s;
-}
-
-.postJob:hover {
-  background-color: #357d63;
-  color: #fff;
-}
-
-.postJob:active {
-  background-color: #2c6a53;
-  transform: scale(0.97);
 }
 
 .avatarBtn {

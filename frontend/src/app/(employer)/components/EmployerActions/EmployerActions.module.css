@@ -22,10 +22,7 @@
 }
 
 
-/* Override màu primary của antd sang brand color #428e72.
-   antd v5 generate hover với selector .ant-btn-color-primary.ant-btn-variant-solid
-   :not(:disabled):not(.ant-btn-disabled):hover có specificity (0,5,1) —
-   cao hơn CSS module thường — nên buộc phải dùng !important để thắng. */
+
 .buttonItem:global(.ant-btn-primary) {
   background-color: #428e72 !important;
   border-color: #428e72 !important;
