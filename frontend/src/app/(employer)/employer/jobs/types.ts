@@ -1,18 +1,21 @@
-export type JobStatus = 'active' | 'draft' | 'completed';
+export type JobStatus = 'open' | 'hold' | 'closed' | 'draft';
 
 export interface JobPosting {
   id: number;
   title: string;
-  status: JobStatus;
-  assignedToMe?: boolean;
   category: string;
-  employmentType: string;
-  workApproach: string;
-  location: string;
+  status: JobStatus;
   salary: string;
+  location: string;
+  matched: number;
+  availability: string;
+  workApproach: string;
+  license: string;
   experience: string;
-  license: 'Yes' | 'No' | 'Required';
   applicants: number;
-  openings: number;
-  addedAt: string;
+  about: string;
+  responsibilities: string[];
+  education: string;
+  skills: string[];
+  qualifications: string[];
 }
