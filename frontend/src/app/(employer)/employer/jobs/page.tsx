@@ -17,7 +17,7 @@ import {
   X,
 } from 'lucide-react';
 import { mockJobs } from './mockJobs';
-import type { JobPosting, JobStatus } from './types';
+import type { EmployerJobListItem, JobStatus } from './types';
 import styles from './jobs.module.css';
 
 const statusTabs = ['All', 'Open', 'Hold', 'Closed', 'Drafts (2)'];
@@ -44,8 +44,50 @@ const statusLabel: Record<JobStatus, string> = {
   draft: 'Draft',
 };
 
+const categoryLabel: Record<number, string> = {
+  1: 'Administrative',
+  2: 'Product',
+  3: 'Marketing',
+  4: 'Engineering',
+};
+
+const employmentTypeLabel: Record<number, string> = {
+  1: 'Full-time/part-time',
+  2: 'Full-time',
+  3: 'Part-time',
+};
+
+const experienceLevelLabel: Record<number, string> = {
+  1: 'Entry level',
+  2: 'Mid level',
+  3: 'Senior level',
+};
+
+const workApproachLabel: Record<number, string> = {
+  1: 'Onsite',
+  2: 'Hybrid',
+  3: 'Remote',
+};
+
+const wardLabel: Record<string, string> = {
+  'CA-ON': 'Canada',
+  'US-NY': 'USA',
+  'IN-DL': 'India',
+  'UK-LDN': 'UK',
+};
+
+const getCategoryLabel = (categoryId: number) => categoryLabel[categoryId] ?? `Category #${categoryId}`;
+const getEmploymentTypeLabel = (employmentTypeId: number) =>
+  employmentTypeLabel[employmentTypeId] ?? `Employment type #${employmentTypeId}`;
+const getExperienceLevelLabel = (experienceLevelId: number) =>
+  experienceLevelLabel[experienceLevelId] ?? `Experience level #${experienceLevelId}`;
+const getWorkApproachLabel = (workApproachId: number) => workApproachLabel[workApproachId] ?? `Work approach #${workApproachId}`;
+const getWardLabel = (wardCode: string) => wardLabel[wardCode] ?? wardCode;
+const formatSalary = (minSalary: number, maxSalary: number) =>
+  `$${Math.round(minSalary / 1000)}K - $${Math.round(maxSalary / 1000)}K`;
+
 export default function EmployerJobsPage() {
-  const [selectedJob, setSelectedJob] = useState<JobPosting | null>(null);
+  const [selectedJob, setSelectedJob] = useState<EmployerJobListItem | null>(null);
 
   return (
     <>
@@ -130,7 +172,13 @@ export default function EmployerJobsPage() {
   );
 }
 
-function JobsTable({ jobs, onSelectJob }: { jobs: JobPosting[]; onSelectJob: (job: JobPosting) => void }) {
+function JobsTable({
+  jobs,
+  onSelectJob,
+}: {
+  jobs: EmployerJobListItem[];
+  onSelectJob: (job: EmployerJobListItem) => void;
+}) {
   const [openActionJobId, setOpenActionJobId] = useState<number | null>(null);
 
   useEffect(() => {
@@ -177,12 +225,12 @@ function JobsTable({ jobs, onSelectJob }: { jobs: JobPosting[]; onSelectJob: (jo
             tabIndex={0}
           >
             <span className={styles.jobTitle}>{job.title}</span>
-            <span className={styles.categoryText}>{job.category}</span>
+            <span className={styles.categoryText}>{getCategoryLabel(job.categoryId)}</span>
             <StatusBadge status={job.status} />
-            <span>{job.salary}</span>
+            <span>{formatSalary(job.minSalary, job.maxSalary)}</span>
             <span className={styles.locationCell}>
               <MapPin size={16} aria-hidden />
-              {job.location}
+              {getWardLabel(job.wardCode)}
             </span>
             <span>{job.matched}</span>
             <div className={styles.rowActions} data-job-action-menu="true" onClick={(event) => event.stopPropagation()}>
@@ -235,7 +283,7 @@ function StatusBadge({ status }: { status: JobStatus }) {
   return <span className={`${styles.statusBadge} ${styles[`statusBadge_${status}`]}`}>{statusLabel[status]}</span>;
 }
 
-function JobDetailsPanel({ job, onClose }: { job: JobPosting; onClose: () => void }) {
+function JobDetailsPanel({ job, onClose }: { job: EmployerJobListItem; onClose: () => void }) {
   return (
     <div className={styles.detailsOverlay} role="presentation" onClick={onClose}>
       <aside
@@ -270,7 +318,7 @@ function JobDetailsPanel({ job, onClose }: { job: JobPosting; onClose: () => voi
               </div>
               <p className={styles.detailsLocation}>
                 <MapPin size={16} aria-hidden />
-                {job.location} ({job.workApproach})
+                {getWardLabel(job.wardCode)} ({getWorkApproachLabel(job.workApproachId)})
               </p>
             </div>
 
@@ -286,12 +334,12 @@ function JobDetailsPanel({ job, onClose }: { job: JobPosting; onClose: () => voi
           </section>
 
           <section className={styles.detailsSummary} aria-label="Job summary">
-            <SummaryItem label="Category" value={job.category} />
-            <SummaryItem label="Availability" value={job.availability} />
-            <SummaryItem label="Work Approach" value={job.workApproach} />
-            <SummaryItem label="License" value={job.license} />
-            <SummaryItem label="Experience" value={job.experience} />
-            <SummaryItem label="Salary" value={job.salary} />
+            <SummaryItem label="Category" value={getCategoryLabel(job.categoryId)} />
+            <SummaryItem label="Availability" value={getEmploymentTypeLabel(job.employmentTypeId)} />
+            <SummaryItem label="Work Approach" value={getWorkApproachLabel(job.workApproachId)} />
+            <SummaryItem label="Featured" value={job.isFeatured ? 'Yes' : 'No'} />
+            <SummaryItem label="Experience" value={getExperienceLevelLabel(job.experienceLevelId)} />
+            <SummaryItem label="Salary" value={formatSalary(job.minSalary, job.maxSalary)} />
           </section>
 
           <div className={styles.detailsStats}>
@@ -315,13 +363,13 @@ function JobDetailsPanel({ job, onClose }: { job: JobPosting; onClose: () => voi
 
           <section className={styles.detailsSection}>
             <h4>About</h4>
-            <p>{job.about}</p>
+            <p>{job.description}</p>
           </section>
 
           <section className={styles.detailsSection}>
             <h4>Key Responsibilities</h4>
             <ul>
-              {job.responsibilities.map((responsibility) => (
+              {job.responsibilities.split('\n').map((responsibility) => (
                 <li key={responsibility}>{responsibility}</li>
               ))}
             </ul>
@@ -344,7 +392,7 @@ function JobDetailsPanel({ job, onClose }: { job: JobPosting; onClose: () => voi
           <section className={styles.detailsSection}>
             <h4>Preferred Qualifications</h4>
             <ul>
-              {job.qualifications.map((qualification) => (
+              {job.requirement.split('\n').map((qualification) => (
                 <li key={qualification}>{qualification}</li>
               ))}
             </ul>
