@@ -1,32 +1,30 @@
 import type { JobPosting } from './types';
 
-const defaultDetails = {
+const sharedDetails = {
   availability: 'Full-time/part-time',
   workApproach: 'Remote',
   license: 'Required',
   experience: '3+ years',
   applicants: 154,
   about:
-    'As a Senior Product Designer on the Accessibility team, you will have the opportunity to establish accessibility principles, evolve scalable practices, and inspire inclusive user experiences. Collaboration with designers, engineers, and accessibility specialists will be a key part of this role.',
+    'As a Senior Product Designer on the Accessibility team, you will establish accessible product practices, collaborate across teams, and improve inclusive user experiences.',
   responsibilities: [
     'Integrate accessibility best practices throughout the design process.',
-    'Support designers through partnership, documentation, and resources to help them refine work that balances design fidelity, technical feasibility, and accessibility.',
-    'Review and evaluate audits and designs of other members of the team to ensure accuracy.',
-    'Partner closely with user experience research to identify opportunities to improve product offerings.',
+    'Support designers through documentation, partnership, and review.',
+    'Partner with research and engineering teams to improve product quality.',
   ],
   education: 'B.sc in Computer Science or any engineering subjects',
-  skills: ['Product Design', 'UI/UX Design', 'Prototyping', 'Interaction Design', 'Wireframe', 'Design System', 'Documentation'],
+  skills: ['Product Design', 'UI/UX Design', 'Prototyping', 'Interaction Design', 'Wireframe', 'Design System'],
   qualifications: [
-    '5-7 years of UX experience in an Enterprise or retail environment or a degree in related field',
-    '5-7 years of experience working with agile software development teams',
-    'Desire to thrive in a fast-moving environment',
-    'Demonstrated ability to initiate and self-manage complex projects',
+    '5-7 years of UX experience in an Enterprise or retail environment.',
+    'Experience working with agile software development teams.',
+    'Demonstrated ability to initiate and self-manage complex projects.',
   ],
 };
 
 export const mockJobs: JobPosting[] = [
   {
-    ...defaultDetails,
+    ...sharedDetails,
     id: 1,
     title: 'Personal Assistant',
     category: 'Administrative',
@@ -37,7 +35,7 @@ export const mockJobs: JobPosting[] = [
     workApproach: 'Onsite',
   },
   {
-    ...defaultDetails,
+    ...sharedDetails,
     id: 2,
     title: 'Junior HR Manager',
     category: 'Administrative',
@@ -48,7 +46,7 @@ export const mockJobs: JobPosting[] = [
     workApproach: 'Hybrid',
   },
   {
-    ...defaultDetails,
+    ...sharedDetails,
     id: 3,
     title: 'Senior Product Designer',
     category: 'Product',
@@ -58,7 +56,7 @@ export const mockJobs: JobPosting[] = [
     matched: 40,
   },
   {
-    ...defaultDetails,
+    ...sharedDetails,
     id: 4,
     title: 'Associate Product Designer',
     category: 'Marketing',
@@ -69,7 +67,7 @@ export const mockJobs: JobPosting[] = [
     workApproach: 'Onsite',
   },
   {
-    ...defaultDetails,
+    ...sharedDetails,
     id: 5,
     title: 'Software Developer',
     category: 'Engineering',
@@ -79,48 +77,8 @@ export const mockJobs: JobPosting[] = [
     matched: 40,
   },
   {
-    ...defaultDetails,
+    ...sharedDetails,
     id: 6,
-    title: 'Customer Success Manager',
-    category: 'Administrative',
-    status: 'open',
-    salary: '$80K - $100K',
-    location: 'India',
-    matched: 40,
-  },
-  {
-    ...defaultDetails,
-    id: 7,
-    title: 'Customer Success Manager',
-    category: 'Administrative',
-    status: 'open',
-    salary: '$80K - $100K',
-    location: 'India',
-    matched: 40,
-  },
-  {
-    ...defaultDetails,
-    id: 8,
-    title: 'Customer Success Manager',
-    category: 'Administrative',
-    status: 'open',
-    salary: '$80K - $100K',
-    location: 'India',
-    matched: 40,
-  },
-  {
-    ...defaultDetails,
-    id: 9,
-    title: 'Customer Success Manager',
-    category: 'Administrative',
-    status: 'open',
-    salary: '$80K - $100K',
-    location: 'India',
-    matched: 40,
-  },
-  {
-    ...defaultDetails,
-    id: 10,
     title: 'Customer Success Manager',
     category: 'Administrative',
     status: 'open',
