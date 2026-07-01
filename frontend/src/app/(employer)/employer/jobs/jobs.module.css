@@ -33,8 +33,7 @@
 }
 
 .filterButton,
-.pillButton,
-.createJobButton {
+.pillButton {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -51,8 +50,7 @@
 }
 
 .filterButton:hover,
-.pillButton:hover,
-.createJobButton:hover {
+.pillButton:hover {
   border-color: #c7c1dc;
   box-shadow: 0 8px 18px rgba(31, 33, 48, 0.08);
   transform: translateY(-1px);
@@ -166,23 +164,6 @@
   border-radius: 999px;
   padding: 0 16px;
   font-size: 15px;
-}
-
-.createJobButton {
-  min-height: 43px;
-  border-color: #111318;
-  border-radius: 999px;
-  background: #111318;
-  color: #ffffff;
-  font-size: 15px;
-  padding: 0 18px;
-  text-decoration: none;
-}
-
-.createJobButton:hover {
-  border-color: #111318;
-  background: #111318;
-  color: #ffffff;
 }
 
 .jobsTable {
@@ -715,8 +696,7 @@
   }
 
   .checkboxRow,
-  .pillButton,
-  .createJobButton {
+  .pillButton {
     font-size: 13px;
   }
 }
@@ -753,10 +733,6 @@
   }
 
   .pillButton {
-    width: 100%;
-  }
-
-  .createJobButton {
     width: 100%;
   }
 

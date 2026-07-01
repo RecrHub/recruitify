@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import {
   CalendarDays,
@@ -100,9 +99,6 @@ export default function EmployerJobsPage() {
                 <ListFilter size={19} aria-hidden />
                 List View
               </button>
-              <Link href="/employer/jobs/create" className={styles.createJobButton}>
-                Create Job
-              </Link>
             </div>
           </div>
 
