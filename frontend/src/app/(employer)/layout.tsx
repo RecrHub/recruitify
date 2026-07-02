@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { Layout, theme, Flex, Grid } from "antd";
-import { AdminHeader } from "./components/Header";
 import EmployerHeader from "./components/EmployerHeader";
 
 const { Content } = Layout;
@@ -28,7 +27,6 @@ export default function AdminLayout({
           minHeight: "100vh",
         }}
       >
-        <AdminHeader onToggleSidebar={() => setCollapsed(!collapsed)} />
         <Content
           style={{
             flex: 1,
@@ -36,6 +34,7 @@ export default function AdminLayout({
             minHeight: 0,
             display: "flex",
             flexDirection: "column",
+            backgroundColor: "#fff",
             overflow: "auto",
           }}
         >

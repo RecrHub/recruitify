@@ -28,14 +28,11 @@ export default function EmployerDashboard() {
   return (
     <div className={styles.container}>
       <DashboardHeader />
-
       <StatsCards />
-
       <div className={styles.middle}>
         <OverviewChart data={chartData} />
         <Schedule />
       </div>
-
       <div className={styles.bottom}>
         <CurrentOpenings />
         <NewApplications />

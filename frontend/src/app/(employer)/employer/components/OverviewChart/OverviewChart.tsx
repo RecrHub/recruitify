@@ -36,11 +36,11 @@ export default function OverviewChart({ data }: Props) {
           Application Received Time
         </Title>
 
-        <Flex gap={12}>
+        <div className={styles.badge}>
           <button className={styles.active}>12 months</button>
           <button className={styles.tab}>30 days</button>
           <button className={styles.tab}>7 Days</button>
-        </Flex>
+        </div>
       </Flex>
 
       <Card

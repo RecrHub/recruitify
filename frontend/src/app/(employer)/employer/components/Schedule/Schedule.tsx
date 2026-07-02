@@ -69,15 +69,16 @@ export default function Schedule() {
 
             <div
               className={styles.dot}
-              style={{ backgroundColor: item.color }}
+              style={{ borderColor: item.color }}
             />
 
             {/* Khung nội dung chứa cả Avatar và HungGay */}
             <Flex
               align="center"
-              gap={12}
               className={styles.contentBox}
               style={{
+                padding: '8px 16px',
+                borderRadius: '20px',
                 backgroundColor: item.bgColor,
                 color: item.color
               }}
