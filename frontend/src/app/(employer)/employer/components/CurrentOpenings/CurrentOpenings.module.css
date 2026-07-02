@@ -1,0 +1,55 @@
+.card {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 0px !important;
+    height: auto !important;
+    display: flex !important;
+    flex-direction: column;
+}
+.title {
+    font-size: 16px !important;
+    font-weight: 600 !important;
+    color: #1a1a2e !important;
+    margin-top: -8px !important;
+    margin-bottom: 16px !important;
+    line-height: 1.2 !important;
+}
+
+.card :global(.ant-card-body) {
+    padding: 0 !important;
+    background: transparent !important;
+}
+
+.table :global(.ant-table) {
+    background: transparent !important;
+}
+
+.table :global(.ant-table-thead > tr > th) {
+    background: transparent !important;
+    border-bottom: 1px solid #eef0f4 !important;
+    border-top: none !important;
+    padding: 12px 0 !important;
+}
+
+.table :global(.ant-table-tbody > tr > td) {
+    background: transparent !important;
+    border-bottom: 1px solid #eef0f4 !important;
+    border-top: none !important;
+    padding: 16px 0 !important;
+}
+
+
+.table :global(.ant-table-tbody > tr:last-child > td) {
+    border-bottom: none !important;
+}
+
+
+.statusTag {
+    border-radius: 50px !important;
+    padding: 2px 12px !important;
+    background-color: #ffffff !important;
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid #eef0f4;
+}

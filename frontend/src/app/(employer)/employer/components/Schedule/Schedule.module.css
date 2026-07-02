@@ -1,0 +1,112 @@
+.container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 12px 0;
+}
+
+.header {
+    margin-bottom: 20px;
+}
+
+.title {
+    font-size: 16px !important;
+    font-weight: 600 !important;
+    color: #1a1a2e;
+}
+
+
+.badge {
+    background-color: #3f8361;
+    color: white;
+    font-size: 11px;
+    font-weight: 600;
+    width: 18px;
+    height: 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.list {
+    width: 100%;
+}
+
+.itemRow {
+    width: 100%;
+}
+
+
+.timeText {
+    font-size: 12px;
+    color: #9ca3af;
+    width: 65px;
+    flex-shrink: 0;
+}
+
+
+.dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    margin: 0 12px;
+    flex-shrink: 0;
+}
+
+
+.contentBox {
+    flex-grow: 1;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    overflow: hidden;
+}
+
+
+.avatarGroup {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+
+.avatarItem {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    color: white;
+    font-size: 10px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1.5px solid white;
+}
+
+
+.avatarGroup .avatarItem:not(:first-child) {
+    margin-left: -8px;
+}
+
+.itemTitle {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-grow: 1;
+}
+
+
+.viewCalendar {
+    margin-top: 24px;
+    text-align: center;
+    color: #166534;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.viewCalendar:hover {
+    text-decoration: underline;
+}
