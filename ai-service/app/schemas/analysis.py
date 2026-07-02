@@ -1,5 +1,7 @@
 from pydantic import BaseModel
 from typing import Optional
+
+
 class JobRequest(BaseModel):
     title: str
     description: str
@@ -13,10 +15,12 @@ class JobRequest(BaseModel):
     company_name: Optional[str] = None
     location: Optional[str] = None
 
+
 class QualityResult(BaseModel):
     overall: int
-    checks: dict      
+    checks: dict
     suggestions: list[str]
+
 
 class ComparisonField(BaseModel):
     field: str
@@ -24,14 +28,17 @@ class ComparisonField(BaseModel):
     competitor_value: str
     verdict: str  # "better" | "worse" | "equal"
 
-class MarketResult(BaseModel):
+
+class MarketAnalysis(BaseModel):
     your_applied: int
-    avg_applied: float
-    top_similar_applied: int
-    competitor_title: str
-    comparison: list[ComparisonField]
+    avg_applied: Optional[float] = None
+    top_similar_applied: Optional[int] = None
+    competitor_title: Optional[str] = None
+    competitor_similarity_score: Optional[float] = None
+    comparison: list[ComparisonField] = []
     advice: str
+
 
 class AnalysisResponse(BaseModel):
     quality: QualityResult
-    market: MarketResult
+    market: MarketAnalysis

@@ -10,10 +10,10 @@ def analyze_quality(job) -> dict:
 
     suggestions = []
     if not checks["has_salary"]:
-        suggestions.append("Nên thêm thông tin lương cụ thể")
+        suggestions.append("Consider adding specific salary information")
     if not checks["description_long_enough"]:
-        suggestions.append("Mô tả quá ngắn, nên chi tiết hơn")
+        suggestions.append("Description is too short, consider adding more detail")
     if not checks["has_skills"]:
-        suggestions.append("Nên liệt kê kỹ năng yêu cầu")
+        suggestions.append("Consider listing required skills")
 
     return {"overall": score, "checks": checks, "suggestions": suggestions}

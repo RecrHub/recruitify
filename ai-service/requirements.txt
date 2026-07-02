@@ -3,6 +3,7 @@ uvicorn
 langchain
 langchain-chroma
 sentence-transformers
+langchain_openai
 chromadb
 pandas
 pydantic

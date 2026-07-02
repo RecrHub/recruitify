@@ -1,12 +1,26 @@
-from langchain_openai import ChatOpenAI
-from app.config import LLM_MODEL, MINIMAX_API_KEY
+from anthropic import Anthropic
+from app.config import LLM_MODEL, ANTHROPIC_AUTH_TOKEN
 
-llm = ChatOpenAI(
-    model=LLM_MODEL,
-    api_key=MINIMAX_API_KEY,
-    base_url="https://router-api.0g.ai/v1",
-    temperature=0.2
+client = Anthropic(
+    api_key=ANTHROPIC_AUTH_TOKEN,
+    base_url="https://agentrouter.org",
+    default_headers={
+        "User-Agent": "claude-cli/1.0.0 (external, cli)",
+        "x-app": "cli",
+    },
 )
 
 def generate_advice(prompt: str) -> str:
-    return llm.invoke(prompt).content
+    response = client.messages.create(
+        model=LLM_MODEL,
+        max_tokens=512,
+        temperature=0.2,
+        messages=[
+            {
+                "role": "user",
+                "content": prompt,
+            }
+        ],
+    )
+
+    return response.content[0].text
