@@ -1,149 +1,138 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import {
-  BriefcaseBusiness,
-  CalendarDays,
+  Bell,
+  Check,
   CheckCircle2,
   ChevronDown,
-  Edit3,
+  ChevronLeft,
+  Download,
+  Eye,
+  FileText,
+  MapPin,
   Plus,
-  Share2,
-  Users,
+  Send,
+  Settings,
+  Trash2,
   X,
 } from 'lucide-react';
 import styles from './page.module.css';
 
-type JobStatus = 'Active' | 'Draft' | 'Closed';
+type StepKey = 'basic' | 'details' | 'settings' | 'summary';
 
-interface JobItem {
-  id: number;
+type JobForm = {
+  referenceNumber: string;
   title: string;
-  department: string;
-  city: string;
+  category: string;
+  location: string;
   employmentType: string;
-  status: JobStatus;
-}
-
-interface JobForm {
-  title: string;
-  department: string;
-  closingDate: string;
-  employmentType: string;
-  position: string;
-  workplaceType: string;
-  country: string;
-  city: string;
-  minSalary: string;
-  maxSalary: string;
-  currency: string;
-  paymentType: string;
-  teamMember: string;
-  shareChannel: string;
-}
-
-const emptyForm: JobForm = {
-  title: '',
-  department: '',
-  closingDate: '',
-  employmentType: '',
-  position: '',
-  workplaceType: '',
-  country: '',
-  city: '',
-  minSalary: '',
-  maxSalary: '',
-  currency: '',
-  paymentType: '',
-  teamMember: '',
-  shareChannel: '',
+  workApproach: string;
+  experienceLevel: string;
+  compensationType: string;
+  salaryMin: number;
+  salaryMax: number;
+  description: string;
+  responsibilities: string;
+  skillDraft: string;
+  skills: string[];
+  questions: string[];
+  visibility: string;
+  applicationDeadline: string;
+  hiringTeam: string;
+  applicationMethod: string;
+  autoScreening: boolean;
+  emailNotifications: boolean;
+  publishImmediately: boolean;
 };
 
-const initialJobs: JobItem[] = [
-  {
-    id: 1,
-    title: 'Academic Director',
-    department: 'Academic',
-    city: 'Ho Chi Minh',
-    employmentType: 'Full-time',
-    status: 'Active',
-  },
-  {
-    id: 2,
-    title: 'Product Designer',
-    department: 'Design',
-    city: 'Da Nang',
-    employmentType: 'Contract',
-    status: 'Draft',
-  },
+const steps: { key: StepKey; label: string }[] = [
+  { key: 'basic', label: 'Basic Info' },
+  { key: 'details', label: 'Add Details' },
+  { key: 'settings', label: 'Settings' },
+  { key: 'summary', label: 'Summary' },
 ];
 
-const workplaceTypes = [
-  {
-    title: 'On-Site',
-    description: 'Employees work from an office',
-  },
-  {
-    title: 'Hybird',
-    description: 'Employees work from both office and home',
-  },
-  {
-    title: 'Remote',
-    description: 'Employees work from home',
-  },
-];
+const initialForm: JobForm = {
+  referenceNumber: '',
+  title: 'Product Designer',
+  category: '',
+  location: '',
+  employmentType: 'Full-time',
+  workApproach: 'Remote',
+  experienceLevel: '4-5 years',
+  compensationType: '',
+  salaryMin: 30000,
+  salaryMax: 50000,
+  description: '',
+  responsibilities: '',
+  skillDraft: 'Product Designer',
+  skills: ['Product Design', 'UI/UX Design', 'Prototyping', 'Interaction Design', 'Wireframe', 'PRD', 'Design System'],
+  questions: [],
+  visibility: 'Public',
+  applicationDeadline: '',
+  hiringTeam: 'Design Hiring Team',
+  applicationMethod: 'Recruitify Apply',
+  autoScreening: true,
+  emailNotifications: true,
+  publishImmediately: false,
+};
 
-const paymentTypes = [
-  {
-    title: 'Weekly',
-    description: 'Payment is processed every week. Suitable for short-term projects.',
-  },
-  {
-    title: 'Monthly',
-    description: 'Payment is processed each month. Ideal for ongoing work or contracts.',
-  },
-  {
-    title: 'Contract',
-    description: 'Single payment made once. Best for fixed-scope or one-off jobs.',
-  },
-];
+const jobCategories = ['Design', 'Engineering', 'Marketing', 'Operations', 'Human Resources'];
+const locations = ['Ho Chi Minh City', 'Ha Noi', 'Da Nang', 'Remote', 'Hybrid - Viet Nam'];
+const employmentTypes = ['Full-time', 'Part-time', 'Contract'];
+const workApproaches = ['Onsite', 'Hybrid', 'Remote'];
+const experienceLevels = ['Not required', '1 year', '2-3 years', '4-5 years', '5-7 years', '8+ years'];
+const compensationTypes = ['Monthly salary', 'Annual salary', 'Hourly rate', 'Project based'];
+const visibilityOptions = ['Public', 'Private', 'Internal only'];
+const applicationMethods = ['Recruitify Apply', 'External Link', 'Email'];
+const hiringTeams = ['Design Hiring Team', 'Product Team', 'People Team', 'Engineering Hiring Team'];
 
-const steps = [
-  {
-    title: 'Job Information',
-    text: 'Provide key details to define the job.',
-    icon: BriefcaseBusiness,
-  },
-  {
-    title: 'Team Member',
-    text: 'Assign the team who will manage candidates.',
-    icon: Users,
-  },
-  {
-    title: 'Share Job',
-    text: 'Choose where this job will be shared.',
-    icon: Share2,
-  },
-];
+function formatCurrency(value: number) {
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    maximumFractionDigits: 0,
+  }).format(value);
+}
+
+function TextField({
+  label,
+  value,
+  placeholder,
+  onChange,
+}: {
+  label: string;
+  value: string;
+  placeholder: string;
+  onChange: (value: string) => void;
+}) {
+  return (
+    <label className={styles.field}>
+      <span>{label}</span>
+      <input value={value} placeholder={placeholder} onChange={(event) => onChange(event.target.value)} />
+    </label>
+  );
+}
 
 function SelectField({
   label,
   value,
   placeholder,
   options,
-  hasCalendar,
+  icon,
   onChange,
 }: {
-  label?: string;
+  label: string;
   value: string;
   placeholder: string;
   options: string[];
-  hasCalendar?: boolean;
+  icon?: 'location';
   onChange: (value: string) => void;
 }) {
   return (
     <label className={styles.field}>
-      {label && <span>{label}</span>}
+      <span>{label}</span>
       <div className={styles.selectWrap}>
         <select value={value} onChange={(event) => onChange(event.target.value)}>
           <option value="">{placeholder}</option>
@@ -153,75 +142,141 @@ function SelectField({
             </option>
           ))}
         </select>
-        {hasCalendar ? <CalendarDays size={16} /> : <ChevronDown size={16} />}
+        {icon === 'location' ? <MapPin size={18} /> : <ChevronDown size={18} />}
       </div>
     </label>
   );
 }
 
-function TextField({
+function ChoicePill({
+  label,
+  active,
+  onClick,
+}: {
+  label: string;
+  active: boolean;
+  onClick: () => void;
+}) {
+  return (
+    <button className={`${styles.choicePill} ${active ? styles.choicePillActive : ''}`} type="button" onClick={onClick}>
+      {active ? <Check size={16} /> : <Plus size={16} />}
+      <span>{label}</span>
+    </button>
+  );
+}
+
+function Toggle({
+  label,
+  description,
+  checked,
+  onChange,
+}: {
+  label: string;
+  description: string;
+  checked: boolean;
+  onChange: (checked: boolean) => void;
+}) {
+  return (
+    <button
+      className={`${styles.toggleRow} ${checked ? styles.toggleRowActive : ''}`}
+      type="button"
+      onClick={() => onChange(!checked)}
+    >
+      <span>
+        <strong>{label}</strong>
+        <small>{description}</small>
+      </span>
+      <i aria-hidden="true">
+        <b />
+      </i>
+    </button>
+  );
+}
+
+function TextEditor({
   label,
   value,
   placeholder,
-  wide,
   onChange,
 }: {
   label: string;
   value: string;
   placeholder: string;
-  wide?: boolean;
   onChange: (value: string) => void;
 }) {
+  const limit = 600;
+
+  const appendMarker = (marker: string) => {
+    const nextValue = value ? `${value}${marker}` : marker.trimStart();
+    onChange(nextValue.slice(0, limit));
+  };
+
   return (
-    <label className={`${styles.field} ${wide ? styles.fieldWide : ''}`}>
+    <label className={styles.editorField}>
       <span>{label}</span>
-      <input value={value} placeholder={placeholder} onChange={(event) => onChange(event.target.value)} />
+      <textarea
+        value={value}
+        maxLength={limit}
+        placeholder={placeholder}
+        onChange={(event) => onChange(event.target.value)}
+      />
+      <div className={styles.editorToolbar}>
+        <div>
+          <button type="button" onClick={() => appendMarker(' **bold**')}>
+            B
+          </button>
+          <button type="button" onClick={() => appendMarker(' _italic_')}>
+            I
+          </button>
+          <button type="button" onClick={() => appendMarker(' __underline__')}>
+            U
+          </button>
+          <button type="button" onClick={() => appendMarker('\n- ')}>
+            List
+          </button>
+          <button type="button" onClick={() => appendMarker('\n1. ')}>
+            1.
+          </button>
+        </div>
+        <small>
+          {value.length}/{limit}
+        </small>
+      </div>
     </label>
   );
 }
 
-function OptionCard({
-  title,
-  description,
-  active,
-  onClick,
-}: {
-  title: string;
-  description: string;
-  active: boolean;
-  onClick: () => void;
-}) {
-  return (
-    <button className={`${styles.optionCard} ${active ? styles.optionCardActive : ''}`} type="button" onClick={onClick}>
-      <span className={styles.radioDot} aria-hidden="true" />
-      <span className={styles.optionText}>
-        <strong>{title}</strong>
-        <small>{description}</small>
-      </span>
-    </button>
-  );
-}
-
 export default function EmployerJobsPage() {
-  const [jobs, setJobs] = useState<JobItem[]>(initialJobs);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editingJobId, setEditingJobId] = useState<number | null>(null);
   const [currentStep, setCurrentStep] = useState(0);
-  const [form, setForm] = useState<JobForm>(emptyForm);
+  const [form, setForm] = useState<JobForm>(initialForm);
+  const [questionDraft, setQuestionDraft] = useState('');
   const [toast, setToast] = useState('');
+  const downloadLinkRef = useRef<HTMLAnchorElement | null>(null);
 
-  const modalTitle = editingJobId ? 'Edit Job' : 'Create New Jobs';
+  const currentStepKey = steps[currentStep].key;
+  const canGoBack = currentStep > 0;
+  const canGoNext = currentStep < steps.length - 1;
 
-  const statusCounts = useMemo(
-    () => ({
-      active: jobs.filter((job) => job.status === 'Active').length,
-      draft: jobs.filter((job) => job.status === 'Draft').length,
-      total: jobs.length,
-    }),
-    [jobs],
-  );
+  const completedFields = useMemo(() => {
+    const basic = [
+      form.referenceNumber,
+      form.title,
+      form.category,
+      form.location,
+      form.employmentType,
+      form.workApproach,
+      form.experienceLevel,
+      form.compensationType,
+    ].filter(Boolean).length;
 
-  const updateForm = (key: keyof JobForm, value: string) => {
+    return {
+      basic,
+      details: [form.description, form.responsibilities, form.skills.length ? 'skills' : ''].filter(Boolean).length,
+      settings: [form.visibility, form.hiringTeam, form.applicationMethod].filter(Boolean).length,
+    };
+  }, [form]);
+
+  const updateForm = <Key extends keyof JobForm>(key: Key, value: JobForm[Key]) => {
     setForm((prev) => ({ ...prev, [key]: value }));
   };
 
@@ -230,372 +285,484 @@ export default function EmployerJobsPage() {
     window.setTimeout(() => setToast(''), 2200);
   };
 
-  const openCreateModal = () => {
-    setEditingJobId(null);
-    setCurrentStep(0);
-    setForm(emptyForm);
-    setIsModalOpen(true);
-  };
-
-  const openEditModal = (job: JobItem) => {
-    setEditingJobId(job.id);
-    setCurrentStep(0);
-    setForm({
-      ...emptyForm,
-      title: job.title,
-      department: job.department,
-      employmentType: job.employmentType,
-      city: job.city,
-      country: 'Viet Nam',
-      currency: 'USD',
-    });
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
-  const saveJob = (status: JobStatus) => {
-    if (editingJobId) {
-      setJobs((prev) =>
-        prev.map((job) =>
-          job.id === editingJobId
-            ? {
-                ...job,
-                title: form.title || job.title,
-                department: form.department || job.department,
-                city: form.city || job.city,
-                employmentType: form.employmentType || job.employmentType,
-                status,
-              }
-            : job,
-        ),
-      );
-      showToast('Job updated successfully');
-    } else {
-      const nextJob: JobItem = {
-        id: Date.now(),
-        title: form.title || 'Untitled Job',
-        department: form.department || 'General',
-        city: form.city || 'Not selected',
-        employmentType: form.employmentType || 'Not selected',
-        status,
-      };
-      setJobs((prev) => [nextJob, ...prev]);
-      showToast(status === 'Draft' ? 'Draft saved successfully' : 'Job created successfully');
-    }
-
-    setIsModalOpen(false);
-  };
-
   const goNext = () => {
-    if (currentStep < steps.length - 1) {
+    if (canGoNext) {
       setCurrentStep((step) => step + 1);
       return;
     }
 
-    saveJob('Active');
+    showToast('Job is ready to publish');
   };
+
+  const addSkill = () => {
+    const nextSkill = form.skillDraft.trim();
+    if (!nextSkill || form.skills.includes(nextSkill)) return;
+    updateForm('skills', [...form.skills, nextSkill]);
+    updateForm('skillDraft', '');
+  };
+
+  const removeSkill = (skill: string) => {
+    updateForm(
+      'skills',
+      form.skills.filter((item) => item !== skill),
+    );
+  };
+
+  const addQuestion = () => {
+    const nextQuestion = questionDraft.trim();
+    if (!nextQuestion || form.questions.length >= 5) return;
+    updateForm('questions', [...form.questions, nextQuestion]);
+    setQuestionDraft('');
+  };
+
+  const removeQuestion = (question: string) => {
+    updateForm(
+      'questions',
+      form.questions.filter((item) => item !== question),
+    );
+  };
+
+  const updateSalary = (key: 'salaryMin' | 'salaryMax', value: number) => {
+    setForm((prev) => {
+      const boundedValue = Math.min(150000, Math.max(0, value));
+      if (key === 'salaryMin') {
+        return { ...prev, salaryMin: Math.min(boundedValue, prev.salaryMax - 1000) };
+      }
+
+      return { ...prev, salaryMax: Math.max(boundedValue, prev.salaryMin + 1000) };
+    });
+  };
+
+  const saveDraft = () => {
+    const draft = {
+      savedAt: new Date().toISOString(),
+      step: steps[currentStep].label,
+      job: form,
+    };
+    const blob = new Blob([JSON.stringify(draft, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const fileName = `${form.title || 'job'}-draft.json`.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+
+    if (downloadLinkRef.current) {
+      downloadLinkRef.current.href = url;
+      downloadLinkRef.current.download = fileName;
+      downloadLinkRef.current.click();
+    }
+
+    window.setTimeout(() => URL.revokeObjectURL(url), 500);
+    showToast('Draft downloaded');
+  };
+
+  const salaryLeft = (form.salaryMin / 150000) * 100;
+  const salaryRight = 100 - (form.salaryMax / 150000) * 100;
 
   return (
     <main className={styles.jobsPage}>
-      <section className={styles.pageHeader}>
-        <div>
-          <p>Employer Jobs</p>
-          <h1>Job Management</h1>
-        </div>
-        <button className={styles.createButton} type="button" onClick={openCreateModal}>
-          <Plus size={18} />
-          Create Job
-        </button>
-      </section>
+      <section className={styles.shell} aria-label="Create new job">
+        <header className={styles.pageTop}>
+          <h1>Create new job</h1>
+          <nav className={styles.stepper} aria-label="Job creation steps">
+            {steps.map((step, index) => {
+              const active = index === currentStep;
+              const done = index < currentStep;
 
-      <section className={styles.summaryGrid}>
-        <div className={styles.summaryCard}>
-          <span>Total Jobs</span>
-          <strong>{statusCounts.total}</strong>
-        </div>
-        <div className={styles.summaryCard}>
-          <span>Active Jobs</span>
-          <strong>{statusCounts.active}</strong>
-        </div>
-        <div className={styles.summaryCard}>
-          <span>Draft Jobs</span>
-          <strong>{statusCounts.draft}</strong>
-        </div>
-      </section>
-
-      <section className={styles.tableCard}>
-        <div className={styles.tableHeader}>
-          <h2>All Jobs</h2>
-          <span>{jobs.length} jobs</span>
-        </div>
-        <div className={styles.tableWrap}>
-          <table>
-            <thead>
-              <tr>
-                <th>Job Title</th>
-                <th>Department</th>
-                <th>Location</th>
-                <th>Employment</th>
-                <th>Status</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {jobs.map((job) => (
-                <tr key={job.id}>
-                  <td>{job.title}</td>
-                  <td>{job.department}</td>
-                  <td>{job.city}</td>
-                  <td>{job.employmentType}</td>
-                  <td>
-                    <span className={`${styles.statusPill} ${styles[`status${job.status}`]}`}>{job.status}</span>
-                  </td>
-                  <td>
-                    <div className={styles.actionGroup}>
-                      <button type="button" onClick={() => openEditModal(job)} aria-label={`Edit ${job.title}`}>
-                        <Edit3 size={16} />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      {isModalOpen && (
-        <div className={styles.modalOverlay}>
-          <section className={styles.jobModal} aria-modal="true" role="dialog">
-            <header className={styles.modalTopbar}>
-              <div className={styles.titleGroup}>
-                <button className={styles.closeButton} type="button" onClick={closeModal} aria-label="Close">
-                  <X size={18} />
+              return (
+                <button
+                  className={`${styles.step} ${active ? styles.stepActive : ''} ${done ? styles.stepDone : ''}`}
+                  key={step.key}
+                  type="button"
+                  onClick={() => setCurrentStep(index)}
+                >
+                  <span>{step.label}</span>
+                  <i aria-hidden="true" />
                 </button>
-                <h2>{modalTitle}</h2>
-              </div>
+              );
+            })}
+          </nav>
+          <button className={styles.cancelButton} type="button" onClick={() => setForm(initialForm)}>
+            Cancel
+          </button>
+        </header>
 
-              <div className={styles.modalActions}>
-                <button className={styles.secondaryButton} type="button">
-                  Preview
-                </button>
-                <span className={styles.divider} aria-hidden="true" />
-                <button className={styles.secondaryButton} type="button" onClick={() => saveJob('Draft')}>
-                  Save as Draft
-                </button>
-                <button className={styles.primaryButton} type="button" onClick={goNext}>
-                  {currentStep === steps.length - 1 ? 'Save' : 'Next'}
-                </button>
-              </div>
-            </header>
+        <div className={styles.divider} />
 
-            <div className={styles.modalBody}>
-              <aside className={styles.stepsPanel}>
-                <div className={styles.stepActivePattern} />
-                {steps.map((step, index) => {
-                  const StepIcon = step.icon;
-                  const active = currentStep === index;
-
-                  return (
-                    <div className={styles.stepBlock} key={step.title}>
-                      <button
-                        className={`${styles.stepItem} ${active ? styles.stepItemActive : ''}`}
-                        type="button"
-                        onClick={() => setCurrentStep(index)}
-                      >
-                        <span className={active ? styles.stepIcon : styles.stepIconMuted}>
-                          <StepIcon size={17} />
-                        </span>
-                        <span className={styles.stepCopy}>
-                          <small>STEP {index + 1}</small>
-                          <strong>{step.title}</strong>
-                          {active && <em>{step.text}</em>}
-                        </span>
-                      </button>
-                      {index < steps.length - 1 && <span className={styles.stepConnector} aria-hidden="true" />}
-                    </div>
-                  );
-                })}
-              </aside>
-
-              <form className={styles.formCard}>
-                {currentStep === 0 && (
-                  <>
-                    <section className={styles.formSection}>
-                      <h3>Job Detail</h3>
-                      <div className={styles.gridTwo}>
-                        <SelectField
-                          label="Job Title"
-                          value={form.title}
-                          placeholder="Select Job Title"
-                          options={['Academic Director', 'Product Designer', 'Frontend Developer', 'HR Manager']}
-                          onChange={(value) => updateForm('title', value)}
-                        />
-                        <SelectField
-                          label="Department"
-                          value={form.department}
-                          placeholder="Select Department"
-                          options={['Academic', 'Design', 'Engineering', 'Human Resource']}
-                          onChange={(value) => updateForm('department', value)}
-                        />
-                        <SelectField
-                          label="Job Vacancy Closing Date"
-                          value={form.closingDate}
-                          placeholder="Select Date"
-                          options={['2026-07-15', '2026-08-01', '2026-08-30']}
-                          hasCalendar
-                          onChange={(value) => updateForm('closingDate', value)}
-                        />
-                        <SelectField
-                          label="Employment Type"
-                          value={form.employmentType}
-                          placeholder="Select Type"
-                          options={['Full-time', 'Part-time', 'Contract', 'Internship']}
-                          onChange={(value) => updateForm('employmentType', value)}
-                        />
-                        <TextField
-                          label="Job Available Position"
-                          value={form.position}
-                          placeholder="Enter position name"
-                          wide
-                          onChange={(value) => updateForm('position', value)}
-                        />
-                      </div>
-
-                      <div className={styles.groupBlock}>
-                        <h4>Workplace Type</h4>
-                        <div className={styles.optionGrid}>
-                          {workplaceTypes.map((item) => (
-                            <OptionCard
-                              key={item.title}
-                              title={item.title}
-                              description={item.description}
-                              active={form.workplaceType === item.title}
-                              onClick={() => updateForm('workplaceType', item.title)}
-                            />
-                          ))}
-                        </div>
-                      </div>
-                    </section>
-
-                    <section className={styles.formSection}>
-                      <h3>Location</h3>
-                      <div className={styles.gridTwo}>
-                        <SelectField
-                          label="Country"
-                          value={form.country}
-                          placeholder="Select Country"
-                          options={['Viet Nam', 'Singapore', 'Thailand']}
-                          onChange={(value) => updateForm('country', value)}
-                        />
-                        <SelectField
-                          label="City"
-                          value={form.city}
-                          placeholder="Select City"
-                          options={['Ho Chi Minh', 'Ha Noi', 'Da Nang', 'Singapore']}
-                          onChange={(value) => updateForm('city', value)}
-                        />
-                      </div>
-                    </section>
-
-                    <section className={styles.formSection}>
-                      <div className={styles.sectionTitleRow}>
-                        <h3>Salary</h3>
-                        <label className={styles.checkboxLabel}>
-                          <input type="checkbox" />
-                          <span>Prefer not to say</span>
-                        </label>
-                      </div>
-
-                      <div className={styles.salaryGrid}>
-                        <TextField
-                          label="Salary Range"
-                          value={form.minSalary}
-                          placeholder="Min Salary"
-                          onChange={(value) => updateForm('minSalary', value)}
-                        />
-                        <label className={styles.fieldNoLabel}>
-                          <input
-                            value={form.maxSalary}
-                            placeholder="Max Salary"
-                            onChange={(event) => updateForm('maxSalary', event.target.value)}
-                          />
-                        </label>
-                        <div className={styles.fieldNoLabel}>
-                          <SelectField
-                            label=""
-                            value={form.currency}
-                            placeholder="Currency"
-                            options={['USD', 'VND', 'SGD']}
-                            onChange={(value) => updateForm('currency', value)}
-                          />
-                        </div>
-                      </div>
-
-                      <div className={styles.groupBlock}>
-                        <h4>Payment Type</h4>
-                        <div className={styles.optionGrid}>
-                          {paymentTypes.map((item) => (
-                            <OptionCard
-                              key={item.title}
-                              title={item.title}
-                              description={item.description}
-                              active={form.paymentType === item.title}
-                              onClick={() => updateForm('paymentType', item.title)}
-                            />
-                          ))}
-                        </div>
-                      </div>
-                    </section>
-                  </>
-                )}
-
-                {currentStep === 1 && (
-                  <section className={styles.formSection}>
-                    <h3>Team Member</h3>
-                    <div className={styles.singleColumn}>
-                      <SelectField
-                        label="Hiring Manager"
-                        value={form.teamMember}
-                        placeholder="Select Team Member"
-                        options={['Jenny Wilson', 'Wade Warren', 'Robert Fox']}
-                        onChange={(value) => updateForm('teamMember', value)}
-                      />
-                      <div className={styles.memberPreview}>
-                        <span>JW</span>
-                        <div>
-                          <strong>{form.teamMember || 'Jenny Wilson'}</strong>
-                          <small>Responsible for screening and interview flow.</small>
-                        </div>
-                      </div>
-                    </div>
-                  </section>
-                )}
-
-                {currentStep === 2 && (
-                  <section className={styles.formSection}>
-                    <h3>Share Job</h3>
-                    <div className={styles.optionGrid}>
-                      {['Company Career Page', 'LinkedIn', 'Recruitify Network'].map((channel) => (
-                        <OptionCard
-                          key={channel}
-                          title={channel}
-                          description="Publish this job to selected channel."
-                          active={form.shareChannel === channel}
-                          onClick={() => updateForm('shareChannel', channel)}
-                        />
-                      ))}
-                    </div>
-                  </section>
-                )}
-              </form>
+        <div className={styles.contentGrid}>
+          <aside className={styles.sidePanel} aria-label="Job creation progress">
+            <div className={styles.progressCard}>
+              <FileText size={22} />
+              <strong>{steps[currentStep].label}</strong>
+              <p>
+                {currentStepKey === 'basic' && `${completedFields.basic}/8 fields completed`}
+                {currentStepKey === 'details' && `${completedFields.details}/3 detail sections completed`}
+                {currentStepKey === 'settings' && `${completedFields.settings}/3 settings completed`}
+                {currentStepKey === 'summary' && 'Review all information before publishing'}
+              </p>
             </div>
-          </section>
+            <button className={styles.previousButton} type="button" disabled={!canGoBack} onClick={() => setCurrentStep((step) => step - 1)}>
+              <ChevronLeft size={18} />
+              Previous
+            </button>
+          </aside>
+
+          <form className={styles.formPanel}>
+            {currentStepKey === 'basic' && (
+              <>
+                <div className={styles.formHeading}>
+                  <h2>Add Basic Information</h2>
+                  <p>Let&apos;s complete the basic job information</p>
+                </div>
+
+                <TextField
+                  label="Reference Number"
+                  value={form.referenceNumber}
+                  placeholder="Enter job reference number"
+                  onChange={(value) => updateForm('referenceNumber', value)}
+                />
+
+                <TextField
+                  label="Job Title"
+                  value={form.title}
+                  placeholder="Product Designer"
+                  onChange={(value) => updateForm('title', value)}
+                />
+
+                <SelectField
+                  label="Job Category"
+                  value={form.category}
+                  placeholder="Choose category"
+                  options={jobCategories}
+                  onChange={(value) => updateForm('category', value)}
+                />
+
+                <SelectField
+                  label="Location"
+                  value={form.location}
+                  placeholder="Choose location"
+                  options={locations}
+                  icon="location"
+                  onChange={(value) => updateForm('location', value)}
+                />
+
+                <section className={styles.optionGroup}>
+                  <h3>Employment Type</h3>
+                  <div className={styles.pillRow}>
+                    {employmentTypes.map((type) => (
+                      <ChoicePill
+                        key={type}
+                        label={type}
+                        active={form.employmentType === type}
+                        onClick={() => updateForm('employmentType', type)}
+                      />
+                    ))}
+                  </div>
+                </section>
+
+                <section className={styles.optionGroup}>
+                  <h3>Work Approach</h3>
+                  <div className={styles.pillRow}>
+                    {workApproaches.map((approach) => (
+                      <ChoicePill
+                        key={approach}
+                        label={approach}
+                        active={form.workApproach === approach}
+                        onClick={() => updateForm('workApproach', approach)}
+                      />
+                    ))}
+                  </div>
+                </section>
+
+                <section className={styles.optionGroup}>
+                  <h3>Experience Level</h3>
+                  <div className={styles.pillRow}>
+                    {experienceLevels.map((level) => (
+                      <ChoicePill
+                        key={level}
+                        label={level}
+                        active={form.experienceLevel === level}
+                        onClick={() => updateForm('experienceLevel', level)}
+                      />
+                    ))}
+                  </div>
+                </section>
+
+                <SelectField
+                  label="Compensation Type"
+                  value={form.compensationType}
+                  placeholder="Select"
+                  options={compensationTypes}
+                  onChange={(value) => updateForm('compensationType', value)}
+                />
+
+                <section className={styles.salarySection}>
+                  <h3>Compensation Range (USD)</h3>
+                  <div className={styles.rangeWrap}>
+                    <div className={styles.rangeTrack}>
+                      <span style={{ left: `${salaryLeft}%`, right: `${salaryRight}%` }} />
+                    </div>
+                    <input
+                      aria-label="Minimum salary"
+                      className={styles.rangeInput}
+                      type="range"
+                      min="0"
+                      max="150000"
+                      step="1000"
+                      value={form.salaryMin}
+                      onChange={(event) => updateSalary('salaryMin', Number(event.target.value))}
+                    />
+                    <input
+                      aria-label="Maximum salary"
+                      className={styles.rangeInput}
+                      type="range"
+                      min="0"
+                      max="150000"
+                      step="1000"
+                      value={form.salaryMax}
+                      onChange={(event) => updateSalary('salaryMax', Number(event.target.value))}
+                    />
+                  </div>
+                  <div className={styles.rangeLabels}>
+                    <span>{formatCurrency(form.salaryMin)}</span>
+                    <span>{formatCurrency(form.salaryMax)}</span>
+                  </div>
+                </section>
+              </>
+            )}
+
+            {currentStepKey === 'details' && (
+              <>
+                <div className={styles.formHeading}>
+                  <h2>Job Description &amp; Responsibilities</h2>
+                  <p>Let&apos;s fill out the details candidates will read</p>
+                </div>
+
+                <TextEditor
+                  label="Add job description"
+                  value={form.description}
+                  placeholder="Describe the job description..."
+                  onChange={(value) => updateForm('description', value)}
+                />
+
+                <TextEditor
+                  label="Responsibilities"
+                  value={form.responsibilities}
+                  placeholder="Describe the job responsibilities..."
+                  onChange={(value) => updateForm('responsibilities', value)}
+                />
+
+                <section className={styles.skillBlock}>
+                  <label className={styles.field}>
+                    <span>Add Skills</span>
+                    <input
+                      value={form.skillDraft}
+                      placeholder="Type a skill and press Enter"
+                      onChange={(event) => updateForm('skillDraft', event.target.value)}
+                      onKeyDown={(event) => {
+                        if (event.key === 'Enter') {
+                          event.preventDefault();
+                          addSkill();
+                        }
+                      }}
+                    />
+                  </label>
+                  <div className={styles.skillChips}>
+                    {form.skills.map((skill) => (
+                      <button key={skill} type="button" onClick={() => removeSkill(skill)}>
+                        <X size={13} />
+                        {skill}
+                      </button>
+                    ))}
+                  </div>
+                </section>
+
+                <section className={styles.questionCard}>
+                  <h3>Screening Questions</h3>
+                  <p>You can add up to 5 screening questions to the job posting.</p>
+                  <div className={styles.questionInput}>
+                    <input
+                      value={questionDraft}
+                      placeholder="Example: What portfolio project best shows your process?"
+                      onChange={(event) => setQuestionDraft(event.target.value)}
+                      onKeyDown={(event) => {
+                        if (event.key === 'Enter') {
+                          event.preventDefault();
+                          addQuestion();
+                        }
+                      }}
+                    />
+                    <button type="button" disabled={form.questions.length >= 5} onClick={addQuestion}>
+                      <Plus size={16} />
+                      Add
+                    </button>
+                  </div>
+                  {form.questions.length > 0 && (
+                    <ol className={styles.questionList}>
+                      {form.questions.map((question) => (
+                        <li key={question}>
+                          <span>{question}</span>
+                          <button type="button" onClick={() => removeQuestion(question)} aria-label={`Remove ${question}`}>
+                            <Trash2 size={15} />
+                          </button>
+                        </li>
+                      ))}
+                    </ol>
+                  )}
+                </section>
+              </>
+            )}
+
+            {currentStepKey === 'settings' && (
+              <>
+                <div className={styles.formHeading}>
+                  <h2>Job Settings</h2>
+                  <p>Control publishing, visibility, and application handling</p>
+                </div>
+
+                <div className={styles.gridTwo}>
+                  <SelectField
+                    label="Job Visibility"
+                    value={form.visibility}
+                    placeholder="Select visibility"
+                    options={visibilityOptions}
+                    onChange={(value) => updateForm('visibility', value)}
+                  />
+                  <SelectField
+                    label="Hiring Team"
+                    value={form.hiringTeam}
+                    placeholder="Select team"
+                    options={hiringTeams}
+                    onChange={(value) => updateForm('hiringTeam', value)}
+                  />
+                </div>
+
+                <div className={styles.gridTwo}>
+                  <label className={styles.field}>
+                    <span>Application Deadline</span>
+                    <input
+                      type="date"
+                      value={form.applicationDeadline}
+                      onChange={(event) => updateForm('applicationDeadline', event.target.value)}
+                    />
+                  </label>
+                  <SelectField
+                    label="Application Method"
+                    value={form.applicationMethod}
+                    placeholder="Select method"
+                    options={applicationMethods}
+                    onChange={(value) => updateForm('applicationMethod', value)}
+                  />
+                </div>
+
+                <div className={styles.settingsList}>
+                  <Toggle
+                    label="Auto Screening"
+                    description="Use screening questions to organize candidates."
+                    checked={form.autoScreening}
+                    onChange={(checked) => updateForm('autoScreening', checked)}
+                  />
+                  <Toggle
+                    label="Email Notifications"
+                    description="Notify hiring team when new applications arrive."
+                    checked={form.emailNotifications}
+                    onChange={(checked) => updateForm('emailNotifications', checked)}
+                  />
+                  <Toggle
+                    label="Publish Immediately"
+                    description="Publish the job after final confirmation."
+                    checked={form.publishImmediately}
+                    onChange={(checked) => updateForm('publishImmediately', checked)}
+                  />
+                </div>
+              </>
+            )}
+
+            {currentStepKey === 'summary' && (
+              <>
+                <div className={styles.formHeading}>
+                  <h2>Summary</h2>
+                  <p>Review your job before publishing or saving a draft</p>
+                </div>
+
+                <section className={styles.summaryCard}>
+                  <div>
+                    <h3>{form.title || 'Untitled job'}</h3>
+                    <p>
+                      {[form.category, form.location, form.employmentType, form.workApproach].filter(Boolean).join(' • ') ||
+                        'Basic details are not complete yet'}
+                    </p>
+                  </div>
+                  <strong>{formatCurrency(form.salaryMin)} - {formatCurrency(form.salaryMax)}</strong>
+                </section>
+
+                <div className={styles.summaryGrid}>
+                  <section>
+                    <h4>Basic Info</h4>
+                    <dl>
+                      <dt>Reference</dt>
+                      <dd>{form.referenceNumber || 'Not added'}</dd>
+                      <dt>Experience</dt>
+                      <dd>{form.experienceLevel}</dd>
+                      <dt>Compensation</dt>
+                      <dd>{form.compensationType || 'Not selected'}</dd>
+                    </dl>
+                  </section>
+                  <section>
+                    <h4>Settings</h4>
+                    <dl>
+                      <dt>Visibility</dt>
+                      <dd>{form.visibility}</dd>
+                      <dt>Hiring Team</dt>
+                      <dd>{form.hiringTeam}</dd>
+                      <dt>Deadline</dt>
+                      <dd>{form.applicationDeadline || 'No deadline'}</dd>
+                    </dl>
+                  </section>
+                </div>
+
+                <section className={styles.reviewBlock}>
+                  <h4>Skills</h4>
+                  <div className={styles.skillChips}>
+                    {form.skills.map((skill) => (
+                      <span key={skill}>{skill}</span>
+                    ))}
+                  </div>
+                </section>
+
+                <section className={styles.reviewBlock}>
+                  <h4>Description</h4>
+                  <p>{form.description || 'No description added yet.'}</p>
+                </section>
+
+                <section className={styles.reviewBlock}>
+                  <h4>Screening Questions</h4>
+                  {form.questions.length ? (
+                    <ol>
+                      {form.questions.map((question) => (
+                        <li key={question}>{question}</li>
+                      ))}
+                    </ol>
+                  ) : (
+                    <p>No screening questions added.</p>
+                  )}
+                </section>
+              </>
+            )}
+
+            <div className={styles.formActions}>
+              <button className={styles.nextButton} type="button" onClick={goNext}>
+                {canGoNext ? 'Next' : 'Publish Job'}
+                {canGoNext ? <Send size={17} /> : <Eye size={17} />}
+              </button>
+              <button className={styles.draftButton} type="button" onClick={saveDraft}>
+                <Download size={16} />
+                Save as Draft
+              </button>
+              <a ref={downloadLinkRef} className={styles.hiddenDownload}>
+                Download draft
+              </a>
+            </div>
+          </form>
         </div>
-      )}
+      </section>
 
       {toast && (
         <div className={styles.toast}>
