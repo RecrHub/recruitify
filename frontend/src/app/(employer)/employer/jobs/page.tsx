@@ -1,89 +1,74 @@
 'use client';
 
-import { ProTable, type ProColumns } from '@ant-design/pro-components';
-import { Button, Tag, Space } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
+import { useState } from 'react';
+import { CalendarDays, ChevronDown, ListFilter } from 'lucide-react';
+import { FilterSidebar } from './components/FilterSidebar';
+import { JobDetailsPanel } from './components/JobDetailsPanel';
+import { JobsTable } from './components/JobsTable';
+import { statusTabs } from './jobConstants';
+import { mockJobs } from './mockJobs';
+import type { EmployerJobListItem } from './types';
+import styles from './jobsPage.module.css';
 
-interface JobPosting {
-  id: number;
-  title: string;
-  department: string;
-  location: string;
-  status: 'active' | 'closed' | 'draft';
-  applications: number;
-  createdAt: string;
-}
+export default function EmployerJobsPage() {
+  const [selectedJob, setSelectedJob] = useState<EmployerJobListItem | null>(null);
 
-const columns: ProColumns<JobPosting>[] = [
-  {
-    title: 'ID',
-    dataIndex: 'id',
-    key: 'id',
-    width: 60,
-  },
-  {
-    title: 'Vị trí',
-    dataIndex: 'title',
-    key: 'title',
-  },
-  {
-    title: 'Phòng ban',
-    dataIndex: 'department',
-    key: 'department',
-  },
-  {
-    title: 'Địa điểm',
-    dataIndex: 'location',
-    key: 'location',
-  },
-  {
-    title: 'Trạng thái',
-    dataIndex: 'status',
-    key: 'status',
-    render: (_, record) => {
-      const colorMap = { active: 'green', closed: 'red', draft: 'default' };
-      const labelMap = { active: 'Đang tuyển', closed: 'Đã đóng', draft: 'Nháp' };
-      return <Tag color={colorMap[record.status]}>{labelMap[record.status]}</Tag>;
-    },
-  },
-  {
-    title: 'Ứng viên',
-    dataIndex: 'applications',
-    key: 'applications',
-    sorter: true,
-  },
-  {
-    title: 'Ngày tạo',
-    dataIndex: 'createdAt',
-    key: 'createdAt',
-    valueType: 'date',
-  },
-  {
-    title: 'Thao tác',
-    key: 'actions',
-    render: () => (
-      <Space>
-        <a>Sửa</a>
-        <a style={{ color: '#ff4d4f' }}>Xóa</a>
-      </Space>
-    ),
-  },
-];
-
-export default function AdminJobs() {
   return (
-    <ProTable<JobPosting>
-      columns={columns}
-      dataSource={[]}
-      rowKey="id"
-      headerTitle="Quản lý tin tuyển dụng"
-      search={{ labelWidth: 'auto' }}
-      pagination={{ pageSize: 10 }}
-      toolBarRender={() => [
-        <Button key="add" type="primary" icon={<PlusOutlined />}>
-          Thêm tin mới
-        </Button>,
-      ]}
-    />
+    <>
+      <section className={styles.jobsPage} aria-label="Jobs dashboard">
+        <FilterSidebar />
+
+        <main className={styles.mainPanel}>
+          <div className={styles.toolbar}>
+            <nav className={styles.tabs} aria-label="Job status tabs">
+              {statusTabs.map((tab, index) => (
+                <button
+                  key={tab}
+                  type="button"
+                  className={`${styles.tabButton} ${index === 0 ? styles.tabButtonActive : ''}`}
+                >
+                  {tab}
+                </button>
+              ))}
+            </nav>
+
+            <div className={styles.toolbarActions}>
+              <button type="button" className={styles.pillButton}>
+                <CalendarDays size={19} aria-hidden />
+                December, 2027
+                <ChevronDown size={15} aria-hidden />
+              </button>
+              <button type="button" className={styles.pillButton}>
+                <ListFilter size={19} aria-hidden />
+                List View
+              </button>
+            </div>
+          </div>
+
+          <JobsTable jobs={mockJobs} onSelectJob={setSelectedJob} />
+
+          <footer className={styles.paginationBar}>
+            <span>Results: 11-20 of 54</span>
+            <div className={styles.pagination}>
+              <button type="button" aria-label="Previous page">
+                ‹
+              </button>
+              <button type="button">1</button>
+              <button type="button" className={styles.pageActive}>
+                2
+              </button>
+              <button type="button">3</button>
+              <span>...</span>
+              <button type="button">5</button>
+              <button type="button" aria-label="Next page">
+                ›
+              </button>
+            </div>
+          </footer>
+        </main>
+      </section>
+
+      {selectedJob && <JobDetailsPanel job={selectedJob} onClose={() => setSelectedJob(null)} />}
+    </>
   );
 }
