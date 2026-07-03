@@ -87,7 +87,7 @@ const columns = [
 export default function CurrentOpenings() {
   return (
     <Card
-      bordered={false}
+      variant="borderless"
       styles={{
         body: { padding: 24, background: "transparent" },
       }}

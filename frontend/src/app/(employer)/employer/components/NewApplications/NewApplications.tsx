@@ -40,7 +40,7 @@ const applicants = [
 export default function NewApplications() {
   return (
     <Card
-      bordered={false}
+      variant="borderless"
       styles={{
         body: { padding: 24 },
       }}
