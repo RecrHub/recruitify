@@ -5,8 +5,7 @@ import styles from './filterSidebar.module.css';
 export function FilterSidebar() {
   return (
     <aside className={styles.filterSidebar} aria-label="Job filters">
-      <h1>Jobs</h1>
-
+    
       <button type="button" className={styles.filterButton}>
         Filter Options
         <SlidersHorizontal size={14} aria-hidden />

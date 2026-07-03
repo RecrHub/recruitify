@@ -33,11 +33,6 @@
     transform 160ms ease;
 }
 
-.filterButton:hover {
-  border-color: #c7c1dc;
-  box-shadow: 0 8px 18px rgba(31, 33, 48, 0.08);
-  transform: translateY(-1px);
-}
 
 .filterGroups {
   display: grid;

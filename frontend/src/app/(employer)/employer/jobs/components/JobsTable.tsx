@@ -87,17 +87,6 @@ export function JobsTable({ jobs, onSelectJob }: JobsTableProps) {
                   <button
                     type="button"
                     role="menuitem"
-                    onClick={() => {
-                      closeActionMenu();
-                      onSelectJob(job);
-                    }}
-                  >
-                    <Eye size={16} aria-hidden />
-                    Detail
-                  </button>
-                  <button
-                    type="button"
-                    role="menuitem"
                     className={actionStyles.deleteMenuItem}
                     onClick={closeActionMenu}
                   >

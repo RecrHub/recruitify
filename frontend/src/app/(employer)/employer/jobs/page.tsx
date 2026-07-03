@@ -9,15 +9,28 @@ import { statusTabs } from './jobConstants';
 import { mockJobs } from './mockJobs';
 import type { EmployerJobListItem } from './types';
 import styles from './jobsPage.module.css';
+import { DatePicker } from 'antd';
 
 export default function EmployerJobsPage() {
   const [selectedJob, setSelectedJob] = useState<EmployerJobListItem | null>(null);
 
   return (
     <>
-      <section className={styles.jobsPage} aria-label="Jobs dashboard">
-        <FilterSidebar />
+      <header className={styles.pageHeader}>
+        <h1 className={styles.pageTitle}>Jobs</h1>
 
+        <div className={styles.toolbarActions}>
+          <DatePicker className={styles.pillButton}/>
+          <button type="button" className={styles.pillButton}>
+            <ListFilter size={19} aria-hidden />
+            List View
+          </button>
+        </div>
+      </header>
+
+      <section className={styles.jobsPage} aria-label="Jobs dashboard">
+
+        <FilterSidebar />
         <main className={styles.mainPanel}>
           <div className={styles.toolbar}>
             <nav className={styles.tabs} aria-label="Job status tabs">
@@ -32,17 +45,6 @@ export default function EmployerJobsPage() {
               ))}
             </nav>
 
-            <div className={styles.toolbarActions}>
-              <button type="button" className={styles.pillButton}>
-                <CalendarDays size={19} aria-hidden />
-                December, 2027
-                <ChevronDown size={15} aria-hidden />
-              </button>
-              <button type="button" className={styles.pillButton}>
-                <ListFilter size={19} aria-hidden />
-                List View
-              </button>
-            </div>
           </div>
 
           <JobsTable jobs={mockJobs} onSelectJob={setSelectedJob} />
