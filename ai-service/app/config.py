@@ -1,17 +1,14 @@
 import os
 from pathlib import Path
 from dotenv import load_dotenv
-from anthropic import Anthropic
 
 load_dotenv(Path(__file__).resolve().parent.parent / ".env", override=True)
 
-ANTHROPIC_AUTH_TOKEN = os.getenv("ANTHROPIC_AUTH_TOKEN")
+# --- LLM (NVIDIA integrate API — OpenAI-compatible) ---
+NVIDIA_BASE_URL = os.getenv("NVIDIA_BASE_URL", "https://integrate.api.nvidia.com/v1")
+NVIDIA_API_KEY = os.getenv("NVIDIA_API_KEY")
+LLM_MODEL = os.getenv("LLM_MODEL", "mistralai/mistral-small-4-119b-2603")
 
+# --- Embeddings + Vector DB ---
 CHROMA_DIR = "./chroma_db"
 EMBED_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
-LLM_MODEL = "claude-opus-4-6"
-
-client = Anthropic(
-    api_key=ANTHROPIC_AUTH_TOKEN,
-    base_url="https://agentrouter.org",
-)

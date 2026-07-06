@@ -34,8 +34,15 @@ public class Job {
     @Column(columnDefinition = "TEXT")
     private String benefit;
 
-    @Column(precision = 10, scale = 2)
-    private BigDecimal salary;
+    @Column(name = "min_salary")
+    private Long minSalary;
+
+    @Column(name = "max_salary")
+    private Long maxSalary;
+
+    @Column(name = "applied", nullable = false)
+    @Builder.Default
+    private Long applied = 0L;
 
     @Column(name = "is_hidden")
     private Boolean isHidden;
