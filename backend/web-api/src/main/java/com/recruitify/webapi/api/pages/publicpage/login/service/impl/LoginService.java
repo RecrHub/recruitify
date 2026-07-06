@@ -25,11 +25,20 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Set;
 
 @Slf4j
-@Service
+@Service("loginService")
 @RequiredArgsConstructor
 public class LoginService implements UserDetailsService, ILoginService {
+
+    /**
+     * Roles that are NOT allowed to authenticate through the public User login
+     * endpoint. HR/Employer/Recruiter accounts must use {@code /api/v1/hr/auth/login}
+     * instead so role-specific rules and audit events apply.
+     */
+    private static final Set<String> NON_USER_ROLES = Set.of("ROLE_HR", "ROLE_EMPLOYER", "ROLE_RECRUITER");
+
     private final UserRepository userRepository;
     private final IRefreshTokenService refreshTokenService;
     private final ITokenService tokenService;
@@ -80,6 +89,17 @@ public class LoginService implements UserDetailsService, ILoginService {
                 throw new BadCredentialsException("Bad credentials");
             }
 
+            // Role gate: prevent HR/Employer/Recruiter accounts from logging in
+            // through the User endpoint. They must use /api/v1/hr/auth/login.
+            // We throw BadCredentialsException (same as wrong password) so we don't
+            // leak that this email belongs to an HR account.
+            String role = user.getRole().getName();
+            if (NON_USER_ROLES.contains(role.toUpperCase())) {
+                log.warn("Non-User account '{}' attempted User login (actual role={}) — must use HR endpoint",
+                        loginRequest.getEmail(), role);
+                throw new BadCredentialsException("Bad credentials");
+            }
+
             UserDetailsImpl userDetails = UserDetailsImpl.build(user);
             Authentication authentication = new UsernamePasswordAuthenticationToken(
                     userDetails, null, userDetails.getAuthorities());
@@ -98,8 +118,6 @@ public class LoginService implements UserDetailsService, ILoginService {
                 }
                 refreshToken = activeTokens.get(0);
             }
-
-            String role = user.getRole().getName();
 
             return LoginResponseVO.builder()
                     .accessToken(accessToken)

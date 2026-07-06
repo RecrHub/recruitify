@@ -1,4 +1,4 @@
-package com.recruitify.webapi.api.pages.publicpage.signup.dto.request;
+package com.recruitify.webapi.api.pages.admin.accountmanagement.dto.request;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SignupRequest {
+public class CreateHrRequest {
 
     @NotBlank(message = "Email is required")
     @Email(message = "Email should be valid")

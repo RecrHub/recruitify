@@ -55,6 +55,8 @@ public class LocalDataSeeder {
                     .orElseGet(() -> roleRepository.save(buildRole("ROLE_ADMIN")));
             Role jobSeekerRole = roleRepository.findByName("ROLE_JOBSEEKER")
                     .orElseGet(() -> roleRepository.save(buildRole("ROLE_JOBSEEKER")));
+            Role hrRole = roleRepository.findByName("ROLE_HR")
+                    .orElseGet(() -> roleRepository.save(buildRole("ROLE_HR")));
 
             userRepository.findByEmail("super_user@gmail.com").orElseGet(() -> {
                 User admin = User.builder()
@@ -67,6 +69,19 @@ public class LocalDataSeeder {
                         .isActive(true)
                         .build();
                 return userRepository.save(admin);
+            });
+
+            userRepository.findByEmail("hr_user@gmail.com").orElseGet(() -> {
+                User hr = User.builder()
+                        .username("hr_user")
+                        .email("hr_user@gmail.com")
+                        .passwordHash(passwordEncoder.encode("Hr123456!"))
+                        .role(hrRole)
+                        .createdAt(Instant.now())
+                        .updatedAt(Instant.now())
+                        .isActive(true)
+                        .build();
+                return userRepository.save(hr);
             });
 
             categoryRepository.findById(1L).orElseGet(() -> categoryRepository.save(buildCategory("Information Technology")));
