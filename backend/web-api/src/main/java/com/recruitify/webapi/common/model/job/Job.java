@@ -40,6 +40,9 @@ public class Job {
     @Column(name = "is_hidden")
     private Boolean isHidden;
 
+    @Column(name = "is_featured")
+    private Boolean isFeatured;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id")
     private Company company;
@@ -89,4 +92,10 @@ public class Job {
 
     @Column(name = "delete_by")
     private String deleteBy;
+
+    @Column(name = "apply_count")
+    private int applyCount;
+
+    @Column(name = "view_count")
+    private int viewCount;
 }
