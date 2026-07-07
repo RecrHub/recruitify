@@ -1,9 +1,9 @@
-package com.recruitify.webapi.api.pages.admin.jobmanagement.Controllers;
+package com.recruitify.webapi.api.pages.admin.jobmanagement.controller;
 
-import com.recruitify.webapi.api.pages.admin.jobmanagement.Services.Impl.JobServicesImpl;
-import com.recruitify.webapi.api.pages.admin.jobmanagement.dto.Request.JobRequest;
-import com.recruitify.webapi.api.pages.admin.jobmanagement.dto.Response.JobListResponse;
-import com.recruitify.webapi.api.pages.admin.jobmanagement.dto.Response.JobResponse;
+import com.recruitify.webapi.api.pages.admin.jobmanagement.service.impl.JobServiceImpl;
+import com.recruitify.webapi.api.pages.admin.jobmanagement.dto.request.JobRequest;
+import com.recruitify.webapi.api.pages.admin.jobmanagement.dto.response.JobListResponse;
+import com.recruitify.webapi.api.pages.admin.jobmanagement.dto.response.JobResponse;
 import com.recruitify.webapi.common.vo.ApiResponse;
 
 import jakarta.validation.Valid;
@@ -25,8 +25,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/jobs")
 @RequiredArgsConstructor
-public class JobControllers {
-    private final JobServicesImpl jobServicesImpl;
+public class JobController {
+    private final JobServiceImpl jobServiceImpl;
 
     @GetMapping
     public ResponseEntity<ApiResponse<JobListResponse>> listJobs(
@@ -34,21 +34,21 @@ public class JobControllers {
             @RequestParam(required = false) String status,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
-        JobListResponse jobs = jobServicesImpl.listJobs(keyword, status, page, size);
+        JobListResponse jobs = jobServiceImpl.listJobs(keyword, status, page, size);
         return ResponseEntity.ok(ApiResponse.success(jobs, "Jobs retrieved successfully"));
     }
 
     @PostMapping
     @PreAuthorize("hasAnyRole('ADMIN','HR')")
     public ResponseEntity<ApiResponse<JobResponse>> createJob(@RequestBody @Valid JobRequest request) {
-        JobResponse job = jobServicesImpl.createJob(request);
+        JobResponse job = jobServiceImpl.createJob(request);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(ApiResponse.created(job, "Job created successfully"));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<JobResponse>> findById(@PathVariable Long id) {
-        JobResponse job = jobServicesImpl.findJobById(id);
+        JobResponse job = jobServiceImpl.findJobById(id);
         return ResponseEntity.ok(ApiResponse.success(job, "Job retrieved successfully"));
     }
 
@@ -56,14 +56,14 @@ public class JobControllers {
     @PreAuthorize("hasAnyRole('ADMIN','HR')")
     public ResponseEntity<ApiResponse<JobResponse>> updateJob(@PathVariable Long id,
             @RequestBody @Valid JobRequest request) {
-        JobResponse job = jobServicesImpl.updateJob(id, request);
+        JobResponse job = jobServiceImpl.updateJob(id, request);
         return ResponseEntity.ok(ApiResponse.success(job, "Job updated successfully"));
     }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyRole('ADMIN','HR')")
     public ResponseEntity<ApiResponse<Void>> deleteJob(@PathVariable Long id) {
-        jobServicesImpl.deleteJob(id);
+        jobServiceImpl.deleteJob(id);
         return ResponseEntity.ok(ApiResponse.success(null, "Job deleted successfully"));
     }
 }

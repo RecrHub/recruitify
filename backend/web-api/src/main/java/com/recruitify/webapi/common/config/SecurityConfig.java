@@ -46,6 +46,7 @@ public class SecurityConfig {
                         org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher(HttpMethod.GET, "/api/v1/jobs/**"),
                                 AntPathRequestMatcher.antMatcher("/api/v1/auth/**"),
                                 AntPathRequestMatcher.antMatcher("/api/v1/admin/accounts/**"),
+                                AntPathRequestMatcher.antMatcher("/api/v1/admin/auth/**"),
                                 AntPathRequestMatcher.antMatcher("/api/v1/hr/auth/**"),
                                 AntPathRequestMatcher.antMatcher("/api/v1/homepage/**"),
                                 AntPathRequestMatcher.antMatcher("/api/v1/find-job/**"),

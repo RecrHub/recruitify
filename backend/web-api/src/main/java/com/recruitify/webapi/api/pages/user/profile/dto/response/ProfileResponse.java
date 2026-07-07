@@ -1,4 +1,4 @@
-package com.recruitify.webapi.api.pages.user.profile.vo;
+package com.recruitify.webapi.api.pages.user.profile.dto.response;
 
 import lombok.*;
 import java.time.LocalDate;

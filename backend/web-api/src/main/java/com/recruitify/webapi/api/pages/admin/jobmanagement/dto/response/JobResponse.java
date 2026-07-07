@@ -1,4 +1,4 @@
-package com.recruitify.webapi.api.pages.admin.jobmanagement.dto.Response;
+package com.recruitify.webapi.api.pages.admin.jobmanagement.dto.response;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

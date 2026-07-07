@@ -1,4 +1,4 @@
-package com.recruitify.webapi.common.services;
+package com.recruitify.webapi.common.service;
 
 import java.util.Base64;
 import io.imagekit.sdk.models.results.Result;

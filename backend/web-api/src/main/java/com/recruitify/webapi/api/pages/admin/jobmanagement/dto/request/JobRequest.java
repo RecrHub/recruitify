@@ -1,4 +1,4 @@
-package com.recruitify.webapi.api.pages.admin.jobmanagement.dto.Request;
+package com.recruitify.webapi.api.pages.admin.jobmanagement.dto.request;
 
 import java.math.BigDecimal;
 import java.util.Set;

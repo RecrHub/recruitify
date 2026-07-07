@@ -1,9 +1,9 @@
-package com.recruitify.webapi.api.pages.admin.jobmanagement.Services.Impl;
+package com.recruitify.webapi.api.pages.admin.jobmanagement.service.impl;
 
-import com.recruitify.webapi.api.pages.admin.jobmanagement.Services.IJobServices;
-import com.recruitify.webapi.api.pages.admin.jobmanagement.dto.Request.JobRequest;
-import com.recruitify.webapi.api.pages.admin.jobmanagement.dto.Response.JobListResponse;
-import com.recruitify.webapi.api.pages.admin.jobmanagement.dto.Response.JobResponse;
+import com.recruitify.webapi.api.pages.admin.jobmanagement.service.IJobService;
+import com.recruitify.webapi.api.pages.admin.jobmanagement.dto.request.JobRequest;
+import com.recruitify.webapi.api.pages.admin.jobmanagement.dto.response.JobListResponse;
+import com.recruitify.webapi.api.pages.admin.jobmanagement.dto.response.JobResponse;
 import com.recruitify.webapi.common.exception.ResourceNotFoundException;
 import com.recruitify.webapi.common.model.catalog.Category;
 import com.recruitify.webapi.common.model.catalog.EmploymentType;
@@ -47,7 +47,7 @@ import jakarta.persistence.criteria.Predicate;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class JobServicesImpl implements IJobServices {
+public class JobServiceImpl implements IJobService {
     private final JobRepository jobRepository;
     private final CompanyRepository companyRepository;
     private final CategoryRepository categoryRepository;

@@ -1,4 +1,4 @@
-package com.recruitify.webapi.api.pages.publicpage.login.controller;
+package com.recruitify.webapi.api.pages.hr.login.controller;
 
 import com.recruitify.webapi.common.auth.dto.LoginRequest;
 import com.recruitify.webapi.common.auth.dto.LoginResponse;
@@ -19,37 +19,43 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Public User login controller.
+ * HR login controller.
  *
- * Exposes {@code POST /api/v1/auth/login}. HR/Employer/Recruiter accounts
- * are rejected here and must use {@code /api/v1/hr/auth/login} instead.
+ * Exposes {@code POST /api/v1/hr/auth/login} — a separate endpoint from the
+ * public User login ({@code /api/v1/auth/login}) so we can:
+ * <ul>
+ *   <li>Apply HR-only rules (role enforcement, future company-scope checks)</li>
+ *   <li>Emit HR-specific audit events for the security team</li>
+ *   <li>De-risk HR schema changes from the much higher-traffic User path</li>
+ * </ul>
  *
  * <p>Cross-role login boilerplate is delegated to {@link LoginEndpointSupport}.
  */
-@RestController("userLoginController")
-@RequestMapping("/api/v1/auth")
+@RestController("hrLoginController")
+@RequestMapping("/api/v1/hr/auth")
 @RequiredArgsConstructor
-@Tag(name = "Authentication", description = "Authentication management APIs")
+@Tag(name = "HR Authentication", description = "HR/Employer login APIs")
 public class LoginController {
 
-    private final ILoginService loginService;
+    private final ILoginService hrLoginService;
     private final LoginEndpointSupport loginEndpointSupport;
 
     @PostMapping("/login")
     @Operation(
-            summary = "Authenticate user",
-            description = "Authenticate user with username and password, returns JWT token",
+            summary = "Authenticate HR account",
+            description = "Authenticate an HR/Employer account with email and password, returns JWT token",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Successfully authenticated",
                             content = @Content(schema = @Schema(implementation = LoginResponse.class))),
-                    @ApiResponse(responseCode = "401", description = "Invalid username or password")
+                    @ApiResponse(responseCode = "401", description = "Invalid email/password or account is not an HR account"),
+                    @ApiResponse(responseCode = "403", description = "Account is deactivated")
             }
     )
     public ResponseEntity<LoginResponse> login(
             @Valid @RequestBody LoginRequest loginRequest,
             HttpServletRequest request) {
         LoginResponse loginResponse = loginEndpointSupport.handleLogin(
-                this, loginService, loginRequest, request, "Login successful");
+                this, hrLoginService, loginRequest, request, "HR login successful");
         return ResponseEntity.ok(loginResponse);
     }
 }

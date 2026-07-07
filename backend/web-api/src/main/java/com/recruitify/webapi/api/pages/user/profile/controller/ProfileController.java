@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.*;
 
 import com.recruitify.webapi.api.pages.user.profile.dto.request.*;
 import com.recruitify.webapi.api.pages.user.profile.service.IProfileService;
-import com.recruitify.webapi.api.pages.user.profile.vo.EducationResponse;
-import com.recruitify.webapi.api.pages.user.profile.vo.ProfileResponse;
-import com.recruitify.webapi.api.pages.user.profile.vo.ProvinceResponse;
-import com.recruitify.webapi.api.pages.user.profile.vo.WorkExperienceResponse;
+import com.recruitify.webapi.api.pages.user.profile.dto.response.EducationResponse;
+import com.recruitify.webapi.api.pages.user.profile.dto.response.ProfileResponse;
+import com.recruitify.webapi.api.pages.user.profile.dto.response.ProvinceResponse;
+import com.recruitify.webapi.api.pages.user.profile.dto.response.WorkExperienceResponse;
 
 import java.util.List;
 

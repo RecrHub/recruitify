@@ -1,4 +1,4 @@
-package com.recruitify.webapi.api.pages.publicpage.login.controller;
+package com.recruitify.webapi.api.pages.admin.login.controller;
 
 import com.recruitify.webapi.common.auth.dto.LoginRequest;
 import com.recruitify.webapi.common.auth.dto.LoginResponse;
@@ -19,37 +19,41 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Public User login controller.
+ * Admin login controller.
  *
- * Exposes {@code POST /api/v1/auth/login}. HR/Employer/Recruiter accounts
- * are rejected here and must use {@code /api/v1/hr/auth/login} instead.
+ * Exposes {@code POST /api/v1/admin/auth/login} — a separate endpoint from the
+ * public User login ({@code /api/v1/auth/login}) and HR login
+ * ({@code /api/v1/hr/auth/login}) so we can enforce strict ROLE_ADMIN access
+ * and emit admin-specific audit events.
  *
- * <p>Cross-role login boilerplate is delegated to {@link LoginEndpointSupport}.
+ * <p>Cross-role login boilerplate (event publishing, IP capture, exception
+ * translation) is delegated to {@link LoginEndpointSupport}.
  */
-@RestController("userLoginController")
-@RequestMapping("/api/v1/auth")
+@RestController("adminLoginController")
+@RequestMapping("/api/v1/admin/auth")
 @RequiredArgsConstructor
-@Tag(name = "Authentication", description = "Authentication management APIs")
+@Tag(name = "Admin Authentication", description = "Admin login APIs")
 public class LoginController {
 
-    private final ILoginService loginService;
+    private final ILoginService adminLoginService;
     private final LoginEndpointSupport loginEndpointSupport;
 
     @PostMapping("/login")
     @Operation(
-            summary = "Authenticate user",
-            description = "Authenticate user with username and password, returns JWT token",
+            summary = "Authenticate admin account",
+            description = "Authenticate an admin account with email and password, returns JWT token",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Successfully authenticated",
                             content = @Content(schema = @Schema(implementation = LoginResponse.class))),
-                    @ApiResponse(responseCode = "401", description = "Invalid username or password")
+                    @ApiResponse(responseCode = "401", description = "Invalid email/password or account is not an admin account"),
+                    @ApiResponse(responseCode = "403", description = "Account is deactivated")
             }
     )
     public ResponseEntity<LoginResponse> login(
             @Valid @RequestBody LoginRequest loginRequest,
             HttpServletRequest request) {
         LoginResponse loginResponse = loginEndpointSupport.handleLogin(
-                this, loginService, loginRequest, request, "Login successful");
+                this, adminLoginService, loginRequest, request, "Admin login successful");
         return ResponseEntity.ok(loginResponse);
     }
 }

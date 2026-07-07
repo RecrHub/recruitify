@@ -1,4 +1,4 @@
-package com.recruitify.webapi.api.pages.admin.companymanagement.dto.Response;
+package com.recruitify.webapi.api.pages.admin.companymanagement.dto.response;
 
 import java.time.LocalDateTime;
 

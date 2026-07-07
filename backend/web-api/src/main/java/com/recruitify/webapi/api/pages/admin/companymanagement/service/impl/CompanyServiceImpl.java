@@ -1,4 +1,4 @@
-package com.recruitify.webapi.api.pages.admin.companymanagement.Services.Impl;
+package com.recruitify.webapi.api.pages.admin.companymanagement.service.impl;
 
 import com.recruitify.webapi.common.repository.CategoryRepository;
 import java.nio.file.Files;
@@ -9,14 +9,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.recruitify.webapi.api.pages.admin.companymanagement.Services.ICompanyServices;
-import com.recruitify.webapi.api.pages.admin.companymanagement.dto.Request.CompanyRequest;
-import com.recruitify.webapi.api.pages.admin.companymanagement.dto.Response.CompanyResponse;
+import com.recruitify.webapi.api.pages.admin.companymanagement.service.ICompanyService;
+import com.recruitify.webapi.api.pages.admin.companymanagement.dto.request.CompanyRequest;
+import com.recruitify.webapi.api.pages.admin.companymanagement.dto.response.CompanyResponse;
 import com.recruitify.webapi.common.exception.ResourceAlreadyExistsException;
 import com.recruitify.webapi.common.exception.ResourceNotFoundException;
 import com.recruitify.webapi.common.model.job.Company;
 import com.recruitify.webapi.common.repository.CompanyRepository;
-import com.recruitify.webapi.common.services.ImageUploadService;
+import com.recruitify.webapi.common.service.ImageUploadService;
 import com.recruitify.webapi.common.utils.SlugUtils;
 import com.recruitify.webapi.common.vo.PageResponse;
 
@@ -28,7 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class CompanyServicesImpl implements ICompanyServices {
+public class CompanyServiceImpl implements ICompanyService {
     private final CompanyRepository companyRepository;
     private final ImageUploadService imageUploadService;
 

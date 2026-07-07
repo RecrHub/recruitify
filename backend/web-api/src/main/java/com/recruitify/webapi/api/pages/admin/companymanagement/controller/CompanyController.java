@@ -1,4 +1,4 @@
-package com.recruitify.webapi.api.pages.admin.companymanagement.Controllers;
+package com.recruitify.webapi.api.pages.admin.companymanagement.controller;
 
 import java.util.List;
 
@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.recruitify.webapi.api.pages.admin.companymanagement.Services.Impl.CompanyServicesImpl;
-import com.recruitify.webapi.api.pages.admin.companymanagement.dto.Request.CompanyRequest;
-import com.recruitify.webapi.api.pages.admin.companymanagement.dto.Response.CompanyResponse;
+import com.recruitify.webapi.api.pages.admin.companymanagement.service.impl.CompanyServiceImpl;
+import com.recruitify.webapi.api.pages.admin.companymanagement.dto.request.CompanyRequest;
+import com.recruitify.webapi.api.pages.admin.companymanagement.dto.response.CompanyResponse;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -36,8 +36,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 @RequestMapping("/api/v1/companies")
 @Tag(name = "companies", description = "companies management APIs - CRUD operations for news companies")
 @RequiredArgsConstructor
-public class CompanyControllers {
-        private final CompanyServicesImpl companyServicesImpl;
+public class CompanyController {
+        private final CompanyServiceImpl companyServiceImpl;
 
         @PostMapping(consumes = "multipart/form-data")
         @PreAuthorize("hasAnyRole('ADMIN','HR')")
@@ -51,7 +51,7 @@ public class CompanyControllers {
         public ResponseEntity<com.recruitify.webapi.common.vo.ApiResponse<CompanyResponse>> createCompany(
                         @RequestPart("request") @Valid CompanyRequest request,
                         @RequestParam(value = "image", required = false) MultipartFile image) {
-                CompanyResponse updateCompany = companyServicesImpl.createCompany(request, image);
+                CompanyResponse updateCompany = companyServiceImpl.createCompany(request, image);
                 return ResponseEntity.status(HttpStatus.CREATED)
                                 .body(com.recruitify.webapi.common.vo.ApiResponse.created(updateCompany,
                                                 "companies created successfully"));
@@ -65,7 +65,7 @@ public class CompanyControllers {
         })
         public ResponseEntity<com.recruitify.webapi.common.vo.ApiResponse<CompanyResponse>> findById(
                         @Parameter(description = "Company id", required = true, example = "1") @PathVariable Long id) {
-                CompanyResponse companies = companyServicesImpl.findCompanyByid(id);
+                CompanyResponse companies = companyServiceImpl.findCompanyByid(id);
                 return ResponseEntity.ok(com.recruitify.webapi.common.vo.ApiResponse.success(companies,
                                 "Companies retrieved successfully"));
         }
@@ -77,7 +77,7 @@ public class CompanyControllers {
                         @ApiResponse(responseCode = "200", description = "companies get successfully", content = @Content(mediaType = "application/json", schema = @Schema(implementation = com.recruitify.webapi.common.vo.ApiResponse.class)))
         })
         public ResponseEntity<com.recruitify.webapi.common.vo.ApiResponse<List<CompanyResponse>>> getAllCompanies() {
-                List<CompanyResponse> companies = companyServicesImpl.getAllCompanies();
+                List<CompanyResponse> companies = companyServiceImpl.getAllCompanies();
                 return ResponseEntity.ok(com.recruitify.webapi.common.vo.ApiResponse.success(companies,
                                 "Companies retrieved successfully"));
         }
@@ -95,7 +95,7 @@ public class CompanyControllers {
                         @PathVariable Long id,
                         @RequestPart("request") @Valid CompanyRequest request,
                         @RequestParam(value = "image", required = false) MultipartFile image) {
-                CompanyResponse updateCompany = companyServicesImpl.updateCompany(id, request, image);
+                CompanyResponse updateCompany = companyServiceImpl.updateCompany(id, request, image);
                 return ResponseEntity.ok(com.recruitify.webapi.common.vo.ApiResponse.success(updateCompany,
                                 "Update Company successfully"));
         }
@@ -110,7 +110,7 @@ public class CompanyControllers {
                         @ApiResponse(responseCode = "403", description = "Forbidden - Requires ADMIN role", content = @Content(mediaType = "application/json", schema = @Schema(implementation = com.recruitify.webapi.common.vo.ApiResponse.class)))
         })
         public ResponseEntity<com.recruitify.webapi.common.vo.ApiResponse<Void>> deleteCompany(@PathVariable Long id) {
-                companyServicesImpl.deleteCompany(id);
+                companyServiceImpl.deleteCompany(id);
                 return ResponseEntity.ok(com.recruitify.webapi.common.vo.ApiResponse.success(null,
                                 "Company deleted successfully"));
         }
