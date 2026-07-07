@@ -228,12 +228,33 @@
 .field span,
 .editorField > span,
 .optionGroup h3,
+.locationGroup h3,
 .salarySection h3 {
   margin: 0;
   color: #1f2430;
   font-size: 14px;
   font-weight: 700;
   letter-spacing: 0;
+}
+
+.counter {
+  align-self: flex-end;
+  margin-top: -5px;
+  color: #7a8494;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.errorText {
+  margin-top: -4px;
+  color: #c2413d;
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.controlError {
+  border-color: #d94f49 !important;
+  box-shadow: 0 0 0 3px rgba(217, 79, 73, 0.1) !important;
 }
 
 .field input,
@@ -295,8 +316,13 @@
   margin-bottom: 22px;
 }
 
-.optionGroup h3 {
+.optionGroup h3,
+.locationGroup h3 {
   margin-bottom: 11px;
+}
+
+.locationGroup {
+  margin-bottom: 22px;
 }
 
 .pillRow {
@@ -584,6 +610,35 @@
   gap: 0 18px;
 }
 
+.gridThree {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0 14px;
+}
+
+.settingCard {
+  display: grid;
+  gap: 20px;
+  padding: 24px;
+  background: #ffffff;
+  border: 1px solid #dfe4ea;
+  border-radius: 12px;
+}
+
+.settingCard h3 {
+  margin: 0;
+  color: #20232c;
+  font-size: 18px;
+  font-weight: 780;
+}
+
+.settingCard p {
+  margin: 8px 0 0;
+  color: #667085;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
 .settingsList {
   display: grid;
   gap: 14px;
@@ -722,6 +777,31 @@
   color: #26303f;
 }
 
+.payloadBox {
+  margin-top: 18px;
+  padding: 22px;
+  color: #17212f;
+  background: #f8faf9;
+  border: 1px solid #dfe4ea;
+  border-radius: 12px;
+}
+
+.payloadBox h4 {
+  margin: 0 0 14px;
+  color: var(--accent);
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.payloadBox pre {
+  max-height: 300px;
+  margin: 0;
+  overflow: auto;
+  font-size: 12px;
+  line-height: 1.55;
+  white-space: pre-wrap;
+}
+
 .formActions {
   display: grid;
   gap: 16px;
@@ -746,6 +826,21 @@
 
 .nextButton:hover {
   background: var(--accent-dark);
+}
+
+.nextButton:disabled {
+  opacity: 0.72;
+  cursor: not-allowed;
+}
+
+.spinner {
+  animation: spin 800ms linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .draftButton {
@@ -785,6 +880,20 @@
   font-weight: 800;
 }
 
+.toastsuccess {
+  color: var(--accent);
+  border-color: rgba(61, 129, 106, 0.28);
+}
+
+.toasterror {
+  color: #b42318;
+  border-color: rgba(180, 35, 24, 0.24);
+}
+
+.toastinfo {
+  color: #344054;
+}
+
 @media (max-width: 1280px) {
   .contentGrid {
     grid-template-columns: 180px minmax(600px, 760px);
@@ -818,6 +927,7 @@
   }
 
   .gridTwo,
+  .gridThree,
   .summaryGrid {
     grid-template-columns: 1fr;
   }
