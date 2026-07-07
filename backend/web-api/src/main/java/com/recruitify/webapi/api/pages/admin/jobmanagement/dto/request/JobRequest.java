@@ -41,5 +41,5 @@ public class JobRequest {
     @NotBlank
     private String wardCode;
 
-    private Set<Long> skillIds;
+    private Set<String> skillsName;
 }

@@ -34,6 +34,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import java.util.Optional;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -196,12 +197,15 @@ public class JobServiceImpl implements IJobService {
             job.setWard(null);
         }
 
-        if (request.getSkillIds() != null) {
-            Set<Long> requestedSkillIds = new HashSet<>(request.getSkillIds());
-            Set<Skill> skills = new LinkedHashSet<>();
-            skillRepository.findAllById(requestedSkillIds).forEach(skills::add);
-            if (skills.size() != requestedSkillIds.size()) {
-                throw ResourceNotFoundException.create("Skill", "ids", request.getSkillIds());
+        if (request.getSkillsName() != null) {
+            Set<String> requestedNames = new HashSet<>(request.getSkillsName());
+            Set<Skill> skills = new HashSet<>(
+                    skillRepository.findByNameIn(requestedNames));
+            if (skills.size() != requestedNames.size()) {
+                throw ResourceNotFoundException.create(
+                        "Skill",
+                        "names",
+                        request.getSkillsName());
             }
             job.setSkills(skills);
         } else if (isCreate) {
@@ -264,9 +268,12 @@ public class JobServiceImpl implements IJobService {
                 .wardCode(job.getWard() != null ? job.getWard().getCode() : null)
                 .wardName(job.getWard() != null ? job.getWard().getFullName() : null)
                 .status(resolveStatus(job))
-                .skillIds(
-                        job.getSkills() != null ? job.getSkills().stream().map(Skill::getId).collect(Collectors.toSet())
-                                : Set.of())
+                .skillName(
+                        Optional.ofNullable(job.getSkills())
+                                .orElse(Set.of())
+                                .stream()
+                                .map(Skill::getName)
+                                .collect(Collectors.toSet()))
                 .createdAt(job.getCreatedAt())
                 .updatedAt(job.getUpdatedAt())
                 .deleteAt(job.getDeleteAt())

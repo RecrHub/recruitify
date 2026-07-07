@@ -2,6 +2,7 @@ package com.recruitify.webapi.api.pages.admin.jobmanagement.dto.response;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 import lombok.AllArgsConstructor;
@@ -38,7 +39,7 @@ public class JobResponse {
     private String wardName;
     private String status;
 
-    private Set<Long> skillIds;
+    private Set<String> skillsName;
 
     private int applied;
 

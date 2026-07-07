@@ -1,6 +1,7 @@
 package com.recruitify.webapi.common.repository;
 
 import com.recruitify.webapi.api.pages.publicpage.homepage.dto.response.FeaturedJobProjection;
+import com.recruitify.webapi.common.model.catalog.Skill;
 import com.recruitify.webapi.common.model.job.Job;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -10,6 +11,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
 import java.util.List;
 
 @Repository
