@@ -20,7 +20,8 @@ public class JobResponse {
     private String responsibilities;
     private String requirement;
     private String benefit;
-    private BigDecimal salary;
+    private Long minSalary;
+    private Long maxSalary;
     private Boolean isHidden;
 
     private Long companyId;
@@ -39,9 +40,9 @@ public class JobResponse {
 
     private Set<Long> skillIds;
 
-    private int applyCount;
+    private int applied;
 
-    private int viewCount;
+    private int view;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

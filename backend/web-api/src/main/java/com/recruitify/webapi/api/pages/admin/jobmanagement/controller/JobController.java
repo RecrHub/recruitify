@@ -39,7 +39,7 @@ public class JobController {
     }
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('ADMIN','HR')")
+    @PreAuthorize("hasAuthority('JOB_CREATE')")
     public ResponseEntity<ApiResponse<JobResponse>> createJob(@RequestBody @Valid JobRequest request) {
         JobResponse job = jobServiceImpl.createJob(request);
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -53,7 +53,7 @@ public class JobController {
     }
 
     @PatchMapping("/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN','HR')")
+    @PreAuthorize("hasAuthority('JOB_UPDATE')")
     public ResponseEntity<ApiResponse<JobResponse>> updateJob(@PathVariable Long id,
             @RequestBody @Valid JobRequest request) {
         JobResponse job = jobServiceImpl.updateJob(id, request);
@@ -61,7 +61,7 @@ public class JobController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN','HR')")
+    @PreAuthorize("hasAuthority('JOB_DELETE')")
     public ResponseEntity<ApiResponse<Void>> deleteJob(@PathVariable Long id) {
         jobServiceImpl.deleteJob(id);
         return ResponseEntity.ok(ApiResponse.success(null, "Job deleted successfully"));

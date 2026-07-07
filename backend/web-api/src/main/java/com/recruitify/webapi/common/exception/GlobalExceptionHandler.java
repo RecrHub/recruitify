@@ -4,6 +4,7 @@ import jakarta.validation.ConstraintViolationException;
 import com.recruitify.webapi.common.constant.ErrorCode;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.FieldError;
@@ -88,6 +89,18 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(AuthenticationException.class)
     public ResponseEntity<ApiErrorResponse> handleAuthenticationException(AuthenticationException ex) {
         return buildErrorResponse(HttpStatus.UNAUTHORIZED, ex.getMessage());
+    }
+
+    /**
+     * Triggered when @PreAuthorize / @PostAuthorize denies access, or when the
+     * Spring Security filter chain raises an AccessDeniedException (typically
+     * because .anyRequest().authenticated() failed). Without this handler the
+     * exception falls through to the generic {@code Exception} handler and the
+     * client sees a misleading 500.
+     */
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ApiErrorResponse> handleAccessDeniedException(AccessDeniedException ex) {
+        return buildErrorResponse(HttpStatus.FORBIDDEN, "Access denied");
     }
 
     @ExceptionHandler(Exception.class)

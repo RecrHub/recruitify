@@ -25,10 +25,10 @@ public class AccountManagementController {
     private final IAccountManagementService accountManagementService;
 
     @PostMapping("/hr")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ACCOUNT_CREATE_HR')")
     @Operation(
             summary = "Create HR account",
-            description = "Creates a new HR account. Requires ADMIN role.",
+            description = "Creates a new HR account. Requires ACCOUNT_CREATE_HR permission (granted to ADMIN).",
             security = @SecurityRequirement(name = "bearerAuth")
     )
     public ResponseEntity<MessageResponse> createHrAccount(@Valid @RequestBody CreateHrRequest request) {

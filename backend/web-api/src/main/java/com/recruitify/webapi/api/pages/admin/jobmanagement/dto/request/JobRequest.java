@@ -27,7 +27,8 @@ public class JobRequest {
     private String requirement;
 
     private String benefit;
-    private BigDecimal salary;
+    private Long minSalary;
+    private Long maxSalary;
     private Boolean isHidden;
 
     @NotNull

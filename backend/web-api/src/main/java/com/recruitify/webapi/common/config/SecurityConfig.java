@@ -1,9 +1,13 @@
 package com.recruitify.webapi.common.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.recruitify.webapi.common.security.JwtAuthenticationFilter;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -16,14 +20,19 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @Configuration
 @EnableWebSecurity
@@ -34,18 +43,28 @@ public class SecurityConfig {
     @Value("${cors.allowed-origins:http://localhost:3000}")
     private String allowedOrigins;
 
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                // Wire our JSON 403 handler so that filter-chain-level denials
+                // (e.g. .anyRequest().authenticated() without a JWT) do not
+                // bubble up to the @ControllerAdvice as a generic Exception and
+                // get mis-reported as 500.
+                .exceptionHandling(ex -> ex.accessDeniedHandler(jsonAccessDeniedHandler()))
+                // JWT filter must run before the username/password auth filter so
+                // that the SecurityContext is populated with role + permission
+                // authorities for @PreAuthorize("hasAuthority(...)") checks.
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                         org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher(HttpMethod.GET, "/api/v1/jobs"),
                         org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher(HttpMethod.GET, "/api/v1/jobs/**"),
                                 AntPathRequestMatcher.antMatcher("/api/v1/auth/**"),
-                                AntPathRequestMatcher.antMatcher("/api/v1/admin/accounts/**"),
                                 AntPathRequestMatcher.antMatcher("/api/v1/admin/auth/**"),
                                 AntPathRequestMatcher.antMatcher("/api/v1/hr/auth/**"),
                                 AntPathRequestMatcher.antMatcher("/api/v1/homepage/**"),
@@ -84,5 +103,30 @@ public class SecurityConfig {
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
         return authConfig.getAuthenticationManager();
+    }
+
+    /**
+     * Returns a JSON 403 body that matches the project's {@code ApiErrorResponse}
+     * shape used by {@code GlobalExceptionHandler}, so clients see a consistent
+     * error envelope regardless of whether the denial came from the filter
+     * chain or from a {@code @PreAuthorize} check.
+     */
+    @Bean
+    public AccessDeniedHandler jsonAccessDeniedHandler() {
+        ObjectMapper mapper = new ObjectMapper();
+        return (request, response, accessDeniedException) -> {
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+            response.setCharacterEncoding("UTF-8");
+
+            Map<String, Object> body = new LinkedHashMap<>();
+            body.put("timestamp", LocalDateTime.now().toString());
+            body.put("status", HttpServletResponse.SC_FORBIDDEN);
+            body.put("error", "Forbidden");
+            body.put("message", "Access denied");
+            body.put("fields", null);
+
+            mapper.writeValue(response.getOutputStream(), body);
+        };
     }
 }

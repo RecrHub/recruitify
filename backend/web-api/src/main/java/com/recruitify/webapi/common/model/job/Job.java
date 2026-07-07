@@ -34,8 +34,10 @@ public class Job {
     @Column(columnDefinition = "TEXT")
     private String benefit;
 
-    @Column(precision = 10, scale = 2)
-    private BigDecimal salary;
+    @JoinColumn(name = "min_salary")
+    private Long minSalary;
+    @JoinColumn(name = "max_salary")
+    private Long maxSalary;
 
     @Column(name = "is_hidden")
     private Boolean isHidden;
@@ -93,9 +95,7 @@ public class Job {
     @Column(name = "delete_by")
     private String deleteBy;
 
-    @Column(name = "apply_count")
-    private int applyCount;
+    private int applied;
 
-    @Column(name = "view_count")
-    private int viewCount;
+    private int view;
 }

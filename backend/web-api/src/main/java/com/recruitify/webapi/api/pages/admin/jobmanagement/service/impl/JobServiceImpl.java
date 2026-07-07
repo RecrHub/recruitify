@@ -135,8 +135,11 @@ public class JobServiceImpl implements IJobService {
         if (request.getBenefit() != null) {
             job.setBenefit(request.getBenefit());
         }
-        if (request.getSalary() != null) {
-            job.setSalary(request.getSalary());
+        if (request.getMinSalary() != null) {
+            job.setMinSalary(request.getMinSalary());
+        }
+        if (request.getMaxSalary() != null) {
+            job.setMaxSalary(request.getMaxSalary());
         }
         if (request.getIsHidden() != null || isCreate) {
             job.setIsHidden(request.getIsHidden() != null ? request.getIsHidden() : Boolean.FALSE);
@@ -160,7 +163,8 @@ public class JobServiceImpl implements IJobService {
 
         if (request.getEmploymentTypeId() != null) {
             EmploymentType employmentType = employmentTypeRepository.findById(request.getEmploymentTypeId())
-                    .orElseThrow(() -> ResourceNotFoundException.create("EmploymentType", "id", request.getEmploymentTypeId()));
+                    .orElseThrow(() -> ResourceNotFoundException.create("EmploymentType", "id",
+                            request.getEmploymentTypeId()));
             job.setEmploymentType(employmentType);
         } else if (isCreate) {
             job.setEmploymentType(null);
@@ -168,7 +172,8 @@ public class JobServiceImpl implements IJobService {
 
         if (request.getExperienceLevelId() != null) {
             ExperienceLevel experienceLevel = experienceLevelRepository.findById(request.getExperienceLevelId())
-                    .orElseThrow(() -> ResourceNotFoundException.create("ExperienceLevel", "id", request.getExperienceLevelId()));
+                    .orElseThrow(() -> ResourceNotFoundException.create("ExperienceLevel", "id",
+                            request.getExperienceLevelId()));
             job.setExperienceLevel(experienceLevel);
         } else if (isCreate) {
             job.setExperienceLevel(null);
@@ -176,7 +181,8 @@ public class JobServiceImpl implements IJobService {
 
         if (request.getWorkApproachId() != null) {
             WorkApproach workApproach = workApproachRepository.findById(request.getWorkApproachId())
-                    .orElseThrow(() -> ResourceNotFoundException.create("WorkApproach", "id", request.getWorkApproachId()));
+                    .orElseThrow(
+                            () -> ResourceNotFoundException.create("WorkApproach", "id", request.getWorkApproachId()));
             job.setWorkApproach(workApproach);
         } else if (isCreate) {
             job.setWorkApproach(null);
@@ -212,8 +218,7 @@ public class JobServiceImpl implements IJobService {
                 String likeKeyword = "%" + normalizedKeyword.toLowerCase() + "%";
                 predicates.add(criteriaBuilder.or(
                         criteriaBuilder.like(criteriaBuilder.lower(root.get("title")), likeKeyword),
-                        criteriaBuilder.like(criteriaBuilder.lower(root.get("description")), likeKeyword)
-                ));
+                        criteriaBuilder.like(criteriaBuilder.lower(root.get("description")), likeKeyword)));
             }
 
             String normalizedStatus = status != null ? status.trim() : null;
@@ -243,7 +248,8 @@ public class JobServiceImpl implements IJobService {
                 .responsibilities(job.getResponsibilities())
                 .requirement(job.getRequirement())
                 .benefit(job.getBenefit())
-                .salary(job.getSalary())
+                .minSalary(job.getMinSalary())
+                .maxSalary(job.getMaxSalary())
                 .isHidden(job.getIsHidden())
                 .companyId(job.getCompany() != null ? job.getCompany().getId() : null)
                 .companyName(job.getCompany() != null ? job.getCompany().getName() : null)
@@ -258,7 +264,9 @@ public class JobServiceImpl implements IJobService {
                 .wardCode(job.getWard() != null ? job.getWard().getCode() : null)
                 .wardName(job.getWard() != null ? job.getWard().getFullName() : null)
                 .status(resolveStatus(job))
-                .skillIds(job.getSkills() != null ? job.getSkills().stream().map(Skill::getId).collect(Collectors.toSet()) : Set.of())
+                .skillIds(
+                        job.getSkills() != null ? job.getSkills().stream().map(Skill::getId).collect(Collectors.toSet())
+                                : Set.of())
                 .createdAt(job.getCreatedAt())
                 .updatedAt(job.getUpdatedAt())
                 .deleteAt(job.getDeleteAt())

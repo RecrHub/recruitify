@@ -40,7 +40,7 @@ public class CompanyController {
         private final CompanyServiceImpl companyServiceImpl;
 
         @PostMapping(consumes = "multipart/form-data")
-        @PreAuthorize("hasAnyRole('ADMIN','HR')")
+        @PreAuthorize("hasAuthority('COMPANY_CREATE')")
         @Operation(summary = "Create a new companies", description = "Creates a new companies with auto-generated slug. Requires ADMIN role.", security = @SecurityRequirement(name = "bearerAuth"))
         @ApiResponses(value = {
                         @ApiResponse(responseCode = "201", description = "companies created successfully", content = @Content(mediaType = "application/json", schema = @Schema(implementation = com.recruitify.webapi.common.vo.ApiResponse.class))),
@@ -71,7 +71,7 @@ public class CompanyController {
         }
 
         @GetMapping("/all")
-        @PreAuthorize("hasAnyRole('ADMIN','HR')")
+        @PreAuthorize("hasAuthority('COMPANY_VIEW')")
         @Operation(summary = "get All companies", description = "Returns a list of all companies without pagination. Useful for dropdowns and filters.")
         @ApiResponses(value = {
                         @ApiResponse(responseCode = "200", description = "companies get successfully", content = @Content(mediaType = "application/json", schema = @Schema(implementation = com.recruitify.webapi.common.vo.ApiResponse.class)))
@@ -83,7 +83,7 @@ public class CompanyController {
         }
 
         @PatchMapping("/{id}")
-        @PreAuthorize("hasAnyRole('ADMIN','HR')")
+        @PreAuthorize("hasAuthority('COMPANY_UPDATE')")
         @Operation(summary = "Update a company", description = "Updates an existing category by ID. Slug will be regenerated based on new name. Requires ADMIN role.", security = @SecurityRequirement(name = "bearerAuth"))
         @ApiResponses(value = {
                         @ApiResponse(responseCode = "200", description = "companies update successfully", content = @Content(mediaType = "application/json", schema = @Schema(implementation = com.recruitify.webapi.common.vo.ApiResponse.class))),
@@ -101,7 +101,7 @@ public class CompanyController {
         }
 
         @DeleteMapping("/{id}")
-        @PreAuthorize("hasAnyRole('ADMIN','HR')")
+        @PreAuthorize("hasAuthority('COMPANY_DELETE')")
         @Operation(summary = "Delete a company", description = "Deletes a Company by ID. Cannot delete if Company has associated news articles. Requires ADMIN role.", security = @SecurityRequirement(name = "bearerAuth"))
         @ApiResponses(value = {
                         @ApiResponse(responseCode = "200", description = "companies delete successfully", content = @Content(mediaType = "application/json", schema = @Schema(implementation = com.recruitify.webapi.common.vo.ApiResponse.class))),
