@@ -1,4 +1,4 @@
-package com.recruitify.webapi.api.pages.admin.login.controller;
+package com.recruitify.webapi.api.pages.admin.auth.controller;
 
 import com.recruitify.webapi.common.auth.dto.LoginRequest;
 import com.recruitify.webapi.common.auth.dto.LoginResponse;

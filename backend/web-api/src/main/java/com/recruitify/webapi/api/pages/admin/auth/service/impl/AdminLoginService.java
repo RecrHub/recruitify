@@ -1,4 +1,4 @@
-package com.recruitify.webapi.api.pages.admin.login.service.impl;
+package com.recruitify.webapi.api.pages.admin.auth.service.impl;
 
 import com.recruitify.webapi.common.auth.service.AbstractRoleBasedLoginService;
 import com.recruitify.webapi.common.repository.UserRepository;
