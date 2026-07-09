@@ -268,7 +268,7 @@ public class JobServiceImpl implements IJobService {
                 .wardCode(job.getWard() != null ? job.getWard().getCode() : null)
                 .wardName(job.getWard() != null ? job.getWard().getFullName() : null)
                 .status(resolveStatus(job))
-                .skillName(
+                .skillsName(
                         Optional.ofNullable(job.getSkills())
                                 .orElse(Set.of())
                                 .stream()
