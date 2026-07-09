@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from 'react';
 import Link from 'next/link';
-import { ChevronLeft, ChevronRight, Plus, Search } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ListFilter, Plus, Search } from 'lucide-react';
 import { FilterSidebar } from './components/FilterSidebar';
 import { JobDetailsPanel } from './components/JobDetailsPanel';
 import { JobsTable } from './components/JobsTable';
@@ -10,6 +10,7 @@ import { statusTabs } from './jobConstants';
 import { mockJobs } from './mockJobs';
 import type { EmployerJobListItem, JobStatus } from './types';
 import styles from './jobsPage.module.css';
+import { DatePicker } from 'antd';
 
 type StatusFilter = 'all' | JobStatus;
 
@@ -53,100 +54,62 @@ export default function EmployerJobsPage() {
   };
 
   return (
-    <div className={styles.jobsPage}>
-      <FilterSidebar />
+    <>
+      <header className={styles.pageHeader}>
+        <h1 className={styles.pageTitle}>Jobs</h1>
 
-      <div className={styles.mainPanel}>
-        <header className={styles.pageHeader}>
-          <div>
-            <h1 className={styles.pageTitle}>Jobs</h1>
-            <p style={{ margin: '4px 0 0', color: '#6b7184', fontSize: 14 }}>
-              Manage your open, hold and closed postings in one place.
-            </p>
-          </div>
-          <div className={styles.toolbarActions}>
-            <Link href="/employer/jobs/new" className={styles.pillButton}>
-              <Plus size={16} aria-hidden />
-              Post a New Job
-            </Link>
-          </div>
-        </header>
-
-        <div className={styles.toolbar}>
-          <nav className={styles.tabs} aria-label="Job status filter">
-            {statusTabs.map((tab, index) => (
-              <button
-                key={tab}
-                type="button"
-                className={`${styles.tabButton} ${index === activeTabIndex ? styles.tabButtonActive : ''}`}
-                onClick={() => handleTabChange(index)}
-                aria-current={index === activeTabIndex ? 'page' : undefined}
-              >
-                {tab}
-              </button>
-            ))}
-          </nav>
-
-          <div className={styles.toolbarActions}>
-            <label className={styles.pillButton} style={{ cursor: 'text', minHeight: 43 }}>
-              <Search size={16} aria-hidden />
-              <input
-                type="search"
-                placeholder="Search by title"
-                value={searchQuery}
-                onChange={(event) => handleSearchChange(event.target.value)}
-                style={{
-                  border: 0,
-                  outline: 'none',
-                  background: 'transparent',
-                  font: 'inherit',
-                  minWidth: 160,
-                }}
-              />
-            </label>
-          </div>
+        <div className={styles.toolbarActions}>
+          <DatePicker className={styles.pillButton} />
+          <button type="button" className={styles.pillButton}>
+            <ListFilter size={19} aria-hidden />
+            List View
+          </button>
         </div>
+      </header>
 
-        <JobsTable jobs={paginatedJobs} onSelectJob={setSelectedJob} />
+      <section className={styles.jobsPage} aria-label="Jobs dashboard">
 
-        <div className={styles.paginationBar}>
-          <span>
-            Showing {filteredJobs.length === 0 ? 0 : (safePage - 1) * PAGE_SIZE + 1}-
-            {Math.min(safePage * PAGE_SIZE, filteredJobs.length)} of {filteredJobs.length} jobs
-          </span>
-          <div className={styles.pagination}>
-            <button
-              type="button"
-              aria-label="Previous page"
-              disabled={safePage <= 1}
-              onClick={() => setCurrentPage((page) => Math.max(1, page - 1))}
-            >
-              <ChevronLeft size={16} aria-hidden />
-            </button>
-            {Array.from({ length: totalPages }, (_, index) => index + 1).map((page) => (
-              <button
-                key={page}
-                type="button"
-                className={page === safePage ? styles.pageActive : ''}
-                onClick={() => setCurrentPage(page)}
-                aria-current={page === safePage ? 'page' : undefined}
-              >
-                {page}
-              </button>
-            ))}
-            <button
-              type="button"
-              aria-label="Next page"
-              disabled={safePage >= totalPages}
-              onClick={() => setCurrentPage((page) => Math.min(totalPages, page + 1))}
-            >
-              <ChevronRight size={16} aria-hidden />
-            </button>
+        <FilterSidebar />
+        <main className={styles.mainPanel}>
+          <div className={styles.toolbar}>
+            <nav className={styles.tabs} aria-label="Job status tabs">
+              {statusTabs.map((tab, index) => (
+                <button
+                  key={tab}
+                  type="button"
+                  className={`${styles.tabButton} ${index === 0 ? styles.tabButtonActive : ''}`}
+                >
+                  {tab}
+                </button>
+              ))}
+            </nav>
+
           </div>
-        </div>
-      </div>
+
+          <JobsTable jobs={mockJobs} onSelectJob={setSelectedJob} />
+
+          <footer className={styles.paginationBar}>
+            <span>Results: 11-20 of 54</span>
+            <div className={styles.pagination}>
+              <button type="button" aria-label="Previous page">
+                ‹
+              </button>
+              <button type="button">1</button>
+              <button type="button" className={styles.pageActive}>
+                2
+              </button>
+              <button type="button">3</button>
+              <span>...</span>
+              <button type="button">5</button>
+              <button type="button" aria-label="Next page">
+                ›
+              </button>
+            </div>
+          </footer>
+        </main>
+      </section>
 
       {selectedJob && <JobDetailsPanel job={selectedJob} onClose={() => setSelectedJob(null)} />}
-    </div>
+    </>
   );
 }
