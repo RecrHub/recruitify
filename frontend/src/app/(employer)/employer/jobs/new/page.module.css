@@ -17,31 +17,49 @@
 }
 
 .pageTop {
-  display: grid;
-  grid-template-columns: minmax(220px, 1fr) minmax(520px, 680px) minmax(130px, 1fr);
+  position: relative;
+  display: flex;
+  height: 83px;
+  padding: 24px;
   align-items: center;
-  gap: 36px;
-  min-height: 86px;
-  padding: 0 32px;
-  background: #ffffff;
+  justify-content: space-between;
+  gap: 24px;
+  align-self: stretch;
+  border-bottom: 1px solid #EBEEEE;
+  background: #FFF;
 }
 
 .pageTop h1 {
   margin: 0;
-  color: #20232c;
-  font-size: 25px;
-  font-weight: 780;
-  letter-spacing: 0;
+  color: #1A1B1E;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 32px;
 }
 
 .stepper {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  align-items: end;
+  --divider-gap: 12px;
+  --divider-thickness: 2px;
+  --divider-bottom: 5px;
+  --divider-color: #e7eaee;
+  --divider-active-color: var(--accent);
+  --stepper-width: 900px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-38%);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  width: var(--stepper-width);
+  max-width: calc(100% - 320px);
 }
 
 .step {
   position: relative;
+  flex: 1 1 0;
   display: grid;
   justify-items: start;
   gap: 10px;
@@ -69,11 +87,11 @@
 .step::after {
   content: '';
   position: absolute;
-  bottom: 5px;
-  left: 12px;
-  right: 0;
-  height: 2px;
-  background: #e7eaee;
+  bottom: var(--divider-bottom);
+  left: var(--divider-gap);
+  right: var(--divider-gap);
+  height: var(--divider-thickness);
+  background: var(--divider-color);
 }
 
 .step:last-child::after {
@@ -93,7 +111,7 @@
 
 .stepDone::after,
 .stepActive::after {
-  background: var(--accent);
+  background: var(--divider-active-color);
 }
 
 .cancelButton,
@@ -226,23 +244,14 @@
 }
 
 .field span,
-.editorField > span,
+.editorField>span,
 .optionGroup h3,
-.locationGroup h3,
-.salarySection h3 {
+.locationGroup h3 {
   margin: 0;
   color: #1f2430;
   font-size: 14px;
-  font-weight: 700;
+  font-weight: 500;
   letter-spacing: 0;
-}
-
-.counter {
-  align-self: flex-end;
-  margin-top: -5px;
-  color: #7a8494;
-  font-size: 12px;
-  font-weight: 600;
 }
 
 .errorText {
@@ -335,22 +344,30 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  min-height: 40px;
-  padding: 0 18px;
+  gap: 6px;
+  padding: 8px 16px;
   color: #121821;
-  background: #f3f4f6;
-  border: 1px solid #f3f4f6;
-  border-radius: 999px;
+  background: #F2F4F6;
+  border: 1px solid rgba(0, 0, 0, 0);
+  border-radius: 9999px;
   font-size: 14px;
   font-weight: 650;
   white-space: nowrap;
+  transition: background 150ms ease, color 150ms ease, border-color 150ms ease;
+}
+
+.choicePill:hover {
+  background: #e8eaee;
 }
 
 .choicePillActive {
   color: var(--accent);
   background: var(--accent-soft);
   border-color: var(--accent);
+}
+
+.choicePillActive:hover {
+  background: var(--accent-soft);
 }
 
 .salarySection {
@@ -374,6 +391,19 @@
   border-radius: 999px;
 }
 
+.rangeTrack::before {
+  content: '';
+  position: absolute;
+  top: -4px;
+  bottom: -4px;
+  left: 0;
+  right: 0;
+  background-size: calc(100% / 16) 12px;
+  background-position: 0 center;
+  background-repeat: repeat-x;
+  pointer-events: none;
+}
+
 .rangeTrack span {
   position: absolute;
   top: 0;
@@ -381,6 +411,23 @@
   background: var(--accent);
   border-radius: 999px;
 }
+
+.rangeLabels {
+  position: relative;
+  margin: 8px 10px 0;
+  height: 20px;
+}
+
+.rangeLabels > span {
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+  color: #111827;
+  font-size: 14px;
+  font-weight: 650;
+  white-space: nowrap;
+}
+
 
 .rangeInput {
   position: absolute;
@@ -423,27 +470,18 @@
   pointer-events: auto;
 }
 
-.rangeLabels {
-  display: flex;
-  justify-content: center;
-  gap: 118px;
-  color: #111827;
-  font-size: 14px;
-  font-weight: 650;
-}
 
 .editorField textarea {
   width: 100%;
   min-height: 138px;
   padding: 18px;
-  color: #141820;
+  color: #373737;
   background: #ffffff;
   border: 1px solid #d8dde5;
   border-bottom: 0;
   border-radius: 10px 10px 0 0;
   outline: none;
   resize: vertical;
-  font-family: inherit;
   font-size: 14px;
   line-height: 1.55;
 }
@@ -604,16 +642,9 @@
   border-radius: 50%;
 }
 
-.gridTwo {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0 18px;
-}
-
+.gridTwo,
 .gridThree {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0 14px;
+  display: block;
 }
 
 .settingCard {
@@ -737,9 +768,11 @@
 }
 
 .summaryGrid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 18px;
+  display: block;
+  margin-top: 18px;
+}
+
+.summaryGrid > section + section {
   margin-top: 18px;
 }
 
@@ -907,9 +940,18 @@
   }
 
   .pageTop {
-    grid-template-columns: 1fr;
+    flex-wrap: wrap;
     gap: 22px;
     padding: 24px;
+  }
+
+  .stepper {
+    position: static;
+    left: auto;
+    transform: none;
+    order: 3;
+    width: 100%;
+    max-width: 100%;
   }
 
   .cancelButton {
@@ -929,7 +971,7 @@
   .gridTwo,
   .gridThree,
   .summaryGrid {
-    grid-template-columns: 1fr;
+    display: block;
   }
 }
 
@@ -960,8 +1002,8 @@
   }
 
   .rangeLabels {
-    justify-content: space-between;
-    gap: 16px;
+    margin-left: 0;
+    margin-right: 0;
   }
 
   .summaryCard {
