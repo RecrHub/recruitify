@@ -5,8 +5,8 @@ import com.recruitify.webapi.common.exception.TokenRefreshException;
 import com.recruitify.webapi.common.model.identity.RefreshToken;
 import com.recruitify.webapi.common.model.identity.User;
 import com.recruitify.webapi.common.security.UserDetailsImpl;
+import com.recruitify.webapi.common.auth.dto.LoginResponse;
 import com.recruitify.webapi.common.token.dto.RefreshTokenRequest;
-import com.recruitify.webapi.common.token.dto.TokenResponseVO;
 import com.recruitify.webapi.common.token.service.IRefreshTokenService;
 import com.recruitify.webapi.common.token.service.ITokenService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -43,17 +43,17 @@ public class TokenController {
             description = "Get new access token using refresh token",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Token refreshed successfully",
-                            content = @Content(schema = @Schema(implementation = TokenResponseVO.class))),
+                            content = @Content(schema = @Schema(implementation = LoginResponse.class))),
                     @ApiResponse(responseCode = "403", description = "Invalid or expired refresh token")
             }
     )
-    public ResponseEntity<TokenResponseVO> refreshToken(
+    public ResponseEntity<LoginResponse> refreshToken(
             @Valid @RequestBody RefreshTokenRequest request,
             HttpServletRequest httpRequest) {
         try {
             String requestRefreshToken = request.getRefreshToken();
 
-            TokenResponseVO response = refreshTokenService.findByToken(requestRefreshToken)
+            LoginResponse response = refreshTokenService.findByToken(requestRefreshToken)
                     .map(refreshTokenService::verifyExpiration)
                     .map(refreshToken -> {
                         User user = refreshToken.getUser();
@@ -77,7 +77,7 @@ public class TokenController {
 
                         String role = user.getRole().getName();
 
-                        return TokenResponseVO.builder()
+                        return LoginResponse.builder()
                                 .accessToken(accessToken)
                                 .refreshToken(newRefreshToken.getToken())
                                 .id(user.getId())

@@ -1,8 +1,7 @@
 import os
 from dotenv import load_dotenv
 load_dotenv()
-
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 CHROMA_DIR = "./chroma_db"
-EMBED_MODEL = "text-embedding-3-small"
-LLM_MODEL = "gpt-4o-mini"
+EMBED_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
+LLM_MODEL = "gemini-2.5-flash"

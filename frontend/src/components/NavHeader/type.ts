@@ -10,11 +10,20 @@ export interface HeaderProps extends HTMLAttributes<HTMLElement> {
   nav?: ReactNode;
   navClassName?: string;
   navStyle?: CSSProperties;
-  /** Mobile-specific actions. Can be a render function receiving toggleRightNav. */
-  mobileActions?: ReactNode | ((toggleRightNav: () => void) => ReactNode);
-  /** Extra content rendered at the bottom of the left mobile sidebar */
-  mobileSidebarContent?: ReactNode;
-  /** Content rendered inside the right slide-out nav (user menu) */
-  mobileRightNavContent?: ReactNode;
+  /** Mobile-specific actions.
+   *  When a render function, receives both `toggleMenu` (left drawer) and
+   *  `toggleRightNav` (right drawer) so callers can pick which to open. */
+  mobileActions?:
+    | ReactNode
+    | ((handlers: {
+        toggleMenu: () => void;
+        toggleRightNav: () => void;
+      }) => ReactNode);
+  /** Extra content rendered at the bottom of the left mobile sidebar.
+   *  Can be a render function receiving close() so links can dismiss the drawer. */
+  mobileSidebarContent?: ReactNode | ((close: () => void) => ReactNode);
+  /** Content rendered inside the right slide-out nav (user menu).
+   *  Can be a render function receiving closeRightNav so links can dismiss the drawer. */
+  mobileRightNavContent?: ReactNode | ((closeRightNav: () => void) => ReactNode);
   ref?: Ref<HTMLElement>;
 }

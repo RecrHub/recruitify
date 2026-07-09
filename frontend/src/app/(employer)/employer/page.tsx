@@ -1,183 +1,42 @@
 'use client';
 
-import { Card, Col, Row, Typography, Avatar, theme, Flex, Timeline, Tag } from 'antd';
-import { DollarSign, Users, CreditCard, Activity } from 'lucide-react';
+import styles from './page.module.css';
 
-const { Title, Text } = Typography;
+import DashboardHeader from './components/DashboardHeader/DashboardHeader';
+import StatsCards from './components/StatsCards/StatsCards';
+import OverviewChart from './components/OverviewChart/OverviewChart';
+import Schedule from './components/Schedule/Schedule';
+import CurrentOpenings from './components/CurrentOpenings/CurrentOpenings';
+import NewApplications from './components/NewApplications/NewApplications';
 
-export default function AdminDashboard() {
-  const { token } = theme.useToken();
+const chartData = [
+  { month: 'Jan', value: 145 },
+  { month: 'Feb', value: 200 },
+  { month: 'Mar', value: 180 },
+  { month: 'Apr', value: 165 },
+  { month: 'May', value: 220 },
+  { month: 'Jun', value: 238 },
+  { month: 'Jul', value: 252 },
+  { month: 'Aug', value: 255 },
+  { month: 'Sep', value: 320 },
+  { month: 'Oct', value: 280 },
+  { month: 'Nov', value: 205 },
+  { month: 'Dec', value: 220 },
+];
 
-  const stats = [
-    {
-      title: 'Tin tuyển dụng',
-      value: '12',
-      description: '+3 tin mới tuần này',
-      icon: <DollarSign style={{ color: token.colorTextSecondary }} />,
-    },
-    {
-      title: 'Ứng viên',
-      value: '256',
-      description: '+48 ứng viên mới',
-      icon: <Users style={{ color: token.colorTextSecondary }} />,
-    },
-    {
-      title: 'Phỏng vấn',
-      value: '8',
-      description: '3 phỏng vấn hôm nay',
-      icon: <CreditCard style={{ color: token.colorTextSecondary }} />,
-    },
-    {
-      title: 'Đã tuyển',
-      value: '5',
-      description: '+2 so với tháng trước',
-      icon: <Activity style={{ color: token.colorTextSecondary }} />,
-    },
-  ];
-
-  const recentSales = [
-    { name: 'Nguyễn Văn A', email: 'nva@email.com', position: 'Frontend Developer', initials: 'NA' },
-    { name: 'Trần Thị B', email: 'ttb@email.com', position: 'Backend Developer', initials: 'TB' },
-    { name: 'Lê Văn C', email: 'lvc@email.com', position: 'UI/UX Designer', initials: 'LC' },
-    { name: 'Phạm Thị D', email: 'ptd@email.com', position: 'Project Manager', initials: 'PD' },
-    { name: 'Hoàng Văn E', email: 'hve@email.com', position: 'DevOps Engineer', initials: 'HE' },
-  ];
-
-  const timelineItems = [
-    {
-      color: 'green' as const,
-      content: (
-        <Flex vertical gap={4}>
-          <Text strong>09:00 · Phỏng vấn Frontend</Text>
-          <Text type="secondary">Nguyễn Văn A - Vị trí Senior React Developer</Text>
-        </Flex>
-      ),
-    },
-    {
-      color: 'blue' as const,
-      content: (
-        <Flex vertical gap={4}>
-          <Text strong>10:30 · Đăng tin mới</Text>
-          <Text type="secondary">Tuyển dụng DevOps Engineer - Phòng Kỹ thuật</Text>
-        </Flex>
-      ),
-    },
-    {
-      color: 'gold' as const,
-      content: (
-        <Flex vertical gap={4}>
-          <Text strong>14:00 · Đánh giá CV</Text>
-          <Text type="secondary">Sàng lọc 15 ứng viên cho vị trí Backend Developer</Text>
-        </Flex>
-      ),
-    },
-    {
-      color: 'red' as const,
-      content: (
-        <Flex vertical gap={4}>
-          <Text strong>16:00 · Họp tuyển dụng</Text>
-          <Text type="secondary">Review tiến độ tuyển dụng Q2 với ban lãnh đạo</Text>
-        </Flex>
-      ),
-    },
-  ];
-
-  const cardHoverStyle = {
-    ['--dash-card-hover-border' as string]: token.colorPrimaryBorderHover,
-  };
-
+export default function EmployerDashboard() {
   return (
-    <Flex vertical gap={token.marginLG}>
-      <Row gutter={[16, 16]}>
-        {stats.map((stat) => (
-          <Col xs={24} sm={12} lg={6} key={stat.title}>
-            <Card
-              style={cardHoverStyle}
-              styles={{ body: { padding: token.paddingLG } }}
-              hoverable
-            >
-              <Flex justify="space-between" align="center" style={{ marginBottom: token.marginXS }}>
-                <Text strong style={{ fontSize: token.fontSizeSM }}>
-                  {stat.title}
-                </Text>
-                {stat.icon}
-              </Flex>
-              <div style={{ fontSize: 24, fontWeight: 'bold', marginBottom: 4 }}>{stat.value}</div>
-              <Text ellipsis type="secondary" style={{ fontSize: token.fontSizeSM }}>
-                {stat.description}
-              </Text>
-            </Card>
-          </Col>
-        ))}
-      </Row>
-
-      <Row gutter={[16, 16]}>
-        <Col xs={24} lg={14}>
-          <Card
-            style={{ height: '100%' }}
-            title={
-              <Flex align="center" gap={token.marginSM}>
-                <Title level={5} style={{ margin: 0 }}>
-                  Hoạt động hôm nay
-                </Title>
-                <Tag color="processing">
-                  Hôm nay
-                </Tag>
-              </Flex>
-            }
-          >
-            <Timeline items={timelineItems} />
-          </Card>
-        </Col>
-        <Col xs={24} lg={10}>
-          <Card
-            style={{ height: '100%' }}
-            title={
-              <Title level={5} style={{ margin: 0 }}>
-                Ứng viên gần đây
-              </Title>
-            }
-          >
-            <Flex vertical>
-              {recentSales.map((item) => (
-                <Flex
-                  key={item.email}
-                  align="center"
-                  justify="space-between"
-                  style={{
-                    padding: `${token.paddingXS}px ${token.paddingSM}px`,
-                    borderRadius: token.borderRadius,
-                  }}
-                >
-                  <Flex align="center" gap={token.marginSM} style={{ minWidth: 0 }}>
-                    <Avatar
-                      size={40}
-                      shape="circle"
-                      style={{
-                        flexShrink: 0,
-                        backgroundColor: token.colorFillSecondary,
-                        color: token.colorTextSecondary,
-                        fontWeight: 600,
-                        fontSize: token.fontSizeSM,
-                      }}
-                    >
-                      {item.initials}
-                    </Avatar>
-                    <Flex vertical style={{ minWidth: 0 }}>
-                      <Text strong style={{ fontSize: token.fontSizeSM, lineHeight: 1 }}>
-                        {item.name}
-                      </Text>
-                      <Text type="secondary" style={{ fontSize: token.fontSizeSM }} ellipsis>
-                        {item.position}
-                      </Text>
-                    </Flex>
-                  </Flex>
-                </Flex>
-              ))}
-            </Flex>
-          </Card>
-        </Col>
-      </Row>
-    </Flex>
+    <div className={styles.container}>
+      <DashboardHeader />
+      <StatsCards />
+      <div className={styles.middle}>
+        <OverviewChart data={chartData} />
+        <Schedule />
+      </div>
+      <div className={styles.bottom}>
+        <CurrentOpenings />
+        <NewApplications />
+      </div>
+    </div>
   );
 }

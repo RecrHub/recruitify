@@ -18,6 +18,6 @@ public class ResourceNotFoundException extends BaseException {
     }
 
     public static ResourceNotFoundException create(String resourceName, String fieldName, Object fieldValue) {
-        return new ResourceNotFoundException(resourceName);
+        return new ResourceNotFoundException(resourceName, fieldName, fieldValue);
     }
 }

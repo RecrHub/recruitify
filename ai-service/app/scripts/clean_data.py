@@ -3,7 +3,8 @@ import pandas as pd
 
 BASE_DIR = Path(__file__).resolve().parent.parent  # app/
 RAW_DATA = BASE_DIR / "data" / "raw" / "job_postings.csv"
-OUT_DATA = BASE_DIR / "data" / "processed" / "job_postings.csv"
+# write a cleaned file that matches build_index.py expectations
+OUT_DATA = BASE_DIR / "data" / "processed" / "jobs_clean.csv"
 
 df = pd.read_csv(RAW_DATA)
 
@@ -26,6 +27,9 @@ df = df.dropna(subset=['title', 'description', 'applies'])
 
 df = df.head(500)
 
+
+if 'skills_desc' in df.columns:
+    df = df.rename(columns={'skills_desc': 'skills'})
 
 df['applies'] = pd.to_numeric(df['applies'], errors='coerce').fillna(0).astype(int)
 

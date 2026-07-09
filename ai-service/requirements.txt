@@ -1,11 +1,13 @@
 fastapi
 uvicorn
 langchain
-langchain-openai
 langchain-chroma
+sentence-transformers
 chromadb
 pandas
 pydantic
 pytest
 pytest-cov
 python-dotenv
+langchain_community
+langchain-google-genai
