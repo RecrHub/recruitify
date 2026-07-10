@@ -22,6 +22,20 @@ export function getOptionLabel(options: Option[], id: string) {
   return options.find((option) => option.id === id)?.label || 'Not selected';
 }
 
+export function richTextToPlainText(value?: string | null): string {
+  return (value ?? '')
+    .replace(/<br\s*\/?\s*>/gi, '\n')
+    .replace(/<\/p>/gi, '\n')
+    .replace(/<\/div>/gi, '\n')
+    .replace(/<\/li>/gi, '\n')
+    .replace(/<[^>]*>/g, '')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .trim();
+}
+
 export function normalizeOptions(data: unknown, fallback: Option[]): Option[] {
   const list = Array.isArray(data)
     ? data

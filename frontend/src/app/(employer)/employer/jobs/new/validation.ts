@@ -1,10 +1,15 @@
 import type { FormErrors, JobForm, StepKey } from './types';
 import { FIELD_LIMITS } from './constants';
+import { richTextToPlainText } from './utils';
 
 export function validateJobForm(values: JobForm): FormErrors {
   const nextErrors: FormErrors = {};
   const title = values.title.trim();
-  const description = values.description.trim();
+  const description = richTextToPlainText(values.description);
+  const requirement = richTextToPlainText(values.requirement);
+  const responsibilities = richTextToPlainText(values.responsibilities);
+  const education = richTextToPlainText(values.education);
+  const benefit = richTextToPlainText(values.benefit);
 
   if (!title) nextErrors.title = 'Please enter a title';
   else if (title.length < 5) nextErrors.title = 'Title must be at least 5 characters';
@@ -13,9 +18,10 @@ export function validateJobForm(values: JobForm): FormErrors {
   if (!description) nextErrors.description = 'Please enter a job description';
   else if (description.length > FIELD_LIMITS.description) nextErrors.description = `Description must be at most ${FIELD_LIMITS.description} characters`;
 
-  if (values.requirement.length > FIELD_LIMITS.requirement) nextErrors.requirement = `Requirements must be at most ${FIELD_LIMITS.requirement} characters`;
-  if (values.responsibilities.length > FIELD_LIMITS.responsibilities) nextErrors.responsibilities = `Responsibilities must be at most ${FIELD_LIMITS.responsibilities} characters`;
-  if (values.benefit.length > FIELD_LIMITS.benefit) nextErrors.benefit = `Benefits must be at most ${FIELD_LIMITS.benefit} characters`;
+  if (requirement.length > FIELD_LIMITS.requirement) nextErrors.requirement = `Requirements must be at most ${FIELD_LIMITS.requirement} characters`;
+  if (responsibilities.length > FIELD_LIMITS.responsibilities) nextErrors.responsibilities = `Responsibilities must be at most ${FIELD_LIMITS.responsibilities} characters`;
+  if (education.length > FIELD_LIMITS.education) nextErrors.education = `Education must be at most ${FIELD_LIMITS.education} characters`;
+  if (benefit.length > FIELD_LIMITS.benefit) nextErrors.benefit = `Benefits must be at most ${FIELD_LIMITS.benefit} characters`;
 
   if (!values.categoryId) nextErrors.categoryId = 'Please select a category';
   if (!values.employmentTypeId) nextErrors.employmentTypeId = 'Please select an employment type';
@@ -28,7 +34,7 @@ export function validateJobForm(values: JobForm): FormErrors {
 
 export const fieldsForStep: Record<StepKey, (keyof JobForm)[]> = {
   basic: ['title', 'categoryId', 'employmentTypeId', 'experienceLevelId', 'workApproachId', 'wardCode'],
-  details: ['description', 'requirement', 'responsibilities', 'benefit'],
+  details: ['description', 'requirement', 'responsibilities', 'education', 'benefit'],
   settings: ['isHidden', 'isFeatured'],
   summary: [],
 };

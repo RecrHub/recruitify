@@ -11,6 +11,7 @@ export type JobForm = {
   description: string;
   requirement: string;
   responsibilities: string;
+  education: string;
   benefit: string;
   minSalary: string;
   maxSalary: string;
@@ -42,7 +43,10 @@ export type SelectableField = keyof Pick<
   | 'wardCode'
 >;
 
-export type TextareaField = keyof Pick<JobForm, 'description' | 'requirement' | 'responsibilities' | 'benefit'>;
+export type TextareaField = keyof Pick<
+  JobForm,
+  'description' | 'requirement' | 'responsibilities' | 'education' | 'benefit'
+>;
 
 export type SelectOptions = {
   categories: Option[];

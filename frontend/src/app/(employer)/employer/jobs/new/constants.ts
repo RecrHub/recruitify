@@ -12,6 +12,7 @@ export const emptyForm: JobForm = {
   description: '',
   requirement: '',
   responsibilities: '',
+  education: '',
   benefit: '',
   minSalary: '0',
   maxSalary: '150000',
@@ -134,5 +135,6 @@ export const FIELD_LIMITS = {
   description: 5000,
   requirement: 5000,
   responsibilities: 5000,
+  education: 2000,
   benefit: 2000,
 } as const;

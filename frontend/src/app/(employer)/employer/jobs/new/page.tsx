@@ -1,7 +1,19 @@
 'use client';
 
-import { useRef } from 'react';
-import { Check, CheckCircle2, ChevronDown, ChevronLeft, Download, Loader2, MapPin, Plus, Send, X } from 'lucide-react';
+import { useEffect, useRef } from 'react';
+import {
+  Check,
+  CheckCircle2,
+  ChevronDown,
+  ChevronLeft,
+  Loader2,
+  MapPin,
+  Pencil,
+  Plus,
+  X,
+} from 'lucide-react';
+import type Quill from 'quill';
+import 'quill/dist/quill.snow.css';
 import styles from './page.module.css';
 import {
   FIELD_LIMITS,
@@ -10,7 +22,7 @@ import {
   provinces,
   steps,
 } from './constants';
-import { formatCurrency, getOptionLabel } from './utils';
+import { formatCurrency, getOptionLabel, richTextToPlainText } from './utils';
 import { useJobForm } from './useJobForm';
 import type { Option, SelectableField, TextareaField } from './types';
 
@@ -30,7 +42,6 @@ export default function EmployerJobsPage() {
     maxSalary,
     districts,
     wards,
-    requestBody,
     salaryLeft,
     salaryRight,
     addQuestion,
@@ -56,39 +67,87 @@ export default function EmployerJobsPage() {
 
   const inputClass = (field: keyof typeof form) => (fieldError(field) ? styles.controlError : '');
 
-  const textareaRefs = useRef<Partial<Record<TextareaField, HTMLTextAreaElement | null>>>({});
+  const editorRefs = useRef<Partial<Record<TextareaField, HTMLDivElement | null>>>({});
+  const toolbarRefs = useRef<Partial<Record<TextareaField, HTMLDivElement | null>>>({});
+  const quillRefs = useRef<Partial<Record<TextareaField, Quill | null>>>({});
 
-  const applyMarkdown = (field: TextareaField, kind: 'bold' | 'italic' | 'list', limit: number) => {
-    const el = textareaRefs.current[field];
-    const value = form[field];
-    const start = el?.selectionStart ?? value.length;
-    const end = el?.selectionEnd ?? value.length;
-    const selected = value.slice(start, end);
+  const editorTextLength = (field: TextareaField) => richTextToPlainText(form[field]).length;
 
-    let insert: string;
-    let cursorPos: number;
+  const getSummaryText = (value: string, fallback: string) =>
+    richTextToPlainText(value).trim() || fallback;
 
-    if (kind === 'list') {
-      const prefix = start > 0 && value[start - 1] !== '\n' ? '\n- ' : '- ';
-      insert = `${prefix}${selected}`;
-      cursorPos = start + insert.length;
-    } else {
-      const marker = kind === 'bold' ? '**' : '_';
-      insert = `${marker}${selected}${marker}`;
-      cursorPos = start + marker.length + selected.length;
-    }
+  const locationLabel = [
+    getOptionLabel(wards, form.wardCode),
+    getOptionLabel(districts, form.districtCode),
+    getOptionLabel(provinces, form.provinceCode),
+  ]
+    .filter((label) => label && label !== 'Not selected')
+    .join(', ');
 
-    const next = `${value.slice(0, start)}${insert}${value.slice(end)}`.slice(0, limit);
-    updateForm(field, next);
-
-    requestAnimationFrame(() => {
-      const node = textareaRefs.current[field];
-      if (!node) return;
-      node.focus();
-      const safeCursor = Math.min(cursorPos, next.length);
-      node.setSelectionRange(safeCursor, safeCursor);
+  // Initialize each Quill editor whenever the user enters the details step.
+  // The editor divs only exist while `currentStepKey === 'details'`, so we
+  // re-run on every step change and (re)bind Quill to whichever DOM nodes are
+  // currently mounted. Old Quill instances are detached and become garbage
+  // when React unmounts their host divs.
+  useEffect(() => {
+    // Drop references to previously-initialised Quill instances; their host
+    // DOM nodes may have been unmounted by React.
+    (Object.keys(quillRefs.current) as TextareaField[]).forEach((key) => {
+      quillRefs.current[key] = null;
     });
-  };
+
+    let cancelled = false;
+
+    const initialiseField = async (field: TextareaField, placeholder: string, limit: number) => {
+      if (cancelled) return;
+      if (quillRefs.current[field]) return;
+
+      const editor = editorRefs.current[field];
+      const toolbar = toolbarRefs.current[field];
+      if (!editor || !toolbar) return;
+
+      const { default: QuillEditor } = await import('quill');
+      if (cancelled || quillRefs.current[field]) return;
+      if (!editorRefs.current[field] || !toolbarRefs.current[field]) return;
+
+      const quill = new QuillEditor(editor, {
+        placeholder,
+        theme: 'snow',
+        modules: { toolbar },
+      });
+
+      const initialValue = form[field];
+      if (initialValue) quill.clipboard.dangerouslyPasteHTML(initialValue);
+
+      quill.on('text-change', () => {
+        if (quill.getLength() > limit + 1) {
+          quill.deleteText(limit, quill.getLength() - limit);
+        }
+
+        const editorEl = editorRefs.current[field];
+        const html = editorEl?.querySelector('.ql-editor')?.innerHTML ?? '';
+        updateForm(field, richTextToPlainText(html) ? html : '');
+      });
+
+      quillRefs.current[field] = quill;
+    };
+
+    const fields: { field: TextareaField; placeholder: string; limit: number }[] = [
+      { field: 'description', placeholder: 'Enter description...', limit: FIELD_LIMITS.description },
+      { field: 'responsibilities', placeholder: 'Enter responsibilities...', limit: FIELD_LIMITS.responsibilities },
+      { field: 'education', placeholder: 'Enter education requirements...', limit: FIELD_LIMITS.education },
+      { field: 'requirement', placeholder: 'Enter requirements...', limit: FIELD_LIMITS.requirement },
+      { field: 'benefit', placeholder: 'Enter benefits...', limit: FIELD_LIMITS.benefit },
+    ];
+
+    fields.forEach(({ field, placeholder, limit }) => {
+      void initialiseField(field, placeholder, limit);
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [currentStepKey]);
 
   const renderTextarea = (
     field: TextareaField,
@@ -96,37 +155,91 @@ export default function EmployerJobsPage() {
     placeholder: string,
     limit: number,
   ) => (
-    <label className={styles.editorField}>
-      <span>{label}</span>
-      <textarea
+    <div className={styles.editorField}>
+      <label htmlFor={`job-${field}`}>{label}</label>
+      <div
+        id={`job-${field}`}
         ref={(node) => {
-          textareaRefs.current[field] = node;
+          editorRefs.current[field] = node;
         }}
-        className={inputClass(field)}
-        value={form[field]}
-        maxLength={limit}
-        placeholder={placeholder}
-        onBlur={() => markTouched(field)}
-        onChange={(event) => updateForm(field, event.target.value)}
+        className={`${styles.richEditor} ${inputClass(field)}`}
+        onBlur={(event) => {
+          if (!event.currentTarget.parentElement?.contains(event.relatedTarget)) {
+            markTouched(field);
+          }
+        }}
       />
-      <div className={styles.editorToolbar}>
+      <div
+        ref={(node) => {
+          toolbarRefs.current[field] = node;
+        }}
+        className={styles.editorToolbar}
+        onBlur={(event) => {
+          if (!event.currentTarget.parentElement?.contains(event.relatedTarget)) {
+            markTouched(field);
+          }
+        }}
+      >
         <div>
-          <button type="button" onClick={() => applyMarkdown(field, 'bold', limit)}>
-            B
+          <button
+            type="button"
+            className={`ql-bold ${styles.formatButton}`}
+            title="Bold"
+            aria-label={`Bold ${label}`}
+          >
+            <strong>B</strong>
           </button>
-          <button type="button" onClick={() => applyMarkdown(field, 'italic', limit)}>
-            I
+          <button
+            type="button"
+            className={`ql-italic ${styles.formatButton}`}
+            title="Italic"
+            aria-label={`Italic ${label}`}
+          >
+            <em>I</em>
           </button>
-          <button type="button" onClick={() => applyMarkdown(field, 'list', limit)}>
-            List
+          <button
+            type="button"
+            className={`ql-list ${styles.formatButton} ${styles.listFormatButton}`}
+            value="bullet"
+            title="Bullet list"
+            aria-label={`Bullet list ${label}`}
+          >
+            • List
           </button>
         </div>
         <small>
-          {form[field].length}/{limit}
+          {editorTextLength(field)}/{limit}
         </small>
       </div>
       {renderError(field)}
-    </label>
+    </div>
+  );
+
+  const renderSkills = () => (
+    <section className={styles.skillBlock}>
+      <label className={styles.field}>
+        <span>Add Skills</span>
+        <input
+          value={form.skillDraft}
+          placeholder="Type a skill and press Enter"
+          onChange={(event) => updateForm('skillDraft', event.target.value)}
+          onKeyDown={(event) => {
+            if (event.key === 'Enter') {
+              event.preventDefault();
+              addSkill();
+            }
+          }}
+        />
+      </label>
+      <div className={styles.skillChips} aria-label="Selected skills">
+        {form.skills.map((skill) => (
+          <button key={skill} type="button" onClick={() => removeSkill(skill)} aria-label={`Remove ${skill}`}>
+            <X size={13} />
+            {skill}
+          </button>
+        ))}
+      </div>
+    </section>
   );
 
   const renderSelect = (
@@ -196,7 +309,9 @@ export default function EmployerJobsPage() {
     <main className={styles.jobsPage}>
       <section className={styles.shell} aria-label="Create new job">
         <header className={styles.pageTop}>
-          <h1>Create new job</h1>
+          <div className={styles.pageTitleGroup}>
+            <h1>Create new job</h1>
+          </div>
           <nav className={styles.stepper} aria-label="Job creation steps">
             {steps.map((step, index) => {
               const active = index === currentStep;
@@ -222,14 +337,7 @@ export default function EmployerJobsPage() {
         <div className={styles.divider} />
 
         <div className={styles.contentGrid}>
-          <aside className={styles.sidePanel}>
-            {currentStep > 0 && (
-              <button className={styles.previousButton} type="button" onClick={goPrev}>
-                <ChevronLeft size={18} />
-                Previous
-              </button>
-            )}
-          </aside>
+          <aside className={styles.sidePanel} />
 
           <form className={styles.formPanel} onSubmit={(event) => event.preventDefault()}>
             {currentStepKey === 'basic' && (
@@ -265,8 +373,6 @@ export default function EmployerJobsPage() {
 
                 {renderPillGroup('experienceLevelId', 'Experience Level', options.experienceLevels)}
                 {renderPillGroup('workApproachId', 'Work Approach', options.workApproaches)}
-
-
 
                 <section className={styles.salarySection}>
                   <div>Compensation Range (USD)</div>
@@ -305,18 +411,26 @@ export default function EmployerJobsPage() {
 
             {currentStepKey === 'details' && (
               <>
-                <div className={styles.formHeading}>
-                  <h2>Job Description &amp; Responsibilities</h2>
-                  <p>Fill in candidate-facing information for this job</p>
+                <div className={styles.detailsHeading}>
+                  <button className={styles.previousButton} type="button" onClick={goPrev}>
+                    <ChevronLeft size={18} />
+                    Previous
+                  </button>
+                  <div className={styles.formHeading}>
+                    <h2>Job Description &amp; Responsibilities</h2>
+                    <p>Fill in candidate-facing information for this job</p>
+                  </div>
                 </div>
 
                 {renderTextarea('description', 'Job Description', 'Enter description...', FIELD_LIMITS.description)}
                 {renderTextarea('responsibilities', 'Responsibilities', 'Enter responsibilities...', FIELD_LIMITS.responsibilities)}
+                {renderTextarea('education', 'Education', 'Enter education requirements...', FIELD_LIMITS.education)}
 
                 <section className={styles.detailsExtras}>
                   {renderTextarea('requirement', 'Candidate Requirements', 'Enter requirements...', FIELD_LIMITS.requirement)}
                   {renderTextarea('benefit', 'Benefits', 'Enter benefits...', FIELD_LIMITS.benefit)}
                 </section>
+                {renderSkills()}
               </>
             )}
 
@@ -334,19 +448,6 @@ export default function EmployerJobsPage() {
                   </div>
                   <div className={styles.settingsList}>
                     <button
-                      className={`${styles.toggleRow} ${form.isFeatured ? styles.toggleRowActive : ''}`}
-                      type="button"
-                      onClick={() => updateForm('isFeatured', !form.isFeatured)}
-                    >
-                      <span>
-                        <strong>Featured listing</strong>
-                        <small>Boost visibility and attract more candidates.</small>
-                      </span>
-                      <i aria-hidden="true">
-                        <b />
-                      </i>
-                    </button>
-                    <button
                       className={`${styles.toggleRow} ${form.isHidden ? styles.toggleRowActive : ''}`}
                       type="button"
                       onClick={() => updateForm('isHidden', !form.isHidden)}
@@ -361,123 +462,112 @@ export default function EmployerJobsPage() {
                     </button>
                   </div>
                 </section>
-
-                <section className={styles.categoriesBlock}>
-                  <h3>Categories</h3>
-                  {renderSelect('categoryId', 'Job Category', 'Select a category', options.categories)}
-                  <label className={styles.field}>
-                    <span>Hiring Company/Department</span>
-                    <input value="From auth context" disabled readOnly />
-                  </label>
-                </section>
-
-                <section className={styles.skillBlock}>
-                  <label className={styles.field}>
-                    <span>Add Skills</span>
-                    <input
-                      value={form.skillDraft}
-                      placeholder="Type skill and press Enter"
-                      onChange={(event) => updateForm('skillDraft', event.target.value)}
-                      onKeyDown={(event) => {
-                        if (event.key === 'Enter') {
-                          event.preventDefault();
-                          addSkill();
-                        }
-                      }}
-                    />
-                  </label>
-                  <div className={styles.skillChips}>
-                    {form.skills.map((skill) => (
-                      <button key={skill} type="button" onClick={() => removeSkill(skill)}>
-                        <X size={13} />
-                        {skill}
-                      </button>
-                    ))}
-                  </div>
-                </section>
-
-                <section className={styles.questionCard}>
-                  <h3>Screening Questions</h3>
-                  <p>You can add up to 5 screening questions to the job posting.</p>
-                  <div className={styles.questionInput}>
-                    <input
-                      value={form.questionDraft}
-                      placeholder="Add a screening question"
-                      onChange={(event) => updateForm('questionDraft', event.target.value)}
-                      onKeyDown={(event) => {
-                        if (event.key === 'Enter') {
-                          event.preventDefault();
-                          addQuestion();
-                        }
-                      }}
-                    />
-                    <button type="button" disabled={form.screeningQuestions.length >= 5} onClick={addQuestion}>
-                      <Plus size={16} />
-                      Add questions
-                    </button>
-                  </div>
-                  {form.screeningQuestions.length > 0 && (
-                    <ol className={styles.questionList}>
-                      {form.screeningQuestions.map((question) => (
-                        <li key={question}>
-                          <span>{question}</span>
-                          <button type="button" onClick={() => removeQuestion(question)} aria-label={`Remove ${question}`}>
-                            <X size={14} />
-                          </button>
-                        </li>
-                      ))}
-                    </ol>
-                  )}
-                </section>
               </>
             )}
 
             {currentStepKey === 'summary' && (
               <>
-                <div className={styles.formHeading}>
-                  <h2>Summary</h2>
-                  <p>Review the request body before posting this job.</p>
+                <div className={`${styles.formHeading} ${styles.summaryHeading}`}>
+                  <span className={styles.summaryEyebrow}>Final review</span>
+                  <h2>Review your job listing</h2>
+                  <p>Make sure everything looks right before you publish.</p>
                 </div>
 
-                <section className={styles.summaryCard}>
-                  <div>
-                    <h3>{form.title || 'Untitled job'}</h3>
-                    <p>
-                      {getOptionLabel(options.categories, form.categoryId)} •{' '}
-                      {getOptionLabel(options.employmentTypes, form.employmentTypeId)} •{' '}
-                      {getOptionLabel(options.workApproaches, form.workApproachId)}
-                    </p>
+                <section className={styles.jobPreview} aria-label="Job listing preview">
+                  <div className={styles.previewHero}>
+                    <div>
+                      <div className={styles.previewTitleRow}>
+                        <h3>{form.title || 'Untitled job'}</h3>
+                        <span className={styles.readyBadge}>
+                          <Check size={13} strokeWidth={3} /> Ready
+                        </span>
+                      </div>
+                      <p className={styles.previewLocation}>
+                        <MapPin size={16} />
+                        {locationLabel || 'Location not selected'} ({getOptionLabel(options.workApproaches, form.workApproachId)})
+                      </p>
+                    </div>
+                    <button className={styles.editButton} type="button" onClick={() => goToStep(0)}>
+                      <Pencil size={14} /> Edit Post
+                    </button>
                   </div>
-                </section>
 
-                <div className={styles.summaryGrid}>
-                  <section>
-                    <h4>Required Fields</h4>
-                    <dl>
-                      <dt>Category</dt>
-                      <dd>{getOptionLabel(options.categories, form.categoryId)}</dd>
-                      <dt>Experience</dt>
-                      <dd>{getOptionLabel(options.experienceLevels, form.experienceLevelId)}</dd>
-                      <dt>Ward Code</dt>
-                      <dd>{form.wardCode || 'Not selected'}</dd>
-                    </dl>
-                  </section>
-                  <section>
-                    <h4>Settings</h4>
-                    <dl>
-                      <dt>Hidden</dt>
-                      <dd>{form.isHidden ? 'Yes' : 'No'}</dd>
-                      <dt>Featured</dt>
-                      <dd>{form.isFeatured ? 'Yes' : 'No'}</dd>
-                      <dt>Company ID</dt>
-                      <dd>From auth context</dd>
-                    </dl>
-                  </section>
-                </div>
+                  <div className={styles.previewSummary}>
+                    <div className={styles.previewSummaryItem}>
+                      <span>Category</span>
+                      <strong>{getOptionLabel(options.categories, form.categoryId)}</strong>
+                    </div>
+                    <div className={styles.previewSummaryItem}>
+                      <span>Availability</span>
+                      <strong>{getOptionLabel(options.employmentTypes, form.employmentTypeId)}</strong>
+                    </div>
+                    <div className={styles.previewSummaryItem}>
+                      <span>Work Approach</span>
+                      <strong>{getOptionLabel(options.workApproaches, form.workApproachId)}</strong>
+                    </div>
+                    <div className={styles.previewSummaryItem}>
+                      <span>Visibility</span>
+                      <strong>{form.isHidden ? 'Private' : 'Public'}</strong>
+                    </div>
+                    <div className={styles.previewSummaryItem}>
+                      <span>Experience</span>
+                      <strong>{getOptionLabel(options.experienceLevels, form.experienceLevelId)}</strong>
+                    </div>
+                    <div className={styles.previewSummaryItem}>
+                      <span>Salary</span>
+                      <strong>{formatCurrency(minSalary)} – {formatCurrency(maxSalary)}</strong>
+                    </div>
+                  </div>
 
-                <section className={styles.payloadBox}>
-                  <h4>POST /api/v1/jobs</h4>
-                  <pre>{JSON.stringify(requestBody, null, 2)}</pre>
+                  <div className={styles.previewTabs}>
+                    <span>Job Description</span>
+                    <button className={styles.editButton} type="button" onClick={() => goToStep(1)}>
+                      <Pencil size={14} /> Edit details
+                    </button>
+                  </div>
+
+                  <section className={styles.previewSection}>
+                    <h4>About</h4>
+                    <p>{getSummaryText(form.description, 'No description added.')}</p>
+                  </section>
+
+                  <section className={styles.previewSection}>
+                    <h4>Key Responsibilities</h4>
+                    <p>{getSummaryText(form.responsibilities, 'No responsibilities added.')}</p>
+                  </section>
+
+                  <section className={styles.previewSection}>
+                    <h4>Skills</h4>
+                    <div className={styles.previewSkills}>
+                      {form.skills.length > 0
+                        ? form.skills.map((skill) => <span key={skill}>{skill}</span>)
+                        : <em>No skills added</em>}
+                    </div>
+                  </section>
+
+                  <section className={styles.previewSection}>
+                    <h4>Education</h4>
+                    <p>{getSummaryText(form.education, 'No education requirements added.')}</p>
+                  </section>
+
+                  <section className={styles.previewSection}>
+                    <h4>Preferred Qualifications</h4>
+                    <p>{getSummaryText(form.requirement, 'No requirements added.')}</p>
+                  </section>
+
+                  <section className={styles.previewSection}>
+                    <h4>Benefits</h4>
+                    <p>{getSummaryText(form.benefit, 'No benefits added.')}</p>
+                  </section>
+
+                  <div className={styles.previewFooter}>
+                    <span>
+                      This listing will be <strong>{form.isHidden ? 'private' : 'public'}</strong> after publishing.
+                    </span>
+                    <button className={styles.editButton} type="button" onClick={() => goToStep(2)}>
+                      <Pencil size={14} /> Edit settings
+                    </button>
+                  </div>
                 </section>
               </>
             )}
