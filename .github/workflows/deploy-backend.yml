@@ -1,5 +1,5 @@
 name: Deploy Backend to Azure VM
-
+# Thanh Hung
 
 on:
   push:
@@ -32,8 +32,6 @@ jobs:
           distribution: temurin
           java-version: "17"
           cache: gradle
-
-
       - name: Build and test
         run: |
           chmod +x gradlew
