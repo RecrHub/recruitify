@@ -1,6 +1,17 @@
 pipeline {
     agent any
 
+    triggers {
+        // Jenkins đang chạy local nên dùng polling; không cần expose webhook ra Internet.
+        pollSCM('H/5 * * * *')
+    }
+
+    options {
+        disableConcurrentBuilds()
+        timeout(time: 45, unit: 'MINUTES')
+        timestamps()
+    }
+
     tools {
         nodejs 'NodeJS'
     }
@@ -8,7 +19,6 @@ pipeline {
         SONAR_HOST_URL = 'http://recruitify-sonar:9000'
         BACKEND_DIR    = 'backend/web-api'
         FRONTEND_DIR   = 'frontend'
-        SONAR_TOKEN    = credentials('sonarqube-token')
     }
     stages {
 
@@ -39,9 +49,11 @@ pipeline {
 
         stage('Backend - SonarQube Analysis') {
             steps {
-                withSonarQubeEnv('SonarQube') {
-                    dir("${BACKEND_DIR}") {
-                        sh './gradlew sonar -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.token=$SONAR_TOKEN'
+                withCredentials([string(credentialsId: 'sonarqube-token', variable: 'SONAR_TOKEN')]) {
+                    withSonarQubeEnv('SonarQube') {
+                        dir("${BACKEND_DIR}") {
+                            sh './gradlew sonar -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.token=$SONAR_TOKEN'
+                        }
                     }
                 }
                 timeout(time: 10, unit: 'MINUTES') {
@@ -79,7 +91,8 @@ pipeline {
                     publishHTML(target: [
                         reportDir:   "${FRONTEND_DIR}/coverage/lcov-report",
                         reportFiles: 'index.html',
-                        reportName:  'Frontend Coverage'
+                        reportName:  'Frontend Coverage',
+                        allowMissing: true
                     ])
                 }
             }

@@ -34,7 +34,7 @@ export default function LandingLayout({ children }: { children: React.ReactNode 
     <>
       <Header
         actions={<Actions />}
-        mobileActions={(toggleRightNav) => <MobileActions onToggleMenu={toggleRightNav} />}
+        mobileActions={({ toggleRightNav }) => <MobileActions onToggleMenu={toggleRightNav} />}
         mobileSidebarContent={<MobileSidebarExtras />}
         mobileRightNavContent={<MobileRightNav />}
         logo={

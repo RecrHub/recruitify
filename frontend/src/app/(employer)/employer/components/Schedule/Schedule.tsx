@@ -1,6 +1,6 @@
 'use client';
 
-import { Flex, Typography, Avatar } from 'antd';
+import { Flex, Typography } from 'antd';
 import styles from './Schedule.module.css';
 
 const { Text } = Typography;
@@ -56,7 +56,7 @@ export default function Schedule() {
       {/* Header */}
       <Flex align="center" gap={8} className={styles.header}>
         <Text strong className={styles.title}>
-          Today's Schedule
+          Today&apos;s Schedule
         </Text>
         <span className={styles.badge}>6</span>
       </Flex>
