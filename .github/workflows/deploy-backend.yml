@@ -33,8 +33,7 @@ jobs:
           java-version: "17"
           cache: gradle
 
-      # Jenkins cung cấp CI đầy đủ + SonarQube. Bước này vẫn chạy test để không
-      # deploy code lỗi nếu Jenkins local đang tắt hoặc chưa poll kịp commit.
+
       - name: Build and test
         run: |
           chmod +x gradlew
