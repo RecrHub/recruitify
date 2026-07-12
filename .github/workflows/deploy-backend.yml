@@ -98,6 +98,8 @@ jobs:
 
             rollback() {
               echo "Deployment failed; restoring previous source..."
+              echo "Container health details:"
+              sudo docker inspect --format='{{json .State.Health}}' recruitify-backend || true
               sudo docker compose logs --no-color --tail=100 backend || true
               if [ -d web-api.previous ]; then
                 rm -rf web-api

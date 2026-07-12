@@ -62,7 +62,7 @@ public class SecurityConfig {
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
-                                AntPathRequestMatcher.antMatcher("/actuator/health"),
+                                AntPathRequestMatcher.antMatcher("/actuator/health/**"),
                                 AntPathRequestMatcher.antMatcher("/api/v1/auth/**"),
                                 AntPathRequestMatcher.antMatcher("/api/v1/admin/auth/**"),
                                 AntPathRequestMatcher.antMatcher("/api/v1/hr/auth/**"),
