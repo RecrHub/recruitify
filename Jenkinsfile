@@ -16,7 +16,7 @@ pipeline {
         nodejs 'NodeJS'
     }
     environment {
-        SONAR_HOST_URL = 'http://recruitify-sonar:9000'
+        SONAR_HOST_URL = 'http://sonarqube:9000'
         BACKEND_DIR    = 'backend/web-api'
         FRONTEND_DIR   = 'frontend'
     }
