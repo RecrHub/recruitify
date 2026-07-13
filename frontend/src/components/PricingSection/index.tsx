@@ -1,5 +1,4 @@
 import { Button } from "antd";
-import { createStyles } from "antd-style";
 import LogoRecrutify from "@/access/icons/LogoRecuitify.svg"
 import { useStyles } from "./style";
 const PricingSection = () => {

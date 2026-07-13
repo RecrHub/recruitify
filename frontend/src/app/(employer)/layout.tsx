@@ -1,7 +1,6 @@
 "use client";
 
-import { useState } from "react";
-import { Layout, theme, Flex, Grid } from "antd";
+import { Layout, theme, Flex } from "antd";
 import EmployerHeader from "./components/EmployerHeader";
 
 const { Content } = Layout;
@@ -12,9 +11,6 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   const { token } = theme.useToken();
-  const screens = Grid.useBreakpoint();
-  const isMobile = !screens.lg;
-  const [collapsed, setCollapsed] = useState(isMobile);
 
   return (
     <Layout style={{ minHeight: "100vh" }}>

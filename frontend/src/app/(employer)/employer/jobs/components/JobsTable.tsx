@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Edit3, Eye, MapPin, MoreHorizontal, Trash2 } from 'lucide-react';
+import { Edit3, MapPin, MoreHorizontal, Trash2 } from 'lucide-react';
 import { formatSalary, getCategoryLabel, getWardLabel } from '../jobDisplay';
 import type { EmployerJobListItem } from '../types';
 import { StatusBadge } from './StatusBadge';

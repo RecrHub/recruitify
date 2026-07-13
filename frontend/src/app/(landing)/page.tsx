@@ -8,7 +8,7 @@ import FeatureJob from '@/components/FeatureJob';
 import FeatureCompany from '@/components/FeatureCompany';
 import { homepageService, homePageData } from '@/services/homepageService';
 
-const useStyles = createStyles(({ css, token }) => ({
+const useStyles = createStyles(({ css }) => ({
   container: css`
     width: 100%;
     min-height: 100vh;

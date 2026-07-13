@@ -1,7 +1,7 @@
 'use client';
 
 import type { ImageProps } from 'antd';
-import { type ElementType, Ref, createElement, memo, use } from 'react';
+import { Ref, createElement, memo, use } from 'react';
 
 import { ConfigContext } from '@/components/ConfigProvider';
 import type { ImgProps as HtmlImgeProps } from '@/types';

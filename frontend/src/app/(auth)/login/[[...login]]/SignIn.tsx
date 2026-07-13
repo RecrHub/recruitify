@@ -4,8 +4,6 @@ import {
   Form,
   Input,
   Button,
-  Row,
-  Col,
   Typography,
   Divider,
   App,
@@ -14,7 +12,6 @@ import FacebookIcon from "@/access/icons/facebook.svg";
 import GoogleIcon from "@/access/icons/google.svg";
 import LogoRecruitify from "@/access/icons/LogoRecrutifyDark.svg";
 import styles from "./SignIn.module.css";
-import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import { STATS_DATA, statsIcons } from "@/const/register.const";
 import { ArrowRight, ChevronLeft,} from "lucide-react";
@@ -22,17 +19,15 @@ import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import authService from "@/services/authService";
 import Alert from "@/components/Alert";
-import { margin } from "polished";
 const { Title, Text } = Typography;
 
 
 
 export default function LoginForm() {
   const [form] = Form.useForm();
-  const { login } = useAuth();
   const router = useRouter();
   const [apiError, setApiError] = useState<string | null>(null);
-  const [loginSuccess, setLoginSuccess] = useState(false);
+  const [, setLoginSuccess] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { message } = App.useApp();
 

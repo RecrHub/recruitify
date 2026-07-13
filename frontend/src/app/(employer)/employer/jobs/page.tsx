@@ -1,57 +1,18 @@
 'use client';
 
-import { useMemo, useState } from 'react';
-import Link from 'next/link';
-import { ChevronLeft, ChevronRight, ListFilter, Plus, Search } from 'lucide-react';
+import { useState } from 'react';
+import { ListFilter } from 'lucide-react';
 import { FilterSidebar } from './components/FilterSidebar';
 import { JobDetailsPanel } from './components/JobDetailsPanel';
 import { JobsTable } from './components/JobsTable';
 import { statusTabs } from './jobConstants';
 import { mockJobs } from './mockJobs';
-import type { EmployerJobListItem, JobStatus } from './types';
+import type { EmployerJobListItem } from './types';
 import styles from './jobsPage.module.css';
 import { DatePicker } from 'antd';
 
-type StatusFilter = 'all' | JobStatus;
-
-const statusTabToFilter: StatusFilter[] = ['all', 'open', 'hold', 'closed', 'draft'];
-
-const PAGE_SIZE = 5;
-
 export default function EmployerJobsPage() {
-  const [activeTabIndex, setActiveTabIndex] = useState(0);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [currentPage, setCurrentPage] = useState(1);
   const [selectedJob, setSelectedJob] = useState<EmployerJobListItem | null>(null);
-
-  const filteredJobs = useMemo(() => {
-    const filter = statusTabToFilter[activeTabIndex] ?? 'all';
-    const normalizedQuery = searchQuery.trim().toLowerCase();
-
-    return mockJobs.filter((job) => {
-      const matchesStatus = filter === 'all' || job.status === filter;
-      const matchesQuery =
-        normalizedQuery === '' || job.title.toLowerCase().includes(normalizedQuery);
-      return matchesStatus && matchesQuery;
-    });
-  }, [activeTabIndex, searchQuery]);
-
-  const totalPages = Math.max(1, Math.ceil(filteredJobs.length / PAGE_SIZE));
-  const safePage = Math.min(currentPage, totalPages);
-  const paginatedJobs = filteredJobs.slice(
-    (safePage - 1) * PAGE_SIZE,
-    safePage * PAGE_SIZE,
-  );
-
-  const handleTabChange = (index: number) => {
-    setActiveTabIndex(index);
-    setCurrentPage(1);
-  };
-
-  const handleSearchChange = (value: string) => {
-    setSearchQuery(value);
-    setCurrentPage(1);
-  };
 
   return (
     <>

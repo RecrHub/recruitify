@@ -44,7 +44,6 @@ export default function EmployerJobsPage() {
     wards,
     salaryLeft,
     salaryRight,
-    addQuestion,
     addSkill,
     cancel,
     fieldError,
@@ -52,7 +51,6 @@ export default function EmployerJobsPage() {
     goPrev,
     goToStep,
     markTouched,
-    removeQuestion,
     removeSkill,
     saveDraft,
     submitJob,
@@ -147,7 +145,7 @@ export default function EmployerJobsPage() {
     return () => {
       cancelled = true;
     };
-  }, [currentStepKey]);
+  }, [currentStepKey, form, updateForm]);
 
   const renderTextarea = (
     field: TextareaField,

@@ -113,8 +113,6 @@ export function useJobForm() {
     window.setTimeout(() => setToast(null), TOAST_TIMEOUT_MS);
   }, []);
 
-  const runValidation = useCallback((values: JobForm) => validateJobForm(values), []);
-
   const validateAndStore = useCallback((values: JobForm = form) => {
     const nextErrors = validateJobForm(values);
     setErrors(nextErrors);

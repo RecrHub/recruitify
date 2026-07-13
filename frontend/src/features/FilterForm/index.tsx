@@ -1,7 +1,6 @@
 'use client';
 
 import { Checkbox, Select, Slider } from 'antd';
-import { createStyles } from 'antd-style';
 import { useState } from 'react';
 import type { CheckboxChangeEvent } from 'antd/es/checkbox';
 import Line from '@/access/icons/Line.svg';

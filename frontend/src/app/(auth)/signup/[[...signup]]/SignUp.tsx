@@ -12,7 +12,6 @@ import {
   Button,
   Checkbox,
   Row,
-  Col,
   Typography,
   Divider,
   App,
@@ -67,9 +66,9 @@ function SignUpPage() {
   const [form] = Form.useForm();
   const router = useRouter();
   const { register } = useAuth();
-  const [apiError, setApiError] = useState<string | null>(null);
+  const [, setApiError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [registrationSuccess, setRegistrationSuccess] = useState(false);
+  const [, setRegistrationSuccess] = useState(false);
   const { message } = App.useApp();
   const handleSubmit = async (
     values: Omit<RegisterRequest, "roles"> & {
@@ -82,7 +81,9 @@ function SignUpPage() {
       setRegistrationSuccess(false);
 
       // Loại bỏ confirmPassword và agree khỏi data gửi lên API
-      const { confirmPassword, agree, ...registerData } = values;
+      const registerData = { ...values };
+      delete (registerData as Partial<typeof values>).confirmPassword;
+      delete (registerData as Partial<typeof values>).agree;
 
       const response = await register(registerData);
 

@@ -1,7 +1,7 @@
 'use client';
 
 import { ProTable, type ProColumns } from '@ant-design/pro-components';
-import { Button, Tag, Space, Avatar } from 'antd';
+import { Tag, Space, Avatar } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 
 interface Candidate {
