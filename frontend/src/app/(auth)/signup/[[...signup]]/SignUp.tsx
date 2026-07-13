@@ -22,6 +22,7 @@ import * as yup from "yup";
 import { useAuth } from "@/context/AuthContext";
 import { RegisterRequest } from "@/types/auth";
 import { STATS_DATA, statsIcons } from "@/const/register.const";
+import { omit } from "es-toolkit";
 const { Title, Text, Link } = Typography;
 
 
@@ -66,9 +67,7 @@ function SignUpPage() {
   const [form] = Form.useForm();
   const router = useRouter();
   const { register } = useAuth();
-  const [, setApiError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [, setRegistrationSuccess] = useState(false);
   const { message } = App.useApp();
   const handleSubmit = async (
     values: Omit<RegisterRequest, "roles"> & {
@@ -77,31 +76,25 @@ function SignUpPage() {
     }
   ) => {
     try {
-      setApiError(null);
-      setRegistrationSuccess(false);
-
       // Loại bỏ confirmPassword và agree khỏi data gửi lên API
-      const registerData = { ...values };
-      delete (registerData as Partial<typeof values>).confirmPassword;
-      delete (registerData as Partial<typeof values>).agree;
+      const registerData = omit(values, ["confirmPassword", "agree"]);
 
       const response = await register(registerData);
 
       if (response.success) {
-        setRegistrationSuccess(true);
         message.success("Đăng ký thành công!");
         setTimeout(() => {
           router.push("/login");
         }, 2000);
       } else {
-        setApiError(response.message ?? "Đăng ký thất bại");
+        message.error(response.message ?? "Đăng ký thất bại");
       }
     } catch (error) {
       console.error("Lỗi đăng ký:", error);
       if (error instanceof Error) {
-        setApiError(error.message ?? "Đăng ký thất bại");
+        message.error(error.message ?? "Đăng ký thất bại");
       } else {
-        setApiError("Đã xảy ra lỗi không mong muốn");
+        message.error("Đã xảy ra lỗi không mong muốn");
       }
     } finally {
       setIsSubmitting(false);

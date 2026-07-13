@@ -27,7 +27,6 @@ export default function LoginForm() {
   const [form] = Form.useForm();
   const router = useRouter();
   const [apiError, setApiError] = useState<string | null>(null);
-  const [, setLoginSuccess] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { message } = App.useApp();
 
@@ -41,11 +40,9 @@ export default function LoginForm() {
   const handleSubmit = async (values: { email: string; password: string }) => {
     try {
       setApiError(null);
-      setLoginSuccess(false);
       setIsSubmitting(true);
       await authService.login(values.email, values.password);
 
-      setLoginSuccess(true);
       message.success("Đăng nhập thành công! Chào mừng bạn trở lại.");
 
       // Redirect sau một khoảng ngắn

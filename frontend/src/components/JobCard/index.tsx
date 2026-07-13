@@ -22,7 +22,6 @@ const JobCard = ({ title, companyName, salaryRange, location, employmentType, cr
                             width={48}
                             height={48}
                             unoptimized
-                            onError={(e) => { e.currentTarget.style.display = 'none'; }}
                         />
                     )}
                     <span>{companyLogo}</span>
