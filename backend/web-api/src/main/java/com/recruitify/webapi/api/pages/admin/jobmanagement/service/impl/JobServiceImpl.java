@@ -305,9 +305,6 @@ public class JobServiceImpl implements IJobService {
                 .workApproachName(job.getWorkApproach() != null ? job.getWorkApproach().getName() : null)
                 .wardCode(job.getWard() != null ? job.getWard().getCode() : null)
                 .wardName(job.getWard() != null ? job.getWard().getFullName() : null)
-                .provinceName(job.getWard() != null && job.getWard().getProvince() != null
-                        ? job.getWard().getProvince().getFullName()
-                        : null)
                 .status(resolveStatus(job))
                 .skillsName(
                         Optional.ofNullable(job.getSkills())
@@ -315,8 +312,6 @@ public class JobServiceImpl implements IJobService {
                                 .stream()
                                 .map(Skill::getName)
                                 .collect(Collectors.toSet()))
-                .applied(job.getApplied())
-                .view(job.getView())
                 .createdAt(job.getCreatedAt())
                 .updatedAt(job.getUpdatedAt())
                 .deleteAt(job.getDeleteAt())
