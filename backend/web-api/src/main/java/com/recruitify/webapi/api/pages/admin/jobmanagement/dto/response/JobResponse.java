@@ -37,7 +37,7 @@ public class JobResponse {
     private String workApproachName;
     private String wardCode;
     private String wardName;
-    
+    private String provinceName;
     private String status;
 
     private Set<String> skillsName;

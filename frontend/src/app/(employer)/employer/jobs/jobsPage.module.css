@@ -22,6 +22,7 @@
 }
 
 .toolbarActions {
+  position: relative;
   display: flex;
   gap: 12px;
 }
@@ -95,6 +96,74 @@
     transform 160ms ease;
 }
 
+.pillButtonActive {
+  border-color: #d8d4e7;
+  box-shadow: 0 0 0 1px rgba(216, 212, 231, 0.36);
+}
+
+.datePicker {
+  width: 180px;
+  height: 43px;
+  border-color: #d8d4e7;
+  border-radius: 14px;
+  color: #1f2130;
+  font: inherit;
+}
+
+.datePicker input {
+  color: #1f2130;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 650;
+}
+
+.datePicker input::placeholder {
+  color: #9fa1a8;
+}
+
+.fieldMenu {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  z-index: 50;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(150px, 1fr));
+  gap: 10px 14px;
+  width: min(430px, calc(100vw - 32px));
+  border: 1px solid #d8d4e7;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 16px 36px rgba(31, 33, 48, 0.12);
+  padding: 14px;
+}
+
+.fieldMenuOption {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #4f5363;
+  font-size: 13px;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.fieldMenuOption input {
+  appearance: none;
+  width: 15px;
+  height: 15px;
+  flex: 0 0 auto;
+  border: 1.5px solid #8f93a1;
+  border-radius: 2px;
+  background: #ffffff;
+  cursor: pointer;
+}
+
+.fieldMenuOption input:checked {
+  border-color: #479879;
+  background: #479879;
+  box-shadow: inset 0 0 0 3px #ffffff;
+}
+
 
 
 .paginationBar {
@@ -116,6 +185,31 @@
   gap: 15px;
 }
 
+.paginationControls {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.pageSizeControl {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #4f5b73;
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.pageSizeControl select {
+  height: 32px;
+  border: 1px solid #d8d4e7;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #1f2130;
+  font: inherit;
+  padding: 0 12px;
+}
+
 .pagination button {
   display: inline-grid;
   min-width: 32px;
@@ -130,9 +224,27 @@
   place-items: center;
 }
 
+.pagination button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
 .pagination .pageActive {
   background: #479879;
   color: #ffffff;
+}
+
+.stateMessage {
+  display: flex;
+  min-height: 180px;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed #d8d4e7;
+  border-radius: 16px;
+  color: #4f5b73;
+  font-size: 15px;
+  font-weight: 650;
+  text-align: center;
 }
 
 @media (max-width: 1320px) {
@@ -165,8 +277,20 @@
     flex-direction: column;
   }
 
+  .paginationControls {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
   .toolbarActions,
-  .pillButton {
+  .pillButton,
+  .datePicker {
     width: 100%;
+  }
+
+  .fieldMenu {
+    left: 0;
+    right: auto;
+    grid-template-columns: 1fr;
   }
 }

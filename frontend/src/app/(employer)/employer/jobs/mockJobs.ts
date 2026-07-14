@@ -1,4 +1,12 @@
 import type { EmployerJobListItem } from './types';
+import {
+  formatSalary,
+  getCategoryLabel,
+  getEmploymentTypeLabel,
+  getExperienceLevelLabel,
+  getWardLabel,
+  getWorkApproachLabel,
+} from './jobDisplay';
 
 const sharedDetails = {
   requirement:
@@ -27,8 +35,28 @@ const sharedDetails = {
   ],
 };
 
+const withDisplayText = (
+  job: Omit<
+    EmployerJobListItem,
+    | 'categoryText'
+    | 'employmentTypeText'
+    | 'experienceLevelText'
+    | 'workApproachText'
+    | 'salaryText'
+    | 'locationText'
+  >,
+): EmployerJobListItem => ({
+  ...job,
+  categoryText: getCategoryLabel(job.categoryId),
+  employmentTypeText: getEmploymentTypeLabel(job.employmentTypeId),
+  experienceLevelText: getExperienceLevelLabel(job.experienceLevelId),
+  workApproachText: getWorkApproachLabel(job.workApproachId),
+  salaryText: formatSalary(job.minSalary, job.maxSalary),
+  locationText: getWardLabel(job.wardCode),
+});
+
 export const mockJobs: EmployerJobListItem[] = [
-  {
+  withDisplayText({
     ...sharedDetails,
     id: 1,
     title: 'Personal Assistant',
@@ -36,8 +64,8 @@ export const mockJobs: EmployerJobListItem[] = [
     status: 'open',
     matched: 40,
     workApproachId: 1,
-  },
-  {
+  }),
+  withDisplayText({
     ...sharedDetails,
     id: 2,
     title: 'Junior HR Manager',
@@ -46,8 +74,8 @@ export const mockJobs: EmployerJobListItem[] = [
     matched: 40,
     workApproachId: 2,
     wardCode: 'IN-DL',
-  },
-  {
+  }),
+  withDisplayText({
     ...sharedDetails,
     id: 3,
     title: 'Senior Product Designer',
@@ -56,8 +84,8 @@ export const mockJobs: EmployerJobListItem[] = [
     matched: 40,
     wardCode: 'US-NY',
     isFeatured: true,
-  },
-  {
+  }),
+  withDisplayText({
     ...sharedDetails,
     id: 4,
     title: 'Associate Product Designer',
@@ -67,8 +95,8 @@ export const mockJobs: EmployerJobListItem[] = [
     workApproachId: 1,
     wardCode: 'UK-LDN',
     isHidden: true,
-  },
-  {
+  }),
+  withDisplayText({
     ...sharedDetails,
     id: 5,
     title: 'Software Developer',
@@ -77,8 +105,8 @@ export const mockJobs: EmployerJobListItem[] = [
     matched: 40,
     wardCode: 'UK-LDN',
     isHidden: true,
-  },
-  {
+  }),
+  withDisplayText({
     ...sharedDetails,
     id: 6,
     title: 'Customer Success Manager',
@@ -86,5 +114,5 @@ export const mockJobs: EmployerJobListItem[] = [
     status: 'open',
     matched: 40,
     wardCode: 'IN-DL',
-  },
+  }),
 ];
