@@ -1,0 +1,2257 @@
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/8.14.4/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+> Task :compileJava
+> Task :processResources UP-TO-DATE
+> Task :classes
+> Task :resolveMainClassName
+
+> Task :bootRun
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.2.0)
+
+2026-07-05T03:15:34.639Z  INFO 5653 --- [web-api] [  restartedMain] c.recruitify.webapi.WebApiApplication    : Starting WebApiApplication using Java 17.0.19 with PID 5653 (/mnt/d/CMU-SE 433 SGIS/recruitify/backend/web-api/build/classes/java/main started by root in /mnt/d/CMU-SE 433 SGIS/recruitify/backend/web-api)
+2026-07-05T03:15:34.645Z  INFO 5653 --- [web-api] [  restartedMain] c.recruitify.webapi.WebApiApplication    : The following 1 profile is active: "local"
+2026-07-05T03:15:34.852Z  INFO 5653 --- [web-api] [  restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-07-05T03:15:34.853Z  INFO 5653 --- [web-api] [  restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-07-05T03:16:05.319Z  INFO 5653 --- [web-api] [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-07-05T03:16:10.755Z  INFO 5653 --- [web-api] [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 5277 ms. Found 16 JPA repository interfaces.
+2026-07-05T03:16:24.607Z  INFO 5653 --- [web-api] [  restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2026-07-05T03:16:24.729Z  INFO 5653 --- [web-api] [  restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-07-05T03:16:24.730Z  INFO 5653 --- [web-api] [  restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.16]
+2026-07-05T03:16:25.273Z  INFO 5653 --- [web-api] [  restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-07-05T03:16:25.276Z  INFO 5653 --- [web-api] [  restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 50419 ms
+2026-07-05T03:16:27.782Z  INFO 5653 --- [web-api] [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-07-05T03:16:32.154Z  INFO 5653 --- [web-api] [  restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:recruitify user=SA
+2026-07-05T03:16:32.200Z  INFO 5653 --- [web-api] [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-07-05T03:16:32.315Z  INFO 5653 --- [web-api] [  restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:recruitify'
+2026-07-05T03:16:37.532Z  INFO 5653 --- [web-api] [  restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-07-05T03:16:38.855Z  INFO 5653 --- [web-api] [  restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.3.1.Final
+2026-07-05T03:16:39.475Z  INFO 5653 --- [web-api] [  restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-07-05T03:16:43.447Z  INFO 5653 --- [web-api] [  restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-07-05T03:16:43.788Z  WARN 5653 --- [web-api] [  restartedMain] org.hibernate.dialect.Dialect            : HHH000511: The 2.2.0 version for [org.hibernate.dialect.PostgreSQLDialect] is no longer supported, hence certain features may not work properly. The minimum supported version is 11.0.0. Check the community dialects project for available legacy versions.
+2026-07-05T03:16:43.819Z  WARN 5653 --- [web-api] [  restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-07-05T03:16:51.467Z  INFO 5653 --- [web-api] [  restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+Hibernate: 
+    create table account (
+        id bigserial not null,
+        created_at TIMESTAMP not null,
+        created_by varchar(100),
+        email varchar(255) not null,
+        is_active boolean not null,
+        locked_until timestamp(6) with time zone,
+        password_hash varchar(255) not null,
+        updated_at TIMESTAMP,
+        updated_by varchar(100),
+        username varchar(255) not null,
+        role_id bigint,
+        primary key (id)
+    )
+Hibernate: 
+    create table administrative_units (
+        id integer not null,
+        code_name varchar(255),
+        code_name_en varchar(255),
+        full_name varchar(255),
+        full_name_en varchar(255),
+        short_name varchar(255),
+        short_name_en varchar(255),
+        primary key (id)
+    )
+Hibernate: 
+    create table category (
+        id bigserial not null,
+        created_at timestamp(6),
+        created_by varchar(255),
+        deleted_at timestamp(6),
+        deleted_by varchar(255),
+        name varchar(255) not null,
+        updated_at timestamp(6),
+        updated_by varchar(255),
+        primary key (id)
+    )
+Hibernate: 
+    create table company (
+        id bigserial not null,
+        company_size varchar(255),
+        company_type varchar(255),
+        created_at timestamp(6) not null,
+        created_by varchar(255),
+        delete_at timestamp(6),
+        delete_by varchar(255),
+        founder_year integer,
+        image varchar(255),
+        industry varchar(255),
+        name varchar(255),
+        overview TEXT,
+        phone varchar(255),
+        updated_at timestamp(6),
+        updated_by varchar(255),
+        primary key (id)
+    )
+Hibernate: 
+    create table education (
+        id bigserial not null,
+        degree varchar(255),
+        end_date date,
+        field_of_study varchar(255),
+        school_name varchar(255) not null,
+        start_date date not null,
+        user_profile_id bigint not null,
+        primary key (id)
+    )
+Hibernate: 
+    create table employment_type (
+        id bigserial not null,
+        created_at timestamp(6),
+        created_by varchar(255),
+        deleted_at timestamp(6),
+        deleted_by varchar(255),
+        name varchar(255) not null,
+        updated_at timestamp(6),
+        updated_by varchar(255),
+        primary key (id)
+    )
+Hibernate: 
+    create table experience_level (
+        id bigserial not null,
+        created_at timestamp(6),
+        created_by varchar(255),
+        deleted_at timestamp(6),
+        deleted_by varchar(255),
+        name varchar(255) not null,
+        updated_at timestamp(6),
+        updated_by varchar(255),
+        primary key (id)
+    )
+Hibernate: 
+    create table job (
+        id bigserial not null,
+        apply_count integer,
+        benefit TEXT,
+        created_at timestamp(6) not null,
+        created_by varchar(255),
+        delete_at timestamp(6),
+        delete_by varchar(255),
+        description TEXT,
+        is_featured boolean,
+        is_hidden boolean,
+        requirement TEXT,
+        responsibilities TEXT,
+        salary numeric(10,2),
+        title varchar(255) not null,
+        updated_at timestamp(6),
+        updated_by varchar(255),
+        view_count integer,
+        category_id bigint,
+        company_id bigint,
+        employment_type_id bigint,
+        experience_level_id bigint,
+        ward_code varchar(255),
+        work_approach_id bigint,
+        primary key (id)
+    )
+Hibernate: 
+    create table job_skill (
+        job_id bigint not null,
+        skill_id bigint not null,
+        primary key (job_id, skill_id)
+    )
+Hibernate: 
+    create table profiles (
+        account_id bigint not null,
+        about TEXT,
+        address varchar(255),
+        avatar_url varchar(255),
+        dob date,
+        full_name varchar(255),
+        gender boolean,
+        personal_link varchar(255),
+        phone_number integer,
+        province_code varchar(255),
+        title varchar(255),
+        primary key (account_id)
+    )
+Hibernate: 
+    create table provinces (
+        code varchar(255) not null,
+        code_name varchar(255),
+        full_name varchar(255) not null,
+        full_name_en varchar(255),
+        name varchar(255),
+        name_en varchar(255),
+        name_with_type varchar(255),
+        slug varchar(255),
+        type varchar(255),
+        administrative_unit_id integer,
+        primary key (code)
+    )
+Hibernate: 
+    create table refresh_tokens (
+        id bigserial not null,
+        created_at timestamp(6) with time zone,
+        expiry_date timestamp(6) with time zone not null,
+        is_revoked boolean not null,
+        is_used boolean not null,
+        reason_revoked varchar(255),
+        replaced_by_token varchar(255),
+        token varchar(255) not null,
+        updated_at timestamp(6) with time zone,
+        user_id bigint,
+        primary key (id)
+    )
+Hibernate: 
+    create table roles (
+        id bigserial not null,
+        created_at TIMESTAMP not null,
+        created_by varchar(100),
+        name varchar(50) not null,
+        updated_at TIMESTAMP,
+        updated_by varchar(100),
+        primary key (id)
+    )
+Hibernate: 
+    create table skills (
+        id bigserial not null,
+        created_at timestamp(6) not null,
+        created_by varchar(255),
+        deleted_at timestamp(6),
+        deleted_by varchar(255),
+        name varchar(255) not null,
+        updated_at timestamp(6),
+        updated_by varchar(255),
+        primary key (id)
+    )
+Hibernate: 
+    create table wards (
+        code varchar(255) not null,
+        code_name varchar(255),
+        full_name varchar(255),
+        full_name_en varchar(255),
+        name varchar(255),
+        name_en varchar(255),
+        administrative_unit_id integer,
+        province_code varchar(255),
+        primary key (code)
+    )
+Hibernate: 
+    create table work_approach (
+        id bigserial not null,
+        created_at timestamp(6),
+        created_by varchar(255),
+        deleted_at timestamp(6),
+        deleted_by varchar(255),
+        name varchar(255) not null,
+        updated_at timestamp(6),
+        updated_by varchar(255),
+        primary key (id)
+    )
+Hibernate: 
+    create table work_experiences (
+        id bigserial not null,
+        company_name varchar(255) not null,
+        description TEXT,
+        end_date date,
+        job_title varchar(255) not null,
+        location varchar(255),
+        start_date date not null,
+        user_profile_id bigint not null,
+        primary key (id)
+    )
+Hibernate: 
+    alter table if exists account 
+       drop constraint if exists UK_q0uja26qgu1atulenwup9rxyr
+Hibernate: 
+    alter table if exists account 
+       add constraint UK_q0uja26qgu1atulenwup9rxyr unique (email)
+Hibernate: 
+    alter table if exists account 
+       drop constraint if exists UK_gex1lmaqpg0ir5g1f5eftyaa1
+Hibernate: 
+    alter table if exists account 
+       add constraint UK_gex1lmaqpg0ir5g1f5eftyaa1 unique (username)
+Hibernate: 
+    alter table if exists refresh_tokens 
+       drop constraint if exists UK_ghpmfn23vmxfu3spu3lfg4r2d
+Hibernate: 
+    alter table if exists refresh_tokens 
+       add constraint UK_ghpmfn23vmxfu3spu3lfg4r2d unique (token)
+Hibernate: 
+    alter table if exists account 
+       add constraint FKgdpd8e1vs356bjg287jr27pl7 
+       foreign key (role_id) 
+       references roles
+Hibernate: 
+    alter table if exists education 
+       add constraint FKj3fa1g1bam6ga9bco6qrkum08 
+       foreign key (user_profile_id) 
+       references profiles
+Hibernate: 
+    alter table if exists job 
+       add constraint FK1jtisqv4yk9oxdk2a2qgdnwq6 
+       foreign key (category_id) 
+       references category
+Hibernate: 
+    alter table if exists job 
+       add constraint FK5q04favsasq8y70bsei7wv8fc 
+       foreign key (company_id) 
+       references company
+Hibernate: 
+    alter table if exists job 
+       add constraint FKm01u49rkk4myw78nede7udym6 
+       foreign key (employment_type_id) 
+       references employment_type
+Hibernate: 
+    alter table if exists job 
+       add constraint FK3ac1ea229kkph0rxkglsl1a1t 
+       foreign key (experience_level_id) 
+       references experience_level
+Hibernate: 
+    alter table if exists job 
+       add constraint FKek0pj6tin0xvky5qxsj49190v 
+       foreign key (ward_code) 
+       references wards
+Hibernate: 
+    alter table if exists job 
+       add constraint FKe2c3t57e2hr51sg7doafceqrt 
+       foreign key (work_approach_id) 
+       references work_approach
+Hibernate: 
+    alter table if exists job_skill 
+       add constraint FKdh76859joo68p6dbj9erh4pbs 
+       foreign key (skill_id) 
+       references skills
+Hibernate: 
+    alter table if exists job_skill 
+       add constraint FK9ix4wg520ii2gu2felxdhdup6 
+       foreign key (job_id) 
+       references job
+Hibernate: 
+    alter table if exists profiles 
+       add constraint FK7r5m4wenf0gpdakt0if9jxhyk 
+       foreign key (province_code) 
+       references provinces
+Hibernate: 
+    alter table if exists provinces 
+       add constraint FKqenrpv1j8q01yhmvol8avi09s 
+       foreign key (administrative_unit_id) 
+       references administrative_units
+Hibernate: 
+    alter table if exists refresh_tokens 
+       add constraint FKoudpq400piginvq6tymq2lrxt 
+       foreign key (user_id) 
+       references account
+Hibernate: 
+    alter table if exists wards 
+       add constraint FKbbn5fb8ddvvbruv27f9yj8dhx 
+       foreign key (administrative_unit_id) 
+       references administrative_units
+Hibernate: 
+    alter table if exists wards 
+       add constraint FKm20w5foy3ba7txbvrlrsjxcih 
+       foreign key (province_code) 
+       references provinces
+Hibernate: 
+    alter table if exists work_experiences 
+       add constraint FKqtubojo4ssll6vpwdcbxgmwut 
+       foreign key (user_profile_id) 
+       references profiles
+2026-07-05T03:16:52.402Z  INFO 5653 --- [web-api] [  restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-07-05T03:16:56.097Z  INFO 5653 --- [web-api] [  restartedMain] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-07-05T03:17:11.288Z  WARN 5653 --- [web-api] [  restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-07-05T03:17:14.272Z  INFO 5653 --- [web-api] [  restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@5ed59cac, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@3564ce53, org.springframework.security.web.context.SecurityContextHolderFilter@1dcb1a40, org.springframework.security.web.header.HeaderWriterFilter@12787159, org.springframework.web.filter.CorsFilter@40569fec, org.springframework.security.web.authentication.logout.LogoutFilter@3e272d2, com.recruitify.webapi.common.security.JwtAuthenticationFilter@791b28a8, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@292f310d, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@58234782, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@40f7bd93, org.springframework.security.web.session.SessionManagementFilter@72bc032d, org.springframework.security.web.access.ExceptionTranslationFilter@2eeffdbd, org.springframework.security.web.access.intercept.AuthorizationFilter@74849dd1]
+2026-07-05T03:17:35.098Z  WARN 5653 --- [web-api] [  restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : Unable to start LiveReload server
+2026-07-05T03:17:35.257Z  INFO 5653 --- [web-api] [  restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint(s) beneath base path '/actuator'
+2026-07-05T03:17:35.742Z  WARN 5653 --- [web-api] [  restartedMain] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'
+2026-07-05T03:17:41.064Z  INFO 5653 --- [web-api] [  restartedMain] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-07-05T03:17:41.092Z  WARN 5653 --- [web-api] [  restartedMain] o.s.b.f.support.DisposableBeanAdapter    : Invocation of destroy method failed on bean with name 'inMemoryDatabaseShutdownExecutor': org.h2.jdbc.JdbcSQLNonTransientConnectionException: Database is already closed (to disable automatic closing at VM shutdown, add ";DB_CLOSE_ON_EXIT=FALSE" to the db URL) [90121-224]
+2026-07-05T03:17:41.094Z  INFO 5653 --- [web-api] [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-07-05T03:17:41.099Z  INFO 5653 --- [web-api] [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-07-05T03:17:41.161Z  INFO 5653 --- [web-api] [  restartedMain] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-07-05T03:17:41.373Z ERROR 5653 --- [web-api] [  restartedMain] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 8081 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8081 or configure this application to listen on another port.
+
+
+[Incubating] Problems report is available at: file:///mnt/d/CMU-SE%20433%20SGIS/recruitify/backend/web-api/build/reports/problems/problems-report.html
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/8.14.4/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD SUCCESSFUL in 2m 37s
+4 actionable tasks: 3 executed, 1 up-to-date
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             2026-07-05T03:15:29.600Z  INFO 3866 --- [web-api] [   File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 2 class path changes (1 addition, 0 deletions, 1 modification)
+2026-07-05T03:15:30.008Z  INFO 3866 --- [web-api] [       Thread-7] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-07-05T03:15:30.193Z  WARN 3866 --- [web-api] [       Thread-7] o.s.b.f.support.DisposableBeanAdapter    : Invocation of destroy method failed on bean with name 'inMemoryDatabaseShutdownExecutor': org.h2.jdbc.JdbcSQLNonTransientConnectionException: Database is already closed (to disable automatic closing at VM shutdown, add ";DB_CLOSE_ON_EXIT=FALSE" to the db URL) [90121-224]
+2026-07-05T03:15:30.200Z  INFO 3866 --- [web-api] [       Thread-7] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown initiated...
+2026-07-05T03:15:30.228Z  INFO 3866 --- [web-api] [       Thread-7] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown completed.
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.2.0)
+
+2026-07-05T03:15:32.480Z  INFO 3866 --- [web-api] [  restartedMain] c.recruitify.webapi.WebApiApplication    : Starting WebApiApplication using Java 17.0.19 with PID 3866 (/mnt/d/CMU-SE 433 SGIS/recruitify/backend/web-api/build/classes/java/main started by root in /mnt/d/CMU-SE 433 SGIS/recruitify/backend/web-api)
+2026-07-05T03:15:32.481Z  INFO 3866 --- [web-api] [  restartedMain] c.recruitify.webapi.WebApiApplication    : The following 1 profile is active: "local"
+2026-07-05T03:15:47.877Z  INFO 3866 --- [web-api] [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-07-05T03:15:53.509Z  INFO 3866 --- [web-api] [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 5628 ms. Found 16 JPA repository interfaces.
+2026-07-05T03:15:59.225Z  INFO 3866 --- [web-api] [  restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2026-07-05T03:15:59.226Z  INFO 3866 --- [web-api] [  restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-07-05T03:15:59.226Z  INFO 3866 --- [web-api] [  restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.16]
+2026-07-05T03:15:59.329Z  INFO 3866 --- [web-api] [  restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-07-05T03:15:59.330Z  INFO 3866 --- [web-api] [  restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 26767 ms
+2026-07-05T03:16:01.399Z  INFO 3866 --- [web-api] [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Starting...
+2026-07-05T03:16:01.409Z  INFO 3866 --- [web-api] [  restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-3 - Added connection conn10: url=jdbc:h2:mem:recruitify user=SA
+2026-07-05T03:16:01.409Z  INFO 3866 --- [web-api] [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Start completed.
+2026-07-05T03:16:01.410Z  INFO 3866 --- [web-api] [  restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:recruitify'
+2026-07-05T03:16:05.415Z  INFO 3866 --- [web-api] [  restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-07-05T03:16:05.697Z  INFO 3866 --- [web-api] [  restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-07-05T03:16:05.991Z  INFO 3866 --- [web-api] [  restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-07-05T03:16:06.032Z  WARN 3866 --- [web-api] [  restartedMain] org.hibernate.dialect.Dialect            : HHH000511: The 2.2.0 version for [org.hibernate.dialect.PostgreSQLDialect] is no longer supported, hence certain features may not work properly. The minimum supported version is 11.0.0. Check the community dialects project for available legacy versions.
+2026-07-05T03:16:06.033Z  WARN 3866 --- [web-api] [  restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-07-05T03:16:07.636Z  INFO 3866 --- [web-api] [  restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+Hibernate: 
+    create table account (
+        id bigserial not null,
+        created_at TIMESTAMP not null,
+        created_by varchar(100),
+        email varchar(255) not null,
+        is_active boolean not null,
+        locked_until timestamp(6) with time zone,
+        password_hash varchar(255) not null,
+        updated_at TIMESTAMP,
+        updated_by varchar(100),
+        username varchar(255) not null,
+        role_id bigint,
+        primary key (id)
+    )
+Hibernate: 
+    create table administrative_units (
+        id integer not null,
+        code_name varchar(255),
+        code_name_en varchar(255),
+        full_name varchar(255),
+        full_name_en varchar(255),
+        short_name varchar(255),
+        short_name_en varchar(255),
+        primary key (id)
+    )
+Hibernate: 
+    create table category (
+        id bigserial not null,
+        created_at timestamp(6),
+        created_by varchar(255),
+        deleted_at timestamp(6),
+        deleted_by varchar(255),
+        name varchar(255) not null,
+        updated_at timestamp(6),
+        updated_by varchar(255),
+        primary key (id)
+    )
+Hibernate: 
+    create table company (
+        id bigserial not null,
+        company_size varchar(255),
+        company_type varchar(255),
+        created_at timestamp(6) not null,
+        created_by varchar(255),
+        delete_at timestamp(6),
+        delete_by varchar(255),
+        founder_year integer,
+        image varchar(255),
+        industry varchar(255),
+        name varchar(255),
+        overview TEXT,
+        phone varchar(255),
+        updated_at timestamp(6),
+        updated_by varchar(255),
+        primary key (id)
+    )
+Hibernate: 
+    create table education (
+        id bigserial not null,
+        degree varchar(255),
+        end_date date,
+        field_of_study varchar(255),
+        school_name varchar(255) not null,
+        start_date date not null,
+        user_profile_id bigint not null,
+        primary key (id)
+    )
+Hibernate: 
+    create table employment_type (
+        id bigserial not null,
+        created_at timestamp(6),
+        created_by varchar(255),
+        deleted_at timestamp(6),
+        deleted_by varchar(255),
+        name varchar(255) not null,
+        updated_at timestamp(6),
+        updated_by varchar(255),
+        primary key (id)
+    )
+Hibernate: 
+    create table experience_level (
+        id bigserial not null,
+        created_at timestamp(6),
+        created_by varchar(255),
+        deleted_at timestamp(6),
+        deleted_by varchar(255),
+        name varchar(255) not null,
+        updated_at timestamp(6),
+        updated_by varchar(255),
+        primary key (id)
+    )
+Hibernate: 
+    create table job (
+        id bigserial not null,
+        apply_count integer,
+        benefit TEXT,
+        created_at timestamp(6) not null,
+        created_by varchar(255),
+        delete_at timestamp(6),
+        delete_by varchar(255),
+        description TEXT,
+        is_featured boolean,
+        is_hidden boolean,
+        requirement TEXT,
+        responsibilities TEXT,
+        salary numeric(10,2),
+        title varchar(255) not null,
+        updated_at timestamp(6),
+        updated_by varchar(255),
+        view_count integer,
+        category_id bigint,
+        company_id bigint,
+        employment_type_id bigint,
+        experience_level_id bigint,
+        ward_code varchar(255),
+        work_approach_id bigint,
+        primary key (id)
+    )
+Hibernate: 
+    create table job_skill (
+        job_id bigint not null,
+        skill_id bigint not null,
+        primary key (job_id, skill_id)
+    )
+Hibernate: 
+    create table profiles (
+        account_id bigint not null,
+        about TEXT,
+        address varchar(255),
+        avatar_url varchar(255),
+        dob date,
+        full_name varchar(255),
+        gender boolean,
+        personal_link varchar(255),
+        phone_number integer,
+        province_code varchar(255),
+        title varchar(255),
+        primary key (account_id)
+    )
+Hibernate: 
+    create table provinces (
+        code varchar(255) not null,
+        code_name varchar(255),
+        full_name varchar(255) not null,
+        full_name_en varchar(255),
+        name varchar(255),
+        name_en varchar(255),
+        name_with_type varchar(255),
+        slug varchar(255),
+        type varchar(255),
+        administrative_unit_id integer,
+        primary key (code)
+    )
+Hibernate: 
+    create table refresh_tokens (
+        id bigserial not null,
+        created_at timestamp(6) with time zone,
+        expiry_date timestamp(6) with time zone not null,
+        is_revoked boolean not null,
+        is_used boolean not null,
+        reason_revoked varchar(255),
+        replaced_by_token varchar(255),
+        token varchar(255) not null,
+        updated_at timestamp(6) with time zone,
+        user_id bigint,
+        primary key (id)
+    )
+Hibernate: 
+    create table roles (
+        id bigserial not null,
+        created_at TIMESTAMP not null,
+        created_by varchar(100),
+        name varchar(50) not null,
+        updated_at TIMESTAMP,
+        updated_by varchar(100),
+        primary key (id)
+    )
+Hibernate: 
+    create table skills (
+        id bigserial not null,
+        created_at timestamp(6) not null,
+        created_by varchar(255),
+        deleted_at timestamp(6),
+        deleted_by varchar(255),
+        name varchar(255) not null,
+        updated_at timestamp(6),
+        updated_by varchar(255),
+        primary key (id)
+    )
+Hibernate: 
+    create table wards (
+        code varchar(255) not null,
+        code_name varchar(255),
+        full_name varchar(255),
+        full_name_en varchar(255),
+        name varchar(255),
+        name_en varchar(255),
+        administrative_unit_id integer,
+        province_code varchar(255),
+        primary key (code)
+    )
+Hibernate: 
+    create table work_approach (
+        id bigserial not null,
+        created_at timestamp(6),
+        created_by varchar(255),
+        deleted_at timestamp(6),
+        deleted_by varchar(255),
+        name varchar(255) not null,
+        updated_at timestamp(6),
+        updated_by varchar(255),
+        primary key (id)
+    )
+Hibernate: 
+    create table work_experiences (
+        id bigserial not null,
+        company_name varchar(255) not null,
+        description TEXT,
+        end_date date,
+        job_title varchar(255) not null,
+        location varchar(255),
+        start_date date not null,
+        user_profile_id bigint not null,
+        primary key (id)
+    )
+Hibernate: 
+    alter table if exists account 
+       drop constraint if exists UK_q0uja26qgu1atulenwup9rxyr
+Hibernate: 
+    alter table if exists account 
+       add constraint UK_q0uja26qgu1atulenwup9rxyr unique (email)
+Hibernate: 
+    alter table if exists account 
+       drop constraint if exists UK_gex1lmaqpg0ir5g1f5eftyaa1
+Hibernate: 
+    alter table if exists account 
+       add constraint UK_gex1lmaqpg0ir5g1f5eftyaa1 unique (username)
+Hibernate: 
+    alter table if exists refresh_tokens 
+       drop constraint if exists UK_ghpmfn23vmxfu3spu3lfg4r2d
+Hibernate: 
+    alter table if exists refresh_tokens 
+       add constraint UK_ghpmfn23vmxfu3spu3lfg4r2d unique (token)
+Hibernate: 
+    alter table if exists account 
+       add constraint FKgdpd8e1vs356bjg287jr27pl7 
+       foreign key (role_id) 
+       references roles
+Hibernate: 
+    alter table if exists education 
+       add constraint FKj3fa1g1bam6ga9bco6qrkum08 
+       foreign key (user_profile_id) 
+       references profiles
+Hibernate: 
+    alter table if exists job 
+       add constraint FK1jtisqv4yk9oxdk2a2qgdnwq6 
+       foreign key (category_id) 
+       references category
+Hibernate: 
+    alter table if exists job 
+       add constraint FK5q04favsasq8y70bsei7wv8fc 
+       foreign key (company_id) 
+       references company
+Hibernate: 
+    alter table if exists job 
+       add constraint FKm01u49rkk4myw78nede7udym6 
+       foreign key (employment_type_id) 
+       references employment_type
+Hibernate: 
+    alter table if exists job 
+       add constraint FK3ac1ea229kkph0rxkglsl1a1t 
+       foreign key (experience_level_id) 
+       references experience_level
+Hibernate: 
+    alter table if exists job 
+       add constraint FKek0pj6tin0xvky5qxsj49190v 
+       foreign key (ward_code) 
+       references wards
+Hibernate: 
+    alter table if exists job 
+       add constraint FKe2c3t57e2hr51sg7doafceqrt 
+       foreign key (work_approach_id) 
+       references work_approach
+Hibernate: 
+    alter table if exists job_skill 
+       add constraint FKdh76859joo68p6dbj9erh4pbs 
+       foreign key (skill_id) 
+       references skills
+Hibernate: 
+    alter table if exists job_skill 
+       add constraint FK9ix4wg520ii2gu2felxdhdup6 
+       foreign key (job_id) 
+       references job
+Hibernate: 
+    alter table if exists profiles 
+       add constraint FK7r5m4wenf0gpdakt0if9jxhyk 
+       foreign key (province_code) 
+       references provinces
+Hibernate: 
+    alter table if exists provinces 
+       add constraint FKqenrpv1j8q01yhmvol8avi09s 
+       foreign key (administrative_unit_id) 
+       references administrative_units
+Hibernate: 
+    alter table if exists refresh_tokens 
+       add constraint FKoudpq400piginvq6tymq2lrxt 
+       foreign key (user_id) 
+       references account
+Hibernate: 
+    alter table if exists wards 
+       add constraint FKbbn5fb8ddvvbruv27f9yj8dhx 
+       foreign key (administrative_unit_id) 
+       references administrative_units
+Hibernate: 
+    alter table if exists wards 
+       add constraint FKm20w5foy3ba7txbvrlrsjxcih 
+       foreign key (province_code) 
+       references provinces
+Hibernate: 
+    alter table if exists work_experiences 
+       add constraint FKqtubojo4ssll6vpwdcbxgmwut 
+       foreign key (user_profile_id) 
+       references profiles
+2026-07-05T03:16:07.675Z  INFO 3866 --- [web-api] [  restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-07-05T03:16:20.501Z  WARN 3866 --- [web-api] [  restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-07-05T03:16:22.993Z  INFO 3866 --- [web-api] [  restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@265d5949, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@7550e4f6, org.springframework.security.web.context.SecurityContextHolderFilter@361739d7, org.springframework.security.web.header.HeaderWriterFilter@60cb544, org.springframework.web.filter.CorsFilter@2eabbeb8, org.springframework.security.web.authentication.logout.LogoutFilter@4d69ae1e, com.recruitify.webapi.common.security.JwtAuthenticationFilter@1e28c5d9, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@3587a1e4, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@4e2a93ed, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@256e62, org.springframework.security.web.session.SessionManagementFilter@5ed09b61, org.springframework.security.web.access.ExceptionTranslationFilter@425d3f6, org.springframework.security.web.access.intercept.AuthorizationFilter@28f0fa90]
+2026-07-05T03:16:39.800Z  INFO 3866 --- [web-api] [  restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2026-07-05T03:16:39.930Z  INFO 3866 --- [web-api] [  restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint(s) beneath base path '/actuator'
+2026-07-05T03:16:40.266Z  INFO 3866 --- [web-api] [  restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8081 (http) with context path ''
+2026-07-05T03:16:40.277Z  INFO 3866 --- [web-api] [  restartedMain] c.recruitify.webapi.WebApiApplication    : Started WebApiApplication in 68.715 seconds (process running for 1261.724)
+Hibernate: 
+    select
+        r1_0.id,
+        r1_0.created_at,
+        r1_0.created_by,
+        r1_0.name,
+        r1_0.updated_at,
+        r1_0.updated_by 
+    from
+        roles r1_0 
+    where
+        r1_0.name=?
+Hibernate: 
+    insert 
+    into
+        roles
+        (created_at, created_by, name, updated_at, updated_by) 
+    values
+        (?, ?, ?, ?, ?)
+Hibernate: 
+    select
+        r1_0.id,
+        r1_0.created_at,
+        r1_0.created_by,
+        r1_0.name,
+        r1_0.updated_at,
+        r1_0.updated_by 
+    from
+        roles r1_0 
+    where
+        r1_0.name=?
+Hibernate: 
+    insert 
+    into
+        roles
+        (created_at, created_by, name, updated_at, updated_by) 
+    values
+        (?, ?, ?, ?, ?)
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.created_by,
+        u1_0.email,
+        u1_0.is_active,
+        u1_0.locked_until,
+        u1_0.password_hash,
+        u1_0.role_id,
+        u1_0.updated_at,
+        u1_0.updated_by,
+        u1_0.username 
+    from
+        account u1_0 
+    where
+        u1_0.email=?
+Hibernate: 
+    insert 
+    into
+        account
+        (created_at, created_by, email, is_active, locked_until, password_hash, role_id, updated_at, updated_by, username) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    select
+        c1_0.id,
+        c1_0.created_at,
+        c1_0.created_by,
+        c1_0.deleted_at,
+        c1_0.deleted_by,
+        c1_0.name,
+        c1_0.updated_at,
+        c1_0.updated_by 
+    from
+        category c1_0 
+    where
+        c1_0.id=?
+Hibernate: 
+    insert 
+    into
+        category
+        (created_at, created_by, deleted_at, deleted_by, name, updated_at, updated_by) 
+    values
+        (?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    select
+        et1_0.id,
+        et1_0.created_at,
+        et1_0.created_by,
+        et1_0.deleted_at,
+        et1_0.deleted_by,
+        et1_0.name,
+        et1_0.updated_at,
+        et1_0.updated_by 
+    from
+        employment_type et1_0 
+    where
+        et1_0.id=?
+Hibernate: 
+    insert 
+    into
+        employment_type
+        (created_at, created_by, deleted_at, deleted_by, name, updated_at, updated_by) 
+    values
+        (?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    select
+        el1_0.id,
+        el1_0.created_at,
+        el1_0.created_by,
+        el1_0.deleted_at,
+        el1_0.deleted_by,
+        el1_0.name,
+        el1_0.updated_at,
+        el1_0.updated_by 
+    from
+        experience_level el1_0 
+    where
+        el1_0.id=?
+Hibernate: 
+    insert 
+    into
+        experience_level
+        (created_at, created_by, deleted_at, deleted_by, name, updated_at, updated_by) 
+    values
+        (?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    select
+        wa1_0.id,
+        wa1_0.created_at,
+        wa1_0.created_by,
+        wa1_0.deleted_at,
+        wa1_0.deleted_by,
+        wa1_0.name,
+        wa1_0.updated_at,
+        wa1_0.updated_by 
+    from
+        work_approach wa1_0 
+    where
+        wa1_0.id=?
+Hibernate: 
+    insert 
+    into
+        work_approach
+        (created_at, created_by, deleted_at, deleted_by, name, updated_at, updated_by) 
+    values
+        (?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    select
+        s1_0.id,
+        s1_0.created_at,
+        s1_0.created_by,
+        s1_0.deleted_at,
+        s1_0.deleted_by,
+        s1_0.name,
+        s1_0.updated_at,
+        s1_0.updated_by 
+    from
+        skills s1_0 
+    where
+        s1_0.id=?
+Hibernate: 
+    insert 
+    into
+        skills
+        (created_at, created_by, deleted_at, deleted_by, name, updated_at, updated_by) 
+    values
+        (?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    select
+        c1_0.id,
+        c1_0.company_size,
+        c1_0.company_type,
+        c1_0.created_at,
+        c1_0.created_by,
+        c1_0.delete_at,
+        c1_0.delete_by,
+        c1_0.founder_year,
+        c1_0.image,
+        c1_0.industry,
+        c1_0.name,
+        c1_0.overview,
+        c1_0.phone,
+        c1_0.updated_at,
+        c1_0.updated_by 
+    from
+        company c1_0 
+    where
+        c1_0.id=?
+Hibernate: 
+    insert 
+    into
+        company
+        (company_size, company_type, created_at, created_by, delete_at, delete_by, founder_year, image, industry, name, overview, phone, updated_at, updated_by) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    select
+        p1_0.code,
+        p1_0.administrative_unit_id,
+        p1_0.code_name,
+        p1_0.full_name,
+        p1_0.full_name_en,
+        p1_0.name,
+        p1_0.name_en,
+        p1_0.name_with_type,
+        p1_0.slug,
+        p1_0.type 
+    from
+        provinces p1_0 
+    where
+        p1_0.code=?
+Hibernate: 
+    select
+        p1_0.code,
+        p1_0.administrative_unit_id,
+        p1_0.code_name,
+        p1_0.full_name,
+        p1_0.full_name_en,
+        p1_0.name,
+        p1_0.name_en,
+        p1_0.name_with_type,
+        p1_0.slug,
+        p1_0.type 
+    from
+        provinces p1_0 
+    where
+        p1_0.code=?
+Hibernate: 
+    insert 
+    into
+        provinces
+        (administrative_unit_id, code_name, full_name, full_name_en, name, name_en, name_with_type, slug, type, code) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    select
+        au1_0.id,
+        au1_0.code_name,
+        au1_0.code_name_en,
+        au1_0.full_name,
+        au1_0.full_name_en,
+        au1_0.short_name,
+        au1_0.short_name_en 
+    from
+        administrative_units au1_0 
+    where
+        au1_0.id=?
+Hibernate: 
+    select
+        au1_0.id,
+        au1_0.code_name,
+        au1_0.code_name_en,
+        au1_0.full_name,
+        au1_0.full_name_en,
+        au1_0.short_name,
+        au1_0.short_name_en 
+    from
+        administrative_units au1_0 
+    where
+        au1_0.id=?
+Hibernate: 
+    insert 
+    into
+        administrative_units
+        (code_name, code_name_en, full_name, full_name_en, short_name, short_name_en, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    select
+        p1_0.code,
+        p1_0.administrative_unit_id,
+        p1_0.code_name,
+        p1_0.full_name,
+        p1_0.full_name_en,
+        p1_0.name,
+        p1_0.name_en,
+        p1_0.name_with_type,
+        p1_0.slug,
+        p1_0.type 
+    from
+        provinces p1_0 
+    where
+        p1_0.code=?
+Hibernate: 
+    select
+        w1_0.code,
+        w1_0.administrative_unit_id,
+        w1_0.code_name,
+        w1_0.full_name,
+        w1_0.full_name_en,
+        w1_0.name,
+        w1_0.name_en,
+        w1_0.province_code 
+    from
+        wards w1_0 
+    where
+        w1_0.code=?
+Hibernate: 
+    select
+        w1_0.code,
+        w1_0.administrative_unit_id,
+        w1_0.code_name,
+        w1_0.full_name,
+        w1_0.full_name_en,
+        w1_0.name,
+        w1_0.name_en,
+        w1_0.province_code 
+    from
+        wards w1_0 
+    where
+        w1_0.code=?
+Hibernate: 
+    insert 
+    into
+        wards
+        (administrative_unit_id, code_name, full_name, full_name_en, name, name_en, province_code, code) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?)
+2026-07-05T03:16:40.651Z  INFO 3866 --- [web-api] [  restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2026-07-05T03:16:58.833Z  INFO 3866 --- [web-api] [0.0-8081-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-07-05T03:16:58.834Z  INFO 3866 --- [web-api] [0.0-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-07-05T03:16:58.836Z  INFO 3866 --- [web-api] [0.0-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+Hibernate: 
+    select
+        j1_0.id,
+        j1_0.apply_count,
+        j1_0.benefit,
+        j1_0.category_id,
+        j1_0.company_id,
+        j1_0.created_at,
+        j1_0.created_by,
+        j1_0.delete_at,
+        j1_0.delete_by,
+        j1_0.description,
+        j1_0.employment_type_id,
+        j1_0.experience_level_id,
+        j1_0.is_featured,
+        j1_0.is_hidden,
+        j1_0.requirement,
+        j1_0.responsibilities,
+        j1_0.salary,
+        j1_0.title,
+        j1_0.updated_at,
+        j1_0.updated_by,
+        j1_0.view_count,
+        j1_0.ward_code,
+        j1_0.work_approach_id 
+    from
+        job j1_0 
+    where
+        j1_0.delete_at is null 
+    order by
+        j1_0.created_at desc 
+    offset
+        ? rows 
+    fetch
+        first ? rows only
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.created_by,
+        u1_0.email,
+        u1_0.is_active,
+        u1_0.locked_until,
+        u1_0.password_hash,
+        u1_0.role_id,
+        u1_0.updated_at,
+        u1_0.updated_by,
+        u1_0.username 
+    from
+        account u1_0 
+    where
+        u1_0.email=?
+Hibernate: 
+    select
+        r1_0.id,
+        r1_0.created_at,
+        r1_0.created_by,
+        r1_0.name,
+        r1_0.updated_at,
+        r1_0.updated_by 
+    from
+        roles r1_0 
+    where
+        r1_0.id=?
+Hibernate: 
+    select
+        rt1_0.id,
+        rt1_0.created_at,
+        rt1_0.expiry_date,
+        rt1_0.is_revoked,
+        rt1_0.is_used,
+        rt1_0.reason_revoked,
+        rt1_0.replaced_by_token,
+        rt1_0.token,
+        rt1_0.updated_at,
+        rt1_0.user_id 
+    from
+        refresh_tokens rt1_0 
+    where
+        rt1_0.user_id=? 
+        and not(rt1_0.is_revoked) 
+        and not(rt1_0.is_used)
+Hibernate: 
+    insert 
+    into
+        refresh_tokens
+        (created_at, expiry_date, is_revoked, is_used, reason_revoked, replaced_by_token, token, updated_at, user_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+2026-07-05T03:17:05.708Z  INFO 3866 --- [web-api] [0.0-8081-exec-2] c.r.w.c.t.service.RefreshTokenService    : New refresh token created for email: super_user@gmail.com
+Hibernate: 
+    select
+        j1_0.id,
+        j1_0.apply_count,
+        j1_0.benefit,
+        j1_0.category_id,
+        j1_0.company_id,
+        j1_0.created_at,
+        j1_0.created_by,
+        j1_0.delete_at,
+        j1_0.delete_by,
+        j1_0.description,
+        j1_0.employment_type_id,
+        j1_0.experience_level_id,
+        j1_0.is_featured,
+        j1_0.is_hidden,
+        j1_0.requirement,
+        j1_0.responsibilities,
+        j1_0.salary,
+        j1_0.title,
+        j1_0.updated_at,
+        j1_0.updated_by,
+        j1_0.view_count,
+        j1_0.ward_code,
+        j1_0.work_approach_id 
+    from
+        job j1_0 
+    where
+        j1_0.delete_at is null 
+    order by
+        j1_0.created_at desc 
+    offset
+        ? rows 
+    fetch
+        first ? rows only
+Hibernate: 
+    SELECT
+        j.id as id,
+        j.title as title,
+        c.name as companyName,
+        c.image as companyLogo,
+        et.name as employmentType,
+        CONCAT(w.name, ', ', p.name) as location,
+        j.salary as salaryRange,
+        j.created_at as createdAt     
+    FROM
+        job j     
+    JOIN
+        company c 
+            ON j.company_id = c.id     
+    JOIN
+        employment_type et 
+            on j.employment_type_id = et.id     
+    JOIN
+        wards w 
+            ON j.ward_code = w.code     
+    JOIN
+        provinces p 
+            ON w.province_code = p.code     
+    WHERE
+        j.is_featured = true     
+    ORDER BY
+        j.created_at DESC     
+    LIMIT
+        8 
+Hibernate: 
+    SELECT
+        id ,
+        name ,
+        image ,
+        overview ,
+        is_featured 
+    FROM
+        company 
+    WHERE
+        is_featured = true
+2026-07-05T03:17:06.170Z  WARN 3866 --- [web-api] [0.0-8081-exec-5] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Error: 42122, SQLState: 42S22
+2026-07-05T03:17:06.170Z ERROR 3866 --- [web-api] [0.0-8081-exec-5] o.h.engine.jdbc.spi.SqlExceptionHelper   : Column "is_featured" not found; SQL statement:
+SELECT id ,name ,image ,overview , is_featured FROM company WHERE is_featured = true [42122-224]
+2026-07-05T03:17:06.283Z  WARN 3866 --- [web-api] [0.0-8081-exec-5] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.dao.InvalidDataAccessResourceUsageException: could not prepare statement [Column "is_featured" not found; SQL statement:<EOL>SELECT id ,name ,image ,overview , is_featured FROM company WHERE is_featured = true [42122-224]] [SELECT id ,name ,image ,overview , is_featured FROM company WHERE is_featured = true]; SQL [SELECT id ,name ,image ,overview , is_featured FROM company WHERE is_featured = true]]
+2026-07-05T03:17:07.467Z  WARN 3866 --- [web-api] [0.0-8081-exec-6] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.bind.MethodArgumentNotValidException: Validation failed for argument [0] in public org.springframework.http.ResponseEntity<com.recruitify.webapi.common.vo.ApiResponse<com.recruitify.webapi.api.pages.admin.jobmanagement.dto.Response.JobResponse>> com.recruitify.webapi.api.pages.admin.jobmanagement.Controllers.JobControllers.createJob(com.recruitify.webapi.api.pages.admin.jobmanagement.dto.Request.JobRequest) with 2 errors: [Field error in object 'jobRequest' on field 'wardCode': rejected value [null]; codes [NotBlank.jobRequest.wardCode,NotBlank.wardCode,NotBlank.java.lang.String,NotBlank]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [jobRequest.wardCode,wardCode]; arguments []; default message [wardCode]]; default message [must not be blank]] [Field error in object 'jobRequest' on field 'requirement': rejected value [null]; codes [NotBlank.jobRequest.requirement,NotBlank.requirement,NotBlank.java.lang.String,NotBlank]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [jobRequest.requirement,requirement]; arguments []; default message [requirement]]; default message [must not be blank]] ]
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.created_by,
+        u1_0.email,
+        u1_0.is_active,
+        u1_0.locked_until,
+        u1_0.password_hash,
+        u1_0.role_id,
+        u1_0.updated_at,
+        u1_0.updated_by,
+        u1_0.username 
+    from
+        account u1_0 
+    where
+        u1_0.email=?
+Hibernate: 
+    select
+        r1_0.id,
+        r1_0.created_at,
+        r1_0.created_by,
+        r1_0.name,
+        r1_0.updated_at,
+        r1_0.updated_by 
+    from
+        roles r1_0 
+    where
+        r1_0.id=?
+Hibernate: 
+    select
+        rt1_0.id,
+        rt1_0.created_at,
+        rt1_0.expiry_date,
+        rt1_0.is_revoked,
+        rt1_0.is_used,
+        rt1_0.reason_revoked,
+        rt1_0.replaced_by_token,
+        rt1_0.token,
+        rt1_0.updated_at,
+        rt1_0.user_id 
+    from
+        refresh_tokens rt1_0 
+    where
+        rt1_0.user_id=? 
+        and not(rt1_0.is_revoked) 
+        and not(rt1_0.is_used)
+Hibernate: 
+    insert 
+    into
+        refresh_tokens
+        (created_at, expiry_date, is_revoked, is_used, reason_revoked, replaced_by_token, token, updated_at, user_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+2026-07-05T03:18:18.167Z  INFO 3866 --- [web-api] [0.0-8081-exec-7] c.r.w.c.t.service.RefreshTokenService    : New refresh token created for email: super_user@gmail.com
+Hibernate: 
+    update
+        refresh_tokens 
+    set
+        expiry_date=?,
+        is_revoked=?,
+        is_used=?,
+        reason_revoked=?,
+        replaced_by_token=?,
+        token=?,
+        updated_at=?,
+        user_id=? 
+    where
+        id=?
+Hibernate: 
+    select
+        c1_0.id,
+        c1_0.company_size,
+        c1_0.company_type,
+        c1_0.created_at,
+        c1_0.created_by,
+        c1_0.delete_at,
+        c1_0.delete_by,
+        c1_0.founder_year,
+        c1_0.image,
+        c1_0.industry,
+        c1_0.name,
+        c1_0.overview,
+        c1_0.phone,
+        c1_0.updated_at,
+        c1_0.updated_by 
+    from
+        company c1_0 
+    where
+        c1_0.id=?
+Hibernate: 
+    select
+        c1_0.id,
+        c1_0.created_at,
+        c1_0.created_by,
+        c1_0.deleted_at,
+        c1_0.deleted_by,
+        c1_0.name,
+        c1_0.updated_at,
+        c1_0.updated_by 
+    from
+        category c1_0 
+    where
+        c1_0.id=?
+Hibernate: 
+    select
+        et1_0.id,
+        et1_0.created_at,
+        et1_0.created_by,
+        et1_0.deleted_at,
+        et1_0.deleted_by,
+        et1_0.name,
+        et1_0.updated_at,
+        et1_0.updated_by 
+    from
+        employment_type et1_0 
+    where
+        et1_0.id=?
+Hibernate: 
+    select
+        el1_0.id,
+        el1_0.created_at,
+        el1_0.created_by,
+        el1_0.deleted_at,
+        el1_0.deleted_by,
+        el1_0.name,
+        el1_0.updated_at,
+        el1_0.updated_by 
+    from
+        experience_level el1_0 
+    where
+        el1_0.id=?
+Hibernate: 
+    select
+        wa1_0.id,
+        wa1_0.created_at,
+        wa1_0.created_by,
+        wa1_0.deleted_at,
+        wa1_0.deleted_by,
+        wa1_0.name,
+        wa1_0.updated_at,
+        wa1_0.updated_by 
+    from
+        work_approach wa1_0 
+    where
+        wa1_0.id=?
+Hibernate: 
+    select
+        w1_0.code,
+        w1_0.administrative_unit_id,
+        w1_0.code_name,
+        w1_0.full_name,
+        w1_0.full_name_en,
+        w1_0.name,
+        w1_0.name_en,
+        w1_0.province_code 
+    from
+        wards w1_0 
+    where
+        w1_0.code=?
+Hibernate: 
+    select
+        s1_0.id,
+        s1_0.created_at,
+        s1_0.created_by,
+        s1_0.deleted_at,
+        s1_0.deleted_by,
+        s1_0.name,
+        s1_0.updated_at,
+        s1_0.updated_by 
+    from
+        skills s1_0 
+    where
+        s1_0.id in (?)
+Hibernate: 
+    insert 
+    into
+        job
+        (apply_count, benefit, category_id, company_id, created_at, created_by, delete_at, delete_by, description, employment_type_id, experience_level_id, is_featured, is_hidden, requirement, responsibilities, salary, title, updated_at, updated_by, view_count, ward_code, work_approach_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        job_skill
+        (job_id, skill_id) 
+    values
+        (?, ?)
+Hibernate: 
+    select
+        j1_0.id,
+        j1_0.apply_count,
+        j1_0.benefit,
+        j1_0.category_id,
+        j1_0.company_id,
+        j1_0.created_at,
+        j1_0.created_by,
+        j1_0.delete_at,
+        j1_0.delete_by,
+        j1_0.description,
+        j1_0.employment_type_id,
+        j1_0.experience_level_id,
+        j1_0.is_featured,
+        j1_0.is_hidden,
+        j1_0.requirement,
+        j1_0.responsibilities,
+        j1_0.salary,
+        j1_0.title,
+        j1_0.updated_at,
+        j1_0.updated_by,
+        j1_0.view_count,
+        j1_0.ward_code,
+        j1_0.work_approach_id 
+    from
+        job j1_0 
+    where
+        j1_0.id=?
+Hibernate: 
+    select
+        c1_0.id,
+        c1_0.company_size,
+        c1_0.company_type,
+        c1_0.created_at,
+        c1_0.created_by,
+        c1_0.delete_at,
+        c1_0.delete_by,
+        c1_0.founder_year,
+        c1_0.image,
+        c1_0.industry,
+        c1_0.name,
+        c1_0.overview,
+        c1_0.phone,
+        c1_0.updated_at,
+        c1_0.updated_by 
+    from
+        company c1_0 
+    where
+        c1_0.id=?
+Hibernate: 
+    select
+        c1_0.id,
+        c1_0.created_at,
+        c1_0.created_by,
+        c1_0.deleted_at,
+        c1_0.deleted_by,
+        c1_0.name,
+        c1_0.updated_at,
+        c1_0.updated_by 
+    from
+        category c1_0 
+    where
+        c1_0.id=?
+Hibernate: 
+    select
+        et1_0.id,
+        et1_0.created_at,
+        et1_0.created_by,
+        et1_0.deleted_at,
+        et1_0.deleted_by,
+        et1_0.name,
+        et1_0.updated_at,
+        et1_0.updated_by 
+    from
+        employment_type et1_0 
+    where
+        et1_0.id=?
+Hibernate: 
+    select
+        el1_0.id,
+        el1_0.created_at,
+        el1_0.created_by,
+        el1_0.deleted_at,
+        el1_0.deleted_by,
+        el1_0.name,
+        el1_0.updated_at,
+        el1_0.updated_by 
+    from
+        experience_level el1_0 
+    where
+        el1_0.id=?
+Hibernate: 
+    select
+        wa1_0.id,
+        wa1_0.created_at,
+        wa1_0.created_by,
+        wa1_0.deleted_at,
+        wa1_0.deleted_by,
+        wa1_0.name,
+        wa1_0.updated_at,
+        wa1_0.updated_by 
+    from
+        work_approach wa1_0 
+    where
+        wa1_0.id=?
+Hibernate: 
+    select
+        w1_0.code,
+        w1_0.administrative_unit_id,
+        w1_0.code_name,
+        w1_0.full_name,
+        w1_0.full_name_en,
+        w1_0.name,
+        w1_0.name_en,
+        w1_0.province_code 
+    from
+        wards w1_0 
+    where
+        w1_0.code=?
+Hibernate: 
+    select
+        s1_0.job_id,
+        s1_1.id,
+        s1_1.created_at,
+        s1_1.created_by,
+        s1_1.deleted_at,
+        s1_1.deleted_by,
+        s1_1.name,
+        s1_1.updated_at,
+        s1_1.updated_by 
+    from
+        job_skill s1_0 
+    join
+        skills s1_1 
+            on s1_1.id=s1_0.skill_id 
+    where
+        s1_0.job_id=?
+Hibernate: 
+    select
+        j1_0.id,
+        j1_0.apply_count,
+        j1_0.benefit,
+        j1_0.category_id,
+        j1_0.company_id,
+        j1_0.created_at,
+        j1_0.created_by,
+        j1_0.delete_at,
+        j1_0.delete_by,
+        j1_0.description,
+        j1_0.employment_type_id,
+        j1_0.experience_level_id,
+        j1_0.is_featured,
+        j1_0.is_hidden,
+        j1_0.requirement,
+        j1_0.responsibilities,
+        j1_0.salary,
+        j1_0.title,
+        j1_0.updated_at,
+        j1_0.updated_by,
+        j1_0.view_count,
+        j1_0.ward_code,
+        j1_0.work_approach_id 
+    from
+        job j1_0 
+    where
+        j1_0.delete_at is null 
+    order by
+        j1_0.created_at desc 
+    offset
+        ? rows 
+    fetch
+        first ? rows only
+Hibernate: 
+    select
+        c1_0.id,
+        c1_0.company_size,
+        c1_0.company_type,
+        c1_0.created_at,
+        c1_0.created_by,
+        c1_0.delete_at,
+        c1_0.delete_by,
+        c1_0.founder_year,
+        c1_0.image,
+        c1_0.industry,
+        c1_0.name,
+        c1_0.overview,
+        c1_0.phone,
+        c1_0.updated_at,
+        c1_0.updated_by 
+    from
+        company c1_0 
+    where
+        c1_0.id=?
+Hibernate: 
+    select
+        c1_0.id,
+        c1_0.created_at,
+        c1_0.created_by,
+        c1_0.deleted_at,
+        c1_0.deleted_by,
+        c1_0.name,
+        c1_0.updated_at,
+        c1_0.updated_by 
+    from
+        category c1_0 
+    where
+        c1_0.id=?
+Hibernate: 
+    select
+        et1_0.id,
+        et1_0.created_at,
+        et1_0.created_by,
+        et1_0.deleted_at,
+        et1_0.deleted_by,
+        et1_0.name,
+        et1_0.updated_at,
+        et1_0.updated_by 
+    from
+        employment_type et1_0 
+    where
+        et1_0.id=?
+Hibernate: 
+    select
+        el1_0.id,
+        el1_0.created_at,
+        el1_0.created_by,
+        el1_0.deleted_at,
+        el1_0.deleted_by,
+        el1_0.name,
+        el1_0.updated_at,
+        el1_0.updated_by 
+    from
+        experience_level el1_0 
+    where
+        el1_0.id=?
+Hibernate: 
+    select
+        wa1_0.id,
+        wa1_0.created_at,
+        wa1_0.created_by,
+        wa1_0.deleted_at,
+        wa1_0.deleted_by,
+        wa1_0.name,
+        wa1_0.updated_at,
+        wa1_0.updated_by 
+    from
+        work_approach wa1_0 
+    where
+        wa1_0.id=?
+Hibernate: 
+    select
+        w1_0.code,
+        w1_0.administrative_unit_id,
+        w1_0.code_name,
+        w1_0.full_name,
+        w1_0.full_name_en,
+        w1_0.name,
+        w1_0.name_en,
+        w1_0.province_code 
+    from
+        wards w1_0 
+    where
+        w1_0.code=?
+Hibernate: 
+    select
+        s1_0.job_id,
+        s1_1.id,
+        s1_1.created_at,
+        s1_1.created_by,
+        s1_1.deleted_at,
+        s1_1.deleted_by,
+        s1_1.name,
+        s1_1.updated_at,
+        s1_1.updated_by 
+    from
+        job_skill s1_0 
+    join
+        skills s1_1 
+            on s1_1.id=s1_0.skill_id 
+    where
+        s1_0.job_id=?
+Hibernate: 
+    select
+        j1_0.id,
+        j1_0.apply_count,
+        j1_0.benefit,
+        j1_0.category_id,
+        j1_0.company_id,
+        j1_0.created_at,
+        j1_0.created_by,
+        j1_0.delete_at,
+        j1_0.delete_by,
+        j1_0.description,
+        j1_0.employment_type_id,
+        j1_0.experience_level_id,
+        j1_0.is_featured,
+        j1_0.is_hidden,
+        j1_0.requirement,
+        j1_0.responsibilities,
+        j1_0.salary,
+        j1_0.title,
+        j1_0.updated_at,
+        j1_0.updated_by,
+        j1_0.view_count,
+        j1_0.ward_code,
+        j1_0.work_approach_id 
+    from
+        job j1_0 
+    where
+        j1_0.id=?
+Hibernate: 
+    select
+        c1_0.id,
+        c1_0.company_size,
+        c1_0.company_type,
+        c1_0.created_at,
+        c1_0.created_by,
+        c1_0.delete_at,
+        c1_0.delete_by,
+        c1_0.founder_year,
+        c1_0.image,
+        c1_0.industry,
+        c1_0.name,
+        c1_0.overview,
+        c1_0.phone,
+        c1_0.updated_at,
+        c1_0.updated_by 
+    from
+        company c1_0 
+    where
+        c1_0.id=?
+Hibernate: 
+    select
+        c1_0.id,
+        c1_0.created_at,
+        c1_0.created_by,
+        c1_0.deleted_at,
+        c1_0.deleted_by,
+        c1_0.name,
+        c1_0.updated_at,
+        c1_0.updated_by 
+    from
+        category c1_0 
+    where
+        c1_0.id=?
+Hibernate: 
+    select
+        et1_0.id,
+        et1_0.created_at,
+        et1_0.created_by,
+        et1_0.deleted_at,
+        et1_0.deleted_by,
+        et1_0.name,
+        et1_0.updated_at,
+        et1_0.updated_by 
+    from
+        employment_type et1_0 
+    where
+        et1_0.id=?
+Hibernate: 
+    select
+        el1_0.id,
+        el1_0.created_at,
+        el1_0.created_by,
+        el1_0.deleted_at,
+        el1_0.deleted_by,
+        el1_0.name,
+        el1_0.updated_at,
+        el1_0.updated_by 
+    from
+        experience_level el1_0 
+    where
+        el1_0.id=?
+Hibernate: 
+    select
+        wa1_0.id,
+        wa1_0.created_at,
+        wa1_0.created_by,
+        wa1_0.deleted_at,
+        wa1_0.deleted_by,
+        wa1_0.name,
+        wa1_0.updated_at,
+        wa1_0.updated_by 
+    from
+        work_approach wa1_0 
+    where
+        wa1_0.id=?
+Hibernate: 
+    select
+        w1_0.code,
+        w1_0.administrative_unit_id,
+        w1_0.code_name,
+        w1_0.full_name,
+        w1_0.full_name_en,
+        w1_0.name,
+        w1_0.name_en,
+        w1_0.province_code 
+    from
+        wards w1_0 
+    where
+        w1_0.code=?
+Hibernate: 
+    select
+        s1_0.job_id,
+        s1_1.id,
+        s1_1.created_at,
+        s1_1.created_by,
+        s1_1.deleted_at,
+        s1_1.deleted_by,
+        s1_1.name,
+        s1_1.updated_at,
+        s1_1.updated_by 
+    from
+        job_skill s1_0 
+    join
+        skills s1_1 
+            on s1_1.id=s1_0.skill_id 
+    where
+        s1_0.job_id=?
+Hibernate: 
+    update
+        job 
+    set
+        apply_count=?,
+        benefit=?,
+        category_id=?,
+        company_id=?,
+        created_at=?,
+        created_by=?,
+        delete_at=?,
+        delete_by=?,
+        description=?,
+        employment_type_id=?,
+        experience_level_id=?,
+        is_featured=?,
+        is_hidden=?,
+        requirement=?,
+        responsibilities=?,
+        salary=?,
+        title=?,
+        updated_at=?,
+        updated_by=?,
+        view_count=?,
+        ward_code=?,
+        work_approach_id=? 
+    where
+        id=?
+Hibernate: 
+    select
+        j1_0.id,
+        j1_0.apply_count,
+        j1_0.benefit,
+        j1_0.category_id,
+        j1_0.company_id,
+        j1_0.created_at,
+        j1_0.created_by,
+        j1_0.delete_at,
+        j1_0.delete_by,
+        j1_0.description,
+        j1_0.employment_type_id,
+        j1_0.experience_level_id,
+        j1_0.is_featured,
+        j1_0.is_hidden,
+        j1_0.requirement,
+        j1_0.responsibilities,
+        j1_0.salary,
+        j1_0.title,
+        j1_0.updated_at,
+        j1_0.updated_by,
+        j1_0.view_count,
+        j1_0.ward_code,
+        j1_0.work_approach_id 
+    from
+        job j1_0 
+    where
+        j1_0.id=?
+Hibernate: 
+    update
+        job 
+    set
+        apply_count=?,
+        benefit=?,
+        category_id=?,
+        company_id=?,
+        created_at=?,
+        created_by=?,
+        delete_at=?,
+        delete_by=?,
+        description=?,
+        employment_type_id=?,
+        experience_level_id=?,
+        is_featured=?,
+        is_hidden=?,
+        requirement=?,
+        responsibilities=?,
+        salary=?,
+        title=?,
+        updated_at=?,
+        updated_by=?,
+        view_count=?,
+        ward_code=?,
+        work_approach_id=? 
+    where
+        id=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.created_by,
+        u1_0.email,
+        u1_0.is_active,
+        u1_0.locked_until,
+        u1_0.password_hash,
+        u1_0.role_id,
+        u1_0.updated_at,
+        u1_0.updated_by,
+        u1_0.username 
+    from
+        account u1_0 
+    where
+        u1_0.email=?
+Hibernate: 
+    select
+        r1_0.id,
+        r1_0.created_at,
+        r1_0.created_by,
+        r1_0.name,
+        r1_0.updated_at,
+        r1_0.updated_by 
+    from
+        roles r1_0 
+    where
+        r1_0.id=?
+Hibernate: 
+    select
+        rt1_0.id,
+        rt1_0.created_at,
+        rt1_0.expiry_date,
+        rt1_0.is_revoked,
+        rt1_0.is_used,
+        rt1_0.reason_revoked,
+        rt1_0.replaced_by_token,
+        rt1_0.token,
+        rt1_0.updated_at,
+        rt1_0.user_id 
+    from
+        refresh_tokens rt1_0 
+    where
+        rt1_0.user_id=? 
+        and not(rt1_0.is_revoked) 
+        and not(rt1_0.is_used)
+Hibernate: 
+    insert 
+    into
+        refresh_tokens
+        (created_at, expiry_date, is_revoked, is_used, reason_revoked, replaced_by_token, token, updated_at, user_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+2026-07-05T03:18:28.633Z  INFO 3866 --- [web-api] [0.0-8081-exec-8] c.r.w.c.t.service.RefreshTokenService    : New refresh token created for email: super_user@gmail.com
+Hibernate: 
+    update
+        refresh_tokens 
+    set
+        expiry_date=?,
+        is_revoked=?,
+        is_used=?,
+        reason_revoked=?,
+        replaced_by_token=?,
+        token=?,
+        updated_at=?,
+        user_id=? 
+    where
+        id=?
+Hibernate: 
+    select
+        c1_0.id,
+        c1_0.company_size,
+        c1_0.company_type,
+        c1_0.created_at,
+        c1_0.created_by,
+        c1_0.delete_at,
+        c1_0.delete_by,
+        c1_0.founder_year,
+        c1_0.image,
+        c1_0.industry,
+        c1_0.name,
+        c1_0.overview,
+        c1_0.phone,
+        c1_0.updated_at,
+        c1_0.updated_by 
+    from
+        company c1_0 
+    where
+        c1_0.id=?
+Hibernate: 
+    select
+        c1_0.id 
+    from
+        company c1_0 
+    where
+        upper(c1_0.name)=upper(?) 
+    fetch
+        first ? rows only
+Hibernate: 
+    insert 
+    into
+        company
+        (company_size, company_type, created_at, created_by, delete_at, delete_by, founder_year, image, industry, name, overview, phone, updated_at, updated_by) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2026-07-05T03:18:29.093Z  WARN 3866 --- [web-api] [0.0-8081-exec-2] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource api/v1/companies.]
+2026-07-05T03:18:29.130Z  WARN 3866 --- [web-api] [0.0-8081-exec-3] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource api/v1/companies.]
+Hibernate: 
+    SELECT
+        j.id as id,
+        j.title as title,
+        c.name as companyName,
+        c.image as companyLogo,
+        et.name as employmentType,
+        CONCAT(w.name, ', ', p.name) as location,
+        j.salary as salaryRange,
+        j.created_at as createdAt     
+    FROM
+        job j     
+    JOIN
+        company c 
+            ON j.company_id = c.id     
+    JOIN
+        employment_type et 
+            on j.employment_type_id = et.id     
+    JOIN
+        wards w 
+            ON j.ward_code = w.code     
+    JOIN
+        provinces p 
+            ON w.province_code = p.code     
+    WHERE
+        j.is_featured = true     
+    ORDER BY
+        j.created_at DESC     
+    LIMIT
+        8 
+Hibernate: 
+    SELECT
+        id ,
+        name ,
+        image ,
+        overview ,
+        is_featured 
+    FROM
+        company 
+    WHERE
+        is_featured = true
+2026-07-05T03:18:29.162Z  WARN 3866 --- [web-api] [0.0-8081-exec-4] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Error: 42122, SQLState: 42S22
+2026-07-05T03:18:29.163Z ERROR 3866 --- [web-api] [0.0-8081-exec-4] o.h.engine.jdbc.spi.SqlExceptionHelper   : Column "is_featured" not found; SQL statement:
+SELECT id ,name ,image ,overview , is_featured FROM company WHERE is_featured = true [42122-224]
+2026-07-05T03:18:29.166Z  WARN 3866 --- [web-api] [0.0-8081-exec-4] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.dao.InvalidDataAccessResourceUsageException: could not prepare statement [Column "is_featured" not found; SQL statement:<EOL>SELECT id ,name ,image ,overview , is_featured FROM company WHERE is_featured = true [42122-224]] [SELECT id ,name ,image ,overview , is_featured FROM company WHERE is_featured = true]; SQL [SELECT id ,name ,image ,overview , is_featured FROM company WHERE is_featured = true]]
+Hibernate: 
+    select
+        j1_0.id,
+        j1_0.apply_count,
+        j1_0.benefit,
+        j1_0.category_id,
+        j1_0.company_id,
+        j1_0.created_at,
+        j1_0.created_by,
+        j1_0.delete_at,
+        j1_0.delete_by,
+        j1_0.description,
+        j1_0.employment_type_id,
+        j1_0.experience_level_id,
+        j1_0.is_featured,
+        j1_0.is_hidden,
+        j1_0.requirement,
+        j1_0.responsibilities,
+        j1_0.salary,
+        j1_0.title,
+        j1_0.updated_at,
+        j1_0.updated_by,
+        j1_0.view_count,
+        j1_0.ward_code,
+        j1_0.work_approach_id 
+    from
+        job j1_0 
+    where
+        j1_0.delete_at is null 
+    order by
+        j1_0.created_at desc 
+    offset
+        ? rows 
+    fetch
+        first ? rows only
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.created_by,
+        u1_0.email,
+        u1_0.is_active,
+        u1_0.locked_until,
+        u1_0.password_hash,
+        u1_0.role_id,
+        u1_0.updated_at,
+        u1_0.updated_by,
+        u1_0.username 
+    from
+        account u1_0 
+    where
+        u1_0.email=?
+Hibernate: 
+    select
+        r1_0.id,
+        r1_0.created_at,
+        r1_0.created_by,
+        r1_0.name,
+        r1_0.updated_at,
+        r1_0.updated_by 
+    from
+        roles r1_0 
+    where
+        r1_0.id=?
+Hibernate: 
+    select
+        rt1_0.id,
+        rt1_0.created_at,
+        rt1_0.expiry_date,
+        rt1_0.is_revoked,
+        rt1_0.is_used,
+        rt1_0.reason_revoked,
+        rt1_0.replaced_by_token,
+        rt1_0.token,
+        rt1_0.updated_at,
+        rt1_0.user_id 
+    from
+        refresh_tokens rt1_0 
+    where
+        rt1_0.user_id=? 
+        and not(rt1_0.is_revoked) 
+        and not(rt1_0.is_used)
+Hibernate: 
+    insert 
+    into
+        refresh_tokens
+        (created_at, expiry_date, is_revoked, is_used, reason_revoked, replaced_by_token, token, updated_at, user_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+2026-07-05T03:19:31.164Z  INFO 3866 --- [web-api] [0.0-8081-exec-7] c.r.w.c.t.service.RefreshTokenService    : New refresh token created for email: super_user@gmail.com
+Hibernate: 
+    update
+        refresh_tokens 
+    set
+        expiry_date=?,
+        is_revoked=?,
+        is_used=?,
+        reason_revoked=?,
+        replaced_by_token=?,
+        token=?,
+        updated_at=?,
+        user_id=? 
+    where
+        id=?
+Hibernate: 
+    select
+        u1_0.id 
+    from
+        account u1_0 
+    where
+        u1_0.email=? 
+    fetch
+        first ? rows only
+Hibernate: 
+    select
+        r1_0.id,
+        r1_0.created_at,
+        r1_0.created_by,
+        r1_0.name,
+        r1_0.updated_at,
+        r1_0.updated_by 
+    from
+        roles r1_0 
+    where
+        r1_0.name=?
+Hibernate: 
+    insert 
+    into
+        account
+        (created_at, created_by, email, is_active, locked_until, password_hash, role_id, updated_at, updated_by, username) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2026-07-05T03:19:32.015Z  INFO 3866 --- [web-api] [0.0-8081-exec-2] c.r.w.a.p.p.s.s.impl.SignupServiceImpl   : User registered successfully: newuser@test.com
+Hibernate: 
+    select
+        c1_0.id,
+        c1_0.company_size,
+        c1_0.company_type,
+        c1_0.created_at,
+        c1_0.created_by,
+        c1_0.delete_at,
+        c1_0.delete_by,
+        c1_0.founder_year,
+        c1_0.image,
+        c1_0.industry,
+        c1_0.name,
+        c1_0.overview,
+        c1_0.phone,
+        c1_0.updated_at,
+        c1_0.updated_by 
+    from
+        company c1_0

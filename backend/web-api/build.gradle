@@ -78,6 +78,7 @@ dependencies {
     testImplementation "org.testcontainers:junit-jupiter:${testcontainersVersion}"
     testImplementation "org.testcontainers:testcontainers:${testcontainersVersion}"
     testImplementation 'org.springframework.security:spring-security-test'
+    runtimeOnly 'com.h2database:h2'
     testRuntimeOnly 'com.h2database:h2'
     //ImageKit
     implementation 'com.github.imagekit-developer:imagekit-java:2.0.0'
