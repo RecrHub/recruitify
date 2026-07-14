@@ -27,7 +27,6 @@ export default function EmployerJobsPage() {
   const searchParams = useSearchParams();
   const [activeTabIndex, setActiveTabIndex] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
->>>>>>> 35d45d7 (RECR-73 Connect Backend API with validate to Screen Job List show information displayed correctly.)
   const [selectedJob, setSelectedJob] = useState<EmployerJobListItem | null>(null);
   const [jobs, setJobs] = useState<EmployerJobListItem[]>([]);
   const [categoryOptions, setCategoryOptions] = useState<JobFilterOption[]>(categoryFilterOptions);
@@ -44,8 +43,6 @@ export default function EmployerJobsPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
-<<<<<<< HEAD
-=======
   const keyword = searchParams.get('q')?.trim() ?? '';
   const activeStatusFilter = statusTabToFilter[activeTabIndex] ?? 'all';
   const apiStatus = statusTabToApiStatus[activeStatusFilter];
