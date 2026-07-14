@@ -28,12 +28,11 @@ export default function LoginForm() {
   const [lockCountdown, setLockCountdown] = useState(0);
   const { message } = App.useApp();
 
-  // Auto-fill username if "Remember me" was previously checked
   useEffect(() => {
-    const savedUsername = localStorage.getItem("remembered_username");
-    if (savedUsername) {
+    const savedEmail = localStorage.getItem("remembered_email");
+    if (savedEmail) {
       form.setFieldsValue({
-        username: savedUsername,
+        email: savedEmail,
         remember: true,
       });
     }
@@ -53,17 +52,17 @@ export default function LoginForm() {
     }
   }, [apiError]);
 
-  const handleSubmit = async (values: { username: string; password: string; remember?: boolean }) => {
+  const handleSubmit = async (values: { email: string; password: string; remember?: boolean }) => {
     try {
       setApiError(null);
       setIsSubmitting(true);
       
-      const response = await authService.login(values.username, values.password);
+      const response = await authService.login(values.email, values.password);
 
       if (values.remember) {
-        localStorage.setItem("remembered_username", values.username);
+        localStorage.setItem("remembered_email", values.email);
       } else {
-        localStorage.removeItem("remembered_username");
+        localStorage.removeItem("remembered_email");
       }
 
       message.success("Login successful! Welcome back.");
@@ -93,8 +92,12 @@ export default function LoginForm() {
           setApiError("Your account has been deactivated. Please contact the administrator.");
         } else if (errorMessage.includes("locked") || errorMessage.includes("temporarily locked")) {
           setApiError("Your account is temporarily locked. Please try again later.");
-        } else if (errorMessage.includes("invalid credentials") || errorMessage.includes("incorrect password") || errorMessage.includes("user not found")) {
-          setApiError("Incorrect username or password.");
+        } else if (
+          errorMessage.includes("invalid credentials") || 
+          errorMessage.includes("incorrect password") || 
+          errorMessage.includes("user not found")
+        ) {
+          setApiError("Incorrect email or password.");
         } else {
           setApiError(error.message);
         }
@@ -107,7 +110,7 @@ export default function LoginForm() {
   };
 
   const onFinish = (values: Record<string, unknown>) => {
-    handleSubmit(values as { username: string; password: string; remember?: boolean });
+    handleSubmit(values as { email: string; password: string; remember?: boolean });
   };
 
   return (
@@ -175,24 +178,21 @@ export default function LoginForm() {
                 requiredMark={false}
                 disabled={isSubmitting || lockCountdown > 0}
               >
-                {/* USERNAME FIELD */}
                 <Form.Item 
-                  name="username" 
+                  name="email" 
                   className={styles.formItem}
                   rules={[
-                    { required: true, message: "Please input your username!" },
-                    { min: 3, message: "Username must be at least 3 characters!" },
-                    { max: 50, message: "Username cannot exceed 50 characters!" }
+                    { required: true, message: "Please input your email!" },
+                    { type: "email", message: "Please enter a valid email address!" },
+                    { max: 50, message: "Email cannot exceed 50 characters!" }
                   ]}
                 >
                   <Input
-                    placeholder="Username"
+                    placeholder="Email"
                     className={styles.input}
                     autoFocus
                   />
                 </Form.Item>
-
-                {/* PASSWORD FIELD */}
                 <Form.Item 
                   name="password" 
                   className={styles.formItem}
@@ -215,7 +215,7 @@ export default function LoginForm() {
                   <Form.Item name="remember" valuePropName="checked" noStyle>
                     <Checkbox className={styles.checkbox}>Remember me</Checkbox>
                   </Form.Item>
-                  <Link href="/forget-password" className={styles.forgotLink}>
+                  <Link href="/forgot-password" className={styles.forgotLink}>
                     Forgot password?
                   </Link>
                 </div>
