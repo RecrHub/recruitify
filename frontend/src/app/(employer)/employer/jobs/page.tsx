@@ -23,6 +23,128 @@ import styles from './jobsPage.module.css';
 import { DatePicker } from 'antd';
 import { ApiJob, type JobFilterOption, jobService } from '@/services/jobService';
 
+type StatusFilter = 'all' | JobStatus;
+type ApiStatusFilter = 'ACTIVE' | 'DRAFT' | 'CLOSED';
+type JobFieldKey =
+  | 'title'
+  | 'status'
+  | 'categoryText'
+  | 'employmentTypeText'
+  | 'experienceLevelText'
+  | 'workApproachText'
+  | 'salaryText'
+  | 'locationText'
+  | 'applicants'
+  | 'matched'
+  | 'skills'
+  | 'isHidden'
+  | 'isFeatured';
+
+const statusTabToFilter: StatusFilter[] = ['all', 'open', 'hold', 'closed', 'draft'];
+const statusTabToApiStatus: Record<StatusFilter, ApiStatusFilter | null> = {
+  all: null,
+  open: 'ACTIVE',
+  hold: null,
+  closed: 'CLOSED',
+  draft: 'DRAFT',
+};
+
+const PAGE_SIZE_OPTIONS = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+const DEFAULT_PAGE_SIZE = 10;
+const FIELD_PAGE_SIZE = 4;
+const DEFAULT_VISIBLE_FIELDS: JobFieldKey[] = ['title', 'categoryText', 'status', 'salaryText'];
+
+const jobFieldOptions: Array<{
+  key: JobFieldKey;
+  label: string;
+  render: (job: EmployerJobListItem) => ReactNode;
+}> = [
+  { key: 'title', label: 'Job Title', render: (job) => job.title },
+  { key: 'status', label: 'Status', render: (job) => <StatusBadge status={job.status} /> },
+  { key: 'categoryText', label: 'Category', render: (job) => job.categoryText },
+  { key: 'employmentTypeText', label: 'Employment Type', render: (job) => job.employmentTypeText },
+  { key: 'experienceLevelText', label: 'Experience', render: (job) => job.experienceLevelText },
+  { key: 'workApproachText', label: 'Work Approach', render: (job) => job.workApproachText },
+  { key: 'salaryText', label: 'Salary', render: (job) => job.salaryText },
+  { key: 'locationText', label: 'Location', render: (job) => job.locationText },
+  { key: 'applicants', label: 'Applicants', render: (job) => job.applicants },
+  { key: 'matched', label: 'Matched', render: (job) => job.matched },
+  { key: 'skills', label: 'Skills', render: (job) => job.skills.join(', ') || 'None' },
+  { key: 'isHidden', label: 'Hidden', render: (job) => (job.isHidden ? 'Yes' : 'No') },
+  { key: 'isFeatured', label: 'Featured', render: (job) => (job.isFeatured ? 'Yes' : 'No') },
+];
+
+const normalizeJobStatus = (status?: string): JobStatus => {
+  const normalizedStatus = status?.toLowerCase();
+  if (
+    normalizedStatus === 'open' ||
+    normalizedStatus === 'active' ||
+    normalizedStatus === 'hold' ||
+    normalizedStatus === 'closed' ||
+    normalizedStatus === 'draft'
+  ) {
+    return normalizedStatus === 'active' ? 'open' : normalizedStatus;
+  }
+  return 'open';
+};
+
+const mapApiJobToEmployerJob = (job: ApiJob): EmployerJobListItem => {
+  const minSalary = job.minSalary ?? 0;
+  const maxSalary = job.maxSalary ?? 0;
+  const wardCode = job.wardCode ?? '';
+  const categoryId = job.categoryId ?? 1;
+  const employmentTypeId = job.employmentTypeId ?? 1;
+  const experienceLevelId = job.experienceLevelId ?? 1;
+  const workApproachId = job.workApproachId ?? 1;
+  const locationText = [job.provinceName, job.wardName]
+    .filter(Boolean)
+    .join(', ') || getWardLabel(wardCode);
+
+  return {
+    id: Number(job.id),
+    title: job.title,
+    description: job.description ?? '',
+    requirement: job.requirement ?? '',
+    responsibilities: job.responsibilities ?? '',
+    benefit: job.benefit ?? '',
+    minSalary,
+    maxSalary,
+    salaryText: formatSalary(minSalary, maxSalary),
+    isHidden: job.isHidden ?? false,
+    isFeatured: false,
+    categoryId,
+    categoryText: job.categoryName ?? getCategoryLabel(categoryId),
+    companyId: job.companyId ?? 1,
+    employmentTypeId,
+    employmentTypeText: job.employmentTypeName ?? getEmploymentTypeLabel(employmentTypeId),
+    experienceLevelId,
+    experienceLevelText: job.experienceLevelName ?? getExperienceLevelLabel(experienceLevelId),
+    workApproachId,
+    workApproachText: job.workApproachName ?? getWorkApproachLabel(workApproachId),
+    wardCode,
+    locationText,
+    status: normalizeJobStatus(job.status),
+    matched: job.applied ?? 0,
+    applicants: job.applied ?? 0,
+    education: job.experienceLevelName ?? '',
+    skills: Array.from(job.skillsName ?? []),
+    qualifications: [],
+  };
+};
+
+const filterJobsClientSide = (
+  jobs: EmployerJobListItem[],
+  categoryIds: number[],
+  locationCodes: string[],
+  jobTypeIds: number[],
+) =>
+  jobs.filter((job) => {
+    const matchesCategory = categoryIds.length === 0 || categoryIds.includes(job.categoryId);
+    const matchesLocation = locationCodes.length === 0 || locationCodes.includes(job.wardCode);
+    const matchesJobType = jobTypeIds.length === 0 || jobTypeIds.includes(job.employmentTypeId);
+    return matchesCategory && matchesLocation && matchesJobType;
+  });
+
 export default function EmployerJobsPage() {
   const searchParams = useSearchParams();
   const [activeTabIndex, setActiveTabIndex] = useState(0);
