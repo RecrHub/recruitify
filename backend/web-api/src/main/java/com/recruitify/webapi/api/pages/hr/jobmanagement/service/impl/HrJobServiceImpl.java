@@ -1,4 +1,4 @@
-package com.recruitify.webapi.api.pages.admin.jobmanagement.service.impl;
+package com.recruitify.webapi.api.pages.hr.jobmanagement.service.impl;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -12,14 +12,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.recruitify.webapi.api.pages.admin.jobmanagement.dto.request.JobRequest;
 import com.recruitify.webapi.api.pages.admin.jobmanagement.dto.response.JobListResponse;
 import com.recruitify.webapi.api.pages.admin.jobmanagement.dto.response.JobResponse;
-import com.recruitify.webapi.api.pages.admin.jobmanagement.service.IJobService;
+import com.recruitify.webapi.api.pages.hr.jobmanagement.service.IHrJobService;
 import com.recruitify.webapi.common.exception.ResourceNotFoundException;
 import com.recruitify.webapi.common.model.catalog.Category;
 import com.recruitify.webapi.common.model.catalog.EmploymentType;
@@ -43,11 +41,31 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * HR-scoped job service.
+ *
+ * <p>Every read/write is implicitly scoped to {@code currentHr}: the controller
+ * passes the authenticated HR username (extracted from
+ * {@code Authentication.getName()} on a validated JWT) and the implementation
+ * either:
+ * <ul>
+ *   <li>pins {@code createdBy = currentHr} on the query (list), or</li>
+ *   <li>verifies the loaded job's {@code createdBy} equals {@code currentHr}
+ *       before mutating it (find/update/delete).</li>
+ * </ul>
+ *
+ * <p>Non-owners receive {@link AccessDeniedException}, which the security
+ * layer maps to HTTP 403.
+ *
+ * <p>The {@code createdBy}/{@code updatedBy}/{@code deletedBy} fields are
+ * populated from {@code currentHr} on every write — the HR user cannot
+ * impersonate another account, even if the request body tried to.
+ */
 @Slf4j
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class JobServiceImpl implements IJobService {
+public class HrJobServiceImpl implements IHrJobService {
     private final JobRepository jobRepository;
     private final CompanyRepository companyRepository;
     private final CategoryRepository categoryRepository;
@@ -58,12 +76,14 @@ public class JobServiceImpl implements IJobService {
     private final SkillRepository skillRepository;
 
     @Override
-    public JobListResponse listJobs(String keyword, String status, String createdBy,
-            String currentUsername, boolean isAdmin,
-            int page, int size) {
-        String effectiveCreatedBy = resolveEffectiveCreatedBy(createdBy, currentUsername, isAdmin);
+    public JobListResponse listMyJobs(String keyword, String status, String currentHr,
+                                      int page, int size) {
+        log.debug("HR '{}' listing own jobs (keyword={}, status={}, page={}, size={})",
+                currentHr, keyword, status, page, size);
+
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
-        Specification<Job> specification = buildSpecification(keyword, status, effectiveCreatedBy);
+        // Hard-coded: HR can only ever see jobs they created.
+        Specification<Job> specification = buildSpecification(keyword, status, currentHr);
         Page<Job> jobs = jobRepository.findAll(specification, pageable);
         return JobListResponse.builder()
                 .jobs(jobs.getContent().stream().map(this::mapToResponse).toList())
@@ -76,72 +96,67 @@ public class JobServiceImpl implements IJobService {
                 .build();
     }
 
-    private boolean isCurrentUserAdmin() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null) {
-            return false;
-        }
-        return authentication.getAuthorities().stream()
-                .anyMatch(a -> "ROLE_ADMIN".equals(a.getAuthority()));
-    }
-
-    private void assertOwnership(Job job) {
-        if (isCurrentUserAdmin()) {
-            return;
-        }
-        String currentUsername = getCurrentUsername();
-        if (!currentUsername.equals(job.getCreatedBy())) {
-            throw new AccessDeniedException("You can only modify jobs that you created");
-        }
-    }
-
     @Override
-    public JobResponse createJob(JobRequest request) {
-        log.debug("Creating job: {}", request.getTitle());
+    public JobResponse createJob(JobRequest request, String currentHr) {
+        log.debug("HR '{}' creating job: {}", currentHr, request.getTitle());
         Job job = new Job();
-        assertOwnership(job);
         applyRequest(job, request, true);
-        job.setCreatedAt(LocalDateTime.now());
-        job.setCreatedBy(getCurrentUsername());
-        job.setUpdatedAt(LocalDateTime.now());
-        job.setUpdatedBy(getCurrentUsername());
+        LocalDateTime now = LocalDateTime.now();
+        job.setCreatedAt(now);
+        job.setCreatedBy(currentHr);
+        job.setUpdatedAt(now);
+        job.setUpdatedBy(currentHr);
         Job savedJob = jobRepository.save(job);
         return mapToResponse(savedJob);
     }
 
     @Override
-    public JobResponse findJobById(Long id) {
+    public JobResponse findMyJobById(Long id, String currentHr) {
         Job job = jobRepository.findById(id)
                 .orElseThrow(() -> ResourceNotFoundException.create("Job", "id", id));
+        assertOwnership(job, currentHr);
         return mapToResponse(job);
     }
 
     @Override
-    public JobResponse updateJob(Long id, JobRequest request) {
-        log.debug("Updating job id: {}", id);
+    public JobResponse updateJob(Long id, JobRequest request, String currentHr) {
+        log.debug("HR '{}' updating job id: {}", currentHr, id);
         Job job = jobRepository.findById(id)
                 .orElseThrow(() -> ResourceNotFoundException.create("Job", "id", id));
+        assertOwnership(job, currentHr);
         applyRequest(job, request, false);
-        job.setUpdatedAt(LocalDateTime.now());
-        job.setUpdatedBy(getCurrentUsername());
+        LocalDateTime now = LocalDateTime.now();
+        job.setUpdatedAt(now);
+        job.setUpdatedBy(currentHr);
         Job updatedJob = jobRepository.save(job);
         return mapToResponse(updatedJob);
     }
 
     @Override
-    public void deleteJob(Long id) {
-        log.debug("Deleting job id: {}", id);
-
+    public void deleteJob(Long id, String currentHr) {
+        log.debug("HR '{}' deleting job id: {}", currentHr, id);
         Job job = jobRepository.findById(id)
                 .orElseThrow(() -> ResourceNotFoundException.create("Job", "id", id));
-        assertOwnership(job);
+        assertOwnership(job, currentHr);
         LocalDateTime now = LocalDateTime.now();
         job.setDeleteAt(now);
-        job.setDeleteBy(getCurrentUsername());
+        job.setDeleteBy(currentHr);
         job.setIsHidden(true);
         job.setUpdatedAt(now);
-        job.setUpdatedBy(getCurrentUsername());
+        job.setUpdatedBy(currentHr);
         jobRepository.save(job);
+    }
+
+    /**
+     * Verify the job belongs to {@code currentHr}. Centralised so every
+     * read-after-write path (find/update/delete) goes through the same gate.
+     */
+    private void assertOwnership(Job job, String currentHr) {
+        if (currentHr == null || !currentHr.equals(job.getCreatedBy())) {
+            log.warn("Ownership check failed: currentHr='{}' tried to access job id={} owned by '{}'",
+                    currentHr, job.getId(), job.getCreatedBy());
+            throw new AccessDeniedException("You can only access jobs that you created");
+        }
     }
 
     private void applyRequest(Job job, JobRequest request, boolean isCreate) {
@@ -237,23 +252,12 @@ public class JobServiceImpl implements IJobService {
         }
     }
 
-    private String resolveEffectiveCreatedBy(String requested, String currentUsername, boolean isAdmin) {
-        if (isAdmin) {
-            return (requested != null && !requested.isBlank()) ? requested : null;
-        }
-        if (requested == null || requested.isBlank() || requested.equals(currentUsername)) {
-            return currentUsername;
-        }
-        throw new AccessDeniedException("HR can only view their own jobs");
-    }
-
-    private Specification<Job> buildSpecification(String keyword, String status, String createdBy) {
+    private Specification<Job> buildSpecification(String keyword, String status, String currentHr) {
         return (root, query, criteriaBuilder) -> {
             Set<Predicate> predicates = new java.util.HashSet<>();
 
-            if (createdBy != null && !createdBy.isBlank()) {
-                predicates.add(criteriaBuilder.equal(root.get("createdBy"), createdBy));
-            }
+            // Ownership predicate is always present for the HR module.
+            predicates.add(criteriaBuilder.equal(root.get("createdBy"), currentHr));
 
             String normalizedKeyword = keyword != null ? keyword.trim() : null;
             if (normalizedKeyword != null && !normalizedKeyword.isBlank()) {
@@ -312,6 +316,8 @@ public class JobServiceImpl implements IJobService {
                                 .stream()
                                 .map(Skill::getName)
                                 .collect(Collectors.toSet()))
+                .applied(job.getApplied())
+                .view(job.getView())
                 .createdAt(job.getCreatedAt())
                 .updatedAt(job.getUpdatedAt())
                 .deleteAt(job.getDeleteAt())
@@ -326,13 +332,5 @@ public class JobServiceImpl implements IJobService {
             return "Draft";
         }
         return "Active";
-    }
-
-    private String getCurrentUsername() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null || authentication.getName() == null || authentication.getName().isBlank()) {
-            return "system";
-        }
-        return authentication.getName();
     }
 }

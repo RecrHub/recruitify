@@ -5,7 +5,9 @@ import com.recruitify.webapi.api.pages.admin.jobmanagement.dto.response.JobListR
 import com.recruitify.webapi.api.pages.admin.jobmanagement.dto.response.JobResponse;
 
 public interface IJobService {
-    JobListResponse listJobs(String keyword, String status, int page, int size);
+    JobListResponse listJobs(String keyword, String status, String createdBy,
+                             String currentUsername, boolean isAdmin,
+                             int page, int size);
 
     JobResponse createJob(JobRequest request);
 

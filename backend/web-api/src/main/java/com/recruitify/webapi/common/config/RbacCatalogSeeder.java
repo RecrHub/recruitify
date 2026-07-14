@@ -57,7 +57,8 @@ public class RbacCatalogSeeder {
         PERMISSION_CATALOG.put("JOB_CREATE", "Create a job posting");
         PERMISSION_CATALOG.put("JOB_UPDATE", "Update a job posting");
         PERMISSION_CATALOG.put("JOB_DELETE", "Delete a job posting");
-        PERMISSION_CATALOG.put("JOB_VIEW", "View job postings");
+        PERMISSION_CATALOG.put("JOB_VIEW", "View job postings (jobseeker browsing + admin all-jobs view)");
+        PERMISSION_CATALOG.put("JOB_VIEW_HR", "View HR-scoped jobs (owner-only, HR console)");
 
         // Company management (admin only)
         PERMISSION_CATALOG.put("COMPANY_CREATE", "Create a company");
@@ -98,7 +99,7 @@ public class RbacCatalogSeeder {
 
         upsertRoleWithPermissions(
                 "ROLE_HR",
-                List.of("JOB_CREATE", "JOB_UPDATE", "JOB_DELETE", "JOB_VIEW"),
+                List.of("JOB_CREATE", "JOB_UPDATE", "JOB_DELETE", "JOB_VIEW", "JOB_VIEW_HR"),
                 permissionsByName);
 
         upsertRoleWithPermissions(
