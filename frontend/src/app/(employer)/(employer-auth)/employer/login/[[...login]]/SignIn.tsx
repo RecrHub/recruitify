@@ -24,9 +24,27 @@ export default function LoginForm() {
   const { login } = useAuth();
   const router = useRouter();
   const [apiError, setApiError] = useState<string | null>(null);
-  const [loginSuccess, setLoginSuccess] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [lockCountdown, setLockCountdown] = useState(0);
   const { message } = App.useApp();
+
+  // Auto-fill username if "Remember me" was previously checked
+  useEffect(() => {
+    const savedUsername = localStorage.getItem("remembered_username");
+    if (savedUsername) {
+      form.setFieldsValue({
+        username: savedUsername,
+        remember: true,
+      });
+    }
+  }, [form]);
+
+  useEffect(() => {
+    if (lockCountdown > 0) {
+      const timer = setTimeout(() => setLockCountdown(prev => prev - 1), 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [lockCountdown]);
 
   useEffect(() => {
     if (apiError) {
@@ -35,16 +53,20 @@ export default function LoginForm() {
     }
   }, [apiError]);
 
-  const handleSubmit = async (values: { email: string; password: string }) => {
+  const handleSubmit = async (values: { username: string; password: string; remember?: boolean }) => {
     try {
       setApiError(null);
-      setLoginSuccess(false);
       setIsSubmitting(true);
       
-      const response = await authService.login(values.email, values.password);
+      const response = await authService.login(values.username, values.password);
 
-      setLoginSuccess(true);
-      message.success("Đăng nhập thành công! Chào mừng bạn trở lại.");
+      if (values.remember) {
+        localStorage.setItem("remembered_username", values.username);
+      } else {
+        localStorage.removeItem("remembered_username");
+      }
+
+      message.success("Login successful! Welcome back.");
 
       setTimeout(() => {
         const res = response as any;
@@ -56,21 +78,28 @@ export default function LoginForm() {
           router.push("/");
         }
       }, 1500);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Login error:", error);
+
+      if (error?.status === 429 || error?.response?.status === 429) {
+        setApiError("Too many failed login attempts. Please try again later.");
+        setLockCountdown(60);
+        return;
+      }
+
       if (error instanceof Error) {
         const errorMessage = error.message.toLowerCase();
         if (errorMessage.includes("account is deactivated") || errorMessage.includes("deactivated")) {
-          setApiError("Tài khoản của bạn đã bị vô hiệu hóa. Vui lòng liên hệ quản trị viên.");
+          setApiError("Your account has been deactivated. Please contact the administrator.");
         } else if (errorMessage.includes("locked") || errorMessage.includes("temporarily locked")) {
-          setApiError("Tài khoản của bạn tạm thời bị khóa. Vui lòng thử lại sau.");
+          setApiError("Your account is temporarily locked. Please try again later.");
         } else if (errorMessage.includes("invalid credentials") || errorMessage.includes("incorrect password") || errorMessage.includes("user not found")) {
-          setApiError("Tên đăng nhập hoặc mật khẩu không đúng.");
+          setApiError("Incorrect username or password.");
         } else {
           setApiError(error.message);
         }
       } else {
-        setApiError("Đã xảy ra lỗi không mong muốn. Vui lòng thử lại.");
+        setApiError("An unexpected error occurred. Please try again.");
       }
     } finally {
       setIsSubmitting(false);
@@ -78,7 +107,7 @@ export default function LoginForm() {
   };
 
   const onFinish = (values: Record<string, unknown>) => {
-    handleSubmit(values as { email: string; password: string });
+    handleSubmit(values as { username: string; password: string; remember?: boolean });
   };
 
   return (
@@ -144,23 +173,34 @@ export default function LoginForm() {
                 className={styles.form}
                 onFinish={onFinish}
                 requiredMark={false}
+                disabled={isSubmitting || lockCountdown > 0}
               >
+                {/* USERNAME FIELD */}
                 <Form.Item 
-                  name="email" 
+                  name="username" 
                   className={styles.formItem}
-                  rules={[{ required: true, message: 'Please input your email!' }]}
+                  rules={[
+                    { required: true, message: "Please input your username!" },
+                    { min: 3, message: "Username must be at least 3 characters!" },
+                    { max: 50, message: "Username cannot exceed 50 characters!" }
+                  ]}
                 >
                   <Input
-                    placeholder="Email"
-                    type="email"
+                    placeholder="Username"
                     className={styles.input}
+                    autoFocus
                   />
                 </Form.Item>
 
+                {/* PASSWORD FIELD */}
                 <Form.Item 
                   name="password" 
                   className={styles.formItem}
-                  rules={[{ required: true, message: 'Please input your password!' }]}
+                  rules={[
+                    { required: true, message: "Please input your password!" },
+                    { min: 6, message: "Password must be at least 6 characters!" },
+                    { max: 100, message: "Password cannot exceed 100 characters!" }
+                  ]}
                 >
                   <Input.Password
                     placeholder="Password"
@@ -192,9 +232,10 @@ export default function LoginForm() {
                     htmlType="submit"
                     block
                     loading={isSubmitting}
+                    disabled={lockCountdown > 0}
                     className={styles.submitButton}
                   >
-                    Sign in
+                    {lockCountdown > 0 ? `Try again in ${lockCountdown}s` : "Sign in"}
                   </Button>
                   <div className={styles.divider}></div>
                 </Form.Item>
