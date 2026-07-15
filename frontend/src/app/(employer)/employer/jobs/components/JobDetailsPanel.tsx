@@ -1,4 +1,4 @@
-import { Button, Modal } from 'antd';
+import { Button, Modal, Spin } from 'antd';
 import { Edit3, MapPin, Maximize2, Sparkles, UserCheck, Users, X } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -14,6 +14,7 @@ import type { EmployerJobListItem } from '../types';
 import { StatusBadge } from './StatusBadge';
 import contentStyles from './jobDetailsContent.module.css';
 import styles from './jobDetailsPanel.module.css';
+import api from '@/services/apiAdmin/api';
 
 type JobDetailsPanelProps = {
   job: EmployerJobListItem;
@@ -24,9 +25,23 @@ export function JobDetailsPanel({ job, onClose }: JobDetailsPanelProps) {
   const router = useRouter();
   const [isAnalysisConfirmationOpen, setIsAnalysisConfirmationOpen] = useState(false);
 
-  const openAnalysisResults = () => {
-    setIsAnalysisConfirmationOpen(false);
-    router.push(`/employer/jobs/${job.id}/ai-analysis`);
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+
+  const openAnalysisResults = async () => {
+    try {
+      setIsAnalyzing(true);
+      const response = await api.post(`/api/v1/hr/jobs/${job.id}/analyze`);
+      const data = response.data.data; // ApiResponse has a 'data' field
+      sessionStorage.setItem('ai_analysis_result', JSON.stringify(data));
+      setIsAnalysisConfirmationOpen(false);
+      router.push(`/employer/jobs/${job.id}/ai-analysis`);
+    } catch (error) {
+      console.error('Error during AI analysis:', error);
+      setIsAnalysisConfirmationOpen(false);
+      router.push(`/employer/jobs/${job.id}/ai-analysis`);
+    } finally {
+      setIsAnalyzing(false);
+    }
   };
 
   return (
@@ -154,19 +169,30 @@ export function JobDetailsPanel({ job, onClose }: JobDetailsPanelProps) {
         </Button>
 
         <Modal
-          title="AI Analysis Confirmation"
+          title={isAnalyzing ? "Analyzing..." : "AI Analysis Confirmation"}
           open={isAnalysisConfirmationOpen}
           cancelText="Cancel"
           okText="Analysis now"
           okButtonProps={{ className: styles.aiAnalysisConfirmButton }}
+          confirmLoading={isAnalyzing}
           centered
-          onCancel={() => setIsAnalysisConfirmationOpen(false)}
+          closable={!isAnalyzing}
+          maskClosable={!isAnalyzing}
+          footer={isAnalyzing ? null : undefined}
+          onCancel={() => !isAnalyzing && setIsAnalysisConfirmationOpen(false)}
           onOk={openAnalysisResults}
         >
-          <p>
-            Would you like AI to analyze this job posting and provide optimization suggestions? This process may take a
-            few seconds to analyze the data and deliver the most accurate results.
-          </p>
+          {isAnalyzing ? (
+            <div style={{ textAlign: 'center', padding: '2rem 0' }}>
+               <Spin size="large" />
+               <p style={{ marginTop: 16 }}>AI is analyzing this job. This may take a few seconds...</p>
+            </div>
+          ) : (
+            <p>
+              Would you like AI to analyze this job posting and provide optimization suggestions? This process may take a
+              few seconds to analyze the data and deliver the most accurate results.
+            </p>
+          )}
         </Modal>
       </aside>
     </div>

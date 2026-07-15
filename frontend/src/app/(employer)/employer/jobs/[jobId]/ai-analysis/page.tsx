@@ -1,4 +1,7 @@
+'use client';
+
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 import {
   AlertTriangle,
   ArrowLeft,
@@ -19,7 +22,7 @@ import {
 } from 'lucide-react';
 import styles from './page.module.css';
 
-const analysis = {
+const defaultAnalysis = {
   quality: {
     overall: 100,
     checks: [
@@ -29,7 +32,7 @@ const analysis = {
       ['Benefits', true],
       ['Description length', true],
       ['Salary', true],
-    ] as const,
+    ] as [string, boolean][],
   },
   market: {
     yourApplied: 23,
@@ -78,7 +81,7 @@ const analysis = {
       { field: 'Experience level', yours: 'Senior', competitor: 'Senior', verdict: 'equal' },
       { field: 'Description length', yours: '55 words', competitor: '47 words', verdict: 'better' },
       { field: 'Benefit richness', yours: '10 words', competitor: '8 words', verdict: 'better' },
-    ] as const,
+    ] as { field: string; yours: string; competitor: string; verdict: 'worse' | 'equal' | 'better' | 'different' }[],
     gaps: [
       'Lượt xem thấp hơn 21 lần so với job tương đồng (60 vs 1,296). Tối ưu tiêu đề, mô tả và từ khóa SEO.',
       'Lượt ứng tuyển thấp hơn 57 lượt (23 vs 80). Điều chỉnh mức lương cạnh tranh hoặc bổ sung phúc lợi hấp dẫn.',
@@ -93,12 +96,69 @@ const analysis = {
       "Bổ sung phúc lợi 'WFH 3 ngày/tuần' và 'Chuyến du lịch thường niên'.",
       'Tăng mức lương tối thiểu lên 3,200 USD để cạnh tranh trực tiếp với job tương đồng.',
     ],
+    skills: [] as string[],
   },
 };
 
-type JobSummary = typeof analysis.market.currentJob;
+type JobSummary = typeof defaultAnalysis.market.currentJob;
 
 export default function AiAnalysisPage() {
+  const [analysis, setAnalysis] = useState(defaultAnalysis);
+
+  useEffect(() => {
+    try {
+      const storedData = sessionStorage.getItem('ai_analysis_result');
+      if (storedData) {
+        const parsed = JSON.parse(storedData);
+        if (parsed.quality && parsed.market) {
+          const apiChecks = parsed.quality.checks || {};
+          const mappedChecks: [string, boolean][] = [
+            ['Title', apiChecks.has_title ?? true],
+            ['Requirements', apiChecks.has_requirement ?? true],
+            ['Responsibilities', apiChecks.has_responsibilities ?? true],
+            ['Benefits', apiChecks.has_benefit ?? true],
+            ['Description length', apiChecks.description_long_enough ?? true],
+            ['Salary', apiChecks.has_salary ?? true],
+          ];
+
+          const mappedComparison = (parsed.market.comparison || []).map((c: any) => ({
+            field: c.field,
+            yours: String(c.your_value),
+            competitor: String(c.competitor_value),
+            verdict: c.verdict as 'worse' | 'equal' | 'better' | 'different',
+          }));
+
+          const structured = parsed.market.structured || {};
+
+          setAnalysis({
+            quality: {
+              overall: parsed.quality.overall ?? defaultAnalysis.quality.overall,
+              checks: mappedChecks,
+            },
+            market: {
+              yourApplied: parsed.market.your_applied ?? defaultAnalysis.market.yourApplied,
+              yourViews: parsed.market.your_view ?? defaultAnalysis.market.yourViews,
+              averageApplied: parsed.market.avg_applied ?? defaultAnalysis.market.averageApplied,
+              topSimilarApplied: parsed.market.top_similar_applied ?? defaultAnalysis.market.topSimilarApplied,
+              similarity: parsed.market.competitor_similarity_score 
+                            ? Math.round(parsed.market.competitor_similarity_score * 1000) / 10 
+                            : defaultAnalysis.market.similarity,
+              currentJob: structured.job_analyzing ?? defaultAnalysis.market.currentJob,
+              similarJob: structured.job_tuong_dong ?? defaultAnalysis.market.similarJob,
+              selectionReason: structured.ly_do_chon ?? defaultAnalysis.market.selectionReason,
+              comparison: mappedComparison.length > 0 ? mappedComparison : defaultAnalysis.market.comparison,
+              gaps: structured.gap_analysis ?? defaultAnalysis.market.gaps,
+              benefits: structured.benefit_analysis ?? defaultAnalysis.market.benefits,
+              recommendations: structured.recommendations ?? defaultAnalysis.market.recommendations,
+              skills: structured.skills_analysis ?? defaultAnalysis.market.skills,
+            },
+          });
+        }
+      }
+    } catch (e) {
+      console.error("Error parsing AI analysis result", e);
+    }
+  }, []);
   return (
     <main className={styles.page}>
       <Link href="/employer/jobs" className={styles.backLink}>
@@ -250,11 +310,19 @@ export default function AiAnalysisPage() {
           </ul>
         </InsightCard>
 
-        <InsightCard icon={<BriefcaseBusiness size={19} />} eyebrow="Skills coverage" title="More data needed" tone="neutral">
-          <div className={styles.emptyState}>
-            <p>Skills data is unavailable, so AI cannot benchmark role-specific capabilities yet.</p>
-            <button type="button">Add skills to job</button>
-          </div>
+        <InsightCard icon={<BriefcaseBusiness size={19} />} eyebrow="Skills coverage" title={analysis.market.skills && analysis.market.skills.length > 0 ? "Skills analysis" : "More data needed"} tone="neutral">
+          {analysis.market.skills && analysis.market.skills.length > 0 ? (
+            <ul className={styles.bulletList}>
+              {analysis.market.skills.map((skill: string) => (
+                <li key={skill}>{skill}</li>
+              ))}
+            </ul>
+          ) : (
+            <div className={styles.emptyState}>
+              <p>Skills data is unavailable, so AI cannot benchmark role-specific capabilities yet.</p>
+              <button type="button">Add skills to job</button>
+            </div>
+          )}
         </InsightCard>
       </section>
     </main>

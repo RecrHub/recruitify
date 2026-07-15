@@ -43,4 +43,9 @@ public interface IHrJobService {
      * Soft-delete a job, but only if it was created by the calling HR user.
      */
     void deleteJob(Long id, String currentHr);
+
+    /**
+     * Analyze a job using an external AI service.
+     */
+    Object analyzeJob(Long id, String currentHr);
 }

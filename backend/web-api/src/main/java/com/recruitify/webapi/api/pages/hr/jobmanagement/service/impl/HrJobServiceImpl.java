@@ -41,6 +41,11 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.client.RestTemplate;
+import java.util.Map;
+import java.util.HashMap;
+
 /**
  * HR-scoped job service.
  *
@@ -74,6 +79,11 @@ public class HrJobServiceImpl implements IHrJobService {
     private final WorkApproachRepository workApproachRepository;
     private final WardRepository wardRepository;
     private final SkillRepository skillRepository;
+
+    @Value("${ai.service.url:http://localhost:8000/analyze}")
+    private String aiServiceUrl;
+
+    private final RestTemplate restTemplate = new RestTemplate();
 
     @Override
     public JobListResponse listMyJobs(String keyword, String status, String currentHr,
@@ -145,6 +155,39 @@ public class HrJobServiceImpl implements IHrJobService {
         job.setUpdatedAt(now);
         job.setUpdatedBy(currentHr);
         jobRepository.save(job);
+    }
+
+    @Override
+    public Object analyzeJob(Long id, String currentHr) {
+        log.debug("HR '{}' requesting AI analysis for job id: {}", currentHr, id);
+        Job job = jobRepository.findById(id)
+                .orElseThrow(() -> ResourceNotFoundException.create("Job", "id", id));
+        assertOwnership(job, currentHr);
+
+        Map<String, Object> payload = new HashMap<>();
+        payload.put("title", job.getTitle() != null ? job.getTitle() : "");
+        payload.put("description", job.getDescription() != null ? job.getDescription() : "");
+        payload.put("requirement", job.getRequirement() != null ? job.getRequirement() : "");
+        payload.put("responsibilities", job.getResponsibilities() != null ? job.getResponsibilities() : "");
+        payload.put("benefit", job.getBenefit() != null ? job.getBenefit() : "");
+        payload.put("company", job.getCompany() != null && job.getCompany().getId() != null ? String.valueOf(job.getCompany().getId()) : "");
+        payload.put("category", job.getCategory() != null ? job.getCategory().getName() : "");
+        payload.put("employment_type", job.getEmploymentType() != null ? job.getEmploymentType().getName() : "");
+        payload.put("experience_level", job.getExperienceLevel() != null ? job.getExperienceLevel().getName() : "");
+        payload.put("work_approach", job.getWorkApproach() != null ? job.getWorkApproach().getName() : "");
+        payload.put("ward", job.getWard() != null ? job.getWard().getFullName() : "");
+        payload.put("province", job.getWard() != null ? job.getWard().getFullName() : "");
+        payload.put("min_salary", job.getMinSalary() != null ? job.getMinSalary() : 0);
+        payload.put("max_salary", job.getMaxSalary() != null ? job.getMaxSalary() : 0);
+        payload.put("applied", job.getApplied());
+        payload.put("view", job.getView());
+
+        try {
+            return restTemplate.postForObject(aiServiceUrl, payload, Object.class);
+        } catch (Exception e) {
+            log.error("Failed to analyze job via AI service: {}", e.getMessage(), e);
+            throw new RuntimeException("Failed to analyze job via AI service: " + e.getMessage());
+        }
     }
 
     /**

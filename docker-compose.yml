@@ -53,6 +53,35 @@ services:
     networks:
       - recruitify-network
 
+  api-gateway:
+    image: nginx:alpine
+    container_name: recruitify-api-gateway
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - ./infrastructure/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    networks:
+      - recruitify-network
+    # Required for host.docker.internal to work on Linux.
+    # On Mac/Windows, Docker Desktop provides this automatically.
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  ai-service:
+    build: ./ai-service
+    container_name: recruitify-ai
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./ai-service/.env
+    networks:
+      - recruitify-network
+    volumes:
+      # Optional: mount chroma_db if you want vector data to persist locally
+      - ./ai-service/chroma_db:/app/chroma_db
+
 volumes:
   postgresql-data:
   jenkins_home:
