@@ -1,7 +1,7 @@
 import { Theme, css } from 'antd-style';
 import { readableColor, rgba } from 'polished';
 
-export default (token: Theme) => {
+const antdOverride = (token: Theme) => {
   const readColor = readableColor(token.colorPrimary);
   return css`
     .${token.prefixCls}-checkbox-inner:after {
@@ -86,3 +86,5 @@ export default (token: Theme) => {
     }
   `;
 };
+
+export default antdOverride;

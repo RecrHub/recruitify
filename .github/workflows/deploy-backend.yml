@@ -1,25 +1,26 @@
 name: Deploy Backend to Azure VM
-
-# Tự deploy backend lên VM Azure mỗi khi push thay đổi backend lên nhánh main.
-# Yêu cầu đã chạy `terraform apply` trước (VM + docker-compose.yml + .env đã có sẵn trên VM).
-#
-# GitHub Secrets cần tạo (Settings -> Secrets and variables -> Actions):
-#   VM_HOST     : public IP của VM (terraform output vm_public_ip)
-#   VM_USER     : azureuser
-#   VM_SSH_KEY  : nội dung file infrastructure/terraform/enviroiments/dev/vm_ssh_key.pem
+# Thanh Hung
 
 on:
   push:
-    branches: [main]
+    branches: [develop]
     paths:
       - "backend/web-api/**"
       - ".github/workflows/deploy-backend.yml"
   workflow_dispatch:
 
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-backend-production
+  cancel-in-progress: false
+
 jobs:
   build-check:
-    name: Build check (Gradle)
+    name: Build and test (Gradle)
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     defaults:
       run:
         working-directory: backend/web-api
@@ -31,18 +32,29 @@ jobs:
           distribution: temurin
           java-version: "17"
           cache: gradle
-
-      - name: Build jar (skip tests - Jenkins lo phần test/sonar)
+      - name: Build and test
         run: |
           chmod +x gradlew
-          ./gradlew clean bootJar --no-daemon -x test
+          ./gradlew clean build --no-daemon
 
   deploy:
     name: Deploy to VM
     needs: build-check
     runs-on: ubuntu-latest
+    timeout-minutes: 20
+    environment: production
     steps:
       - uses: actions/checkout@v4
+
+      - name: Kiểm tra deploy secrets
+        env:
+          VM_HOST: ${{ secrets.VM_HOST }}
+          VM_USER: ${{ secrets.VM_USER }}
+          VM_SSH_KEY: ${{ secrets.VM_SSH_KEY }}
+        run: |
+          test -n "$VM_HOST" || { echo "Missing GitHub secret: VM_HOST"; exit 1; }
+          test -n "$VM_USER" || { echo "Missing GitHub secret: VM_USER"; exit 1; }
+          test -n "$VM_SSH_KEY" || { echo "Missing GitHub secret: VM_SSH_KEY"; exit 1; }
 
       - name: Đóng gói source backend
         run: |
@@ -69,8 +81,53 @@ jobs:
           username: ${{ secrets.VM_USER }}
           key: ${{ secrets.VM_SSH_KEY }}
           script: |
+            set -eu
             cd /opt/recruitify
-            tar xzf web-api.tgz
+
+            # Giải nén vào thư mục mới để file đã xóa trong Git không còn sót lại.
+            rm -rf web-api.next
+            mkdir web-api.next
+            tar xzf web-api.tgz -C web-api.next --strip-components=1
             rm -f web-api.tgz
-            sudo docker compose up -d --build backend
+
+            rm -rf web-api.previous
+            if [ -d web-api ]; then
+              mv web-api web-api.previous
+            fi
+            mv web-api.next web-api
+
+            rollback() {
+              echo "Deployment failed; restoring previous source..."
+              echo "Container health details:"
+              sudo docker inspect --format='{{json .State.Health}}' recruitify-backend || true
+              sudo docker compose logs --no-color --tail=100 backend || true
+              if [ -d web-api.previous ]; then
+                rm -rf web-api
+                mv web-api.previous web-api
+                sudo docker compose up -d --build backend || true
+              fi
+              exit 1
+            }
+
+            sudo docker compose up -d --build backend || rollback
+
+            # Dockerfile có HEALTHCHECK; chờ tối đa 3 phút trước khi xác nhận deploy.
+            healthy=false
+            for attempt in $(seq 1 36); do
+              status=$(sudo docker inspect --format='{{if .State.Health}}{{.State.Health.Status}}{{else}}{{.State.Status}}{{end}}' recruitify-backend 2>/dev/null || true)
+              echo "Health check ${attempt}/36: ${status:-not-created}"
+              if [ "$status" = "healthy" ]; then
+                healthy=true
+                break
+              fi
+              if [ "$status" = "unhealthy" ]; then
+                break
+              fi
+              sleep 5
+            done
+
+            [ "$healthy" = "true" ] || rollback
+            rm -rf web-api.previous
             sudo docker compose ps
+            echo "Backend logs after successful deployment:"
+            sudo docker compose logs --no-color --tail=100 backend

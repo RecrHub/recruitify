@@ -1,19 +1,37 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Edit3, Eye, MapPin, MoreHorizontal, Trash2 } from 'lucide-react';
-import { formatSalary, getCategoryLabel, getWardLabel } from '../jobDisplay';
+import type { ReactNode } from 'react';
+import { Edit3, MoreHorizontal, Trash2 } from 'lucide-react';
 import type { EmployerJobListItem } from '../types';
-import { StatusBadge } from './StatusBadge';
 import actionStyles from './jobActions.module.css';
 import styles from './jobsTable.module.css';
 
-type JobsTableProps = {
-  jobs: EmployerJobListItem[];
-  onSelectJob: (job: EmployerJobListItem) => void;
+export type JobsTableColumn = {
+  key: string;
+  label: string;
+  render: (job: EmployerJobListItem) => ReactNode;
 };
 
-export function JobsTable({ jobs, onSelectJob }: JobsTableProps) {
+type JobsTableProps = {
+  jobs: EmployerJobListItem[];
+  columns: JobsTableColumn[];
+  onSelectJob: (job: EmployerJobListItem) => void;
+  onShowNextFields: () => void;
+  hasFieldPages: boolean;
+};
+
+const createGridTemplate = (columnCount: number) =>
+  `repeat(${columnCount}, minmax(0, 1fr)) 34px`;
+
+export function JobsTable({
+  jobs,
+  columns,
+  onSelectJob,
+  onShowNextFields,
+  hasFieldPages,
+}: JobsTableProps) {
+  const gridTemplateColumns = createGridTemplate(columns.length);
   const [openActionJobId, setOpenActionJobId] = useState<number | null>(null);
 
   useEffect(() => {
@@ -41,14 +59,19 @@ export function JobsTable({ jobs, onSelectJob }: JobsTableProps) {
 
   return (
     <section className={styles.jobsTable} aria-label="Jobs list">
-      <div className={styles.tableHeader}>
-        <span>Job Title</span>
-        <span>Category</span>
-        <span>Status</span>
-        <span>Salary</span>
-        <span>Location</span>
-        <span>Matched</span>
-        <span aria-label="Actions" />
+      <div className={styles.tableHeader} style={{ gridTemplateColumns }}>
+        {columns.map((column) => (
+          <span key={column.key}>{column.label}</span>
+        ))}
+        <button
+          type="button"
+          className={styles.nextFieldsButton}
+          aria-label="Show next selected fields"
+          disabled={!hasFieldPages}
+          onClick={onShowNextFields}
+        >
+          <MoreHorizontal size={20} aria-hidden />
+        </button>
       </div>
 
       <div className={styles.tableRows}>
@@ -56,19 +79,20 @@ export function JobsTable({ jobs, onSelectJob }: JobsTableProps) {
           <article
             key={job.id}
             className={`${styles.jobRow} ${openActionJobId === job.id ? styles.jobRowMenuOpen : ''}`}
+            style={{ gridTemplateColumns }}
             onClick={() => onSelectJob(job)}
             tabIndex={0}
           >
-            <span className={styles.jobTitle}>{job.title}</span>
-            <span className={styles.categoryText}>{getCategoryLabel(job.categoryId)}</span>
-            <StatusBadge status={job.status} />
-            <span>{formatSalary(job.minSalary, job.maxSalary)}</span>
-            <span className={styles.locationCell}>
-              <MapPin size={16} aria-hidden />
-              {getWardLabel(job.wardCode)}
-            </span>
-            <span>{job.matched}</span>
-            <div className={actionStyles.rowActions} data-job-action-menu="true" onClick={(event) => event.stopPropagation()}>
+            {columns.map((column) => (
+              <span key={column.key} className={styles.fieldCell} data-label={column.label}>
+                {column.render(job)}
+              </span>
+            ))}
+            <div
+              className={actionStyles.rowActions}
+              data-job-action-menu="true"
+              onClick={(event) => event.stopPropagation()}
+            >
               <button
                 type="button"
                 className={actionStyles.moreButton}

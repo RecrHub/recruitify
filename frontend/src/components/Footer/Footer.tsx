@@ -9,7 +9,7 @@ import type { FooterProps } from './type';
 import Logo from '@/components/brand/LogoRecruitify/Logo';
 
 const Footer = memo<FooterProps>(
-  ({ columns, bottom, theme, contentMaxWidth = 1450, children, ...rest }) => {
+  ({ columns, bottom, contentMaxWidth = 1450, children, ...rest }) => {
     const isEmpty = ! columns || columns?. length === 0;
     const { styles } = useStyles({ contentMaxWidth, isEmpty });
 

@@ -1,14 +1,13 @@
 'use client';
 
 import { Flex, Typography, Button, DatePicker } from 'antd';
-import { SettingOutlined, CalendarOutlined } from '@ant-design/icons';
+import { CalendarOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
 import styles from './DashboardHeader.module.css';
 import { Settings2 } from 'lucide-react';
 
 
 const { Title } = Typography;
-const { RangePicker } = DatePicker;
 
 export default function DashboardHeader() {
   return (

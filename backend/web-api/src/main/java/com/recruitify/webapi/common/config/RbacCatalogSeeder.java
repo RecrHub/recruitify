@@ -57,7 +57,8 @@ public class RbacCatalogSeeder {
         PERMISSION_CATALOG.put("JOB_CREATE", "Create a job posting");
         PERMISSION_CATALOG.put("JOB_UPDATE", "Update a job posting");
         PERMISSION_CATALOG.put("JOB_DELETE", "Delete a job posting");
-        PERMISSION_CATALOG.put("JOB_VIEW", "View job postings");
+        PERMISSION_CATALOG.put("JOB_VIEW", "View job postings (jobseeker browsing + admin all-jobs view)");
+        PERMISSION_CATALOG.put("JOB_VIEW_HR", "View HR-scoped jobs (owner-only, HR console)");
 
         // Company management (admin only)
         PERMISSION_CATALOG.put("COMPANY_CREATE", "Create a company");
@@ -75,30 +76,18 @@ public class RbacCatalogSeeder {
     @PersistenceContext
     private EntityManager entityManager;
 
-    /**
-     * Idempotently upsert permissions, default roles, and role/permission links.
-     */
+
     @Transactional
     public void seed() {
         log.info("Seeding RBAC catalog: {} permissions, 3 default roles", PERMISSION_CATALOG.size());
-
-        // 1) Upsert permission rows. Use a fresh entityManager.clear() before
-        //    touching roles so the cached role entity doesn't shadow the new
-        //    permission rows that get inserted by upsertRoleWithPermissions.
         Map<String, Permission> permissionsByName = new LinkedHashMap<>();
         for (Map.Entry<String, String> entry : PERMISSION_CATALOG.entrySet()) {
             Permission permission = permissionRepository.findByName(entry.getKey())
                     .orElseGet(() -> permissionRepository.save(buildPermission(entry.getKey(), entry.getValue())));
             permissionsByName.put(entry.getKey(), permission);
         }
-        // Clear the persistence context so role lookups below fetch fresh
-        // state and any cached Permission entities don't get reused.
         entityManager.flush();
         entityManager.clear();
-
-        // 2) Upsert roles, then force-replace their permission links via the
-        //    native @Modifying queries — bypasses Hibernate dirty checking on
-        //    the EAGER @ManyToMany collection entirely.
         upsertRoleWithPermissions(
                 "ROLE_ADMIN",
                 List.of(
@@ -110,7 +99,7 @@ public class RbacCatalogSeeder {
 
         upsertRoleWithPermissions(
                 "ROLE_HR",
-                List.of("JOB_CREATE", "JOB_UPDATE", "JOB_DELETE", "JOB_VIEW"),
+                List.of("JOB_CREATE", "JOB_UPDATE", "JOB_DELETE", "JOB_VIEW", "JOB_VIEW_HR"),
                 permissionsByName);
 
         upsertRoleWithPermissions(

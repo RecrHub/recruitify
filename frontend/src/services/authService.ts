@@ -4,7 +4,6 @@ import type {
   RegisterRequest,
   MessageResponse,
   RefreshTokenRequest,
-  User,
   LoginRequest,
 } from "@/types/auth";
 import { useUserStore } from "@/stores/useUserStore";

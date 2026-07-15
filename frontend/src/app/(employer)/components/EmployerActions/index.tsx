@@ -7,11 +7,9 @@ import { Input, Button, Avatar } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import {
   Search,
-  Plus,
   Calendar,
   Mail,
   Inbox,
-  ChevronDown,
   LogOut,
   User,
   Settings,

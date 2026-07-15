@@ -14,16 +14,12 @@ import {
   ChevronDown,
   ChevronRight,
   LayoutDashboard,
-  FileText,
   User,
   Briefcase,
   Mail,
   Settings,
   LogOut,
   Inbox,
-  Calendar,
-  Search,
-  Plus,
 } from "lucide-react";
 
 const mockNotifications = [

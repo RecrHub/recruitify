@@ -1,5 +1,4 @@
 import { createStyles } from "antd-style";
-import { useState } from "react";
 
 const useStyles = createStyles(({ css, responsive }) => ({
   exploreWrapper: css`

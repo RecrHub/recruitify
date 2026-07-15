@@ -137,7 +137,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         //     localStorage.removeItem('user');
         //     setLoading(false);
         // }
-    }, [user]);
+    }, []);
 
     const value = useMemo(() => ({
         user,

@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import Link from "next/link";
 import { Avatar, Button } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 

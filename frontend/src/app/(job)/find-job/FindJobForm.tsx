@@ -17,7 +17,6 @@ const   FindJobForm = () => {
     const [allJobs] = useState(generateMockJobs(50)); // Generate 50 jobs
     const [filteredJobs, setFilteredJobs] = useState(allJobs);
     const [displayedJobs, setDisplayedJobs] = useState(allJobs.slice(0, 12));
-    const [favorites, setFavorites] = useState<Set<number>>(new Set());
     const [filters, setFilters] = useState<JobFilters>({
         category: 'Marketing',
         jobType: [],

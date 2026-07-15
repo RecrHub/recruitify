@@ -1,6 +1,6 @@
 'use client';
 
-import { type ElementType, type Ref, createElement, memo, use } from 'react';
+import { type Ref, createElement, memo, use } from 'react';
 
 import { ConfigContext } from '@/components/ConfigProvider';
 import type { AProps } from '@/types';

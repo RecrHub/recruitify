@@ -58,7 +58,7 @@ Hoặc chạy lại `make apply` (Terraform sẽ upload source mới và build l
 
 ## CD tự động qua GitHub Actions
 Workflow [`.github/workflows/deploy-backend.yml`](../../.github/workflows/deploy-backend.yml)
-sẽ tự build + deploy backend lên VM mỗi khi push thay đổi `backend/web-api/**` lên `main`.
+sẽ tự build + deploy backend lên VM mỗi khi push thay đổi `backend/web-api/**` lên `develop`.
 
 Cần chạy `make apply` 1 lần trước (để có VM + compose + `.env`), rồi tạo 3 GitHub Secrets:
 
@@ -69,10 +69,14 @@ gh secret set VM_USER    --body "azureuser"
 gh secret set VM_SSH_KEY < vm_ssh_key.pem
 ```
 
-Sau đó mỗi lần push backend → GitHub Actions tự SSH vào VM, upload source mới và
-`docker compose up -d --build backend`. Có thể chạy tay qua tab **Actions → Run workflow**.
+Tạo thêm GitHub Environment tên `production` tại **Settings → Environments**.
+Sau đó mỗi lần push backend → GitHub Actions tự SSH vào VM, upload source mới,
+`docker compose up -d --build backend` và chờ container healthy. Nếu health check
+thất bại, workflow khôi phục source của phiên bản trước. Có thể chạy tay qua tab
+**Actions → Run workflow**.
 
-> Jenkins (Jenkinsfile) vẫn lo CI: build/test/SonarQube. GitHub Actions ở đây chỉ lo CD.
+> Jenkins (Jenkinsfile) lo CI đầy đủ và SonarQube. GitHub Actions chạy lại backend
+> test như một deploy gate vì Jenkins đang ở local và có thể offline.
 
 ## Lưu ý
 - `terraform.tfvars`, `*.pem`, `*.tfstate` đã bị `.gitignore` bỏ qua – không commit.
