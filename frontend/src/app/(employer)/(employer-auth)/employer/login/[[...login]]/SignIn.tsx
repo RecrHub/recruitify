@@ -10,24 +10,26 @@ import {
 } from "antd";
 import LogoRecruitify from "@/access/icons/LogoRecrutifyDark.svg"; 
 import styles from "./SignIn.module.css";
-import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 import Link from "next/link";
-import authService from "@/services/authService";
+import adminAuthService from "@/services/apiAdmin/adminAuthService";
+import { useAdminStore } from "@/stores/admin/useAdminStore";
 import Alert from "@/components/Alert";
 
-const { Title, Text } = Typography;
+const { Title } = Typography;
 
 export default function LoginForm() {
   const [form] = Form.useForm();
-  const { login } = useAuth();
   const router = useRouter();
   const [apiError, setApiError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [lockCountdown, setLockCountdown] = useState(0);
+  const [lockCountdown, setLockCountdown] = useState(0); // For handling API 429 Rate Limit (60s lock)
   const { message } = App.useApp();
 
+  const setAdminAuth = useAdminStore((state) => state.setAdminAuth);
+
+  // Load remembered email on mount
   useEffect(() => {
     const savedEmail = localStorage.getItem("remembered_email");
     if (savedEmail) {
@@ -38,6 +40,7 @@ export default function LoginForm() {
     }
   }, [form]);
 
+  // Rate Limit Countdown Timer
   useEffect(() => {
     if (lockCountdown > 0) {
       const timer = setTimeout(() => setLockCountdown(prev => prev - 1), 1000);
@@ -45,6 +48,7 @@ export default function LoginForm() {
     }
   }, [lockCountdown]);
 
+  // Auto-clear API errors after 5 seconds
   useEffect(() => {
     if (apiError) {
       const timer = setTimeout(() => setApiError(null), 5000);
@@ -57,7 +61,20 @@ export default function LoginForm() {
       setApiError(null);
       setIsSubmitting(true);
       
-      const response = await authService.login(values.email, values.password);
+      const response: any = await adminAuthService.login(values.email, values.password);
+
+      const adminInfo = { 
+        id: response.id, 
+        email: response.email, 
+        role: response.role 
+      };
+
+      setAdminAuth(
+        adminInfo,
+        response.accessToken,
+        response.refreshToken || "",
+        response.tokenType || "Bearer"
+      );
 
       if (values.remember) {
         localStorage.setItem("remembered_email", values.email);
@@ -68,41 +85,36 @@ export default function LoginForm() {
       message.success("Login successful! Welcome back.");
 
       setTimeout(() => {
-        const res = response as any;
-        const userRole = res?.role || res?.user?.role || res?.data?.role;
-        
-        if (userRole === "EMPLOYER" || userRole === "CUSTOMER_ADMIN") {
-          router.push("/employer"); 
-        } else {
-          router.push("/");
-        }
+        router.push("/employer");
+        router.refresh();
       }, 1500);
+
     } catch (error: any) {
       console.error("Login error:", error);
 
-      if (error?.status === 429 || error?.response?.status === 429) {
-        setApiError("Too many failed login attempts. Please try again later.");
+      const errorMessage = error?.message?.toLowerCase() || "";
+      const errorStatus = error?.status || error?.response?.status;
+
+      if (errorStatus === 429 || errorMessage.includes("too many attempts") || errorMessage.includes("429")) {
+        setApiError("Too many login attempts. Please try again later.");
         setLockCountdown(60);
         return;
       }
 
-      if (error instanceof Error) {
-        const errorMessage = error.message.toLowerCase();
-        if (errorMessage.includes("account is deactivated") || errorMessage.includes("deactivated")) {
-          setApiError("Your account has been deactivated. Please contact the administrator.");
-        } else if (errorMessage.includes("locked") || errorMessage.includes("temporarily locked")) {
-          setApiError("Your account is temporarily locked. Please try again later.");
-        } else if (
-          errorMessage.includes("invalid credentials") || 
-          errorMessage.includes("incorrect password") || 
-          errorMessage.includes("user not found")
-        ) {
-          setApiError("Incorrect email or password.");
-        } else {
-          setApiError(error.message);
-        }
+      if (
+        errorStatus === 401 ||
+        errorMessage.includes("invalid") ||
+        errorMessage.includes("incorrect") ||
+        errorMessage.includes("unauthorized") ||
+        errorMessage.includes("not found")
+      ) {
+        setApiError("Incorrect email/password or your account is not registered as an HR account.");
+      } 
+      // Xử lý lỗi 403: Account is deactivated (theo đúng mô tả Swagger)
+      else if (errorStatus === 403 || errorMessage.includes("deactivated") || errorMessage.includes("disabled")) {
+        setApiError("Your account has been deactivated. Please contact the administrator.");
       } else {
-        setApiError("An unexpected error occurred. Please try again.");
+        setApiError(error.message || "Something went wrong. Please try again.");
       }
     } finally {
       setIsSubmitting(false);
@@ -142,7 +154,7 @@ export default function LoginForm() {
       </div>
 
       <div className={styles.row}>
-        {/* LEFT COLUMN: IMAGE */}
+        {/* LEFT COLUMN: HERO IMAGE */}
         <div className={styles.leftColumn}>
           <div className={styles.imageContainer}>
             <img
@@ -153,7 +165,7 @@ export default function LoginForm() {
           </div>
         </div>
 
-        {/* RIGHT COLUMN: FORM */}
+        {/* RIGHT COLUMN: LOGIN FORM */}
         <div className={styles.rightColumn}>
           <div className={styles.formWrapper}>
             <div className={styles.formContainer}>
@@ -166,9 +178,9 @@ export default function LoginForm() {
                 <span className={styles.adminTag}>CUSTOMER ADMIN SITE</span>
               </div>
 
-              <h2 className={styles.title}>
+              <Title level={2} className={styles.title}>
                 Welcome to Recruitify Customer
-              </h2>
+              </Title>
 
               <Form
                 form={form}
@@ -178,28 +190,33 @@ export default function LoginForm() {
                 requiredMark={false}
                 disabled={isSubmitting || lockCountdown > 0}
               >
+                {/* FRONTEND VALIDATION: USERNAME / EMAIL */}
                 <Form.Item 
                   name="email" 
                   className={styles.formItem}
+                  validateTrigger={["onBlur", "onChange"]}
                   rules={[
-                    { required: true, message: "Please input your email!" },
-                    { type: "email", message: "Please enter a valid email address!" },
-                    { max: 50, message: "Email cannot exceed 50 characters!" }
+                    { required: true, message: "Please input your username" },
+                    { min: 3, message: "Username must be at least 3 characters" },
+                    { max: 50, message: "Username cannot exceed 50 characters" }
                   ]}
                 >
                   <Input
-                    placeholder="Email"
+                    placeholder="Email or Username"
                     className={styles.input}
                     autoFocus
                   />
                 </Form.Item>
+                
+                {/* FRONTEND VALIDATION: PASSWORD */}
                 <Form.Item 
                   name="password" 
                   className={styles.formItem}
+                  validateTrigger={["onBlur", "onChange"]}
                   rules={[
-                    { required: true, message: "Please input your password!" },
-                    { min: 6, message: "Password must be at least 6 characters!" },
-                    { max: 100, message: "Password cannot exceed 100 characters!" }
+                    { required: true, message: "Please input your password" },
+                    { min: 6, message: "Password must be at least 6 characters" },
+                    { max: 100, message: "Password cannot exceed 100 characters" }
                   ]}
                 >
                   <Input.Password
