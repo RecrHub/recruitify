@@ -1,4 +1,4 @@
-import { Edit3, MapPin, Maximize2, UserCheck, Users, X } from 'lucide-react';
+import { Edit3, MapPin, Maximize2, Sparkles, UserCheck, Users, X } from 'lucide-react';
 import {
   formatSalary,
   getCategoryLabel,
@@ -127,6 +127,17 @@ export function JobDetailsPanel({ job, onClose }: JobDetailsPanelProps) {
             </ul>
           </DetailsSection>
         </div>
+
+        <button
+          type="button"
+          className={styles.aiAnalysisButton}
+          aria-label={`Analyze ${job.title} with AI`}
+        >
+          <span className={styles.aiAnalysisIcon} aria-hidden>
+            <Sparkles size={19} />
+          </span>
+          <span>Analysis AI</span>
+        </button>
       </aside>
     </div>
   );
