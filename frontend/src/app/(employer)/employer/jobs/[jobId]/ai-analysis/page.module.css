@@ -1,0 +1,744 @@
+.page {
+  --ink: #17211d;
+  --muted: #65726c;
+  --line: #dde6e1;
+  --green: #428e72;
+  --green-dark: #28654f;
+  --green-soft: #edf7f2;
+  width: min(100%, 1440px);
+  margin: 0 auto;
+  padding: 10px 8px 64px;
+  color: var(--ink);
+}
+
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 24px;
+  color: #5c6963;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.backLink:hover {
+  color: var(--green-dark);
+}
+
+.pageHeader {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 32px;
+  margin-bottom: 28px;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border-radius: 999px;
+  background: var(--green-soft);
+  color: var(--green-dark);
+  font-size: 11px;
+  font-weight: 850;
+  letter-spacing: 0.09em;
+  padding: 7px 10px;
+  text-transform: uppercase;
+}
+
+.pageHeader h1 {
+  margin: 14px 0 7px;
+  color: var(--ink);
+  font-size: clamp(30px, 3vw, 46px);
+  font-weight: 850;
+  letter-spacing: -0.045em;
+  line-height: 1.05;
+}
+
+.pageHeader p {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.headerActions {
+  display: flex;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.primaryButton,
+.secondaryButton,
+.cardAction {
+  display: inline-flex;
+  min-height: 42px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 10px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  padding: 0 16px;
+}
+
+.primaryButton {
+  border: 1px solid var(--green);
+  background: var(--green);
+  color: #ffffff;
+}
+
+.secondaryButton {
+  border: 1px solid #cfdad4;
+  background: #ffffff;
+  color: #314039;
+}
+
+.overviewGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(430px, 0.85fr);
+  gap: 16px;
+}
+
+.scoreCard,
+.metricCard,
+.jobCard,
+.tableWrap,
+.insightCard {
+  border: 1px solid var(--line);
+  background: #ffffff;
+}
+
+.scoreCard {
+  display: flex;
+  min-height: 264px;
+  align-items: center;
+  gap: 32px;
+  border-radius: 10px;
+  background:
+    radial-gradient(circle at 0 100%, rgba(66, 142, 114, 0.12), transparent 40%),
+    #ffffff;
+  padding: 30px;
+}
+
+.scoreRing {
+  position: relative;
+  display: grid;
+  width: 146px;
+  height: 146px;
+  flex: 0 0 146px;
+  border-radius: 50%;
+  background: conic-gradient(var(--green) calc(var(--score) * 1%), #e6eeea 0);
+  place-content: center;
+  text-align: center;
+}
+
+.scoreRing::after {
+  position: absolute;
+  inset: 11px;
+  border-radius: inherit;
+  background: #ffffff;
+  content: '';
+}
+
+.scoreRing strong,
+.scoreRing span {
+  position: relative;
+  z-index: 1;
+}
+
+.scoreRing strong {
+  font-size: 39px;
+  font-weight: 850;
+  letter-spacing: -0.055em;
+  line-height: 1;
+}
+
+.scoreRing span {
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.scoreContent {
+  min-width: 0;
+}
+
+.cardLabel,
+.metricCard p,
+.insightTitle p {
+  margin: 0;
+  color: var(--green-dark);
+  font-size: 11px;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.scoreContent h2 {
+  margin: 7px 0 7px;
+  font-size: 23px;
+  font-weight: 820;
+  letter-spacing: -0.025em;
+}
+
+.scoreContent > p:not(.cardLabel) {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.checkList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 19px;
+}
+
+.checkList span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border-radius: 999px;
+  background: var(--green-soft);
+  color: #376c58;
+  font-size: 11px;
+  font-weight: 750;
+  padding: 6px 9px;
+}
+
+.metricGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.metricCard {
+  display: flex;
+  align-items: flex-start;
+  gap: 13px;
+  border-radius: 10px;
+  padding: 18px;
+}
+
+.metricIcon {
+  display: grid;
+  width: 38px;
+  height: 38px;
+  flex: 0 0 38px;
+  border-radius: 11px;
+  background: #f0f6f3;
+  color: var(--green-dark);
+  place-items: center;
+}
+
+.metricCard > div {
+  display: grid;
+  min-width: 0;
+}
+
+.metricCard strong {
+  margin: 4px 0 5px;
+  font-size: 28px;
+  font-weight: 850;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+.metricCard div > span {
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.metricDetail_neutral {
+  color: var(--muted);
+}
+
+.metricDetail_danger {
+  color: #c9584e;
+}
+
+.metricDetail_success {
+  color: #318061;
+}
+
+.alertBanner {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 15px;
+  border: 1px solid #bedacb;
+  border-radius: 10px;
+  background: linear-gradient(100deg, #eef8f3, #f8fcfa);
+  margin: 16px 0 54px;
+  color: var(--green-dark);
+  padding: 17px 20px;
+}
+
+.alertIcon {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: var(--green);
+  color: #ffffff;
+  place-items: center;
+}
+
+.alertBanner strong {
+  display: block;
+  margin-bottom: 3px;
+  font-size: 14px;
+  font-weight: 820;
+}
+
+.alertBanner p {
+  margin: 0;
+  color: #526a60;
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.section {
+  margin-bottom: 54px;
+}
+
+.sectionHeading {
+  max-width: 620px;
+  margin-bottom: 20px;
+}
+
+.sectionHeading > span {
+  color: var(--green);
+  font-size: 11px;
+  font-weight: 850;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.sectionHeading h2 {
+  margin: 6px 0 6px;
+  font-size: 26px;
+  font-weight: 850;
+  letter-spacing: -0.035em;
+}
+
+.sectionHeading p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.jobComparisonGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.jobCard {
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+  padding: 24px;
+}
+
+.jobCardHighlighted {
+  border-color: #a8cfbd;
+  background: linear-gradient(145deg, #ffffff 35%, #f0f8f4);
+}
+
+.jobCardHighlighted::before {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 4px;
+  background: var(--green);
+  content: '';
+}
+
+.jobCardTopline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.jobCardTopline strong {
+  border-radius: 999px;
+  background: #dff1e8;
+  color: var(--green-dark);
+  font-size: 11px;
+  letter-spacing: 0;
+  padding: 6px 9px;
+  text-transform: none;
+}
+
+.jobCard h3 {
+  margin: 18px 0 4px;
+  font-size: 22px;
+  font-weight: 830;
+  letter-spacing: -0.025em;
+}
+
+.companyName {
+  margin: 0;
+  color: var(--green-dark);
+  font-size: 13px;
+  font-weight: 750;
+}
+
+.jobMeta {
+  display: grid;
+  gap: 9px;
+  margin: 22px 0;
+}
+
+.jobMeta span {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  color: #5d6963;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.jobMeta svg {
+  flex-shrink: 0;
+  margin-top: 1px;
+  color: #7d8b84;
+}
+
+.jobStats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-top: 1px solid var(--line);
+  padding-top: 18px;
+}
+
+.jobStats div {
+  display: grid;
+  gap: 3px;
+}
+
+.jobStats div + div {
+  border-left: 1px solid var(--line);
+  padding-left: 20px;
+}
+
+.jobStats span {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.jobStats strong {
+  font-size: 23px;
+  font-weight: 840;
+}
+
+.selectionReason {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  border-left: 3px solid #8ebda7;
+  margin-top: 15px;
+  color: #58665f;
+  padding: 8px 14px;
+}
+
+.selectionReason svg {
+  flex-shrink: 0;
+  color: var(--green);
+}
+
+.selectionReason p {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.tableWrap {
+  overflow-x: auto;
+  border-radius: 10px;
+}
+
+.comparisonTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  text-align: left;
+}
+
+.comparisonTable th,
+.comparisonTable td {
+  border-bottom: 1px solid #e7edea;
+  padding: 15px 18px;
+}
+
+.comparisonTable thead th {
+  background: #f5f8f6;
+  color: #526159;
+  font-size: 11px;
+  font-weight: 850;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.comparisonTable tbody th {
+  color: #33423b;
+  font-weight: 760;
+}
+
+.comparisonTable tbody td {
+  color: #647169;
+}
+
+.comparisonTable tbody tr:last-child th,
+.comparisonTable tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.verdict {
+  display: inline-flex;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: 0.04em;
+  padding: 5px 8px;
+  text-transform: uppercase;
+}
+
+.verdict_better {
+  background: #e6f6ed;
+  color: #247250;
+}
+
+.verdict_equal {
+  background: #eef1f4;
+  color: #5e6873;
+}
+
+.verdict_worse {
+  background: #fff0ed;
+  color: #bb4d43;
+}
+
+.verdict_different {
+  background: #f2effa;
+  color: #685899;
+}
+
+.insightsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.insightCard {
+  border-radius: 17px;
+  padding: 24px;
+}
+
+.insightCard_warning {
+  border-top: 3px solid #db9a56;
+}
+
+.insightCard_primary {
+  border-top: 3px solid var(--green);
+}
+
+.insightCard_success {
+  border-top: 3px solid #6eae91;
+}
+
+.insightCard_neutral {
+  border-top: 3px solid #9ba8a1;
+}
+
+.insightTitle {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.insightTitle > span {
+  display: grid;
+  width: 40px;
+  height: 40px;
+  border-radius: 11px;
+  background: #f1f6f3;
+  color: var(--green-dark);
+  place-items: center;
+}
+
+.insightTitle h2 {
+  margin: 3px 0 0;
+  font-size: 19px;
+  font-weight: 830;
+  letter-spacing: -0.02em;
+}
+
+.numberedList {
+  display: grid;
+  gap: 15px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.numberedList li {
+  display: grid;
+  grid-template-columns: 27px 1fr;
+  gap: 10px;
+}
+
+.numberedList li > span {
+  display: grid;
+  width: 27px;
+  height: 27px;
+  border-radius: 8px;
+  background: #eef5f1;
+  color: var(--green-dark);
+  font-size: 11px;
+  font-weight: 850;
+  place-items: center;
+}
+
+.numberedList p,
+.bulletList li,
+.emptyState p {
+  margin: 0;
+  color: #56645d;
+  font-size: 12px;
+  line-height: 1.65;
+}
+
+.bulletList {
+  display: grid;
+  gap: 11px;
+  margin: 0;
+  padding-left: 19px;
+}
+
+.bulletList li::marker {
+  color: var(--green);
+}
+
+.cardAction {
+  width: 100%;
+  border: 1px solid #c7ddd2;
+  background: var(--green-soft);
+  margin-top: 22px;
+  color: var(--green-dark);
+}
+
+.emptyState {
+  display: grid;
+  min-height: 120px;
+  align-content: center;
+  justify-items: start;
+  border: 1px dashed #ccd7d1;
+  border-radius: 12px;
+  background: #fafcfb;
+  padding: 18px;
+}
+
+.emptyState button {
+  border: 0;
+  background: transparent;
+  margin-top: 12px;
+  color: var(--green-dark);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  padding: 0;
+}
+
+@media (max-width: 1080px) {
+  .overviewGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .metricGrid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .metricCard {
+    display: grid;
+  }
+}
+
+@media (max-width: 820px) {
+  .pageHeader {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .metricGrid,
+  .jobComparisonGrid,
+  .insightsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .scoreCard {
+    align-items: flex-start;
+  }
+
+  .comparisonTable {
+    min-width: 720px;
+  }
+}
+
+@media (max-width: 560px) {
+  .page {
+    padding: 4px 0 40px;
+  }
+
+  .headerActions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+  }
+
+  .scoreCard {
+    flex-direction: column;
+    padding: 22px;
+  }
+
+  .scoreRing {
+    width: 126px;
+    height: 126px;
+    flex-basis: 126px;
+  }
+
+  .alertBanner {
+    grid-template-columns: auto 1fr;
+  }
+
+  .alertBanner > svg {
+    display: none;
+  }
+
+  .jobCard,
+  .insightCard {
+    padding: 20px;
+  }
+}
