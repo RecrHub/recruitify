@@ -9,8 +9,8 @@ interface RetryableAxiosRequestConfig extends InternalAxiosRequestConfig {
 
 // More robust way to get API base URL
 const getApiBaseUrl = () => {
-const envBaseUrl = process.env.NEXT_PUBLIC_API_URL;
-  return envBaseUrl || "http://localhost:8080";
+  const envBaseUrl = process.env.NEXT_PUBLIC_API_URL;
+  return envBaseUrl || "http://48.210.235.64:8080";
 };
 
 const BASE_URL = getApiBaseUrl();
@@ -81,10 +81,10 @@ api.interceptors.response.use(
   (response) => response,
   async (error: AxiosError) => {
     const originalRequest = error.config;
-    
-    if (!originalRequest || 
-        (error.response?.status !== 401 && error.response?.status !== 403) || 
-        (originalRequest as RetryableAxiosRequestConfig)._retry) {
+
+    if (!originalRequest ||
+      (error.response?.status !== 401 && error.response?.status !== 403) ||
+      (originalRequest as RetryableAxiosRequestConfig)._retry) {
       return Promise.reject(new Error(formatApiError(error).message));
     }
 
@@ -108,38 +108,38 @@ api.interceptors.response.use(
     try {
       // Lấy refreshToken từ Zustand store
       const refreshToken = useUserStore.getState().refreshToken;
-      
+
       if (!refreshToken) {
         throw new Error('No refresh token available');
       }
 
       // Gọi API refresh token
       const response = await authService.refreshToken(refreshToken);
-      
+
       //Cập nhật tokens vào Zustand store
       useUserStore.getState().updateTokens(
         response.accessToken,
         response.refreshToken
       );
-      
+
       // Update request với token mới
       originalRequest.headers.Authorization = `Bearer ${response.accessToken}`;
-      
+
       processQueue(null, response.accessToken);
-      
+
       return axios(originalRequest);
-      
+
     } catch (refreshError) {
       // Logout thông qua Zustand store
       processQueue(refreshError as Error, null);
       useUserStore.getState().logout();
-      
+
       // Redirect to login
       if (typeof window !== 'undefined') {
         window.location.href = '/login?session=expired';
       }
       return Promise.reject(new Error(formatApiError(refreshError).message));
-      
+
     } finally {
       isRefreshing = false;
     }

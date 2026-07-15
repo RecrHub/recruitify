@@ -44,4 +44,4 @@ export const getWorkApproachLabel = (workApproachId: number) =>
 export const getWardLabel = (wardCode: string) => wardLabel[wardCode] ?? wardCode;
 
 export const formatSalary = (minSalary: number, maxSalary: number) =>
-  `$${Math.round(minSalary / 1000)}K - $${Math.round(maxSalary / 1000)}K`;
+  `$${minSalary.toLocaleString('en-US')} - $${maxSalary.toLocaleString('en-US')}`;
