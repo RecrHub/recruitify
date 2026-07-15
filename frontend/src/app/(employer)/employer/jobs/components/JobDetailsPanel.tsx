@@ -1,4 +1,15 @@
-import { Edit3, MapPin, Maximize2, UserCheck, Users, X } from 'lucide-react';
+import { Button, Modal } from 'antd';
+import { Edit3, MapPin, Maximize2, Sparkles, UserCheck, Users, X } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import {
+  formatSalary,
+  getCategoryLabel,
+  getEmploymentTypeLabel,
+  getExperienceLevelLabel,
+  getWardLabel,
+  getWorkApproachLabel,
+} from '../jobDisplay';
 import type { EmployerJobListItem } from '../types';
 import { StatusBadge } from './StatusBadge';
 import contentStyles from './jobDetailsContent.module.css';
@@ -10,6 +21,14 @@ type JobDetailsPanelProps = {
 };
 
 export function JobDetailsPanel({ job, onClose }: JobDetailsPanelProps) {
+  const router = useRouter();
+  const [isAnalysisConfirmationOpen, setIsAnalysisConfirmationOpen] = useState(false);
+
+  const openAnalysisResults = () => {
+    setIsAnalysisConfirmationOpen(false);
+    router.push(`/employer/jobs/${job.id}/ai-analysis`);
+  };
+
   return (
     <div className={styles.detailsOverlay} role="presentation" onClick={onClose}>
       <aside
@@ -119,6 +138,36 @@ export function JobDetailsPanel({ job, onClose }: JobDetailsPanelProps) {
             </ul>
           </DetailsSection>
         </div>
+
+        <Button
+          type="primary"
+          className={styles.aiAnalysisButton}
+          aria-label={`Analyze ${job.title} with AI`}
+          onClick={() => setIsAnalysisConfirmationOpen(true)}
+          icon={
+            <span className={styles.aiAnalysisIcon} aria-hidden>
+              <Sparkles size={18} />
+            </span>
+          }
+        >
+          <span className={styles.aiAnalysisLabel}>AI Analysis</span>
+        </Button>
+
+        <Modal
+          title="AI Analysis Confirmation"
+          open={isAnalysisConfirmationOpen}
+          cancelText="Cancel"
+          okText="Analysis now"
+          okButtonProps={{ className: styles.aiAnalysisConfirmButton }}
+          centered
+          onCancel={() => setIsAnalysisConfirmationOpen(false)}
+          onOk={openAnalysisResults}
+        >
+          <p>
+            Would you like AI to analyze this job posting and provide optimization suggestions? This process may take a
+            few seconds to analyze the data and deliver the most accurate results.
+          </p>
+        </Modal>
       </aside>
     </div>
   );
