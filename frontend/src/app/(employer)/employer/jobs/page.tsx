@@ -21,7 +21,8 @@ import { categoryFilterOptions, statusTabs } from './jobConstants';
 import type { EmployerJobListItem, JobStatus } from './types';
 import styles from './jobsPage.module.css';
 import { DatePicker } from 'antd';
-import { ApiJob, type JobFilterOption, jobService } from '@/services/jobService';
+import { ApiJob, type JobFilterOption } from '@/services/jobService';
+import { employerJobService as jobService } from '@/services/employerJobService';
 
 type StatusFilter = 'all' | JobStatus;
 type ApiStatusFilter = 'ACTIVE' | 'DRAFT' | 'CLOSED';
@@ -208,25 +209,7 @@ export default function EmployerJobsPage() {
     }
   }, [fieldPageCount, fieldPageIndex]);
 
-  useEffect(() => {
-    let alive = true;
 
-    async function loadCategoryOptions() {
-      try {
-        const options = await jobService.getCategoryOptions();
-        if (alive && options.length > 0) {
-          setCategoryOptions(options);
-        }
-      } catch (error) {
-        console.error('Failed to load category options:', error);
-      }
-    }
-
-    loadCategoryOptions();
-    return () => {
-      alive = false;
-    };
-  }, []);
 
   useEffect(() => {
     async function loadJobs() {

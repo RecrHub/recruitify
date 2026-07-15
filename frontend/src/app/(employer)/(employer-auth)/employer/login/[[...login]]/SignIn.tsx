@@ -19,15 +19,35 @@ import Alert from "@/components/Alert";
 import Silk from "@/components/Silk";
 const { Title } = Typography;
 
-export default function LoginForm() {
+interface LoginFormProps {
+  sessionExpired?: boolean;
+}
+
+export default function LoginForm({ sessionExpired = false }: LoginFormProps) {
   const [form] = Form.useForm();
   const router = useRouter();
   const [apiError, setApiError] = useState<string | null>(null);
+  const [sessionWarning, setSessionWarning] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [lockCountdown, setLockCountdown] = useState(0); // For handling API 429 Rate Limit (60s lock)
   const { message } = App.useApp();
 
   const setAdminAuth = useAdminStore((state) => state.setAdminAuth);
+
+  // Show session expired message when redirected with ?session=expired
+  useEffect(() => {
+    if (sessionExpired) {
+      setSessionWarning("Your session has expired. Please sign in again.");
+    }
+  }, [sessionExpired]);
+
+  // Auto-clear session warning after 5 seconds
+  useEffect(() => {
+    if (sessionWarning) {
+      const timer = setTimeout(() => setSessionWarning(null), 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [sessionWarning]);
 
   // Load remembered email on mount
   useEffect(() => {
@@ -85,8 +105,7 @@ export default function LoginForm() {
       message.success("Login successful! Welcome back.");
 
       setTimeout(() => {
-        router.push("/employer");
-        router.refresh();
+        window.location.href = "/employer";
       }, 1500);
 
     } catch (error: any) {
@@ -127,7 +146,7 @@ export default function LoginForm() {
 
   return (
     <div className={styles.container}>
-      {apiError && (
+      {(apiError || sessionWarning) && (
         <div
           className={styles.alertPopup}
           style={{
@@ -139,13 +158,24 @@ export default function LoginForm() {
             maxWidth: 420,
           }}
         >
-          <Alert
-            type="error"
-            description={apiError}
-            showIcon
-            closable
-            afterClose={() => setApiError(null)}
-          />
+          {apiError && (
+            <Alert
+              type="error"
+              description={apiError}
+              showIcon
+              closable
+              afterClose={() => setApiError(null)}
+            />
+          )}
+          {sessionWarning && (
+            <Alert
+              type="warning"
+              description={sessionWarning}
+              showIcon
+              closable
+              afterClose={() => setSessionWarning(null)}
+            />
+          )}
         </div>
       )}
 

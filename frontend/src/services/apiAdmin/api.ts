@@ -78,7 +78,7 @@ api.interceptors.response.use(
   async (error: AxiosError) => {
     const originalRequest = error.config;
     
-    const isLoginRequest = originalRequest?.url?.includes('/api/v1/admin/auth/login');
+    const isLoginRequest = originalRequest?.url?.includes('/api/v1/admin/auth/login') || originalRequest?.url?.includes('/api/v1/hr/auth/login');
     
     if (!originalRequest || 
         isLoginRequest || 

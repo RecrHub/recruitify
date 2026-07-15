@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Layout, theme, Flex, Grid } from "antd";
 import EmployerHeader from "@/app/(employer)/components/EmployerHeader";
 import { usePathname } from "next/navigation"; 
+import EmployerGuard from "./EmployerGuard";
 
 const { Content } = Layout;
 
@@ -45,7 +46,7 @@ export default function AdminLayout({
             overflow: "auto",
           }}
         >
-          {children}
+          {isAuthPage ? children : <EmployerGuard>{children}</EmployerGuard>}
         </Content>
       </Flex>
     </Layout>
