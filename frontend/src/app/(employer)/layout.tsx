@@ -1,7 +1,10 @@
 "use client";
 
-import { Layout, theme, Flex } from "antd";
-import EmployerHeader from "./components/EmployerHeader";
+import { useState } from "react";
+import { Layout, theme, Flex, Grid } from "antd";
+import EmployerHeader from "@/app/(employer)/components/EmployerHeader";
+import { usePathname } from "next/navigation"; 
+import EmployerGuard from "./EmployerGuard";
 
 const { Content } = Layout;
 
@@ -11,10 +14,19 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   const { token } = theme.useToken();
+  const screens = Grid.useBreakpoint();
+  const isMobile = !screens.lg;
+  const [collapsed, setCollapsed] = useState(isMobile);
+  
+  const pathname = usePathname();
 
+
+  const isAuthPage = pathname?.includes("/login"); 
   return (
     <Layout style={{ minHeight: "100vh" }}>
-      <EmployerHeader />
+      
+      {!isAuthPage && <EmployerHeader />}
+      
       <Flex
         vertical
         style={{
@@ -26,7 +38,7 @@ export default function AdminLayout({
         <Content
           style={{
             flex: 1,
-            padding: token.paddingLG,
+            padding: isAuthPage ? 0 : token.paddingLG, 
             minHeight: 0,
             display: "flex",
             flexDirection: "column",
@@ -34,7 +46,7 @@ export default function AdminLayout({
             overflow: "auto",
           }}
         >
-          {children}
+          {isAuthPage ? children : <EmployerGuard>{children}</EmployerGuard>}
         </Content>
       </Flex>
     </Layout>

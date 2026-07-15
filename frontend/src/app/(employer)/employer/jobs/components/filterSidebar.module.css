@@ -11,29 +11,6 @@
   letter-spacing: -0.04em;
 }
 
-.filterButton {
-  display: inline-flex;
-  height: 32px;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  border: 1px solid #d8d4e7;
-  border-radius: 999px;
-  background: #ffffff;
-  color: #1f2130;
-  font: inherit;
-  font-size: 12px;
-  font-weight: 700;
-  cursor: pointer;
-  margin-bottom: 36px;
-  padding: 0 16px;
-  transition:
-    border-color 160ms ease,
-    box-shadow 160ms ease,
-    transform 160ms ease;
-}
-
-
 .filterGroups {
   display: grid;
   gap: 40px;

@@ -63,7 +63,7 @@ export function JobDetailsPanel({ job, onClose }: JobDetailsPanelProps) {
               </div>
               <p className={styles.detailsLocation}>
                 <MapPin size={16} aria-hidden />
-                {getWardLabel(job.wardCode)} ({getWorkApproachLabel(job.workApproachId)})
+                {job.locationText} ({job.workApproachText})
               </p>
             </div>
 
@@ -79,12 +79,12 @@ export function JobDetailsPanel({ job, onClose }: JobDetailsPanelProps) {
           </section>
 
           <section className={styles.detailsSummary} aria-label="Job summary">
-            <SummaryItem label="Category" value={getCategoryLabel(job.categoryId)} />
-            <SummaryItem label="Availability" value={getEmploymentTypeLabel(job.employmentTypeId)} />
-            <SummaryItem label="Work Approach" value={getWorkApproachLabel(job.workApproachId)} />
+            <SummaryItem label="Category" value={job.categoryText} />
+            <SummaryItem label="Availability" value={job.employmentTypeText} />
+            <SummaryItem label="Work Approach" value={job.workApproachText} />
             <SummaryItem label="Featured" value={job.isFeatured ? 'Yes' : 'No'} />
-            <SummaryItem label="Experience" value={getExperienceLevelLabel(job.experienceLevelId)} />
-            <SummaryItem label="Salary" value={formatSalary(job.minSalary, job.maxSalary)} />
+            <SummaryItem label="Experience" value={job.experienceLevelText} />
+            <SummaryItem label="Salary" value={job.salaryText} />
           </section>
 
           <div className={styles.detailsStats}>

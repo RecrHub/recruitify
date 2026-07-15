@@ -106,7 +106,7 @@ const authService = {
       useUserStore.getState().setAuth(user, accessToken, newRefreshToken, tokenType);
       return response.data;
     } catch (error) {
-      console.error("Token refresh failed:", error);
+      console.error("Token refresh failed: - authService.ts:110", error);
       // Let the caller handle the error
       throw error;
     }
@@ -121,7 +121,7 @@ const authService = {
       // Check token expiration with 30 seconds buffer
       return payload.exp * 1000 < Date.now() - 30000;
     } catch (e) {
-      console.error("Error parsing token:", e);
+      console.error("Error parsing token: - authService.ts:125", e);
       return true; // If we can't parse the token, assume it's expired
     }
   },

@@ -20,7 +20,6 @@ import { fetchJson, normalizeOptions, slugify } from './utils';
 import { fieldsForStep, hasStepErrors, validateJobForm } from './validation';
 
 const STEP_OPTION_ENDPOINTS = {
-  categories: '/api/v1/categories',
   employmentTypes: '/api/v1/employment-types',
   experienceLevels: '/api/v1/experience-levels',
   workApproaches: '/api/v1/work-approaches',
@@ -80,8 +79,7 @@ export function useJobForm() {
     async function loadOptions() {
       setLoadingOptions(true);
       try {
-        const [categories, employmentTypes, experienceLevels, workApproaches] = await Promise.all([
-          fetchJson(STEP_OPTION_ENDPOINTS.categories),
+        const [employmentTypes, experienceLevels, workApproaches] = await Promise.all([
           fetchJson(STEP_OPTION_ENDPOINTS.employmentTypes),
           fetchJson(STEP_OPTION_ENDPOINTS.experienceLevels),
           fetchJson(STEP_OPTION_ENDPOINTS.workApproaches),
@@ -90,7 +88,7 @@ export function useJobForm() {
         if (!alive) return;
 
         setOptions({
-          categories: normalizeOptions(categories, fallbackOptions.categories),
+          categories: fallbackOptions.categories,
           employmentTypes: normalizeOptions(employmentTypes, fallbackOptions.employmentTypes),
           experienceLevels: normalizeOptions(experienceLevels, fallbackOptions.experienceLevels),
           workApproaches: normalizeOptions(workApproaches, fallbackOptions.workApproaches),

@@ -23,9 +23,20 @@ const useStyles = createStyles(({ css }) => ({
   `,
 }));
 
+const FALLBACK_DATA: homePageData = {
+  featureJobs: [],
+  featureCompanies: [],
+  categories: [],
+  stats: {
+    totalJobs: 0,
+    totalCompanies: 0,
+    totalUsers: 0,
+  },
+};
+
 export default function Home() {
   const { styles } = useStyles();
-  const [homepageData, setHomepageData] = useState<homePageData | null>(null);
+  const [homepageData, setHomepageData] = useState<homePageData>(FALLBACK_DATA);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -35,6 +46,7 @@ export default function Home() {
         setHomepageData(data);
       } catch (error) {
         console.error('Failed to fetch homepage data:', error);
+        // Giữ fallback data, trang vẫn render bình thường
       } finally {
         setLoading(false);
       }
@@ -44,7 +56,6 @@ export default function Home() {
   }, []);
 
   if (loading) return <div>Loading...</div>;
-  if (!homepageData) return <div>Failed to load data</div>;
 
   return (
     <Flexbox className={styles.container}>

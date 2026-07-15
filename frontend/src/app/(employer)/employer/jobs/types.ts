@@ -44,4 +44,10 @@ export interface EmployerJobListItem extends JobPosting {
   education: string;
   skills: string[];
   qualifications: string[];
+  categoryText: string;
+  employmentTypeText: string;
+  experienceLevelText: string;
+  workApproachText: string;
+  salaryText: string;
+  locationText: string;
 }
