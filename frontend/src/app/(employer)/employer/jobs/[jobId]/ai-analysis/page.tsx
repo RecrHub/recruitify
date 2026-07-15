@@ -387,11 +387,11 @@ function JobCard({ label, job, highlighted = false, badge }: { label: string; jo
       <div className={styles.jobStats}>
         <div>
           <span>Applications</span>
-          <strong>{job.applied}</strong>
+          <strong>{job.applied ?? job.applications ?? 0}</strong>
         </div>
         <div>
           <span>Views</span>
-          <strong>{job.views.toLocaleString('en-US')}</strong>
+          <strong>{(job.views ?? job.view ?? 0).toLocaleString('en-US')}</strong>
         </div>
       </div>
     </article>

@@ -10,7 +10,7 @@ interface RetryableAxiosRequestConfig extends InternalAxiosRequestConfig {
 // More robust way to get API base URL
 const getApiBaseUrl = () => {
   const envBaseUrl = process.env.NEXT_PUBLIC_API_URL;
-  return envBaseUrl || "http://48.210.235.64:8080";
+  return envBaseUrl || "http://localhost:8080";
 };
 
 const BASE_URL = getApiBaseUrl();

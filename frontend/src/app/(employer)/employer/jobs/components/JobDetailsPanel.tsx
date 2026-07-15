@@ -1,4 +1,4 @@
-import { Button, Modal, Spin } from 'antd';
+import { Button, Modal, Spin, message } from 'antd';
 import { Edit3, MapPin, Maximize2, Sparkles, UserCheck, Users, X } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -35,10 +35,10 @@ export function JobDetailsPanel({ job, onClose }: JobDetailsPanelProps) {
       sessionStorage.setItem('ai_analysis_result', JSON.stringify(data));
       setIsAnalysisConfirmationOpen(false);
       router.push(`/employer/jobs/${job.id}/ai-analysis`);
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error during AI analysis:', error);
       setIsAnalysisConfirmationOpen(false);
-      router.push(`/employer/jobs/${job.id}/ai-analysis`);
+      message.error(error.response?.data?.message || 'Failed to analyze job. Please try again later.');
     } finally {
       setIsAnalyzing(false);
     }
