@@ -8,7 +8,7 @@ import {
   Checkbox,
   App,
 } from "antd";
-import LogoRecruitify from "@/access/icons/LogoRecrutifyDark.svg"; 
+import LogoRecruitify from "@/access/icons/LogoRecrutifyDark.svg";
 import styles from "./SignIn.module.css";
 import { useRouter } from "next/navigation";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
@@ -16,7 +16,7 @@ import Link from "next/link";
 import adminAuthService from "@/services/apiAdmin/adminAuthService";
 import { useAdminStore } from "@/stores/admin/useAdminStore";
 import Alert from "@/components/Alert";
-
+import Silk from "@/components/Silk";
 const { Title } = Typography;
 
 export default function LoginForm() {
@@ -60,13 +60,13 @@ export default function LoginForm() {
     try {
       setApiError(null);
       setIsSubmitting(true);
-      
+
       const response: any = await adminAuthService.login(values.email, values.password);
 
-      const adminInfo = { 
-        id: response.id, 
-        email: response.email, 
-        role: response.role 
+      const adminInfo = {
+        id: response.id,
+        email: response.email,
+        role: response.role
       };
 
       setAdminAuth(
@@ -109,7 +109,7 @@ export default function LoginForm() {
         errorMessage.includes("not found")
       ) {
         setApiError("Incorrect email/password or your account is not registered as an HR account.");
-      } 
+      }
       // Xử lý lỗi 403: Account is deactivated (theo đúng mô tả Swagger)
       else if (errorStatus === 403 || errorMessage.includes("deactivated") || errorMessage.includes("disabled")) {
         setApiError("Your account has been deactivated. Please contact the administrator.");
@@ -148,7 +148,7 @@ export default function LoginForm() {
           />
         </div>
       )}
-      
+
       <div className={styles.langSwitch}>
         <span>EN</span> | <span>VI</span>
       </div>
@@ -156,20 +156,19 @@ export default function LoginForm() {
       <div className={styles.row}>
         {/* LEFT COLUMN: HERO IMAGE */}
         <div className={styles.leftColumn}>
-          <div className={styles.imageContainer}>
-            <img
-              src="/employer-bg.jpg"
-              alt="Recruitify Recruitment"
-              className={styles.heroImage}
-            />
-          </div>
+          <Silk
+            color="#428E72"
+            speed={5}
+            scale={1.2}
+            noiseIntensity={1.5}
+          />
         </div>
 
         {/* RIGHT COLUMN: LOGIN FORM */}
         <div className={styles.rightColumn}>
           <div className={styles.formWrapper}>
             <div className={styles.formContainer}>
-              
+
               <div className={styles.logoContainer}>
                 <div className={styles.logo}>
                   <LogoRecruitify />
@@ -191,8 +190,8 @@ export default function LoginForm() {
                 disabled={isSubmitting || lockCountdown > 0}
               >
                 {/* FRONTEND VALIDATION: USERNAME / EMAIL */}
-                <Form.Item 
-                  name="email" 
+                <Form.Item
+                  name="email"
                   className={styles.formItem}
                   validateTrigger={["onBlur", "onChange"]}
                   rules={[
@@ -207,10 +206,10 @@ export default function LoginForm() {
                     autoFocus
                   />
                 </Form.Item>
-                
+
                 {/* FRONTEND VALIDATION: PASSWORD */}
-                <Form.Item 
-                  name="password" 
+                <Form.Item
+                  name="password"
                   className={styles.formItem}
                   validateTrigger={["onBlur", "onChange"]}
                   rules={[

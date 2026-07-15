@@ -18,6 +18,78 @@
   flex-direction: column;
 }
 
+.input.input {
+  width: 100%;
+  height: 48px;
+  padding: 12px 18px;
+  border-radius: 5px;
+  border: 1px solid #e4e5e8;
+  background: #fff;
+  font-size: 16px;
+  color: #18191c;
+  line-height: 24px;
+  box-sizing: border-box;
+}
+
+.input.input::placeholder {
+  color: #767f8c;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.input.input:hover {
+  border-color: #d1d5db;
+}
+
+.input.input:focus,
+.input.input:global(.ant-input-focused) {
+  border-color: #18191c;
+  box-shadow: none;
+}
+
+/* ===== PASSWORD INPUT ===== */
+.passwordInput.passwordInput {
+  width: 100%;
+  height: 48px;
+  border-radius: 5px;
+  border: 1px solid #e4e5e8;
+  background: #fff;
+  padding: 0 18px;
+  box-sizing: border-box;
+}
+
+.passwordInput.passwordInput :global(.ant-input) {
+  padding: 12px 0;
+  font-size: 16px;
+  color: #18191c;
+  background: transparent;
+  line-height: 24px;
+}
+
+.passwordInput.passwordInput :global(.ant-input)::placeholder {
+  color: #767f8c;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.passwordInput.passwordInput :global(.ant-input-suffix) {
+  color: #767f8c;
+}
+
+.passwordInput.passwordInput :global(.ant-input-suffix) :global(.anticon) {
+  font-size: 20px;
+}
+
+.passwordInput.passwordInput:hover {
+  border-color: #d1d5db;
+}
+
+.passwordInput.passwordInput:focus,
+.passwordInput.passwordInput:global(.ant-input-affix-wrapper-focused) {
+  border-color: #18191c;
+  box-shadow: none;
+}
+
 .rightColumn {
   display: flex;
   flex-direction: column;
@@ -33,11 +105,9 @@
 
 .leftColumn {
   flex: 45;
-  background: linear-gradient(135deg, #60a68f 0%, #0c2b21 100%);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 40px 20px;
   height: 100vh;
 }
 
@@ -59,20 +129,49 @@
 
 .divider {
   width: 100%;
-  border-top: 1px solid #e8e8e8; 
-  margin: 32px 0 16px 0; 
+  border-top: 1px solid #e8e8e8;
+  margin: 32px 0 16px 0;
 }
 
-.submitButton {
-  background-color: #3b886e !important;
-  border-color: #3b886e !important;
-  height: 44px;
-  font-weight: 500;
-  border-radius: 6px;
+.submitButton.submitButton {
+  width: 100%;
+  height: 48px;
+  padding: 16px 32px;
+  background: linear-gradient(0deg,
+      rgba(0, 0, 0, 0.2) 0%,
+      rgba(0, 0, 0, 0.2) 100%),
+    #18191c;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 5px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 24px;
+  border: none;
+  cursor: pointer;
+  box-sizing: border-box;
 }
 
-.submitButton:hover {
-  background-color: #2d6a55 !important;
+.submitButton.submitButton:hover {
+  background: linear-gradient(0deg,
+      rgba(0, 0, 0, 0.3) 0%,
+      rgba(0, 0, 0, 0.3) 100%),
+    #18191c;
+}
+
+
+.submitButton.submitButton:active {
+  transform: translateY(0);
+}
+
+.submitButton.submitButton svg {
+  transform: translateY(2.6px);
+  width: 20px;
+  height: 20px;
 }
 
 .langSwitch {
@@ -104,7 +203,7 @@
 }
 
 .footerContact {
-  margin-top: 16px; 
+  margin-top: 16px;
   font-size: 13px;
   color: #666;
 }
@@ -146,10 +245,10 @@
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  
+
 
   margin-left: 16px;
-  
+
   position: relative;
   top: 1px;
 }
