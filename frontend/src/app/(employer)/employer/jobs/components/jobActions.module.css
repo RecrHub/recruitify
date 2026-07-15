@@ -1,0 +1,101 @@
+.rowActions {
+  position: relative;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.moreButton {
+  display: inline-grid;
+  width: 34px;
+  height: 34px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: #8e94a4;
+  cursor: pointer;
+  place-items: center;
+}
+
+.moreButton:hover {
+  background: #f4f3f8;
+  color: #1f2130;
+}
+
+.actionMenu {
+  position: absolute;
+  top: 50%;
+  right: 34px;
+  z-index: 40;
+  display: grid;
+  gap: 6px;
+  width: 148px;
+  border: 1px solid #d9d6e8;
+  border-radius: 13px;
+  background: #ffffff;
+  box-shadow: 0 18px 36px rgba(31, 33, 48, 0.14);
+  padding: 8px;
+  transform: translateY(-18px);
+}
+
+.actionMenu::before {
+  content: "";
+  position: absolute;
+  top: 23px;
+  right: -6px;
+  width: 10px;
+  height: 10px;
+  border-top: 1px solid #d9d6e8;
+  border-right: 1px solid #d9d6e8;
+  background: #ffffff;
+  transform: rotate(45deg);
+}
+
+.actionMenu button {
+  display: flex;
+  width: 100%;
+  min-height: 36px;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 9px;
+  border: 0;
+  border-radius: 9px;
+  background: transparent;
+  color: #1f2130;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 750;
+  cursor: pointer;
+  padding: 0 10px;
+}
+
+.actionMenu button:hover {
+  background: #f4f3f8;
+}
+
+.actionMenu .deleteMenuItem {
+  color: #e12d2d;
+}
+
+.actionMenu .deleteMenuItem:hover {
+  background: #fff2f1;
+}
+
+@media (max-width: 820px) {
+  .rowActions {
+    justify-content: flex-start;
+    width: 100%;
+  }
+
+  .actionMenu {
+    left: 42px;
+    right: auto;
+  }
+
+  .actionMenu::before {
+    top: 20px;
+    left: -6px;
+    right: auto;
+    border-right: 0;
+    border-left: 1px solid #d9d6e8;
+  }
+}

@@ -2,7 +2,6 @@
 
 import { Tabs as AntdTabs } from 'antd';
 import { cva } from 'class-variance-authority';
-import { MoreHorizontalIcon } from 'lucide-react';
 import { memo, useMemo } from 'react';
 
 

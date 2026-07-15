@@ -1,6 +1,6 @@
 import { Theme, css } from 'antd-style';
 
-export default (token: Theme) => css`
+const globalStyle = (token: Theme) => css`
   :root {
     --font-settings: 'cv01', 'tnum', 'kern';
     --font-variations: 'opsz' auto, tabular-nums;
@@ -62,3 +62,5 @@ export default (token: Theme) => css`
     vertical-align: baseline;
   }
 `;
+
+export default globalStyle;

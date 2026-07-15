@@ -1,6 +1,6 @@
 import { createStyles } from 'antd-style';
 
-export const useJobFilterFormStyles = createStyles(({ token }) => ({
+export const useJobFilterFormStyles = createStyles(() => ({
   filterHeader: {
     marginBottom: 16,
     h3: {

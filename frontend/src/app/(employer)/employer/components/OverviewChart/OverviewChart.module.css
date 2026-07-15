@@ -1,0 +1,49 @@
+.header {
+  width: 100%;
+
+  margin-top: -8px !important;
+  margin-bottom: 24px !important;
+  padding: 0 4px;
+}
+
+.title {
+  margin: 0 !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  color: #1a1a2e !important;
+  line-height: 1.2 !important;
+}
+
+.active {
+  border: none;
+  background: #f2f4f6;
+  padding: 6px 14px;
+  color: #464554;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.tab {
+  border: none;
+  border-right: 1px solid #ececec;
+  background: transparent;
+  padding: 6px 12px;
+  color: #6b7280;
+  cursor: pointer;
+  font-weight: 400;
+}
+
+.tab:last-child {
+  border-right: none;
+}
+.badge > button:not(:last-child) {
+    border-right: 1px solid #ECECEC;
+}
+.badge {
+  height: 35px;
+  display: inline-flex;
+  border: 1px solid #c7c4d7;
+  border-radius: 5px;
+  overflow: hidden;
+  background: #fff;
+}

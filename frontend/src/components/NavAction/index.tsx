@@ -14,7 +14,6 @@ import {
   ChevronDown,
   ChevronRight,
   LayoutDashboard,
-  FileText,
   User,
   Briefcase,
   Mail,
@@ -96,6 +95,124 @@ function useClickOutside(ref: React.RefObject<HTMLElement | null>, onClose: () =
     document.addEventListener("mousedown", handleClick);
     return () => document.removeEventListener("mousedown", handleClick);
   }, [ref, onClose]);
+}
+
+/**
+ * Notification bell with a click-to-open popup.
+ * Reusable on its own: <NotificationBell />
+ */
+export function NotificationBell({
+  notifications = mockNotifications,
+}: {
+  notifications?: typeof mockNotifications;
+}) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLLIElement>(null);
+  useClickOutside(ref, () => setOpen(false));
+
+  return (
+    <li className={`${styles.navItem} ${styles.popupWrapper}`} ref={ref}>
+      <button
+        className={styles.iconBtn}
+        type="button"
+        aria-label="Notifications"
+        onClick={() => setOpen((v) => !v)}
+      >
+        <Bell size={22} />
+      </button>
+      {open && (
+        <div className={styles.popup}>
+          <div className={styles.popupHeader}>Notifications</div>
+          <ul className={styles.notifList}>
+            {notifications.map((n) => (
+              <li key={n.id} className={styles.notifItem}>
+                <Image src={n.icon} alt="" width={40} height={40} className={styles.notifIcon} />
+                <div className={styles.notifContent}>
+                  <div className={styles.notifTitle}>{n.title}</div>
+                  <div className={styles.notifText}>{n.content}</div>
+                  <div className={styles.notifDate}>{n.date}</div>
+                </div>
+              </li>
+            ))}
+          </ul>
+          <Link href="/notifications" className={styles.viewAll} onClick={() => setOpen(false)}>
+            View all <ChevronRight size={14} />
+          </Link>
+        </div>
+      )}
+    </li>
+  );
+}
+
+/**
+ * Avatar button with a user dropdown menu.
+ * Reusable on its own: <UserMenu />
+ */
+export function UserMenu() {
+  const router = useRouter();
+  const { user, profile, logout } = useUserStore();
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLLIElement>(null);
+  useClickOutside(ref, () => setOpen(false));
+
+  return (
+    <li className={`${styles.navItem} ${styles.popupWrapper}`} ref={ref}>
+      <button
+        className={styles.avatarBtn}
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+      >
+        <Avatar
+          size={32}
+          src={profile?.avatarUrl}
+          icon={!profile?.avatarUrl && <UserOutlined />}
+          className={styles.avatar}
+        />
+        <ChevronDown size={14} className={styles.chevron} />
+      </button>
+      {open && (
+        <div className={styles.popup}>
+          <div className={styles.userHeader}>
+            <Avatar
+              size={40}
+              src={profile?.avatarUrl}
+              icon={!profile?.avatarUrl && <UserOutlined />}
+            />
+            <div className={styles.userDetails}>
+              <div className={styles.userName}>{profile?.fullName || user?.fullName || "User"}</div>
+              <div className={styles.userEmail}>{user?.email}</div>
+            </div>
+          </div>
+          <ul className={styles.menuList}>
+            {userMenuItems.map((item) => (
+              <li key={item.key}>
+                <Link
+                  href={item.href}
+                  className={styles.menuItem}
+                  onClick={() => setOpen(false)}
+                >
+                  {item.icon}
+                  <span>{item.label}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <div className={styles.menuDivider} />
+          <button
+            className={styles.signOutBtn}
+            onClick={() => {
+              setOpen(false);
+              logout();
+              router.push("/");
+            }}
+          >
+            <LogOut size={16} />
+            <span>Sign Out</span>
+          </button>
+        </div>
+      )}
+    </li>
+  );
 }
 
 export function MobileActions({ onToggleMenu }: { onToggleMenu?: () => void }) {
@@ -210,18 +327,9 @@ export function MobileRightNav() {
 export default function Actions({ className }: { className?: string }) {
   const pathname = usePathname();
   const router = useRouter();
-  const { user, profile, isAuthenticated, logout } = useUserStore();
+  const { isAuthenticated } = useUserStore();
   const params = useParams();
   const locale = (params?.locale as Locale) ?? "en";
-
-  const [notifOpen, setNotifOpen] = useState(false);
-  const [avatarOpen, setAvatarOpen] = useState(false);
-
-  const notifRef = useRef<HTMLLIElement>(null);
-  const avatarRef = useRef<HTMLLIElement>(null);
-
-  useClickOutside(notifRef, () => setNotifOpen(false));
-  useClickOutside(avatarRef, () => setAvatarOpen(false));
 
   const switchLang = (lang: Locale) => {
     if (lang === locale) return;
@@ -230,127 +338,26 @@ export default function Actions({ className }: { className?: string }) {
     router.push(segments.join("/"));
   };
 
-  if (!isAuthenticated) {
-    return (
-      <ul className={`${styles.navbarNav}`}>
-        <li className={styles.navItem}>
-          <Link href="/post-job" className={styles.link}>
-            For Employers
-          </Link>
-        </li>
-        <li className={styles.navItem}>
-          <Link href="/login" className={styles.link}>
-            Sign In / Sign Up
-          </Link>
-        </li>
-        <li className={styles.navItem}>
-          <LanguageSwitcher locale={locale} onSwitch={switchLang} />
-        </li>
-        <li></li>
-      </ul>
-    );
-  }
   return (
-    <ul className={`${styles.navbarNav}`}>
+    <ul className={`${styles.navbarNav} ${className ?? ""}`}>
       <li className={styles.navItem}>
         <Link href="/post-job" className={styles.link}>
           For Employers
         </Link>
       </li>
 
-      <li className={`${styles.navItem} ${styles.popupWrapper}`} ref={notifRef}>
-        <button
-          className={styles.iconBtn}
-          type="button"
-          aria-label="Notifications"
-          onClick={() => {
-            setNotifOpen((v) => !v);
-            setAvatarOpen(false);
-          }}
-        >
-          <Bell size={22} />
-        </button>
-        {notifOpen && (
-          <div className={styles.popup}>
-            <div className={styles.popupHeader}>Notifications</div>
-            <ul className={styles.notifList}>
-              {mockNotifications.map((n) => (
-                <li key={n.id} className={styles.notifItem}>
-                  <Image src={n.icon} alt="" width={40} height={40} className={styles.notifIcon} />
-                  <div className={styles.notifContent}>
-                    <div className={styles.notifTitle}>{n.title}</div>
-                    <div className={styles.notifText}>{n.content}</div>
-                    <div className={styles.notifDate}>{n.date}</div>
-                  </div>
-                </li>
-              ))}
-            </ul>
-            <Link href="/notifications" className={styles.viewAll} onClick={() => setNotifOpen(false)}>
-              View all <ChevronRight size={14} />
-            </Link>
-          </div>
-        )}
-      </li>
-
-      <li className={`${styles.navItem} ${styles.popupWrapper}`} ref={avatarRef}>
-        <button
-          className={styles.avatarBtn}
-          type="button"
-          onClick={() => {
-            setAvatarOpen((v) => !v);
-            setNotifOpen(false);
-          }}
-        >
-          <Avatar
-            size={32}
-            src={profile?.avatarUrl}
-            icon={!profile?.avatarUrl && <UserOutlined />}
-            className={styles.avatar}
-          />
-          <ChevronDown size={14} className={styles.chevron} />
-        </button>
-        {avatarOpen && (
-          <div className={styles.popup}>
-            <div className={styles.userHeader}>
-              <Avatar
-                size={40}
-                src={profile?.avatarUrl}
-                icon={!profile?.avatarUrl && <UserOutlined />}
-              />
-              <div className={styles.userDetails}>
-                <div className={styles.userName}>{profile?.fullName || user?.fullName || "User"}</div>
-                <div className={styles.userEmail}>{user?.email}</div>
-              </div>
-            </div>
-            <ul className={styles.menuList}>
-              {userMenuItems.map((item) => (
-                <li key={item.key}>
-                  <Link
-                    href={item.href}
-                    className={styles.menuItem}
-                    onClick={() => setAvatarOpen(false)}
-                  >
-                    {item.icon}
-                    <span>{item.label}</span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-            <div className={styles.menuDivider} />
-            <button
-              className={styles.signOutBtn}
-              onClick={() => {
-                setAvatarOpen(false);
-                logout();
-                router.push("/");
-              }}
-            >
-              <LogOut size={16} />
-              <span>Sign Out</span>
-            </button>
-          </div>
-        )}
-      </li>
+      {isAuthenticated ? (
+        <>
+          <NotificationBell />
+          <UserMenu />
+        </>
+      ) : (
+        <li className={styles.navItem}>
+          <Link href="/login" className={styles.link}>
+            Sign In / Sign Up
+          </Link>
+        </li>
+      )}
 
       <li className={styles.navItem}>
         <LanguageSwitcher locale={locale} onSwitch={switchLang} />

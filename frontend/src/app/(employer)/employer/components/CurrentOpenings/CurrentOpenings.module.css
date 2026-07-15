@@ -1,0 +1,27 @@
+
+.table :global(.ant-table) {
+    background: transparent;
+}
+
+.table :global(.ant-table-thead > tr > th) {
+    background: transparent;
+    border-bottom: 1px solid #eef0f4;
+    border-top: none;
+    padding: 12px 0;
+}
+
+
+.table :global(.ant-table-thead > tr > th::before) {
+    display: none !important;
+}
+
+.table :global(.ant-table-tbody > tr > td) {
+    background: transparent;
+    border-bottom: 1px solid #eef0f4;
+    border-top: none;
+    padding: 16px 0;
+}
+
+.table :global(.ant-table-tbody > tr:last-child > td) {
+    border-bottom: none;
+}

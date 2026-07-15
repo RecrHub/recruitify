@@ -1,5 +1,5 @@
 import type { LucideIcon, LucideProps } from 'lucide-react';
-import type { FC, ForwardRefExoticComponent, ReactNode, Ref, RefAttributes, SVGProps } from 'react';
+import type { ForwardRefExoticComponent, Ref, RefAttributes, SVGProps } from 'react';
 
 import type { SpanProps } from '@/types';
 

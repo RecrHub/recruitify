@@ -72,6 +72,10 @@ dependencies {
     // Devtools
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
+    // Dotenv (.env support for local development)
+    implementation platform('me.paulschwarz:spring-dotenv-bom:5.1.0')
+    implementation 'me.paulschwarz:springboot3-dotenv'
+
     // Testing
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation "org.testcontainers:postgresql:${testcontainersVersion}"

@@ -1,9 +1,0 @@
-diff a/backend/web-api/src/main/java/com/recruitify/webapi/common/utils/SlugUtils.java b/backend/web-api/src/main/java/com/recruitify/webapi/common/utils/SlugUtils.java	(rejected hunks)
-@@ -0,6 +0,7 @@
-     public static String toSlug(String input) {
-         if (input == null || input.isBlank()) {
-             return "";
-+        }
- 
-         String result = input.trim().toLowerCase(Locale.ROOT);
- 

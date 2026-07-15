@@ -374,7 +374,7 @@ const AccordionItem = memo<AccordionItemProps>(
             {action}
           </Flexbox>
         ),
-      [action, alwaysShowAction, cx, styles, classNames?.action, customStyles?.action],
+      [action, alwaysShowAction, classNames?.action, customStyles?.action],
     );
 
     const headerElement = useMemo(() => {

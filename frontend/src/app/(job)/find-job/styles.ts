@@ -1,6 +1,6 @@
 import { createStyles } from 'antd-style';
 
-export const useStyles = createStyles(({ css, token }) => ({
+export const useStyles = createStyles(({ css }) => ({
   findJobContainer: css`
     padding-top: calc(13. 5px + 1px);
   `,

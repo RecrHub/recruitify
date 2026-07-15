@@ -34,18 +34,16 @@ public class Job {
     @Column(columnDefinition = "TEXT")
     private String benefit;
 
-    @Column(name = "min_salary")
+    @JoinColumn(name = "min_salary")
     private Long minSalary;
-
-    @Column(name = "max_salary")
+    @JoinColumn(name = "max_salary")
     private Long maxSalary;
-
-    @Column(name = "applied", nullable = false)
-    @Builder.Default
-    private Long applied = 0L;
 
     @Column(name = "is_hidden")
     private Boolean isHidden;
+
+    @Column(name = "is_featured")
+    private Boolean isFeatured;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id")
@@ -96,4 +94,8 @@ public class Job {
 
     @Column(name = "delete_by")
     private String deleteBy;
+
+    private int applied;
+
+    private int view;
 }
