@@ -20,7 +20,6 @@ const GlobalLayout = ({
   neutralColor,
   primaryColor,
   appearance,
-  variants,
 }: GlobalLayoutProps) => {
   return (
     <StyleRegistry>

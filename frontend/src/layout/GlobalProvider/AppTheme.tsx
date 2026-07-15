@@ -73,8 +73,6 @@ const AppTheme = memo<AppThemeProps>(
     ({
         children,
         defaultAppearance,
-        defaultPrimaryColor,
-        defaultNeutralColor,
         globalCDN,
         customFontURL,
         customFontFamily,

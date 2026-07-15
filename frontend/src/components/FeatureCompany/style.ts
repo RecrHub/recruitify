@@ -1,6 +1,6 @@
 import { createStyles } from "antd-style";
 
-export const useStyles = createStyles(({ css, token, responsive }) => ({
+export const useStyles = createStyles(({ css, responsive }) => ({
     jobWrapper: css`
         width: 100%;
         max-width: 1280px;

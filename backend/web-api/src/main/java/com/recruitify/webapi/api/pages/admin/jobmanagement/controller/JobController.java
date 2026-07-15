@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,17 +30,24 @@ public class JobController {
     private final JobServiceImpl jobServiceImpl;
 
     @GetMapping
+    @PreAuthorize("hasAuthority('JOB_VIEW')")
     public ResponseEntity<ApiResponse<JobListResponse>> listJobs(
             @RequestParam(required = false) String keyword,
             @RequestParam(required = false) String status,
+            @RequestParam(required = false) String createdBy,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
-        JobListResponse jobs = jobServiceImpl.listJobs(keyword, status, page, size);
+            @RequestParam(defaultValue = "10") int size,
+            Authentication authentication) {
+        String currentUsername = authentication.getName();
+        boolean isAdmin = authentication.getAuthorities().stream()
+                .anyMatch(a -> "ROLE_ADMIN".equals(a.getAuthority()));
+        JobListResponse jobs = jobServiceImpl.listJobs(
+                keyword, status, createdBy, currentUsername, isAdmin, page, size);
         return ResponseEntity.ok(ApiResponse.success(jobs, "Jobs retrieved successfully"));
     }
 
     @PostMapping
-    @PreAuthorize("hasAuthority('JOB_CREATE', 'ADMIN_VIEW_ALL').")
+    @PreAuthorize("hasAnyAuthority('JOB_CREATE', 'ADMIN_VIEW_ALL').")
     public ResponseEntity<ApiResponse<JobResponse>> createJob(@RequestBody @Valid JobRequest request) {
         JobResponse job = jobServiceImpl.createJob(request);
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -54,7 +62,8 @@ public class JobController {
 
     @PatchMapping("/{id}")
     @PreAuthorize("hasAuthority('JOB_UPDATE')")
-    public ResponseEntity<ApiResponse<JobResponse>> updateJob(@PathVariable Long id,
+    public ResponseEntity<ApiResponse<JobResponse>> updateJob(
+            @PathVariable Long id,
             @RequestBody @Valid JobRequest request) {
         JobResponse job = jobServiceImpl.updateJob(id, request);
         return ResponseEntity.ok(ApiResponse.success(job, "Job updated successfully"));

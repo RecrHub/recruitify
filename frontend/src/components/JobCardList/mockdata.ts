@@ -146,18 +146,18 @@ export const generateMockJobs = (count: number = 10): Job[] => {
 
   return Array.from({ length: count }, (_, i) => ({
     id: i + 1,
-    company: companies[Math.floor(Math.random() * companies.length)],
-    position: positions[Math.floor(Math.random() * positions.length)],
+    company: companies[i % companies.length],
+    position: positions[i % positions.length],
     logo: '/assets/logo.jpg',
-    salary: `$${50 + Math.floor(Math.random() * 100)}-${100 + Math.floor(Math.random() * 100)}/hr`,
-    location: locations[Math.floor(Math.random() * locations.length)],
-    timezone: timezones[Math.floor(Math.random() * timezones.length)],
-    hours: `${20 + Math.floor(Math.random() * 20)}+ hrs/wk`,
-    posted: `Posted ${Math.floor(Math.random() * 30) + 1} days ago`,
-    skills: skillSets[Math.floor(Math.random() * skillSets.length)],
-    type: types[Math.floor(Math.random() * types.length)],
-    experienceLevel: experienceLevels[Math.floor(Math.random() * experienceLevels.length)],
-    remote: Math.random() > 0.5,
+    salary: `$${50 + (i * 10) % 100}-${100 + (i * 10) % 100}/hr`,
+    location: locations[i % locations.length],
+    timezone: timezones[i % timezones.length],
+    hours: `${20 + (i % 20)}+ hrs/wk`,
+    posted: `Posted ${(i % 30) + 1} days ago`,
+    skills: skillSets[i % skillSets.length],
+    type: types[i % types.length],
+    experienceLevel: experienceLevels[i % experienceLevels.length],
+    remote: i % 2 === 0,
   }));
 };
 
@@ -242,9 +242,11 @@ export const filterJobs = (
   return filtered;
 };
 
-export default {
+const mockJobData = {
   mockJobs,
   generateMockJobs,
   fetchMockJobs,
   filterJobs,
 };
+
+export default mockJobData;

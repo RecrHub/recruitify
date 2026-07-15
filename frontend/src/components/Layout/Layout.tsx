@@ -1,7 +1,7 @@
 'use client';
 
 import { useResponsive } from 'antd-style';
-import { memo, useEffect, useState } from 'react';
+import { memo } from 'react';
 
 
 import LayoutFooter from './components/LayoutFooter';
@@ -14,13 +14,9 @@ import type { LayoutProps } from './type';
 
 // eslint-disable-next-line react/display-name
 const Layout = memo<LayoutProps>(
-  ({ helmet, headerHeight = 64, header, footer, sidebar, asideWidth, toc, children, tocWidth }) => {
+  ({ helmet, headerHeight = 64, header, footer, sidebar, toc, children, tocWidth }) => {
     const { styles } = useStyles(headerHeight);
-    const { mobile, laptop } = useResponsive();
-    const [expand, setExpand] = useState(true);
-    useEffect(() => {
-      setExpand(Boolean(laptop));
-    }, [laptop]);
+    const { mobile } = useResponsive();
 
     return (
       <>

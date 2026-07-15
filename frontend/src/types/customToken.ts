@@ -1,24 +1,8 @@
-const PresetColors = [
-  'red',
-  'volcano',
-  'orange',
-  'gold',
-  'yellow',
-  'lime',
-  'green',
-  'cyan',
-  'blue',
-  'geekblue',
-  'purple',
-  'magenta',
-  'gray',
-] as const;
+export type PresetColorKey =
+  | 'red' | 'volcano' | 'orange' | 'gold' | 'yellow' | 'lime' | 'green'
+  | 'cyan' | 'blue' | 'geekblue' | 'purple' | 'magenta' | 'gray';
 
-const PresetSystemColors = ['Error', 'Warning', 'Success', 'Info'] as const;
-
-export type PresetColorKey = (typeof PresetColors)[number];
-
-export type PresetSystemColorKey = (typeof PresetSystemColors)[number];
+export type PresetSystemColorKey = 'Error' | 'Warning' | 'Success' | 'Info';
 
 export type PresetColorType = Record<PresetColorKey, string>;
 

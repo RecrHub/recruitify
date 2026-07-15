@@ -23,7 +23,7 @@ export const useJobsStore = create<JobsState>((set) => ({
     set({ isLoading: true, error: null });
 
     try {
-      const response = await jobService.getJobs(page);
+      const response = await jobService.getJobs({ page });
 
       set({
         jobs: response.jobs,

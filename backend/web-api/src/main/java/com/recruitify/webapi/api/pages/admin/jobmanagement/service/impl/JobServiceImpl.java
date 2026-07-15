@@ -1,9 +1,25 @@
 package com.recruitify.webapi.api.pages.admin.jobmanagement.service.impl;
 
-import com.recruitify.webapi.api.pages.admin.jobmanagement.service.IJobService;
+import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
+
 import com.recruitify.webapi.api.pages.admin.jobmanagement.dto.request.JobRequest;
 import com.recruitify.webapi.api.pages.admin.jobmanagement.dto.response.JobListResponse;
 import com.recruitify.webapi.api.pages.admin.jobmanagement.dto.response.JobResponse;
+import com.recruitify.webapi.api.pages.admin.jobmanagement.service.IJobService;
 import com.recruitify.webapi.common.exception.ResourceNotFoundException;
 import com.recruitify.webapi.common.model.catalog.Category;
 import com.recruitify.webapi.common.model.catalog.EmploymentType;
@@ -22,27 +38,10 @@ import com.recruitify.webapi.common.repository.SkillRepository;
 import com.recruitify.webapi.common.repository.WardRepository;
 import com.recruitify.webapi.common.repository.WorkApproachRepository;
 
+import jakarta.persistence.criteria.Predicate;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.Specification;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Service;
-import java.util.Optional;
-
-import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import jakarta.persistence.criteria.Predicate;
 
 @Slf4j
 @Service
@@ -59,9 +58,12 @@ public class JobServiceImpl implements IJobService {
     private final SkillRepository skillRepository;
 
     @Override
-    public JobListResponse listJobs(String keyword, String status, int page, int size) {
+    public JobListResponse listJobs(String keyword, String status, String createdBy,
+            String currentUsername, boolean isAdmin,
+            int page, int size) {
+        String effectiveCreatedBy = resolveEffectiveCreatedBy(createdBy, currentUsername, isAdmin);
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
-        Specification<Job> specification = buildSpecification(keyword, status);
+        Specification<Job> specification = buildSpecification(keyword, status, effectiveCreatedBy);
         Page<Job> jobs = jobRepository.findAll(specification, pageable);
         return JobListResponse.builder()
                 .jobs(jobs.getContent().stream().map(this::mapToResponse).toList())
@@ -74,10 +76,30 @@ public class JobServiceImpl implements IJobService {
                 .build();
     }
 
+    private boolean isCurrentUserAdmin() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null) {
+            return false;
+        }
+        return authentication.getAuthorities().stream()
+                .anyMatch(a -> "ROLE_ADMIN".equals(a.getAuthority()));
+    }
+
+    private void assertOwnership(Job job) {
+        if (isCurrentUserAdmin()) {
+            return;
+        }
+        String currentUsername = getCurrentUsername();
+        if (!currentUsername.equals(job.getCreatedBy())) {
+            throw new AccessDeniedException("You can only modify jobs that you created");
+        }
+    }
+
     @Override
     public JobResponse createJob(JobRequest request) {
         log.debug("Creating job: {}", request.getTitle());
         Job job = new Job();
+        assertOwnership(job);
         applyRequest(job, request, true);
         job.setCreatedAt(LocalDateTime.now());
         job.setCreatedBy(getCurrentUsername());
@@ -109,8 +131,10 @@ public class JobServiceImpl implements IJobService {
     @Override
     public void deleteJob(Long id) {
         log.debug("Deleting job id: {}", id);
+
         Job job = jobRepository.findById(id)
                 .orElseThrow(() -> ResourceNotFoundException.create("Job", "id", id));
+        assertOwnership(job);
         LocalDateTime now = LocalDateTime.now();
         job.setDeleteAt(now);
         job.setDeleteBy(getCurrentUsername());
@@ -213,9 +237,23 @@ public class JobServiceImpl implements IJobService {
         }
     }
 
-    private Specification<Job> buildSpecification(String keyword, String status) {
+    private String resolveEffectiveCreatedBy(String requested, String currentUsername, boolean isAdmin) {
+        if (isAdmin) {
+            return (requested != null && !requested.isBlank()) ? requested : null;
+        }
+        if (requested == null || requested.isBlank() || requested.equals(currentUsername)) {
+            return currentUsername;
+        }
+        throw new AccessDeniedException("HR can only view their own jobs");
+    }
+
+    private Specification<Job> buildSpecification(String keyword, String status, String createdBy) {
         return (root, query, criteriaBuilder) -> {
             Set<Predicate> predicates = new java.util.HashSet<>();
+
+            if (createdBy != null && !createdBy.isBlank()) {
+                predicates.add(criteriaBuilder.equal(root.get("createdBy"), createdBy));
+            }
 
             String normalizedKeyword = keyword != null ? keyword.trim() : null;
             if (normalizedKeyword != null && !normalizedKeyword.isBlank()) {
@@ -268,7 +306,7 @@ public class JobServiceImpl implements IJobService {
                 .wardCode(job.getWard() != null ? job.getWard().getCode() : null)
                 .wardName(job.getWard() != null ? job.getWard().getFullName() : null)
                 .status(resolveStatus(job))
-                .skillName(
+                .skillsName(
                         Optional.ofNullable(job.getSkills())
                                 .orElse(Set.of())
                                 .stream()

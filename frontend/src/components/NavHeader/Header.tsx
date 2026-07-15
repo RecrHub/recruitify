@@ -33,7 +33,14 @@ const Header = memo<HeaderProps>(
 
     // Hydrate screen-size state after mount (tránh SSR mismatch)
     useEffect(() => {
-      const check = () => setIsMobile(window.innerWidth <= MOBILE_BREAKPOINT);
+      const check = () => {
+        const mobile = window.innerWidth <= MOBILE_BREAKPOINT;
+        setIsMobile(mobile);
+        if (!mobile) {
+          setMobileMenuOpen(false);
+          setRightNavOpen(false);
+        }
+      };
       check();
       window.addEventListener('resize', check);
       return () => window.removeEventListener('resize', check);
@@ -56,14 +63,6 @@ const Header = memo<HeaderProps>(
     const closeRightNav = useCallback(() => {
       setRightNavOpen(false);
     }, []);
-
-    // Đóng drawer khi đổi breakpoint
-    useEffect(() => {
-      if (!isMobile) {
-        setMobileMenuOpen(false);
-        setRightNavOpen(false);
-      }
-    }, [isMobile]);
 
     return (
       <>

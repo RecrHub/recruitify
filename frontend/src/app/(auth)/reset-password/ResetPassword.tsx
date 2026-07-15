@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { Form, Input, Button, Typography } from 'antd';
-import { ArrowRightOutlined } from '@ant-design/icons';
 import styles from './ResetPassword.module.css';
 import LogoRecruitify from '@/access/icons/LogoRecrutifyDark.svg';
 

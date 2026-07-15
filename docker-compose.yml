@@ -1,9 +1,8 @@
-version: "3.9"
-
 services:
   postgres-db:
     image: postgres:17-alpine
     container_name: recruitify-postgres
+    restart: unless-stopped
     environment:
       POSTGRES_USER: recruitify
       POSTGRES_PASSWORD: postgres
@@ -23,6 +22,7 @@ services:
   sonarqube:
     image: sonarqube:community
     container_name: recruitify-sonar
+    restart: unless-stopped
     environment:
       SONAR_ES_BOOTSTRAP_CHECKS_DISABLE: "true"
       SONAR_FORCEAUTHENTICATION: "false"
@@ -44,6 +44,7 @@ services:
   jenkins:
     image: jenkins/jenkins:lts-jdk17
     container_name: recruitify-jenkins
+    restart: unless-stopped
     ports:
       - "8080:8080"
       - "50000:50000"
