@@ -1,6 +1,5 @@
 import SignInPage from "./SignIn";
 
-
 const  Page = () => {
   return <SignInPage />;
 }

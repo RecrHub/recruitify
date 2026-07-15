@@ -53,7 +53,7 @@ export const useAdminStore = create<AdminState>()(
         })),
     }),
     {
-      name: 'admin-storage', // Tách biệt key trong localStorage để không đè lên user-storage
+      name: 'admin-storage',
     }
   )
 )

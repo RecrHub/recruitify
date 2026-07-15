@@ -61,17 +61,14 @@ export default function LoginForm() {
       setApiError(null);
       setIsSubmitting(true);
       
-      // 1. Gọi API qua Service đã cập nhật ở Bước 1 (gửi đúng email & password lên endpoint mới)
       const response: any = await adminAuthService.login(values.email, values.password);
 
-      // 2. Bóc tách thông tin Admin/HR từ object phẳng trả về theo đúng Swagger mới
       const adminInfo = { 
         id: response.id, 
         email: response.email, 
         role: response.role 
       };
 
-      // 3. Lưu thông tin xác thực vào Zustand Store
       setAdminAuth(
         adminInfo,
         response.accessToken,
@@ -79,7 +76,6 @@ export default function LoginForm() {
         response.tokenType || "Bearer"
       );
 
-      // 4. Lưu trạng thái ghi nhớ email
       if (values.remember) {
         localStorage.setItem("remembered_email", values.email);
       } else {
@@ -99,7 +95,6 @@ export default function LoginForm() {
       const errorMessage = error?.message?.toLowerCase() || "";
       const errorStatus = error?.status || error?.response?.status;
 
-      // Xử lý lỗi 429 (Rate limit)
       if (errorStatus === 429 || errorMessage.includes("too many attempts") || errorMessage.includes("429")) {
         setApiError("Too many login attempts. Please try again later.");
         setLockCountdown(60);

@@ -53,7 +53,6 @@ const processQueue = (error: Error | null, token: string | null = null) => {
   failedQueue = [];
 };
 
-// Interceptor đính Token Admin từ Zustand Storage
 api.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
     const adminStorage = localStorage.getItem('admin-storage');
@@ -65,7 +64,7 @@ api.interceptors.request.use(
           config.headers.Authorization = `Bearer ${accessToken}`;
         }
       } catch (error) {
-        console.error('Error parsing admin storage: - api.ts:68', error);
+        console.error('Error parsing admin storage: - api.ts:67', error);
       }
     }
     return config;
@@ -73,13 +72,12 @@ api.interceptors.request.use(
   (error: AxiosError) => Promise.reject(new Error(formatApiError(error).message))
 );
 
-// Interceptor tự động bắt lỗi 401/403 để Auto Refresh Token
+
 api.interceptors.response.use(
   (response) => response,
   async (error: AxiosError) => {
     const originalRequest = error.config;
     
-    // 💡 GIẢI PHÁP: Nếu là API Login, không bao giờ chạy luồng Auto Refresh Token khi lỗi 401/403
     const isLoginRequest = originalRequest?.url?.includes('/api/v1/admin/auth/login');
     
     if (!originalRequest || 

@@ -1,4 +1,4 @@
-import api, { type LoginResponse } from "./api"; 
+import api, { type LoginResponse } from "./api";
 
 const adminAuthService = {
   login: async (email: string, password: string): Promise<LoginResponse> => {
