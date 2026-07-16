@@ -81,6 +81,74 @@ Recruitify is a recruitment platform that connects job seekers with employers. T
 
 > The AI module is currently experimental and is not yet wired into the root Docker Compose stack.
 
+## Business workflows
+
+### Job seeker flow
+
+```text
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│ Visit Recruitify│───▶│ Search and      │───▶│ View job and    │
+│ homepage        │    │ filter jobs     │    │ company details │
+└─────────────────┘    └────────┬────────┘    └─────────────────┘
+                                │
+                                ▼
+                       ┌─────────────────┐    ┌─────────────────┐
+                       │ Register or     │───▶│ Manage profile, │
+                       │ sign in         │    │ education and   │
+                       └─────────────────┘    │ work experience │
+                                              └─────────────────┘
+```
+
+### Employer flow
+
+```text
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│ HR signs in     │───▶│ API returns JWT│───▶│ Create and      │
+│ with HR account │    │ and permissions │    │ manage own jobs │
+└─────────────────┘    └─────────────────┘    └────────┬────────┘
+                                                       │
+                         ┌─────────────────┐            ▼
+                         │ Review AI job   │◀───│ Analyze job    │
+                         │ recommendations │    │ description    │
+                         └─────────────────┘    └─────────────────┘
+```
+
+### Administrator flow
+
+```text
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│ Admin signs in  │───▶│ Role and        │───▶│ Manage HR       │
+│                 │    │ permission check│    │ accounts        │
+└─────────────────┘    └────────┬────────┘    └─────────────────┘
+                                │
+                ┌───────────────┼───────────────┐
+                ▼               ▼               ▼
+       ┌─────────────────┐ ┌──────────────┐ ┌─────────────────┐
+       │ Manage roles and│ │ Manage jobs  │ │ Manage companies│
+       │ permissions     │ │              │ │ and images      │
+       └─────────────────┘ └──────────────┘ └─────────────────┘
+```
+
+### Authenticated API request flow
+
+```text
+┌────────┐  credentials  ┌──────────────┐  access + refresh  ┌────────┐
+│ Client │──────────────▶│ Login API    │───────────────────▶│ Client │
+└────────┘               └──────────────┘                    └───┬────┘
+                                                               │
+                                      Authorization: Bearer JWT│
+                                                               ▼
+┌──────────┐  query / command  ┌───────────────────┐  verify  ┌────────────┐
+│ Database │◀──────────────────│ Protected endpoint│◀─────────│ JWT filter │
+└────┬─────┘                   └─────────┬─────────┘          └────────────┘
+     │                                   │
+     └──────────────────────────────────▶│ JSON response
+                                         ▼
+                                      ┌────────┐
+                                      │ Client │
+                                      └────────┘
+```
+
 ## Project structure
 
 ```text
@@ -93,6 +161,152 @@ recruitify/
 ├── Jenkinsfile               # CI pipeline
 └── sonar-project.properties  # SonarQube configuration
 ```
+
+## API documentation
+
+The backend exposes a versioned REST API under `/api/v1`. When the backend is running locally, use the following documentation endpoints:
+
+- Interactive Swagger UI: http://localhost:8080/swagger-ui
+- OpenAPI JSON: http://localhost:8080/api-docs
+- API base URL: `http://localhost:8080/api/v1`
+
+Swagger UI is the source of truth for complete request schemas, validation constraints, response models, and the currently available operations.
+
+### Authentication
+
+Recruitify uses stateless JWT authentication. Send the access token on protected requests:
+
+```http
+Authorization: Bearer <access-token>
+Content-Type: application/json
+```
+
+There are separate login endpoints for each account type. Calling an endpoint with the wrong role is rejected.
+
+| Method | Endpoint | Authentication | Description |
+| --- | --- | --- | --- |
+| `POST` | `/api/v1/auth/register` | Public | Register a job-seeker account |
+| `POST` | `/api/v1/auth/login` | Public | Sign in as a job seeker |
+| `POST` | `/api/v1/hr/auth/login` | Public | Sign in as HR/employer |
+| `POST` | `/api/v1/admin/auth/login` | Public | Sign in as administrator |
+| `POST` | `/api/v1/token/refresh` | JWT | Rotate a refresh token and obtain a new token pair |
+
+Example login request:
+
+```bash
+curl -X POST http://localhost:8080/api/v1/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"user@example.com","password":"your-password"}'
+```
+
+Example authentication response:
+
+```json
+{
+  "accessToken": "<jwt-access-token>",
+  "refreshToken": "<refresh-token>",
+  "tokenType": "Bearer",
+  "id": 1,
+  "email": "user@example.com",
+  "role": "ROLE_JOBSEEKER"
+}
+```
+
+To call protected APIs from Swagger UI, select **Authorize** and enter the access token in the Bearer authentication field.
+
+### Public APIs
+
+| Method | Endpoint | Description |
+| --- | --- | --- |
+| `GET` | `/api/v1/homepage` | Return featured jobs, categories, and homepage statistics |
+| `GET` | `/api/v1/find-job` | Search and paginate jobs |
+| `GET` | `/api/v1/find-job/filters` | Return available job-search filters |
+| `GET` | `/api/v1/companies/{id}` | Return company details |
+| `GET` | `/actuator/health` | Return backend health status |
+
+Job search supports `keyword`, `categoryId`, `provinceId`, `employmentType`, `workApproach`, `experienceLevel`, `salaryMin`, `salaryMax`, `page`, `size`, and `sort` query parameters. Pagination starts at page `0`; the default size is `10` and the default sort is `postedAt,desc`.
+
+Example:
+
+```bash
+curl "http://localhost:8080/api/v1/find-job?keyword=java&experienceLevel=JUNIOR&page=0&size=10"
+```
+
+### Job-seeker profile APIs
+
+All profile endpoints require a valid JWT.
+
+| Method | Endpoint | Description |
+| --- | --- | --- |
+| `GET` | `/api/v1/profiles/{accountId}` | Get an account profile |
+| `PUT` | `/api/v1/profiles/{accountId}` | Update an account profile |
+| `GET`, `POST` | `/api/v1/profiles/{accountId}/work-experiences` | List or add work experience |
+| `PUT`, `DELETE` | `/api/v1/profiles/{accountId}/work-experiences/{id}` | Update or remove work experience |
+| `GET`, `POST` | `/api/v1/profiles/{accountId}/educations` | List or add education |
+| `PUT`, `DELETE` | `/api/v1/profiles/{accountId}/educations/{id}` | Update or remove education |
+| `GET` | `/api/v1/profiles/provinces` | List provinces |
+
+### HR job-management APIs
+
+These endpoints require an HR JWT and the corresponding `JOB_*` permission. Every operation is scoped to jobs owned by the authenticated HR account.
+
+| Method | Endpoint | Description |
+| --- | --- | --- |
+| `GET` | `/api/v1/hr/jobs` | List the current HR user's jobs |
+| `POST` | `/api/v1/hr/jobs` | Create a job |
+| `GET` | `/api/v1/hr/jobs/{id}` | Get one owned job |
+| `PATCH` | `/api/v1/hr/jobs/{id}` | Update one owned job |
+| `DELETE` | `/api/v1/hr/jobs/{id}` | Soft-delete one owned job |
+| `POST` | `/api/v1/hr/jobs/{id}/analyze` | Analyze a job using the external AI service |
+
+The list endpoint supports `keyword`, `status`, `page`, and `size`. Supported status values are `ACTIVE`, `DRAFT`, and `CLOSED`.
+
+### Administration APIs
+
+Administration endpoints require an administrator JWT and the permission shown by the API's `@PreAuthorize` rule.
+
+| Area | Methods and endpoints | Required permission |
+| --- | --- | --- |
+| HR accounts | `POST /api/v1/admin/accounts/hr` | `ACCOUNT_CREATE_HR` |
+| Roles | `GET /api/v1/admin/roles` | `ROLE_MANAGE` |
+| Permissions | `GET /api/v1/admin/roles/permissions` | `ROLE_MANAGE` |
+| Role details | `GET /api/v1/admin/roles/{roleId}` | `ROLE_MANAGE` |
+| Role permissions | `PUT /api/v1/admin/roles/{roleId}/permissions` | `ROLE_MANAGE` |
+| Jobs | `GET`, `POST /api/v1/jobs` | Corresponding `JOB_*` permission |
+| Job details | `GET`, `PATCH`, `DELETE /api/v1/jobs/{id}` | Corresponding `JOB_*` permission |
+| Companies | `GET /api/v1/companies/all` | `COMPANY_VIEW` |
+| Companies | `POST /api/v1/companies` | `COMPANY_CREATE` |
+| Companies | `PATCH /api/v1/companies/{id}` | `COMPANY_UPDATE` |
+| Companies | `DELETE /api/v1/companies/{id}` | `COMPANY_DELETE` |
+
+Company create and update requests use `multipart/form-data` with a required JSON `request` part and an optional `image` file.
+
+### Standard response envelope
+
+Most management endpoints return a common response structure:
+
+```json
+{
+  "timestamp": "2026-07-16T10:30:00",
+  "status": 200,
+  "message": "Operation successful",
+  "data": {}
+}
+```
+
+For failed management requests, `data` is omitted and an `errors` field may contain validation details.
+
+Common HTTP status codes:
+
+| Status | Meaning |
+| --- | --- |
+| `200 OK` | Request completed successfully |
+| `201 Created` | Resource created successfully |
+| `400 Bad Request` | Validation failed or request data is invalid |
+| `401 Unauthorized` | Credentials are invalid |
+| `403 Forbidden` | JWT is missing/invalid or the account lacks permission |
+| `404 Not Found` | Requested resource does not exist |
+| `500 Internal Server Error` | Unexpected server error |
 
 ## Getting started
 
