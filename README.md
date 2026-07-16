@@ -55,7 +55,7 @@ Recruitify is a recruitment platform that connects job seekers with employers. T
 
 ## Architecture
 
-![Recruitify - local development architecture](https://raw.githubusercontent.com/nashtech-garage/yas/main/recruitify-architecture-local.png)
+![Recruitify - local development architecture](https://raw.githubusercontent.com/RecrHub/recruitify/refs/heads/develop/recrutifiy-architecture-local.png)
 
 > The AI module is currently experimental and is not yet wired into the root Docker Compose stack.
 
