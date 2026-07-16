@@ -121,4 +121,18 @@ public class HrJobController {
         hrJobService.deleteJob(id, currentHr);
         return ResponseEntity.ok(ApiResponse.success(null, "Job deleted successfully"));
     }
+
+    @PostMapping("/{id}/analyze")
+    @PreAuthorize("hasAuthority('JOB_VIEW_HR')")
+    @Operation(
+            summary = "Analyze a job",
+            description = "Analyzes a job by calling the external AI service. Returns 403 if the job was not created by the calling HR user."
+    )
+    public ResponseEntity<ApiResponse<Object>> analyzeJob(
+            @PathVariable Long id,
+            Authentication authentication) {
+        String currentHr = authentication.getName();
+        Object result = hrJobService.analyzeJob(id, currentHr);
+        return ResponseEntity.ok(ApiResponse.success(result, "Job analyzed successfully"));
+    }
 }

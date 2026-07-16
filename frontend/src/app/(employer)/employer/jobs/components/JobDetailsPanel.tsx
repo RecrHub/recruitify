@@ -1,8 +1,20 @@
-import { Edit3, MapPin, Maximize2, UserCheck, Users, X } from 'lucide-react';
+import { Button, Modal, Spin, message } from 'antd';
+import { Edit3, MapPin, Maximize2, Sparkles, UserCheck, Users, X } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import {
+  formatSalary,
+  getCategoryLabel,
+  getEmploymentTypeLabel,
+  getExperienceLevelLabel,
+  getWardLabel,
+  getWorkApproachLabel,
+} from '../jobDisplay';
 import type { EmployerJobListItem } from '../types';
 import { StatusBadge } from './StatusBadge';
 import contentStyles from './jobDetailsContent.module.css';
 import styles from './jobDetailsPanel.module.css';
+import api from '@/services/apiAdmin/api';
 
 type JobDetailsPanelProps = {
   job: EmployerJobListItem;
@@ -10,6 +22,28 @@ type JobDetailsPanelProps = {
 };
 
 export function JobDetailsPanel({ job, onClose }: JobDetailsPanelProps) {
+  const router = useRouter();
+  const [isAnalysisConfirmationOpen, setIsAnalysisConfirmationOpen] = useState(false);
+
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+
+  const openAnalysisResults = async () => {
+    try {
+      setIsAnalyzing(true);
+      const response = await api.post(`/api/v1/hr/jobs/${job.id}/analyze`);
+      const data = response.data.data; // ApiResponse has a 'data' field
+      sessionStorage.setItem('ai_analysis_result', JSON.stringify(data));
+      setIsAnalysisConfirmationOpen(false);
+      router.push(`/employer/jobs/${job.id}/ai-analysis`);
+    } catch (error: any) {
+      console.error('Error during AI analysis:', error);
+      setIsAnalysisConfirmationOpen(false);
+      message.error(error.response?.data?.message || 'Failed to analyze job. Please try again later.');
+    } finally {
+      setIsAnalyzing(false);
+    }
+  };
+
   return (
     <div className={styles.detailsOverlay} role="presentation" onClick={onClose}>
       <aside
@@ -119,6 +153,47 @@ export function JobDetailsPanel({ job, onClose }: JobDetailsPanelProps) {
             </ul>
           </DetailsSection>
         </div>
+
+        <Button
+          type="primary"
+          className={styles.aiAnalysisButton}
+          aria-label={`Analyze ${job.title} with AI`}
+          onClick={() => setIsAnalysisConfirmationOpen(true)}
+          icon={
+            <span className={styles.aiAnalysisIcon} aria-hidden>
+              <Sparkles size={18} />
+            </span>
+          }
+        >
+          <span className={styles.aiAnalysisLabel}>AI Analysis</span>
+        </Button>
+
+        <Modal
+          title={isAnalyzing ? "Analyzing..." : "AI Analysis Confirmation"}
+          open={isAnalysisConfirmationOpen}
+          cancelText="Cancel"
+          okText="Analysis now"
+          okButtonProps={{ className: styles.aiAnalysisConfirmButton }}
+          confirmLoading={isAnalyzing}
+          centered
+          closable={!isAnalyzing}
+          maskClosable={!isAnalyzing}
+          footer={isAnalyzing ? null : undefined}
+          onCancel={() => !isAnalyzing && setIsAnalysisConfirmationOpen(false)}
+          onOk={openAnalysisResults}
+        >
+          {isAnalyzing ? (
+            <div style={{ textAlign: 'center', padding: '2rem 0' }}>
+               <Spin size="large" />
+               <p style={{ marginTop: 16 }}>AI is analyzing this job. This may take a few seconds...</p>
+            </div>
+          ) : (
+            <p>
+              Would you like AI to analyze this job posting and provide optimization suggestions? This process may take a
+              few seconds to analyze the data and deliver the most accurate results.
+            </p>
+          )}
+        </Modal>
       </aside>
     </div>
   );

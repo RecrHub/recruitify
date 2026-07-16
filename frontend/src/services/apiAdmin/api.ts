@@ -27,7 +27,7 @@ interface RetryableAxiosRequestConfig extends InternalAxiosRequestConfig {
 
 const getApiBaseUrl = () => {
   const envBaseUrl = process.env.NEXT_PUBLIC_API_URL;
-  return envBaseUrl || "http://48.210.235.64:8080";
+  return envBaseUrl || "http://localhost:8080";
 };
 
 const BASE_URL = getApiBaseUrl();
@@ -78,7 +78,7 @@ api.interceptors.response.use(
   async (error: AxiosError) => {
     const originalRequest = error.config;
     
-    const isLoginRequest = originalRequest?.url?.includes('/api/v1/admin/auth/login');
+    const isLoginRequest = originalRequest?.url?.includes('/api/v1/admin/auth/login') || originalRequest?.url?.includes('/api/v1/hr/auth/login');
     
     if (!originalRequest || 
         isLoginRequest || 

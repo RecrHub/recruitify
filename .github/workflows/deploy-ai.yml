@@ -1,0 +1,79 @@
+name: Deploy AI Service & Gateway to Azure VM
+# Thanh Hung
+
+on:
+  push:
+    branches: [develop]
+    paths:
+      - "ai-service/**"
+      - "infrastructure/nginx/**"
+      - "docker-compose.yml"
+      - ".github/workflows/deploy-ai.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-ai-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy AI & Gateway to VM
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Kiểm tra deploy secrets
+        env:
+          VM_HOST: ${{ secrets.VM_HOST }}
+          VM_USER: ${{ secrets.VM_USER }}
+          VM_SSH_KEY: ${{ secrets.VM_SSH_KEY }}
+        run: |
+          test -n "$VM_HOST" || { echo "Missing GitHub secret: VM_HOST"; exit 1; }
+          test -n "$VM_USER" || { echo "Missing GitHub secret: VM_USER"; exit 1; }
+          test -n "$VM_SSH_KEY" || { echo "Missing GitHub secret: VM_SSH_KEY"; exit 1; }
+
+      - name: Đóng gói source AI & Nginx
+        run: |
+          tar czf ai-service.tgz \
+            --exclude='ai-service/venv' \
+            --exclude='ai-service/__pycache__' \
+            --exclude='ai-service/.pytest_cache' \
+            --exclude='ai-service/chroma_db' \
+            ai-service infrastructure docker-compose.yml
+
+      - name: Upload source lên VM
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.VM_HOST }}
+          username: ${{ secrets.VM_USER }}
+          key: ${{ secrets.VM_SSH_KEY }}
+          source: ai-service.tgz
+          target: /opt/recruitify
+
+      - name: Build lại & khởi động AI & Gateway trên VM
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.VM_HOST }}
+          username: ${{ secrets.VM_USER }}
+          key: ${{ secrets.VM_SSH_KEY }}
+          script: |
+            set -eu
+            cd /opt/recruitify
+
+            # Giải nén đè lên thư mục hiện tại (Không làm mất file .env đã có trên Server)
+            tar xzf ai-service.tgz
+            rm -f ai-service.tgz
+
+            echo "Bắt đầu build và khởi động lại AI Service & API Gateway..."
+            sudo docker compose up -d --build ai-service api-gateway
+
+            echo "Kiểm tra log của AI Service:"
+            sudo docker compose logs --no-color --tail=50 ai-service
+            
+            echo "Kiểm tra trạng thái các container:"
+            sudo docker compose ps
