@@ -55,29 +55,7 @@ Recruitify is a recruitment platform that connects job seekers with employers. T
 
 ## Architecture
 
-```text
-┌──────────────────────┐
-│ Next.js frontend     │
-│ http://localhost:3000│
-└──────────┬───────────┘
-           │ REST / JSON
-           ▼
-┌──────────────────────┐       ┌──────────────────────┐
-│ Spring Boot backend  │──────▶│ External services    │
-│ http://localhost:8080│       │ Mail and ImageKit    │
-└──────────┬───────────┘       └──────────────────────┘
-           │ JPA
-           ▼
-┌──────────────────────┐
-│ PostgreSQL 17        │
-│ localhost:5433       │
-└──────────────────────┘
-
-┌──────────────────────┐
-│ Experimental AI      │
-│ Gemini + ChromaDB    │
-└──────────────────────┘
-```
+![Recruitify - local development architecture](https://raw.githubusercontent.com/nashtech-garage/yas/main/recruitify-architecture-local.png)
 
 > The AI module is currently experimental and is not yet wired into the root Docker Compose stack.
 
